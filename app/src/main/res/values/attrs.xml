@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources  xmlns:tools="http://schemas.android.com/tools">
+
+    <declare-styleable name="RoundTextView">
+        <attr name="inColor" format="color|reference"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="round" format="dimension"></attr>
+    </declare-styleable>
+    <declare-styleable name="MenuItemView">
+        <attr name="left_src" format="reference"></attr>
+        <attr name="left_lable" format="string"></attr>
+        <attr name="right_src" format="reference"></attr>
+        <attr name="right_lable" format="string"></attr>
+        <attr name="left_image_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+        <attr name="left_lable_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+        <attr name="right_image_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+        <attr name="right_lable_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="EdiItem">
+        <attr name="lf_label" format="string"></attr>
+        <attr name="edt_hint" format="string"></attr>
+        <attr name="rt_src" format="reference"></attr>
+        <attr name="rt_img_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="4"/>
+            <enum name="gone" value="8"/>
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="DropDownMenu">
+
+        <attr name="ddunderlineColor" format="color"/>
+        <attr name="dddividerColor" format="color"/>
+        <attr name="ddtextSelectedColor" format="color"/>
+        <attr name="ddtextUnselectedColor" format="color"/>
+        <attr name="ddmenuBackgroundColor" format="color"/>
+        <attr name="ddmaskColor" format="color"/>
+        <attr name="ddmenuTextSize" format="dimension"/>
+        <attr name="ddmenuSelectedIcon" format="reference"/>
+        <attr name="ddmenuUnselectedIcon" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean"></attr>
+        <attr name="border_width" format="dimension"></attr>
+        <attr name="border_color" format="color"></attr>
+        <attr name="shadow" format="boolean"></attr>
+    </declare-styleable>
+    <declare-styleable name="Theme">
+        <attr name="circularImageViewStyle" format="reference"></attr>
+    </declare-styleable>
+
+</resources>

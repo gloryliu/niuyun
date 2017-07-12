@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/bg_31c880_solid" android:state_enabled="true"/>
+
+    <!--不可用-->
+    <item android:drawable="@drawable/bg_dddddd_solid" android:state_enabled="false"/>
+
+    <!--按下状态-->
+    <item android:drawable="@drawable/bg_2ebc78_solid"  android:state_pressed="true" />
+
+    <item android:drawable="@drawable/bg_31c880_solid"  android:state_pressed="false" />
+
+</selector>

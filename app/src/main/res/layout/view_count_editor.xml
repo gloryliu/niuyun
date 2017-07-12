@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_change_goods_num"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_alignParentRight="true"
+    android:visibility="visible"
+    android:layout_marginRight="14dp"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:id="@+id/btn_des_goods_num"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/shoppingcart_des_button"
+        android:gravity="center"
+        android:text="—"
+        android:textColor="@color/shopcart_add_selector"
+        android:enabled="true"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_goods_num"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/shoppingcart_gray_normal_rectangle"
+        android:gravity="center"
+        android:text="1"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/btn_add_goods_num"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="0dp"
+        android:background="@drawable/shoppingcart_add_button"
+        android:gravity="center"
+        android:text="+"
+        android:textColor="@color/shopcart_add_selector"
+        android:textSize="14sp" />
+
+</LinearLayout>

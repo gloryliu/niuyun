@@ -18,11 +18,16 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 
 /**
@@ -59,8 +64,9 @@ public interface JyApi {
      * @param map
      * @return
      */
-    @POST("/resource/user/userRegister")
-    Call<String> reister(@Body Map<String, String> map);
+    @FormUrlEncoded
+    @POST("/index.php?m=mobile&c=members&a=register&utype=2")
+    Call<String> reister(@FieldMap Map<String, String> map);
 
     /**
      * 忘记密码

@@ -1,15 +1,11 @@
 package com.niuyun.hire.ui.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.niuyun.hire.R;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
@@ -192,32 +187,12 @@ public class RegisterActivity extends BaseActivity implements
 
     private void initTitle() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-        }
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.color_ff6900);
-
-
         titleView.setTitle(regist);
         titleView.setTitleColor(Color.WHITE);
         titleView.setBackgroundColor(getResources().getColor(R.color.color_ff6900));
         titleView.setImmersive(true);
     }
 
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
 
     @Override
     protected View isNeedLec() {

@@ -3,13 +3,15 @@
     android:id="@+id/ll_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_f0f0f2"
+    android:background="@mipmap/ic_login"
     android:orientation="vertical">
 
     <com.niuyun.hire.view.TitleBar
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +24,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
-            android:src="@mipmap/ic_head_default" />
+            android:src="@mipmap/ic_login_logo" />
 
 
         <LinearLayout
@@ -35,30 +37,70 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
 
-                <com.niuyun.hire.view.CleanableEditText
-                    android:id="@+id/user_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_phone"
-                    android:background="@drawable/bg_bbb_4"
-                    android:hint="用手机号便于记忆"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:paddingLeft="10dp"
-                    android:textColor="@color/color_999999"
-                    android:textColorHint="@color/color_cccccc"
-                    android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/tv_phone"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="9dp"
-                    android:textColor="@color/color_101010"
-                    android:text="手机号" />
+                    android:layout_height="match_parent"
+
+                    android:layout_toRightOf="@+id/rl_phone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_330e0e0e_solid1"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp" />
+
+                    <com.niuyun.hire.view.CleanableEditText
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_edittext"
+                        android:hint="请输入您的手机号"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/color_999999"
+                        android:textColorHint="@color/color_cccccc"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/tv_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/bg_330e0e0e_solid"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:src="@mipmap/ic_phone" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/bg_ff6900_solid_corner"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:src="@mipmap/ic_phone" />
+                </RelativeLayout>
+
             </RelativeLayout>
 
 
@@ -66,15 +108,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
 
-                <TextView
+                <ImageView
                     android:id="@+id/tv_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="9dp"
-                    android:textColor="@color/color_101010"
-                    android:text="密    码" />
+                    android:src="@mipmap/ic_password"
+                    android:text="密    码"
+                    android:textColor="@color/color_101010" />
 
                 <EditText
                     android:id="@+id/pass_word"

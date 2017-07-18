@@ -69,7 +69,7 @@ public class IndexFragment extends BaseFragment {
         }
 
         viewPager.setOffscreenPageLimit(2);
-        viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
+        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public int getCount() {
                 return fragments.length;

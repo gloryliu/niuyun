@@ -9,6 +9,7 @@ import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.GalleryAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,7 +22,7 @@ public class CompanyFragment extends BaseFragment {
     @BindView(R.id.tag_recyclerview)
     RecyclerView tag_recyclerview;
     private GalleryAdapter mAdapter;
-    private List<String> mDatas;
+    private List<String> mDatas=new ArrayList<>();
 
     @Override
     protected int getContentViewLayoutId() {

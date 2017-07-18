@@ -32,7 +32,6 @@ public class GalleryAdapter extends
         }
 
         TextView mTag;
-        TextView mTxt;
     }
 
     @Override

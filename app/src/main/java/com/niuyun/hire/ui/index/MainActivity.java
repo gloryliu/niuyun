@@ -13,8 +13,11 @@ import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.EventBusCenter;
-import com.niuyun.hire.ui.fragment.IndexFragment;
-import com.niuyun.hire.ui.fragment.MyFragment;
+import com.niuyun.hire.ui.index.fragment.AllJobsFragment;
+import com.niuyun.hire.ui.index.fragment.FindFragment;
+import com.niuyun.hire.ui.index.fragment.IndexFragment;
+import com.niuyun.hire.ui.index.fragment.LiveFragment;
+import com.niuyun.hire.ui.index.fragment.MyFragment;
 import com.niuyun.hire.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -23,7 +26,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
-
 
 
 public class MainActivity extends BaseActivity {
@@ -37,10 +39,11 @@ public class MainActivity extends BaseActivity {
      * 是否退出
      **/
     private boolean isWaitingExit = false;
-    Class[] fragments = {IndexFragment.class, MyFragment.class};
-    private int[] tabNames = {R.string.main_tab_name_index, R.string.main_tab_name_me};
-    private int[] tabIcons = {R.drawable.selector_main_tab_index, R.drawable.selector_main_tab_mine};
+    Class[] fragments = {IndexFragment.class, AllJobsFragment.class, LiveFragment.class, FindFragment.class,MyFragment.class};
+    private int[] tabNames = {R.string.main_tab_name_index, R.string.main_tab_name_alljobs, R.string.main_tab_name_live, R.string.main_tab_name_find, R.string.main_tab_name_me};
+    private int[] tabIcons = {R.drawable.selector_main_tab_index, R.drawable.selector_main_tab_alljobs, R.drawable.selector_main_tab_live, R.drawable.selector_main_tab_find, R.drawable.selector_main_tab_mine};
     private List<BaseFragment> fragmentList;
+
     @Override
     public int getContentViewLayoutId() {
         return R.layout.activity_main;
@@ -51,6 +54,9 @@ public class MainActivity extends BaseActivity {
 
         fragmentList = new ArrayList<>();
         fragmentList.add(new IndexFragment());
+        fragmentList.add(new AllJobsFragment());
+        fragmentList.add(new LiveFragment());
+        fragmentList.add(new FindFragment());
         fragmentList.add(new MyFragment());
         for (int i = 0; i < tabNames.length; i++) {
             View tabView = View.inflate(this, R.layout.layout_tab_item, null);
@@ -61,7 +67,7 @@ public class MainActivity extends BaseActivity {
             mTabLayout.addTab(mTabLayout.newTab().setCustomView(textView));
         }
 
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(5);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {

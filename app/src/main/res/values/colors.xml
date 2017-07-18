@@ -83,6 +83,8 @@
     <color name="color_F57072">#F57072</color>
     <color name="color_1C74D9">#1C74D9</color>
     <color name="color_0880BD">#0880BD</color>
+    <color name="color_929292">#929292</color>
+    <color name="color_e20e0e">#e20e0e</color>
     <color name="color_60000000">#60000000</color>
 
     <!--以下为带有透明度的颜色值-->
@@ -113,4 +115,8 @@
     <color name="add_cart">#FF6600</color>
     <color name="gray_normal">#666667</color>
     <color name="color_330e0e0e">#330e0e0e</color>
+    <color name="color_baffffff">#baffffff</color>
+    <color name="color_91ffffff">#91ffffff</color>
+    <color name="color_baafafaf">#baafafaf</color>
+    <color name="color_3f272727">#3f272727</color>
 </resources>

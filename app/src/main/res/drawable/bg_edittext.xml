@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_window_focused="false" android:drawable="@drawable/bg_ff6900_solid_corner" />
-    <item android:state_focused="true" android:drawable="@drawable/bg_330e0e0e_solid1" />
-</selector>

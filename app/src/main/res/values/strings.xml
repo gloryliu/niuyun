@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">玩呗</string>
+    <string name="app_name">牛云直聘</string>
     <string name="empty_message">信息跑丢了</string>
     <string name="no_net_message">网络连接失败\n请检查您的网络</string>
     <string name="no_net_message_t">网络异常，请检查</string>
@@ -20,12 +20,17 @@
     <string name="get_verify_code">获取验证码</string>
     <string name="agrrement_agree">我已经阅读并同意</string>
     <string name="agrrement_title">《用户服务协议》</string>
-    <string name="password_hint">6位以上的数字、字母或者符号组成</string>
+    <string name="password_hint">请输入您的密码</string>
     <string name="publish_photo">从图片库</string>
     <string name="publish_picture">拍照</string>
     <string name="publish_photo_max">最多添加9张图片</string>
     <string name="main_tab_name_index">首页</string>
     <string name="main_tab_name_me">我的</string>
+    <string name="main_tab_name_alljobs">找工作</string>
+    <string name="main_tab_name_live">直播</string>
+    <string name="main_tab_name_find">发现</string>
+    <string name="index_tab_name_message">聊天</string>
+    <string name="index_tab_name_company">职位</string>
 
 
 

@@ -1,12 +1,10 @@
 package com.niuyun.hire.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +22,6 @@ import com.niuyun.hire.utils.NetUtil;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.CleanableEditText;
 import com.niuyun.hire.view.CustomProgressDialog;
-import com.niuyun.hire.view.TitleBar;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -39,21 +36,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @BindView(R.id.ll_login)
     LinearLayout ll_login;
     //titleView
-    @BindView(R.id.title_view)
-    TitleBar titleView;
+//    @BindView(R.id.title_view)
+//    TitleBar titleView;
     //用户名，手机号码
     @BindView(R.id.user_name)
     CleanableEditText userName;
     //密码
     @BindView(R.id.pass_word)
     EditText passWord;
-    @BindView(R.id.iv_check_code)
-    ImageView ivCheckCode;
-    //图形验证码
-    @BindView(R.id.et_check_code)
-    EditText et_check_code;
-    @BindView(R.id.ll_check_code)
-    LinearLayout llCheckCode;
     //登陆
     @BindView(R.id.login)
     Button login;
@@ -62,7 +52,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     TextView forgetPassword;
     //注册
     @BindView(R.id.regist)
-    TextView regist;
+    Button regist;
+    @BindView(R.id.tv_pass)
+    TextView tv_pass;//随便看看
     /**
      * 是否清除密码
      */
@@ -83,13 +75,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void initViewsAndEvents() {
+        setIsOpenTitle(false);
         initTitle();
         mDialog = new CustomProgressDialog(this, "登录中...");
 
         login.setOnClickListener(this);
         forgetPassword.setOnClickListener(this);
         regist.setOnClickListener(this);
-        ivCheckCode.setOnClickListener(this);
+        tv_pass.setOnClickListener(this);
 
     }
 
@@ -128,13 +121,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.regist:
                 //注册
-                Intent registIntent = new Intent(this, RegisterActivity.class);
+                Intent registIntent = new Intent(this, SelectedRegisterRoler.class);
                 startActivityForResult(registIntent, REGIST_CODE);
                 break;
             case R.id.forget_password:
                 //忘记密码
                 Intent forgetIntent = new Intent(this, FindPasswordActivity.class);
                 startActivity(forgetIntent);
+                break;
+            case R.id.tv_pass:
+                //
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                startActivity(mainIntent);
                 break;
 
 
@@ -195,10 +193,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     private void initTitle() {
 
-        titleView.setTitle("登陆");
-        titleView.setTitleColor(Color.WHITE);
-        titleView.setBackgroundColor(getResources().getColor(R.color.color_ff6900));
-        titleView.setImmersive(true);
+//        titleView.setTitle("登陆");
+//        titleView.setTitleColor(Color.WHITE);
+//        titleView.setBackgroundColor(getResources().getColor(R.color.color_ff6900));
+//        titleView.setImmersive(true);
     }
 
 }

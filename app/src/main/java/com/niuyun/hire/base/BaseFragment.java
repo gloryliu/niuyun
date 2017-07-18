@@ -35,6 +35,8 @@ public abstract class BaseFragment extends Fragment {
     String load_ing;
     private CustomProgressDialog progressDialog;
     private EmptyLayout emptyLayout;
+    private boolean isOpenTitle = true;
+    private int barTintColor = R.color.color_e20e0e;
 
     public BaseFragment() {
         super();
@@ -75,12 +77,14 @@ public abstract class BaseFragment extends Fragment {
                 ((ViewGroup) obj).removeView(view);
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
+        if (isOpenTitle) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                setTranslucentStatus(true);
+            }
+            SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(barTintColor);
         }
-        SystemBarTintManager tintManager = new SystemBarTintManager(getActivity());
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.color_ff6900);
         return view;
     }
 
@@ -96,6 +100,25 @@ public abstract class BaseFragment extends Fragment {
         }
         win.setAttributes(winParams);
     }
+
+    /**
+     * 设置状态栏颜色
+     *
+     * @param color
+     */
+    public void setIsOpenTitle(int color) {
+        this.barTintColor = color;
+    }
+
+    /**
+     * 关闭沉浸式设置方式
+     *
+     * @param isOpenTitle
+     */
+    public void setIsOpenTitle(boolean isOpenTitle) {
+        this.isOpenTitle = isOpenTitle;
+    }
+
     /***
      * 绑定资源文件ID
      *

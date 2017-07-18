@@ -39,11 +39,19 @@
 
     <style name="btn_blue_btn">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">45dp</item>
         <item name="android:textSize">17sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_color_enable_selecor</item>
         <item name="android:background">@drawable/btn_blue_selector</item>
+    </style>
+    <style name="btn_red_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color_enable_selecor</item>
+        <item name="android:background">@drawable/btn_red_selector</item>
     </style>
 
     <style name="clearEditText_userName">
@@ -125,4 +133,22 @@
         <attr name="pickerview_textColorCenter" format="color"/>
         <attr name="pickerview_dividerColor" format="color"/>
     </declare-styleable>
+    <!-- Activity无标题栏,全屏 开始-->
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!-- Activity无标题栏 结束-->
+    <!-- 欢迎页 小球-->
+    <style name="guide_point">
+        <item name="android:layout_width">wrap_content</item>
+        <!-- 高度 -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:padding">@dimen/guide_point_padding</item>
+        <item name="android:src">@drawable/ic_guide_point</item>
+    </style>
 </resources>

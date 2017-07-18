@@ -30,6 +30,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     String load_ing;
     private EmptyLayout emptyLayout;
     private CustomProgressDialog progressDialog;
+    private boolean isOpenTitle = true;
+    private int barTintColor = R.color.color_e20e0e;
 
     @Override
     protected void onStop() {
@@ -54,14 +56,34 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         initViewsAndEvents();
         loadData();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
+        if (isOpenTitle) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                setTranslucentStatus(true);
+            }
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(barTintColor);
         }
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.color_ff6900);
-
     }
+
+    /**
+     * 关闭沉浸式设置方式
+     *
+     * @param isOpenTitle
+     */
+    public void setIsOpenTitle(boolean isOpenTitle) {
+        this.isOpenTitle = isOpenTitle;
+    }
+
+    /**
+     * 设置状态栏颜色
+     *
+     * @param color
+     */
+    public void setIsOpenTitle(int color) {
+        this.barTintColor = color;
+    }
+
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {
         Window win = getWindow();
@@ -74,6 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         win.setAttributes(winParams);
     }
+
     @Override
     protected void onResume() {
         super.onResume();

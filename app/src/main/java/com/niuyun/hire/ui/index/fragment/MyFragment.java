@@ -1,4 +1,4 @@
-package com.niuyun.hire.ui.fragment;
+package com.niuyun.hire.ui.index.fragment;
 
 import android.content.Intent;
 import android.view.View;

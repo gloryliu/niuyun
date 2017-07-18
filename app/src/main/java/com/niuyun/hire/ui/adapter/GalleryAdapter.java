@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.ui.listerner.IntentTagClickListerner;
 
 import java.util.List;
 
@@ -20,8 +21,29 @@ public class GalleryAdapter extends
 
     private LayoutInflater mInflater;
     private List<String> mDatas;
+    private IntentTagClickListerner intentTagClickListerner;
+    private Context mContext;
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
+    private int selectedPosition;
+
+    public IntentTagClickListerner getIntentTagClickListerner() {
+        return intentTagClickListerner;
+    }
+
+    public void setIntentTagClickListerner(IntentTagClickListerner intentTagClickListerner) {
+        this.intentTagClickListerner = intentTagClickListerner;
+    }
 
     public GalleryAdapter(Context context, List<String> datats) {
+        this.mContext = context;
         mInflater = LayoutInflater.from(context);
         mDatas = datats;
     }
@@ -59,6 +81,23 @@ public class GalleryAdapter extends
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         viewHolder.mTag.setText(mDatas.get(i));
+        if (selectedPosition == i) {
+            viewHolder.mTag.setTextColor(mContext.getResources().getColor(R.color.color_ea0000));
+            viewHolder.mTag.setBackground(mContext.getResources().getDrawable(R.drawable.bg_ea0000_stroke));
+        } else {
+            viewHolder.mTag.setTextColor(mContext.getResources().getColor(R.color.color_666666));
+            viewHolder.mTag.setBackground(mContext.getResources().getDrawable(R.drawable.bg_00000000_solid));
+        }
+        viewHolder.mTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (intentTagClickListerner != null) {
+                    intentTagClickListerner.onClickListerrner(mDatas.get(i));
+                    selectedPosition = i;
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 }

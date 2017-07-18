@@ -8,6 +8,13 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.GalleryAdapter;
+import com.niuyun.hire.ui.adapter.IndexCompanyListItemAdapter;
+import com.niuyun.hire.ui.listerner.IntentTagClickListerner;
+import com.niuyun.hire.utils.UIUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +28,13 @@ import butterknife.BindView;
 public class CompanyFragment extends BaseFragment {
     @BindView(R.id.tag_recyclerview)
     RecyclerView tag_recyclerview;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    private IndexCompanyListItemAdapter listItemAdapter;
     private GalleryAdapter mAdapter;
-    private List<String> mDatas=new ArrayList<>();
+    private List<String> mDatas = new ArrayList<>();
 
     @Override
     protected int getContentViewLayoutId() {
@@ -41,19 +53,31 @@ public class CompanyFragment extends BaseFragment {
         mDatas.add("Android");
         mAdapter = new GalleryAdapter(getActivity(), mDatas);
         tag_recyclerview.setAdapter(mAdapter);
-        //        refreshLayout.setEnableHeaderTranslationContent(false);
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(RefreshLayout refreshlayout) {
-//                refreshlayout.finishRefresh(2000);
-//            }
-//        });
-//        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-//            @Override
-//            public void onLoadmore(RefreshLayout refreshlayout) {
-//                refreshlayout.finishLoadmore(2000);
-//            }
-//        });
+        mAdapter.setIntentTagClickListerner(new IntentTagClickListerner() {
+            @Override
+            public void onClickListerrner(String tag) {
+                UIUtil.showToast(tag);
+            }
+        });
+        //下拉刷新
+        refreshLayout.setEnableHeaderTranslationContent(false);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(2000);
+            }
+        });
+        //求职recyclerView
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listItemAdapter = new IndexCompanyListItemAdapter(getActivity());
+        recyclerview.setAdapter(listItemAdapter);
+
     }
 
     @Override

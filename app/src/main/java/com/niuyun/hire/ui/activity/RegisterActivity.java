@@ -1,6 +1,5 @@
 package com.niuyun.hire.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
@@ -23,7 +22,6 @@ import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.ui.utils.login.LoginApi;
 import com.niuyun.hire.ui.utils.login.OnLoginListener;
 import com.niuyun.hire.ui.utils.login.UserInfo;
-import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.NetUtil;
 import com.niuyun.hire.utils.TelephoneUtils;
 import com.niuyun.hire.utils.UIUtil;
@@ -44,6 +42,8 @@ import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.niuyun.hire.R.id.title_view;
 
 
 /**
@@ -66,7 +66,7 @@ public class RegisterActivity extends BaseActivity implements
     @BindView(R.id.tv_next)
     TextView tvNext;
 
-    @BindView(R.id.title_view)
+    @BindView(title_view)
     TitleBar titleView;
 
     @BindString(R.string.regist)
@@ -188,9 +188,18 @@ public class RegisterActivity extends BaseActivity implements
 
     private void initTitle() {
 
-        titleView.setTitle(regist);
+        titleView.setTitle("用户注册");
         titleView.setTitleColor(Color.WHITE);
-        titleView.setBackgroundColor(getResources().getColor(R.color.color_ff6900));
+        titleView.setLeftImageResource(R.mipmap.ic_title_back);
+        titleView.setLeftText("返回");
+        titleView.setLeftTextColor(Color.WHITE);
+        titleView.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         titleView.setImmersive(true);
     }
 
@@ -251,13 +260,13 @@ public class RegisterActivity extends BaseActivity implements
 
     @OnClick(R.id.tv_next)
     public void onNextClick(View view) {
-        Map<String,String> param = new HashMap<>();
-        param.put("Mobile","13691525924");
-        param.put("mobile_vcode","1234");
-        param.put("Password","123456");
-        param.put("passwordVerify","123456");
-        param.put("reg_type","2");
-        param.put("Utype","2");
+        Map<String, String> param = new HashMap<>();
+        param.put("Mobile", "13691525924");
+        param.put("mobile_vcode", "1234");
+        param.put("Password", "123456");
+        param.put("passwordVerify", "123456");
+        param.put("reg_type", "2");
+        param.put("Utype", "2");
 
         call = RestAdapterManager.getApi().reister(param);
         call.enqueue(new JyCallBack<String>() {

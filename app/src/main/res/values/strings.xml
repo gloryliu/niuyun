@@ -21,6 +21,7 @@
     <string name="agrrement_agree">我已经阅读并同意</string>
     <string name="agrrement_title">《用户服务协议》</string>
     <string name="password_hint">请输入您的密码</string>
+    <string name="password_agin_hint">请再次输入密码</string>
     <string name="publish_photo">从图片库</string>
     <string name="publish_picture">拍照</string>
     <string name="publish_photo_max">最多添加9张图片</string>

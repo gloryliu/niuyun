@@ -74,7 +74,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="12dp"
                         android:background="@drawable/bg_3f272727_solid"
-                        android:src="@mipmap/ic_phone" />
+                        android:src="@mipmap/ic_name" />
 
                 </RelativeLayout>
 

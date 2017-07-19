@@ -36,6 +36,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rl_watched;
     @BindView(R.id.rl_setting)
     RelativeLayout rl_setting;
+    @BindView(R.id.tv_edit_resume)
+    TextView tv_edit_resume;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -48,6 +50,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         rl_stars.setOnClickListener(this);
         rl_watched.setOnClickListener(this);
         rl_setting.setOnClickListener(this);
+        tv_edit_resume.setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +106,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_watched:
                 //谁看过我
+                break;
+            case R.id.tv_edit_resume:
+                //编辑简历
                 break;
         }
     }

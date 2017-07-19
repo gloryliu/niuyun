@@ -30,8 +30,8 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="40dp"
             android:layout_marginBottom="60dp"
+            android:layout_marginTop="40dp"
             android:src="@mipmap/ic_login_logo" />
 
 
@@ -67,14 +67,16 @@
                     android:layout_width="70dp"
                     android:layout_height="match_parent">
 
+
                     <ImageView
                         android:id="@+id/tv_phone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="47dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="12dp"
                         android:background="@drawable/bg_3f272727_solid"
                         android:src="@mipmap/ic_name" />
+
 
                 </RelativeLayout>
 
@@ -93,7 +95,7 @@
                     <ImageView
                         android:id="@+id/tv_password"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="47dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="12dp"
                         android:background="@drawable/bg_3f272727_solid"
@@ -145,8 +147,8 @@
             android:layout_marginRight="12dp"
             android:layout_marginTop="30dp"
             android:enabled="true"
-            android:textSize="15sp"
-            android:text="登陆" />
+            android:text="登陆"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/regist"
@@ -155,9 +157,9 @@
             android:layout_marginRight="12dp"
             android:layout_marginTop="15dp"
             android:enabled="true"
-            android:textSize="15sp"
             android:text="注册"
-            android:textColor="@color/color_ff0000" />
+            android:textColor="@color/color_ff0000"
+            android:textSize="15sp" />
 
 
     </LinearLayout>

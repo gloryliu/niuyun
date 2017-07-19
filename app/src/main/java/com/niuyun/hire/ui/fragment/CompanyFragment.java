@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
+ * 意向职位页面
  * Created by chen.zhiwei on 2017-7-18.
  */
 
@@ -49,8 +50,8 @@ public class CompanyFragment extends BaseFragment {
         tag_recyclerview.setLayoutManager(linearLayoutManager);
 //设置适配器
         mDatas.add("Android");
-        mDatas.add("Android");
-        mDatas.add("Android");
+        mDatas.add("Ios");
+        mDatas.add("java");
         mAdapter = new GalleryAdapter(getActivity(), mDatas);
         tag_recyclerview.setAdapter(mAdapter);
         mAdapter.setIntentTagClickListerner(new IntentTagClickListerner() {

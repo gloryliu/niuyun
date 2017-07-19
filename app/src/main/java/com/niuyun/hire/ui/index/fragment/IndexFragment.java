@@ -40,7 +40,7 @@ public class IndexFragment extends BaseFragment {
     Class[] fragments = {MessageFragment.class, CompanyFragment.class};
     private int[] tabNames = {R.string.index_tab_name_message, R.string.index_tab_name_company};
     private int[] tabIcons = {R.drawable.selector_index_tab_message, R.drawable.selector_index_tab_company};
-    private List<BaseFragment> fragmentList;
+    private List<BaseFragment> fragmentList=new ArrayList<>();
 
     @Override
     protected int getContentViewLayoutId() {
@@ -55,60 +55,62 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new MessageFragment());
-        fragmentList.add(new CompanyFragment());
-        for (int i = 0; i < tabNames.length; i++) {
-            View tabView = View.inflate(getActivity(), R.layout.layout_tab_item, null);
-            TextView textView = (TextView) tabView.findViewById(R.id.tab_title);
-            textView.setText(tabNames[i]);
-            textView.setTextColor(getResources().getColor(R.color.halfwhite_or_wihte_seletor));
-            // 利用这种办法设置图标是为了解决默认设置图标和文字出现的距离较大问题
-            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[i], 0, 0);
-            mTabLayout.addTab(mTabLayout.newTab().setCustomView(textView));
+        if (fragmentList.size()==0){
+            fragmentList.add(new MessageFragment());
+            fragmentList.add(new CompanyFragment());
+            for (int i = 0; i < tabNames.length; i++) {
+                View tabView = View.inflate(getActivity(), R.layout.layout_tab_item, null);
+                TextView textView = (TextView) tabView.findViewById(R.id.tab_title);
+                textView.setText(tabNames[i]);
+                textView.setTextColor(getResources().getColor(R.color.halfwhite_or_wihte_seletor));
+                // 利用这种办法设置图标是为了解决默认设置图标和文字出现的距离较大问题
+                textView.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[i], 0, 0);
+                mTabLayout.addTab(mTabLayout.newTab().setCustomView(textView));
+            }
+
+            viewPager.setOffscreenPageLimit(2);
+            viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+                @Override
+                public int getCount() {
+                    return fragments.length;
+                }
+
+                @Override
+                public Fragment getItem(int position) {
+                    return Fragment.instantiate(getActivity(), fragments[position].getName());
+                }
+
+
+            });
+            // Tablayout选择tab监听
+            mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    int position = mTabLayout.getSelectedTabPosition();//tab.getPosition();
+                    viewPager.setCurrentItem(tab.getPosition());
+                    if (position == 0) {
+                        iv_message.setImageResource(R.mipmap.ic_down_triangle);
+                        iv_company.setImageResource(R.color.transparent);
+                    } else {
+                        iv_company.setImageResource(R.mipmap.ic_down_triangle);
+                        iv_message.setImageResource(R.color.transparent);
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+            iv_message.setImageResource(R.mipmap.ic_down_triangle);
+            iv_company.setImageResource(R.color.transparent);
         }
 
-        viewPager.setOffscreenPageLimit(2);
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public int getCount() {
-                return fragments.length;
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return Fragment.instantiate(getActivity(), fragments[position].getName());
-            }
-
-
-        });
-        // Tablayout选择tab监听
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = mTabLayout.getSelectedTabPosition();//tab.getPosition();
-                viewPager.setCurrentItem(tab.getPosition());
-                if (position == 0) {
-                    iv_message.setImageResource(R.mipmap.ic_down_triangle);
-                    iv_company.setImageResource(R.color.transparent);
-                } else {
-                    iv_company.setImageResource(R.mipmap.ic_down_triangle);
-                    iv_message.setImageResource(R.color.transparent);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        iv_message.setImageResource(R.mipmap.ic_down_triangle);
-        iv_company.setImageResource(R.color.transparent);
 
 
     }

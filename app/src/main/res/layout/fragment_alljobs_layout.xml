@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <com.niuyun.hire.view.TitleBar
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="48dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_view">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:overScrollMode="never" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_drop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_view">
+
+        <include layout="@layout/bg_grident_layout" />
+
+        <com.niuyun.hire.view.DropDownMenu xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/dropDownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_0.7"
+            app:dddividerColor="@color/transparent"
+            app:ddmaskColor="@color/color_7f000000"
+            app:ddmenuBackgroundColor="@color/color_ffffff"
+            app:ddmenuSelectedIcon="@mipmap/arrow_up_shop"
+            app:ddmenuTextSize="@dimen/ts_26"
+            app:ddmenuUnselectedIcon="@mipmap/arrow_down_shop"
+            app:ddtextSelectedColor="@color/color_333333"
+            app:ddtextUnselectedColor="@color/color_666666"
+            app:ddunderlineColor="@color/transparent" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

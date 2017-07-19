@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
     <View
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:background="@color/color_eeeeee"/>
 </LinearLayout>

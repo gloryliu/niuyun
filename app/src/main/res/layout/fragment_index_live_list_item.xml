@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_f0f0f0"
+    android:orientation="vertical"
+    android:paddingLeft="5.5dp"
+    android:paddingRight="5.5dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/color_f0f0f0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:paddingBottom="14dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="13dp"
+        android:paddingTop="15dp">
+
+        <com.niuyun.hire.view.CircularImageView
+            android:id="@+id/iv_head"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_default" />
+
+        <RelativeLayout
+            android:id="@+id/rl_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_head"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="勇敢的心"
+                android:textColor="@color/color_333333"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@+id/tv_look_number"
+                android:text="牛云创客空间"
+                android:textColor="@color/color_999999"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv_look_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_company_name"
+                android:layout_alignParentRight="true"
+                android:text="500 在看"
+                android:textColor="@color/color_999999"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="204dp">
+
+        <ImageView
+            android:id="@+id/iv_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_living" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_ffffff"
+        android:paddingBottom="17dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="17dp">
+
+        <TextView
+            android:id="@+id/tv_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="招聘android，ios" />
+
+        <com.niuyun.hire.view.AutoNextLineView
+            android:id="@+id/second_hand_house_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_describe"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="6dp" />
+    </RelativeLayout>
+</LinearLayout>

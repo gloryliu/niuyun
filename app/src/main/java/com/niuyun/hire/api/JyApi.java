@@ -40,7 +40,7 @@ public interface JyApi {
     /**
      * 登陆
      */
-    @POST("/resource/user/login")
+    @POST("/resource/members/login")
     Call<SuperBean<UserInfoBean>> login(@Body Map<String, String> map);
 
     /**
@@ -64,9 +64,8 @@ public interface JyApi {
      * @param map
      * @return
      */
-    @FormUrlEncoded
-    @POST("/index.php?m=mobile&c=members&a=register&utype=2")
-    Call<String> reister(@FieldMap Map<String, String> map);
+    @POST("/resource/members/register")
+    Call<String> reister(@Body Map<String, String> map);
 
     /**
      * 忘记密码
@@ -246,7 +245,6 @@ public interface JyApi {
      */
     @POST("/resource/vipDeposit/insert")
     Call<SuperBean<String>> getDepositOrder(@Body Map<String, String> map);
-
 
 
     /**

@@ -38,8 +38,8 @@ public class LoginUtils {
     public static void commitlogin(final Context context, final String tel, String password) {
         DialogUtils.showDialog(context, "登陆...", false);
         Map<String, String> map = new HashMap<>();
-        map.put("phone", tel);
-        map.put("pwd", password);
+        map.put("mobile", tel);
+        map.put("password", password);
         loginCall = RestAdapterManager.getApi().login(map);
         loginCall.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
             @Override

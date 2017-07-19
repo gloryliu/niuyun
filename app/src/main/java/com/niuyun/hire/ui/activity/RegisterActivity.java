@@ -1,5 +1,6 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
@@ -22,6 +23,7 @@ import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.ui.utils.login.LoginApi;
 import com.niuyun.hire.ui.utils.login.OnLoginListener;
 import com.niuyun.hire.ui.utils.login.UserInfo;
+import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.NetUtil;
 import com.niuyun.hire.utils.TelephoneUtils;
 import com.niuyun.hire.utils.UIUtil;
@@ -260,30 +262,67 @@ public class RegisterActivity extends BaseActivity implements
 
     @OnClick(R.id.tv_next)
     public void onNextClick(View view) {
-        Map<String, String> param = new HashMap<>();
-        param.put("Mobile", "13691525924");
-        param.put("mobile_vcode", "1234");
-        param.put("Password", "123456");
-        param.put("passwordVerify", "123456");
-        param.put("reg_type", "2");
-        param.put("Utype", "2");
+        if (!NetUtil.isNetworkConnected(this)) {
+            UIUtil.showToast("网络连接失败，请检查您的网络");
+            return;
+        }
+        if (TextUtils.isEmpty(etPhone.getText())) {
+            UIUtil.showToast("手机号不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(etCode.getText())) {
+            UIUtil.showToast("验证码不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(user_nick_name.getText())) {
+            UIUtil.showToast("昵称不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(user_password.getText())) {
+            UIUtil.showToast("密码不能为空");
+            return;
+        }
 
-        call = RestAdapterManager.getApi().reister(param);
+//        final String tel = etPhone.getText().toString();
+//        final String code = etCode.getText().toString();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("mobile", etPhone.getText().toString());
+//        map.put("checkCode", etCode.getText().toString());
+        map.put("password", user_password.getText().toString());
+        map.put("utype", "2");
+        map.put("regType", "1");
+        call = RestAdapterManager.getApi().reister(map);
         call.enqueue(new JyCallBack<String>() {
             @Override
             public void onSuccess(Call<String> call, Response<String> response) {
-                String result = response.body();
+                try {
+
+                    if (response != null && response.body() != null && !TextUtils.isEmpty(response.body())) {
+                        if (response.body().contains("注册成功")) {
+                            Intent findPsIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            timer.cancel();
+                            findPsIntent.putExtra("phone", etPhone.getText().toString());
+                            findPsIntent.putExtra("pwd", user_password.getText().toString());
+                            startActivity(findPsIntent);
+                        }
+                        ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.body(), "");
+                    } else {
+                        UIUtil.showToast("注册失败");
+                    }
+                } catch (Exception e) {
+
+                }
             }
 
             @Override
             public void onError(Call<String> call, Throwable t) {
-                String ddd = t.getMessage();
+                UIUtil.showToast("注册失败");
             }
 
             @Override
             public void onError(Call<String> call, Response<String> response) {
                 try {
-                    String ddd = response.errorBody().string();
+                    ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.errorBody().string(), "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

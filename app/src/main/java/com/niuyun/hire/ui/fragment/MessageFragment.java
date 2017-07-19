@@ -48,6 +48,7 @@ public class MessageFragment extends BaseFragment {
                 refreshlayout.finishLoadmore(2000);
             }
         });
+//        refreshLayout.setEnableLoadmore(false);
         //求职recyclerView
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         listItemAdapter = new IndexMessageListItemAdapter(getActivity());

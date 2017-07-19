@@ -33,4 +33,18 @@ public class UserInfoBean extends ErrorBean{
     public String userId;
     public String token;
     public int deposit;
+
+/////////////////////////////////
+
+    public String username;
+    public String email;
+    public String mobile;
+    public String regTime;
+    public String avatars;
+    public String video;
+    public int uid;
+    public int utype;
+    public int status;
+    public int perfect;
+
 }

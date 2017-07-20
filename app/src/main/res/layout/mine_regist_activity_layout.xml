@@ -292,43 +292,6 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/iv_weixin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@mipmap/ic_weixin" />
-
-            <ImageView
-                android:id="@+id/iv_qq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@mipmap/ic_qq" />
-
-            <ImageView
-                android:id="@+id/iv_sina"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@mipmap/ic_sina" />
-
-            <ImageView
-                android:id="@+id/iv_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@mipmap/ic_phone" />
-
-        </LinearLayout>
     </LinearLayout>
 
 

@@ -6,9 +6,7 @@ import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +17,6 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.bean.ErrorBean;
-import com.niuyun.hire.ui.utils.LoginUtils;
-import com.niuyun.hire.ui.utils.login.LoginApi;
-import com.niuyun.hire.ui.utils.login.OnLoginListener;
-import com.niuyun.hire.ui.utils.login.UserInfo;
 import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.NetUtil;
 import com.niuyun.hire.utils.TelephoneUtils;
@@ -32,16 +26,10 @@ import com.niuyun.hire.view.TitleBar;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.tencent.qq.QQ;
-import cn.sharesdk.wechat.friends.Wechat;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -61,8 +49,6 @@ public class RegisterActivity extends BaseActivity implements
     @BindView(R.id.tv_check_code)
     TextView tvGetCode;
 
-    @BindView(R.id.checkBox)
-    CheckBox cbAgree;
 
 
     @BindView(R.id.tv_next)
@@ -78,12 +64,6 @@ public class RegisterActivity extends BaseActivity implements
     CleanableEditText user_nick_name;
     @BindView(R.id.user_password)
     CleanableEditText user_password;
-    @BindView(R.id.iv_weixin)
-    ImageView iv_weixin;
-    @BindView(R.id.iv_qq)
-    ImageView iv_qq;
-    @BindView(R.id.iv_sina)
-    ImageView iv_sina;
 
 
     CountDownTimer timer;
@@ -115,9 +95,6 @@ public class RegisterActivity extends BaseActivity implements
                 tvGetCode.setEnabled(true);
             }
         };
-        iv_sina.setOnClickListener(this);
-        iv_weixin.setOnClickListener(this);
-        iv_qq.setOnClickListener(this);
     }
 
     @Override
@@ -211,17 +188,6 @@ public class RegisterActivity extends BaseActivity implements
         return null;
     }
 
-    @OnClick(R.id.userAgreement)
-    public void agreeMentClick(View view) {
-
-//        Intent web = new Intent(this, WebViewActivity.class);
-//        Bundle webBundle = new Bundle();
-//        webBundle.putString(Constants.STRING_TAG, AGREEMENT_URL);
-//        webBundle.putBoolean("show_title", true);
-//        web.putExtras(webBundle);
-//        startActivity(web);
-
-    }
 
 //    @OnTextChanged(value = R.id.user_name, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
 //    public void afterNameTextChanged(Editable s) {
@@ -360,51 +326,7 @@ public class RegisterActivity extends BaseActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_weixin:
-                //微信登录
-                //测试时，需要打包签名；sample测试时，用项目里面的demokey.keystore
-                //打包签名apk,然后才能产生微信的登录
-
-                Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
-                if (wechat.isClientValid()) {
-
-                    login(wechat.getName());
-                } else {
-                    UIUtil.showToast("未安装微信");
-                }
-                break;
-            case R.id.iv_qq:
-                Platform qq = ShareSDK.getPlatform(QQ.NAME);
-                login(qq.getName());
-                break;
-            case R.id.iv_sina:
-                //新浪微博
-                Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
-                login(sina.getName());
-                break;
 
         }
     }
-
-    private void login(String platformName) {
-        LoginApi api = new LoginApi();
-        //设置登陆的平台后执行登陆的方法
-        api.setPlatform(platformName);
-        api.setOnLoginListener(new OnLoginListener() {
-            public boolean onLogin(String platform, HashMap<String, Object> res) {
-                // 在这个方法填写尝试的代码，返回true表示还不能登录，需要注册
-                // 此处全部给回需要注册
-                return true;
-            }
-
-            public boolean onRegister(UserInfo info) {
-                LoginUtils.thirdLogin(RegisterActivity.this, info);
-                // 填写处理注册信息的代码，返回true表示数据合法，注册页面可以关闭
-                return true;
-            }
-        });
-        api.login(this);
-    }
-
-
 }

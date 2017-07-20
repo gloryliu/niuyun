@@ -131,35 +131,8 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- 微信支付 -->
-        <activity
-            android:name="com.javen205.jpay.weixin.WXPayEntryActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity-alias
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:targetActivity="com.javen205.jpay.weixin.WXPayEntryActivity" />
-        <!-- 微信支付 end -->
 
 
-        <!-- alipay sdk begin -->
-
-        <activity
-            android:name="com.alipay.sdk.app.H5PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity
-            android:name="com.alipay.sdk.app.H5AuthActivity"
-            android:configChanges="orientation|keyboardHidden|navigation"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-
-        <!-- alipay sdk end -->
         <activity
             android:name="com.niuyun.hire.ui.activity.FindPasswordActivity"
             android:screenOrientation="portrait" />
@@ -174,37 +147,7 @@
             android:name="com.niuyun.hire.ui.activity.GoodsDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.niuyun.hire.ui.activity.CommitOrderActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.OrderListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.OrderDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.AccountSafetyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.ShoppingAddressActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.niuyun.hire.ui.activity.PersonInformationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.CommitRealNameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.MyMemberRankActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.ShoppingAddressEditActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.PayDepositActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.utils.photoTool.TakingPicturesActivity"

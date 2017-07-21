@@ -33,8 +33,6 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.niuyun.hire.R.id.title_view;
-
 
 /**
  * Created by chen.zhiwei on 2016/7/14.
@@ -50,11 +48,10 @@ public class RegisterActivity extends BaseActivity implements
     TextView tvGetCode;
 
 
-
     @BindView(R.id.tv_next)
     TextView tvNext;
 
-    @BindView(title_view)
+    @BindView(R.id.title_view)
     TitleBar titleView;
 
     @BindString(R.string.regist)
@@ -264,7 +261,7 @@ public class RegisterActivity extends BaseActivity implements
                 try {
 
                     if (response != null && response.body() != null && !TextUtils.isEmpty(response.body())) {
-                        if (response.body().contains("注册成功")) {
+                        if (response.body().contains("1000")) {
                             Intent findPsIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                             timer.cancel();
                             findPsIntent.putExtra("phone", etPhone.getText().toString());

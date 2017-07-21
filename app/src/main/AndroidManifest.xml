@@ -181,6 +181,9 @@
         <activity
             android:name="com.niuyun.hire.ui.activity.EnterpriseRegisterActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.PerfectPersonInformation"
+            android:screenOrientation="portrait" />
 
     </application>
 

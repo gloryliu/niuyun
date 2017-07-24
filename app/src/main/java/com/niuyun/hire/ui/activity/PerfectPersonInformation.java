@@ -113,7 +113,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
                     bt_next.setText("完成");
                     tv_intent_title.setTextColor(getResources().getColor(R.color.color_ea0000));
                     iv_intent_line.setImageResource(R.mipmap.ic_line_right_red);
-                    upLoadImage();
+//                    upLoadImage();
                 } else {
 //保存数据
                 }
@@ -124,6 +124,12 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
                 break;
         }
     }
+
+
+    public void commonDialog() {
+
+    }
+
 
     /**
      * 选择图片dialog

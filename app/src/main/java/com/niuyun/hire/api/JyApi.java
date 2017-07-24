@@ -3,10 +3,10 @@ package com.niuyun.hire.api;
 
 import com.niuyun.hire.bean.ErrorBean;
 import com.niuyun.hire.ui.bean.BuyOrderListItemBean;
-import com.niuyun.hire.ui.bean.OrderDetailBean;
 import com.niuyun.hire.ui.bean.GoodsFilterBean;
 import com.niuyun.hire.ui.bean.GoodsListBean;
 import com.niuyun.hire.ui.bean.MemberRankBean;
+import com.niuyun.hire.ui.bean.OrderDetailBean;
 import com.niuyun.hire.ui.bean.ShoppingAddressListItemBean;
 import com.niuyun.hire.ui.bean.ShopsFilterBean;
 import com.niuyun.hire.ui.bean.SuperBean;
@@ -18,16 +18,11 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 
 /**
@@ -178,7 +173,7 @@ public interface JyApi {
      * @return
      */
     @Multipart
-    @POST("/sys/uploadFile")
+    @POST("/sys/uploadHeadPic")
     Call<String> uploadFile(@Part MultipartBody.Part file);
 
     /**

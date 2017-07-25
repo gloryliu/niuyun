@@ -743,8 +743,8 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
 
     private void upLoadInfo() {
         Map<String, String> map = new HashMap<>();
-//        map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
-        map.put("uid", "48");
+        map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+//        map.put("uid", "48");
         map.put("avatars", headimg);
         map.put("realname", et_name.getText().toString());
         map.put("sex", sex);

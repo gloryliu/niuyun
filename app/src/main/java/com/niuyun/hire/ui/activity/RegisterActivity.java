@@ -14,9 +14,12 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.bean.ErrorBean;
+import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.NetUtil;
 import com.niuyun.hire.utils.TelephoneUtils;
@@ -66,7 +69,7 @@ public class RegisterActivity extends BaseActivity implements
     CountDownTimer timer;
 
     boolean isCodeSended = false;
-    Call<String> call;//注册
+    Call<SuperBean<UserInfoBean>> call;//注册
     Call<ErrorBean> getCheckCodeCall;
 
     @Override
@@ -255,20 +258,19 @@ public class RegisterActivity extends BaseActivity implements
         map.put("utype", "2");
         map.put("regType", "1");
         call = RestAdapterManager.getApi().reister(map);
-        call.enqueue(new JyCallBack<String>() {
+        call.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
             @Override
-            public void onSuccess(Call<String> call, Response<String> response) {
+            public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 try {
 
-                    if (response != null && response.body() != null && !TextUtils.isEmpty(response.body())) {
-                        if (response.body().contains("1000")) {
-                            Intent findPsIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            timer.cancel();
-                            findPsIntent.putExtra("phone", etPhone.getText().toString());
-                            findPsIntent.putExtra("pwd", user_password.getText().toString());
-                            startActivity(findPsIntent);
-                        }
-                        ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.body(), "");
+                    if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                        BaseContext.getInstance().setUserInfo(response.body().getData());
+                        Intent findPsIntent = new Intent(RegisterActivity.this, PerfectPersonInformation.class);
+                        timer.cancel();
+//                            findPsIntent.putExtra("phone", etPhone.getText().toString());
+//                            findPsIntent.putExtra("pwd", user_password.getText().toString());
+                        startActivity(findPsIntent);
+                        ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.body().getMsg(), "");
                     } else {
                         UIUtil.showToast("注册失败");
                     }
@@ -278,12 +280,12 @@ public class RegisterActivity extends BaseActivity implements
             }
 
             @Override
-            public void onError(Call<String> call, Throwable t) {
+            public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
                 UIUtil.showToast("注册失败");
             }
 
             @Override
-            public void onError(Call<String> call, Response<String> response) {
+            public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 try {
                     ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.errorBody().string(), "");
                 } catch (IOException e) {

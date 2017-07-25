@@ -2,12 +2,16 @@ package com.niuyun.hire.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
 
 import com.mob.MobSDK;
+import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.utils.SharePreManager;
+import com.niuyunzhipin.greendao.DaoMaster;
+import com.niuyunzhipin.greendao.DaoSession;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
@@ -28,11 +32,25 @@ public class BaseContext extends Application {
     //用户信息
     public static UserInfoBean userInfo;
     public static int type = 0;//照片选择，分为最多九张和只选一张,1代表选择一张，其他九张
-//    private ResponseBodyBeanDao userInfoDao;
-//    private DaoMaster.DevOpenHelper mHelper;
-//    private SQLiteDatabase db;
-//    private DaoMaster mDaoMaster;
-//    private DaoSession mDaoSession;
+    //    private ResponseBodyBeanDao userInfoDao;
+    private DaoMaster.DevOpenHelper mHelper;
+    private SQLiteDatabase db;
+    private DaoMaster mDaoMaster;
+    private DaoSession mDaoSession;
+    private AllTagBean allTagBean;
+
+
+    public AllTagBean getAllTagBean() {
+        this.allTagBean = instance.getDaoSession().getAllTagBeanDao().loadAll().get(0);
+        return allTagBean;
+    }
+
+    public void setAllTagBean(AllTagBean allTagBeanDao) {
+        instance.getDaoSession().getAllTagBeanDao().deleteAll();
+        instance.getDaoSession().getAllTagBeanDao().insert(allTagBeanDao);
+        this.allTagBean = allTagBeanDao;
+    }
+
 
 //    public LocationInfo getLocationInfo() {
 //        if (locationInfo == null || TextUtils.isEmpty(locationInfo.getCityId())) {
@@ -76,7 +94,7 @@ public class BaseContext extends Application {
             }
         });
         //初始化数据库
-//        setDatabase();
+        initGreenrobot();
         //城市列表
 //        initCityDataBase();
     }
@@ -276,23 +294,23 @@ public class BaseContext extends Application {
 //        android.os.Process.killProcess(android.os.Process.myPid()); //
 //    }
 //
-//    public DaoSession getDaoSession() {
-//        return mDaoSession;
-//    }
+    public DaoSession getDaoSession() {
+        return mDaoSession;
+    }
 
-//    private void setDatabase() {
-//        // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
-//        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
-//        // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
-//        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
-//        mHelper = new DaoMaster.DevOpenHelper(this, "jyHealth-db", null);
-//        db = mHelper.getWritableDatabase();
-//        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
-//        mDaoMaster = new DaoMaster(db);
-//        mDaoSession = mDaoMaster.newSession();
-//    }
+    private void initGreenrobot() {
+        // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
+        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
+        // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
+        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
+        mHelper = new DaoMaster.DevOpenHelper(this, "jyHealth-db", null);
+        db = mHelper.getWritableDatabase();
+        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
+        mDaoMaster = new DaoMaster(db);
+        mDaoSession = mDaoMaster.newSession();
+    }
 
-//    public SQLiteDatabase getDb() {
-//        return db;
-//    }
+    public SQLiteDatabase getDb() {
+        return db;
+    }
 }

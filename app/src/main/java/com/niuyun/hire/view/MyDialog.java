@@ -33,6 +33,21 @@ public class MyDialog extends Dialog {
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        if (height>0){
+            params.height=height;
+        }
+        window.setAttributes(params);
+    }
+    public MyDialog(Context context, int width, int height,int gravity, View layout, int style) {
+        super(context, style);
+        setContentView(layout);
+        Window window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.gravity = gravity;
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        if (height>0){
+            params.height=height;
+        }
         window.setAttributes(params);
     }
 }

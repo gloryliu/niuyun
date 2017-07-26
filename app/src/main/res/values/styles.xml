@@ -53,6 +53,14 @@
         <item name="android:textColor">@color/text_color_enable_selecor</item>
         <item name="android:background">@drawable/btn_red_selector1</item>
     </style>
+    <style name="btn_red_btn_no_corner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color_enable_selecor</item>
+        <item name="android:background">@drawable/btn_red_selector2</item>
+    </style>
     <style name="btn_red_btn">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">45dp</item>
@@ -159,4 +167,5 @@
         <item name="android:padding">@dimen/guide_point_padding</item>
         <item name="android:src">@drawable/ic_guide_point</item>
     </style>
+
 </resources>

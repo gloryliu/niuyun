@@ -13,7 +13,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_marginTop="48dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title_view">
 
         <android.support.v7.widget.RecyclerView
@@ -41,9 +41,9 @@
             app:ddmaskColor="@color/color_7f000000"
             app:ddmenuBackgroundColor="@color/color_ffffff"
             app:ddmenuSelectedIcon="@mipmap/arrow_up_shop"
-            app:ddmenuTextSize="@dimen/ts_26"
+            app:ddmenuTextSize="12sp"
             app:ddmenuUnselectedIcon="@mipmap/arrow_down_shop"
-            app:ddtextSelectedColor="@color/color_333333"
+            app:ddtextSelectedColor="@color/color_ea0000"
             app:ddtextUnselectedColor="@color/color_666666"
             app:ddunderlineColor="@color/transparent" />
 

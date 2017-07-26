@@ -10,8 +10,9 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.CompanyDetailsActivity;
+import com.niuyun.hire.ui.activity.EditResumeActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
-import com.niuyun.hire.ui.activity.PerfectPersonInformation;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.view.CircularImageView;
 
@@ -101,7 +102,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_video_resume:
                 //视频简历
-                Intent intent = new Intent(getActivity(), PerfectPersonInformation.class);
+                Intent intent = new Intent(getActivity(), CompanyDetailsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_stars:
@@ -112,6 +113,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.tv_edit_resume:
                 //编辑简历
+                Intent intent1 = new Intent(getActivity(), EditResumeActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

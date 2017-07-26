@@ -555,7 +555,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
         List<String> list = new ArrayList<>();
         list.add("QS_education");
         list.add("QS_experience");
-        list.add("QS_jobs_nature");
+//        list.add("QS_jobs_nature");
         list.add("QS_wage");
         Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(list);
         commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {

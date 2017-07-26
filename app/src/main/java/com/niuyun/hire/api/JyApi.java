@@ -2,8 +2,11 @@ package com.niuyun.hire.api;
 
 
 import com.niuyun.hire.bean.ErrorBean;
+import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
+import com.niuyun.hire.ui.bean.CompanyDetailsBean;
+import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
@@ -128,5 +131,33 @@ public interface JyApi {
      */
     @POST("/resource/user/userUpdate")
     Call<String> upLoadInfo(@Body Map<String, String> map);
+
+    /**
+     * 获取所有的职位
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/findJobList")
+    Call<AllJobsBean> getAllJobs(@Body Map<String, String> map);
+    /**
+     * 获取职位详情
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/jobDetail")
+    Call<JobDetailsBean> getJobDetails(@Body Map<String, String> map);
+    /**
+     * 获取公司详情
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/companyProfile/companyProfileDetail")
+    Call<CompanyDetailsBean> getCompanyDetails(@Body Map<String, String> map);
+
+
+
 
 }

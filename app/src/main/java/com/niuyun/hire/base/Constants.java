@@ -5,7 +5,8 @@ package com.niuyun.hire.base;
  */
 
 public class Constants {
-
+public static final String COMMON_PERSON_URL="http://niuyunzp.com/data/upload/avatar/";
+public static final String COMMON_IMAGE_URL="http://niuyunzp.com/data/upload/company_logo/";
     public static final int AddressUpdateSuccess = 0x10;
     public static final String APP_KEY = "c3c5a51f3a4c70827523f8";
     public static int ADD_REQUEST_CODE = 11;

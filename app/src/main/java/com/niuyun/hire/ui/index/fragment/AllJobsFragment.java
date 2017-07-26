@@ -1,30 +1,53 @@
 package com.niuyun.hire.ui.index.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.api.JyCallBack;
+import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseFragment;
+import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.WorkPositionDetailActivity;
+import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter1;
+import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter2;
 import com.niuyun.hire.ui.adapter.IndexCompanyListItemAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter2;
 import com.niuyun.hire.ui.adapter.PoPuMenuListCommonAdapter;
+import com.niuyun.hire.ui.bean.AllJobsBean;
+import com.niuyun.hire.ui.bean.CommonTagBean;
+import com.niuyun.hire.ui.bean.CommonTagItemBean;
+import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SelectedBean;
+import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.utils.LogUtils;
+import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.DropDownMenu;
-import com.niuyun.hire.view.MaxHeighListView;
 import com.niuyun.hire.view.TitleBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.niuyun.hire.R.id.title_view;
 
@@ -51,6 +74,39 @@ public class AllJobsFragment extends BaseFragment {
     private PoPuMenuListCommonAdapter mMenuAdapter;
     private PoPuMenuListCommonAdapter mMenuAdapter2;
     private ImageView mSearchView;
+    private Call<AllJobsBean> allJobsBeanCall;
+    private int pageNum = 1;
+    private int pageSize = 20;
+
+
+    private int jobStep = 0;
+
+    private JobPerfectInfoTagAdapter1 adapter1;
+    private JobPerfectInfoTagAdapter2 adapter2;
+    private JobTagBean.DataBean cacheJobTag;
+
+    private List<JobTagBean.DataBean> jobTagBean;
+
+    private String education;//学历
+    private String educationCn;
+
+    private String experience;//经验
+    private String experienceCn;
+
+
+    private String wage;//期望薪资
+    private String wageCn;
+
+    private String intentionJobsId;//期望职位,每一级的id中间用 . 隔开
+    private String intentionJobs;
+
+    private String intentionJobsId1;
+    private String intentionJobsId2;
+    private String intentionJobsId3;
+
+    private CommonTagBean commonTagBean;
+    private String clickTag;
+    private CommonTagItemBean cacheCommonTagBean;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -65,13 +121,15 @@ public class AllJobsFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);
+                pageNum = 1;
+                getAllJobs();
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadmore(2000);
+                pageNum += 1;
+                getAllJobs();
             }
         });
         refreshLayout.setEnableLoadmore(false);
@@ -79,11 +137,27 @@ public class AllJobsFragment extends BaseFragment {
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         listItemAdapter = new IndexCompanyListItemAdapter(getActivity());
         recyclerview.setAdapter(listItemAdapter);
+        listItemAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                AllJobsBean.DataBeanX.DataBean databean = (AllJobsBean.DataBeanX.DataBean) bean;
+                if (databean != null) {
+                    Intent intent = new Intent(getActivity(), WorkPositionDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", databean.getId() + "");
+                    bundle.putString("companyId", databean.getCompanyId() + "");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
+            }
+        });
     }
 
     @Override
     protected void loadData() {
-        setFilter();
+        getTagItmes();
+        getAllJobs();
     }
 
     @Override
@@ -100,6 +174,66 @@ public class AllJobsFragment extends BaseFragment {
     public void onMsgEvent(EventBusCenter eventBusCenter) {
 
     }
+
+    private void getAllJobs() {
+        Map<String, String> map = new HashMap<>();
+        map.put("pageNum", pageNum + "");
+        map.put("pageSize", pageSize + "");
+
+        allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
+
+        allJobsBeanCall.enqueue(new JyCallBack<AllJobsBean>() {
+            @Override
+            public void onSuccess(Call<AllJobsBean> call, Response<AllJobsBean> response) {
+                if (refreshLayout != null) {
+                    refreshLayout.finishRefresh();
+                }
+                if (pageNum == 1) {
+                    listItemAdapter.ClearData();
+                }
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    listItemAdapter.addList(response.body().getData().getData());
+                    if (pageNum >= response.body().getData().getPageCount()) {
+                        refreshLayout.setEnableLoadmore(false);
+                    } else {
+                        refreshLayout.setEnableLoadmore(true);
+                    }
+                } else {
+                    if (pageNum == 1) {
+                        //无数据
+
+                    } else {
+                        //加载完全部数据
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(Call<AllJobsBean> call, Throwable t) {
+                if (refreshLayout != null) {
+                    refreshLayout.finishRefresh();
+                }
+                LogUtils.e(t.getMessage());
+            }
+
+            @Override
+            public void onError(Call<AllJobsBean> call, Response<AllJobsBean> response) {
+                if (refreshLayout != null) {
+                    refreshLayout.finishRefresh();
+                }
+                try {
+                    LogUtils.e(response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
+
+
 //--------------------------------------------------------筛选模块-开始--------------------------------------------------------
 
 
@@ -107,59 +241,191 @@ public class AllJobsFragment extends BaseFragment {
         types.clear();
         popupViews.clear();
 
+        //职位  经验  学历   薪资
 
-        //区域
-        final MaxHeighListView sortView = new MaxHeighListView(getActivity());
-        sortView.setDividerHeight(0);
-        sortView.setMaxHeight(199);
-        demands.clear();
-        demands.add(new SelectedBean("", "全部"));
-        demands.add(new SelectedBean("salesPrice_asc", "北京"));
-        demands.add(new SelectedBean("salesPrice_desc", "上海"));
-        demands.add(new SelectedBean("floorSpace_asc", "成都"));
-        demands.add(new SelectedBean("floorSpace_desc", "广州"));
-        mMenuAdapter = new PoPuMenuListCommonAdapter(getActivity(), demands);
-
-        sortView.setAdapter(mMenuAdapter);
-        sortView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View positionView = View.inflate(getActivity(), R.layout.popupwindow_job_tag, null);
+        final RecyclerView tag1 = (RecyclerView) positionView.findViewById(R.id.tag1);
+        final RecyclerView tag2 = (RecyclerView) positionView.findViewById(R.id.tag2);
+        final RecyclerView tag3 = (RecyclerView) positionView.findViewById(R.id.tag3);
+        tag1.setLayoutManager(new LinearLayoutManager(getActivity()));
+        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(getActivity(), jobTagBean);
+        tag1.setAdapter(adapter);
+        adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                mDropDownMenu.setTabText(demands.get(position).getName());
-                mDropDownMenu.closeMenu();
-//                mSortBy = demands.get(position).getKey();
-//                stitch();
+            public void onClick(Object bean) {
+
+                tag2.setLayoutManager(new LinearLayoutManager(getActivity()));
+                adapter1 = new JobPerfectInfoTagAdapter1(getActivity());
+                tag2.setAdapter(adapter1);
+                adapter1.setCommonInterface(new RecyclerViewCommonInterface() {
+                    @Override
+                    public void onClick(Object bean) {
+                        //点击了第二页的
+                        tag3.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        adapter2 = new JobPerfectInfoTagAdapter2(getActivity());
+                        tag3.setAdapter(adapter2);
+                        adapter2.setCommonInterface(new RecyclerViewCommonInterface() {
+                            @Override
+                            public void onClick(Object bean) {
+                                //点击了第三页
+                                intentionJobsId3 = ((JobTagBean.DataBean) bean).getId() + "";
+                                cacheJobTag = (JobTagBean.DataBean) bean;
+                                if (!TextUtils.isEmpty(intentionJobsId1) && !TextUtils.isEmpty(intentionJobsId2) && !TextUtils.isEmpty(intentionJobsId3)) {
+                                    intentionJobsId = intentionJobsId1 + "." + intentionJobsId2 + "." + intentionJobsId3;
+                                }
+                                intentionJobs = cacheJobTag.getCategoryname();
+                                mDropDownMenu.closeMenu();
+//                                mDropDownMenu.setTabText(demands.get(position).getName());
+                            }
+                        });
+
+                        jobStep = 2;
+                        intentionJobsId2 = ((JobTagBean.DataBean) bean).getId() + "";
+                        getJobData(((JobTagBean.DataBean) bean).getId() + "");
+                    }
+                });
+
+                //点击了第一页的
+                jobStep = 1;
+                intentionJobsId1 = ((JobTagBean.DataBean) bean).getId() + "";
+                getJobData(((JobTagBean.DataBean) bean).getId() + "");
             }
         });
-        types.add("区域");
-        popupViews.add(sortView);
+        types.add("职位");
+        popupViews.add(positionView);
 
-        //区域
-        final MaxHeighListView workView = new MaxHeighListView(getActivity());
-        workView.setDividerHeight(0);
-        workView.setMaxHeight(199);
-        demands1.clear();
-        demands1.add(new SelectedBean("", "全部"));
-        demands1.add(new SelectedBean("salesPrice_asc", "Android"));
-        demands1.add(new SelectedBean("salesPrice_desc", "ios"));
-        demands1.add(new SelectedBean("floorSpace_asc", "会计"));
-        demands1.add(new SelectedBean("floorSpace_desc", "产品"));
-        mMenuAdapter2 = new PoPuMenuListCommonAdapter(getActivity(), demands1);
+//经验
 
-        workView.setAdapter(mMenuAdapter2);
-        workView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View experienceView = View.inflate(getActivity(), R.layout.popupwindow_common_tag, null);
+        RecyclerView tag_recyclerview = (RecyclerView) experienceView.findViewById(R.id.tag_recyclerview);
+        tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        CommonPerfectInfoTagAdapter experienceAdapter = new CommonPerfectInfoTagAdapter(getActivity(), commonTagBean.getData().getQS_experience());
+        tag_recyclerview.setAdapter(experienceAdapter);
+        experienceAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                mDropDownMenu.setTabText(demands.get(position).getName());
+            public void onClick(Object bean) {
+                cacheCommonTagBean = (CommonTagItemBean) bean;
+                experience = cacheCommonTagBean.getCId() + "";
+                experienceCn = cacheCommonTagBean.getCName();
                 mDropDownMenu.closeMenu();
-//                mSortBy = demands.get(position).getKey();
-//                stitch();
             }
         });
-        types.add("职能");
-        popupViews.add(workView);
+        types.add("经验");
+        popupViews.add(experienceView);
+//学历
+
+        View educationView = View.inflate(getActivity(), R.layout.popupwindow_common_tag, null);
+        RecyclerView education_tag_recyclerview = (RecyclerView) educationView.findViewById(R.id.tag_recyclerview);
+        education_tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        CommonPerfectInfoTagAdapter1 educationAdapter = new CommonPerfectInfoTagAdapter1(getActivity(), commonTagBean.getData().getQS_education());
+        education_tag_recyclerview.setAdapter(educationAdapter);
+        educationAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                cacheCommonTagBean = (CommonTagItemBean) bean;
+                education = cacheCommonTagBean.getCId() + "";
+                educationCn = cacheCommonTagBean.getCName();
+                mDropDownMenu.closeMenu();
+            }
+        });
+        types.add("学历");
+        popupViews.add(educationView);
+//薪资
+
+        View wageView = View.inflate(getActivity(), R.layout.popupwindow_common_tag, null);
+        RecyclerView wage_tag_recyclerview = (RecyclerView) wageView.findViewById(R.id.tag_recyclerview);
+        wage_tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        CommonPerfectInfoTagAdapter2 wageAdapter = new CommonPerfectInfoTagAdapter2(getActivity(), commonTagBean.getData().getQS_wage());
+        wage_tag_recyclerview.setAdapter(wageAdapter);
+        wageAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                cacheCommonTagBean = (CommonTagItemBean) bean;
+                wage = cacheCommonTagBean.getCId() + "";
+                wageCn = cacheCommonTagBean.getCName();
+                mDropDownMenu.closeMenu();
+            }
+        });
+        types.add("薪资");
+        popupViews.add(wageView);
 
 
         mDropDownMenu.setDropDownMenu(types, popupViews);
+    }
+
+    /**
+     * 获取职位信息
+     *
+     * @param id
+     */
+    private void getJobData(String id) {
+        Call<JobTagBean> jobTagBeanCall = RestAdapterManager.getApi().getJobType(id);
+        jobTagBeanCall.enqueue(new JyCallBack<JobTagBean>() {
+            @Override
+            public void onSuccess(Call<JobTagBean> call, Response<JobTagBean> response) {
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    if (jobStep == 0) {
+                        jobTagBean = response.body().getData();
+                        setFilter();
+                    } else if (jobStep == 1) {
+                        adapter1.ClearData();
+                        adapter1.addList(response.body().getData());
+                    } else if (jobStep == 2) {
+                        adapter2.ClearData();
+                        adapter2.addList(response.body().getData());
+                    }
+                } else {
+                    UIUtil.showToast("接口错误");
+                }
+
+
+            }
+
+            @Override
+            public void onError(Call<JobTagBean> call, Throwable t) {
+                LogUtils.e(t.getMessage());
+                UIUtil.showToast("接口错误");
+            }
+
+            @Override
+            public void onError(Call<JobTagBean> call, Response<JobTagBean> response) {
+
+            }
+        });
+    }
+
+    /**
+     * 根据对应的分类id获取对应的数据
+     */
+
+    private void getTagItmes() {
+        List<String> list = new ArrayList<>();
+        list.add("QS_education");
+        list.add("QS_experience");
+        list.add("QS_wage");
+        Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(list);
+        commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {
+            @Override
+            public void onSuccess(Call<CommonTagBean> call, Response<CommonTagBean> response) {
+                LogUtils.e(response.body().getMsg());
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    commonTagBean = response.body();
+                    getJobData("0");
+                } else {
+                    UIUtil.showToast(response.body().getMsg());
+                }
+            }
+
+            @Override
+            public void onError(Call<CommonTagBean> call, Throwable t) {
+                LogUtils.e(t.getMessage());
+            }
+
+            @Override
+            public void onError(Call<CommonTagBean> call, Response<CommonTagBean> response) {
+
+            }
+        });
     }
 
     private void initTitle() {

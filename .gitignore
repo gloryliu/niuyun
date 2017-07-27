@@ -8,3 +8,7 @@
 /build
 /captures
 .externalNativeBuild
+easeui/build/intermediates/incremental/compileDebugAidl/dependency.store
+easeui/
+redpacketlibrary/build/
+simpledemo/build/

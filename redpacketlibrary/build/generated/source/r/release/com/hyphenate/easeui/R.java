@@ -775,8 +775,7 @@ public final class R {
         public static int ee_8 = 0x7f0200f8;
         public static int ee_9 = 0x7f0200f9;
         public static int ic_launcher = 0x7f020107;
-        public static int ic_message_me = 0x7f020108;
-        public static int notification_template_icon_bg = 0x7f020136;
+        public static int notification_template_icon_bg = 0x7f020135;
     }
     public static final class id {
         public static int action0 = 0x7f0b00c3;

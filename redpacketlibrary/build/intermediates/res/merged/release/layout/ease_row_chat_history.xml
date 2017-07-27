@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/list_itease_layout"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="0.5dp"
+        android:background="#f0f0f0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.hyphenate.easeui.widget.EaseImageView
+            android:id="@+id/avatar"
+            android:layout_width="41.5dp"
+            android:layout_height="41.5dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="16.5dp"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ease_default_avatar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="15dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_content1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="17dp">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#171717"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#999999"
+                    android:textSize="10.5sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_content1"
+                android:layout_marginTop="6dp"
+                android:text="万科地产|总监"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_company_name"
+                android:layout_marginRight="17dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/unread_msg_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/bg_circle_red"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/msg_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
+                    android:src="@drawable/ease_msg_state_fail_resend"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/mentioned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/msg_state"
+                    android:paddingLeft="5dp"
+                    android:text="@string/were_mentioned"
+                    android:textColor="#999999"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_toRightOf="@+id/mentioned"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:text="我想找一份工dfsdfsfdsfdsfsdfsdfdsfsdfsfsd作。。。"
+                    android:textColor="#999999"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/avatar_container"
+        android:layout_width="59dp"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true">
+
+    </RelativeLayout>
+
+
+</LinearLayout>

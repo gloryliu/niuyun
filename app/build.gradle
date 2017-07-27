@@ -9,6 +9,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -45,7 +46,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'org.greenrobot:greendao:3.2.2'
+    // add library
     //ConverterFactory的String依赖包
     compile files('libs/commons-codec-1.3.jar')
     compile files('libs/commons-logging-1.1.1.jar')
@@ -61,14 +63,12 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     testCompile 'junit:junit:4.12'
     compile 'com.bigkoo:convenientbanner:2.0.5'
-
-
-
     //下拉刷新
-//    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-7'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.2-alpha-7'
-
+    compile project(':redpacketlibrary')
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.parse:parse-android:1.13.1'
 }
 def getDate() {
     def date = new Date()

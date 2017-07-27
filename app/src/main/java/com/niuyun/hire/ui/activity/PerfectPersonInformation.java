@@ -33,6 +33,7 @@ import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter2;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
+import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
@@ -555,9 +556,10 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
         List<String> list = new ArrayList<>();
         list.add("QS_education");
         list.add("QS_experience");
-//        list.add("QS_jobs_nature");
         list.add("QS_wage");
-        Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(list);
+        GetBaseTagBean tagBean=new GetBaseTagBean();
+        tagBean.setAlias(list);
+        Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(tagBean);
         commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {
             @Override
             public void onSuccess(Call<CommonTagBean> call, Response<CommonTagBean> response) {

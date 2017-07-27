@@ -1,14 +1,26 @@
 package com.niuyun.hire.base;
 
-import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
+import android.text.TextUtils;
 
+import com.easemob.redpacketsdk.RPInitRedPacketCallback;
+import com.easemob.redpacketsdk.RPValueCallback;
+import com.easemob.redpacketsdk.RedPacket;
+import com.easemob.redpacketsdk.bean.RedPacketInfo;
+import com.easemob.redpacketsdk.bean.TokenData;
+import com.easemob.redpacketsdk.constant.RPConstant;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.mob.MobSDK;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
+import com.niuyun.hire.ui.chat.DemoHelper;
 import com.niuyun.hire.utils.SharePreManager;
 import com.niuyunzhipin.greendao.DaoMaster;
 import com.niuyunzhipin.greendao.DaoSession;
@@ -23,10 +35,11 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 
+
 /**
  */
 
-public class BaseContext extends Application {
+public class BaseContext extends MultiDexApplication {
 
     private static BaseContext instance;
     //用户信息
@@ -38,7 +51,7 @@ public class BaseContext extends Application {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     private AllTagBean allTagBean;
-
+    public static String currentUserNick = "";
 
     public AllTagBean getAllTagBean() {
         this.allTagBean = instance.getDaoSession().getAllTagBeanDao().loadAll().get(0);
@@ -71,6 +84,7 @@ public class BaseContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         instance = this;
         MobSDK.init(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -97,6 +111,46 @@ public class BaseContext extends Application {
         initGreenrobot();
         //城市列表
 //        initCityDataBase();
+
+
+        //init demo helper
+        DemoHelper.getInstance().init(this);
+        //red packet code : 初始化红包SDK，开启日志输出开关
+        RedPacket.getInstance().initRedPacket(this, RPConstant.AUTH_METHOD_EASEMOB, new RPInitRedPacketCallback() {
+
+            @Override
+            public void initTokenData(RPValueCallback<TokenData> callback) {
+                TokenData tokenData = new TokenData();
+                tokenData.imUserId = EMClient.getInstance().getCurrentUser();
+                //此处使用环信id代替了appUserId 开发者可传入App的appUserId
+                tokenData.appUserId = EMClient.getInstance().getCurrentUser();
+                tokenData.imToken = EMClient.getInstance().getAccessToken();
+                //同步或异步获取TokenData 获取成功后回调onSuccess()方法
+                callback.onSuccess(tokenData);
+            }
+
+            @Override
+            public RedPacketInfo initCurrentUserSync() {
+                //这里需要同步设置当前用户id、昵称和头像url
+                String fromAvatarUrl = "";
+                String fromNickname = EMClient.getInstance().getCurrentUser();
+                EaseUser easeUser = EaseUserUtils.getUserInfo(fromNickname);
+                if (easeUser != null) {
+                    fromAvatarUrl = TextUtils.isEmpty(easeUser.getAvatar()) ? "none" : easeUser.getAvatar();
+                    fromNickname = TextUtils.isEmpty(easeUser.getNick()) ? easeUser.getUsername() : easeUser.getNick();
+                }
+                RedPacketInfo redPacketInfo = new RedPacketInfo();
+                redPacketInfo.fromUserId = EMClient.getInstance().getCurrentUser();
+                redPacketInfo.fromAvatarUrl = fromAvatarUrl;
+                redPacketInfo.fromNickName = fromNickname;
+                return redPacketInfo;
+            }
+        });
+        RedPacket.getInstance().setDebugMode(true);
+        //end of red packet code
+
+
+
     }
 
 //    private void initCityDataBase() {

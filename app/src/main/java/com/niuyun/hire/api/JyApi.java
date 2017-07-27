@@ -6,12 +6,12 @@ import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
+import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -98,11 +98,11 @@ public interface JyApi {
     /**
      * 根据标签获取相应的数据
      *
-     * @param list
+     * @param bean
      * @return
      */
     @POST("/resource/category/getCategory")
-    Call<CommonTagBean> getWorkAgeAndResume(@Body List<String> list);
+    Call<CommonTagBean> getWorkAgeAndResume(@Body GetBaseTagBean bean);
 
     /**
      * 完善资料

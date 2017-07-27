@@ -1,1 +1,1 @@
-include ':app', ':easeui', ':simpledemo', ':redpacketlibrary'
+include ':app', ':easeui', ':redpacketlibrary'

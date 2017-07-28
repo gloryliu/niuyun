@@ -123,6 +123,15 @@ public class MainActivity extends BaseActivity {
             });
         }
 
+
+        initMessage();
+        initChat();
+    }
+
+    /**
+     * 登陆聊天
+     */
+    private void initChat() {
         // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
         // close it before login to make sure DemoDB not overlap
         DemoDBManager.getInstance().closeDB();
@@ -179,8 +188,6 @@ public class MainActivity extends BaseActivity {
                 });
             }
         });
-        initMessage();
-
     }
 
     private void initMessage() {

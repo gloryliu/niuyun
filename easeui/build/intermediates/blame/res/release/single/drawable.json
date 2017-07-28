@@ -116,6 +116,10 @@
         "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\drawable\\ease_edit_text_bg.xml"
     },
     {
+        "merged": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\res\\merged\\release\\drawable\\ease_input_bar_bg_normal1.xml",
+        "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\drawable\\ease_input_bar_bg_normal1.xml"
+    },
+    {
         "merged": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\res\\merged\\release\\drawable\\ease_btn_blue_pressed_shape.xml",
         "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_pressed_shape.xml"
     },

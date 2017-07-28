@@ -156,10 +156,6 @@
         "source": "C:\\Users\\chen.zhiwei\\.android\\build-cache\\a3e7dabecdb7bef85789cc8af2917009a0e5d51a\\output\\res\\drawable-xhdpi-v4\\abc_list_longpressed_holo.9.png"
     },
     {
-        "merged": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ease_chatting_biaoqing_btn_normal.png",
-        "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\drawable-xhdpi\\ease_chatting_biaoqing_btn_normal.png"
-    },
-    {
         "merged": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ease_chat_send_btn_normal.9.png",
         "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\drawable-xhdpi\\ease_chat_send_btn_normal.9.png"
     },

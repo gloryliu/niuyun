@@ -21770,9 +21770,9 @@
                     "startLine": 2609,
                     "startColumn": 4,
                     "startOffset": 179136,
-                    "endLine": 2613,
+                    "endLine": 2617,
                     "endColumn": 12,
-                    "endOffset": 179339
+                    "endOffset": 179581
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
@@ -21780,70 +21780,91 @@
                         "startLine": 491,
                         "startColumn": 4,
                         "startOffset": 31787,
-                        "endLine": 495,
+                        "endLine": 499,
                         "endColumn": 12,
-                        "endOffset": 31990
+                        "endOffset": 32232
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 2614,
+                    "startLine": 2618,
                     "startColumn": 4,
-                    "startOffset": 179344,
-                    "endLine": 2618,
+                    "startOffset": 179586,
+                    "endLine": 2622,
                     "endColumn": 12,
-                    "endOffset": 179557
+                    "endOffset": 179789
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 496,
+                        "startLine": 500,
                         "startColumn": 4,
-                        "startOffset": 31995,
-                        "endLine": 500,
+                        "startOffset": 32237,
+                        "endLine": 504,
                         "endColumn": 12,
-                        "endOffset": 32208
+                        "endOffset": 32440
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 2619,
+                    "startLine": 2623,
                     "startColumn": 4,
-                    "startOffset": 179562,
-                    "endLine": 2621,
+                    "startOffset": 179794,
+                    "endLine": 2627,
                     "endColumn": 12,
-                    "endOffset": 179714
+                    "endOffset": 180007
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 501,
+                        "startLine": 505,
                         "startColumn": 4,
-                        "startOffset": 32213,
-                        "endLine": 503,
+                        "startOffset": 32445,
+                        "endLine": 509,
                         "endColumn": 12,
-                        "endOffset": 32365
+                        "endOffset": 32658
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 2622,
+                    "startLine": 2628,
                     "startColumn": 4,
-                    "startOffset": 179719,
+                    "startOffset": 180012,
+                    "endLine": 2630,
+                    "endColumn": 12,
+                    "endOffset": 180164
+                },
+                "from": {
+                    "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 510,
+                        "startColumn": 4,
+                        "startOffset": 32663,
+                        "endLine": 512,
+                        "endColumn": 12,
+                        "endOffset": 32815
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 2631,
+                    "startColumn": 4,
+                    "startOffset": 180169,
                     "endColumn": 66,
-                    "endOffset": 179781
+                    "endOffset": 180231
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 504,
+                        "startLine": 513,
                         "startColumn": 4,
-                        "startOffset": 32370,
+                        "startOffset": 32820,
                         "endColumn": 66,
-                        "endOffset": 32432
+                        "endOffset": 32882
                     }
                 }
             }

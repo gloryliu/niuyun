@@ -4,19 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#f2f0eb" >
+    android:background="#f2f0eb">
 
-    <com.hyphenate.easeui.widget.EaseTitleBar
-        android:id="@+id/title_bar"
+    <com.hyphenate.easeui.widget.TitleBar
+        android:id="@+id/title_bar_new"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        hyphenate:titleBarLeftImage="@drawable/ease_mm_title_back" />
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/input_menu"
-        android:layout_below="@id/title_bar" >
+        android:layout_below="@+id/title_bar_new">
 
         <com.hyphenate.easeui.widget.EaseChatMessageList
             android:id="@+id/message_list"

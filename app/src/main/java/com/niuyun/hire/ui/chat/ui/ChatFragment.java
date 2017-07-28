@@ -13,7 +13,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
@@ -37,7 +36,6 @@ import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.easeui.widget.emojicon.EaseEmojiconMenu;
-import com.hyphenate.util.EasyUtils;
 import com.hyphenate.util.PathUtil;
 import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.Constant;
@@ -102,17 +100,17 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         }
         super.setUpView();
         // set click listener
-        titleBar.setLeftLayoutClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (EasyUtils.isSingleActivity(getActivity())) {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    startActivity(intent);
-                }
-                onBackPressed();
-            }
-        });
+//        titleBar.setLeftLayoutClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                if (EasyUtils.isSingleActivity(getActivity())) {
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    startActivity(intent);
+//                }
+//                onBackPressed();
+//            }
+//        });
         ((EaseEmojiconMenu)inputMenu.getEmojiconMenu()).addEmojiconGroup(EmojiconExampleGroupData.getData());
         if(chatType == EaseConstant.CHATTYPE_GROUP){
             inputMenu.getPrimaryMenu().getEditText().addTextChangedListener(new TextWatcher() {

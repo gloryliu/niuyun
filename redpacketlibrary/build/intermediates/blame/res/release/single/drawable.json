@@ -96,6 +96,10 @@
         "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\drawable\\ease_chat_press_speak_btn.xml"
     },
     {
+        "merged": "E:\\AndroidProgectDevelop\\niuyun\\redpacketlibrary\\build\\intermediates\\res\\merged\\release\\drawable\\ease_input_bar_bg_normal1.xml",
+        "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\drawable\\ease_input_bar_bg_normal1.xml"
+    },
+    {
         "merged": "E:\\AndroidProgectDevelop\\niuyun\\redpacketlibrary\\build\\intermediates\\res\\merged\\release\\drawable\\ease_chatto_bg.xml",
         "source": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\build\\intermediates\\bundles\\default\\res\\drawable\\ease_chatto_bg.xml"
     },

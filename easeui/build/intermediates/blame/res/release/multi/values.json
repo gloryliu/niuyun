@@ -10445,12 +10445,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 45,
+                        "startLine": 54,
                         "startColumn": 4,
-                        "startOffset": 1990,
-                        "endLine": 48,
+                        "startOffset": 2440,
+                        "endLine": 57,
                         "endColumn": 12,
-                        "endOffset": 2218
+                        "endOffset": 2668
                     }
                 }
             },
@@ -10466,12 +10466,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 32,
+                        "startLine": 41,
                         "startColumn": 4,
-                        "startOffset": 1239,
-                        "endLine": 36,
+                        "startOffset": 1689,
+                        "endLine": 45,
                         "endColumn": 12,
-                        "endOffset": 1546
+                        "endOffset": 1996
                     }
                 }
             },
@@ -10487,12 +10487,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 38,
+                        "startLine": 47,
                         "startColumn": 4,
-                        "startOffset": 1552,
-                        "endLine": 43,
+                        "startOffset": 2002,
+                        "endLine": 52,
                         "endColumn": 12,
-                        "endOffset": 1984
+                        "endOffset": 2434
                     }
                 }
             },
@@ -10508,12 +10508,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 60,
+                        "startLine": 69,
                         "startColumn": 4,
-                        "startOffset": 2677,
-                        "endLine": 63,
+                        "startOffset": 3127,
+                        "endLine": 72,
                         "endColumn": 12,
-                        "endOffset": 2889
+                        "endOffset": 3339
                     }
                 }
             },
@@ -10529,12 +10529,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 50,
+                        "startLine": 59,
                         "startColumn": 4,
-                        "startOffset": 2224,
-                        "endLine": 53,
+                        "startOffset": 2674,
+                        "endLine": 62,
                         "endColumn": 12,
-                        "endOffset": 2443
+                        "endOffset": 2893
                     }
                 }
             },
@@ -10550,12 +10550,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 55,
+                        "startLine": 64,
                         "startColumn": 4,
-                        "startOffset": 2449,
-                        "endLine": 58,
+                        "startOffset": 2899,
+                        "endLine": 67,
                         "endColumn": 12,
-                        "endOffset": 2671
+                        "endOffset": 3121
                     }
                 }
             },
@@ -10571,12 +10571,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 65,
+                        "startLine": 74,
                         "startColumn": 4,
-                        "startOffset": 2895,
-                        "endLine": 67,
+                        "startOffset": 3345,
+                        "endLine": 76,
                         "endColumn": 12,
-                        "endOffset": 3051
+                        "endOffset": 3501
                     }
                 }
             },
@@ -10592,12 +10592,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 69,
+                        "startLine": 78,
                         "startColumn": 4,
-                        "startOffset": 3057,
-                        "endLine": 71,
+                        "startOffset": 3507,
+                        "endLine": 80,
                         "endColumn": 12,
-                        "endOffset": 3203
+                        "endOffset": 3653
                     }
                 }
             },
@@ -13450,12 +13450,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 137,
+                        "startLine": 146,
                         "startColumn": 4,
-                        "startOffset": 5873,
-                        "endLine": 150,
+                        "startOffset": 6323,
+                        "endLine": 159,
                         "endColumn": 12,
-                        "endOffset": 6493
+                        "endOffset": 6943
                     }
                 }
             },
@@ -13471,12 +13471,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 98,
+                        "startLine": 107,
                         "startColumn": 4,
-                        "startOffset": 4211,
-                        "endLine": 103,
+                        "startOffset": 4661,
+                        "endLine": 112,
                         "endColumn": 12,
-                        "endOffset": 4541
+                        "endOffset": 4991
                     }
                 }
             },
@@ -13492,12 +13492,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 87,
+                        "startLine": 96,
                         "startColumn": 4,
-                        "startOffset": 3642,
-                        "endLine": 96,
+                        "startOffset": 4092,
+                        "endLine": 105,
                         "endColumn": 12,
-                        "endOffset": 4205
+                        "endOffset": 4655
                     }
                 }
             },
@@ -13513,12 +13513,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 105,
+                        "startLine": 114,
                         "startColumn": 4,
-                        "startOffset": 4547,
-                        "endLine": 119,
+                        "startOffset": 4997,
+                        "endLine": 128,
                         "endColumn": 12,
-                        "endOffset": 5206
+                        "endOffset": 5656
                     }
                 }
             },
@@ -13534,12 +13534,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 121,
+                        "startLine": 130,
                         "startColumn": 4,
-                        "startOffset": 5212,
-                        "endLine": 135,
+                        "startOffset": 5662,
+                        "endLine": 144,
                         "endColumn": 12,
-                        "endOffset": 5867
+                        "endOffset": 6317
                     }
                 }
             },
@@ -16950,12 +16950,12 @@
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 160,
+                        "startLine": 169,
                         "startColumn": 1,
-                        "startOffset": 6717,
-                        "endLine": 168,
+                        "startOffset": 7167,
+                        "endLine": 177,
                         "endColumn": 12,
-                        "endOffset": 7230
+                        "endOffset": 7680
                     }
                 }
             },
@@ -17006,9 +17006,30 @@
                     "startLine": 2164,
                     "startColumn": 4,
                     "startOffset": 155846,
-                    "endLine": 2168,
+                    "endLine": 2172,
                     "endColumn": 12,
-                    "endOffset": 156049
+                    "endOffset": 156291
+                },
+                "from": {
+                    "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 1238,
+                        "endLine": 39,
+                        "endColumn": 12,
+                        "endOffset": 1683
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 2173,
+                    "startColumn": 4,
+                    "startOffset": 156296,
+                    "endLine": 2177,
+                    "endColumn": 12,
+                    "endOffset": 156499
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
@@ -17024,62 +17045,62 @@
             },
             {
                 "to": {
-                    "startLine": 2169,
+                    "startLine": 2178,
                     "startColumn": 4,
-                    "startOffset": 156054,
-                    "endLine": 2173,
+                    "startOffset": 156504,
+                    "endLine": 2182,
                     "endColumn": 12,
-                    "endOffset": 156267
+                    "endOffset": 156717
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 153,
+                        "startLine": 162,
                         "startColumn": 4,
-                        "startOffset": 6500,
-                        "endLine": 157,
+                        "startOffset": 6950,
+                        "endLine": 166,
                         "endColumn": 12,
-                        "endOffset": 6713
+                        "endOffset": 7163
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 2174,
+                    "startLine": 2183,
                     "startColumn": 4,
-                    "startOffset": 156272,
-                    "endLine": 2176,
+                    "startOffset": 156722,
+                    "endLine": 2185,
                     "endColumn": 12,
-                    "endOffset": 156424
+                    "endOffset": 156874
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 73,
+                        "startLine": 82,
                         "startColumn": 4,
-                        "startOffset": 3209,
-                        "endLine": 75,
+                        "startOffset": 3659,
+                        "endLine": 84,
                         "endColumn": 12,
-                        "endOffset": 3361
+                        "endOffset": 3811
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 2177,
+                    "startLine": 2186,
                     "startColumn": 4,
-                    "startOffset": 156429,
+                    "startOffset": 156879,
                     "endColumn": 66,
-                    "endOffset": 156491
+                    "endOffset": 156941
                 },
                 "from": {
                     "file": "E:\\AndroidProgectDevelop\\niuyun\\easeui\\src\\main\\res\\values\\ease_styles.xml",
                     "position": {
-                        "startLine": 77,
+                        "startLine": 86,
                         "startColumn": 4,
-                        "startOffset": 3371,
+                        "startOffset": 3821,
                         "endColumn": 73,
-                        "endOffset": 3440
+                        "endOffset": 3890
                     }
                 }
             }

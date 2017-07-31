@@ -113,6 +113,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.PerfectEnterpriseInformation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustResize"
             android:screenOrientation="portrait" />
 
 

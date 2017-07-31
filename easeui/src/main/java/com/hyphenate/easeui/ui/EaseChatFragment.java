@@ -208,7 +208,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 }
             }
         });
-        titleBar.setImmersive(true);
+//        titleBar.setImmersive(true);
 
 
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {

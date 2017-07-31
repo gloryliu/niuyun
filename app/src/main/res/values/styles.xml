@@ -45,6 +45,7 @@
         <item name="android:textColor">@color/text_color_enable_selecor</item>
         <item name="android:background">@drawable/btn_blue_selector</item>
     </style>
+
     <style name="btn_red_btn_32">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">32dp</item>
@@ -53,6 +54,7 @@
         <item name="android:textColor">@color/text_color_enable_selecor</item>
         <item name="android:background">@drawable/btn_red_selector1</item>
     </style>
+
     <style name="btn_red_btn_no_corner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">32dp</item>
@@ -61,6 +63,7 @@
         <item name="android:textColor">@color/text_color_enable_selecor</item>
         <item name="android:background">@drawable/btn_red_selector2</item>
     </style>
+
     <style name="btn_red_btn">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">45dp</item>
@@ -128,6 +131,7 @@
         <item name="android:windowBackground">@color/color_ffffff</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -138,16 +142,17 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
+
     <declare-styleable name="pickerview">
         <attr name="pickerview_gravity">
-            <enum name="center" value="17"/>
-            <enum name="left" value="3"/>
-            <enum name="right" value="5"/>
+            <enum name="center" value="17" />
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
         </attr>
-        <attr name="pickerview_textSize" format="dimension"/>
-        <attr name="pickerview_textColorOut" format="color"/>
-        <attr name="pickerview_textColorCenter" format="color"/>
-        <attr name="pickerview_dividerColor" format="color"/>
+        <attr name="pickerview_textSize" format="dimension" />
+        <attr name="pickerview_textColorOut" format="color" />
+        <attr name="pickerview_textColorCenter" format="color" />
+        <attr name="pickerview_dividerColor" format="color" />
     </declare-styleable>
     <!-- Activity无标题栏,全屏 开始-->
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -167,6 +172,7 @@
         <item name="android:padding">@dimen/guide_point_padding</item>
         <item name="android:src">@drawable/ic_guide_point</item>
     </style>
+
     <style name="chat_room_menu_item_text_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -176,6 +182,7 @@
         <item name="android:textSize">15sp</item>
         <item name="android:lineSpacingExtra">2dp</item>
     </style>
+
 
     <style name="chat_room_menu_item_splitter">
         <item name="android:layout_width">match_parent</item>
@@ -191,5 +198,23 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:orientation">vertical</item>
     </style>
-
+    <!--完善企业信息标题样式-->
+    <style name="perfect_enterperfect_item_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_303030</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="textview_999999_13_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_999999</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <!--完善企业信息标题样式-->
+    <style name="common_divider_f0f0f0">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/color_f0f0f0</item>
+    </style>
 </resources>

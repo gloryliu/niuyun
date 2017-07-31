@@ -587,11 +587,11 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
         } else {
             switch (tag) {
-                case "QS_education":
-                    commonDialog(commonTagBean.getData().getQS_education());
+                case "QS_scale":
+                    commonDialog(commonTagBean.getData().getQS_scale());
                     break;
-                case "QS_experience":
-                    commonDialog(commonTagBean.getData().getQS_experience());
+                case "QS_company_type":
+                    commonDialog(commonTagBean.getData().getQS_company_type());
                     break;
                 case "QS_jobs_nature":
                     commonDialog(commonTagBean.getData().getQS_jobtag());

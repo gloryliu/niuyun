@@ -185,7 +185,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         titleView.addAction(new TitleBar.TextAction("下一步") {
             @Override
             public void performAction(View view) {
-
+                startActivity(new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class));
             }
         });
 //        titleView.setImmersive(true);

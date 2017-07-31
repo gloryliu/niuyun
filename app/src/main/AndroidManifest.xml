@@ -115,6 +115,9 @@
             android:name="com.niuyun.hire.ui.activity.PerfectEnterpriseInformation"
             android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustResize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.EnterPriseCertificationActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- 聊天页面 -->

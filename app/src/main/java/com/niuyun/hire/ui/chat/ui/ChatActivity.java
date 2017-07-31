@@ -3,12 +3,12 @@ package com.niuyun.hire.ui.chat.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.WindowManager;
 
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.runtimepermissions.PermissionsManager;
-import com.niuyun.hire.ui.index.*;
 
 /**
  * chat activity，EaseChatFragment was used {@link #EaseChatFragment}
@@ -21,6 +21,7 @@ public class ChatActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle arg0) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(arg0);
         setContentView(R.layout.em_activity_chat);
         activityInstance = this;

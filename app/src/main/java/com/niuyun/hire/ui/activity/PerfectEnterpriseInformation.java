@@ -167,7 +167,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             uid = bundle.getString("uid");
-            companyId = bundle.getString("uid");
+            companyId = bundle.getString("companyId");
         }
         ivHeader.setOnClickListener(this);
         tvPosition.setOnClickListener(this);

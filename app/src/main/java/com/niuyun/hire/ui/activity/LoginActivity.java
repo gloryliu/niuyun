@@ -92,11 +92,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void loadData() {
-        UserInfoBean userInfo = BaseContext.getInstance().getUserInfo();
-        if (null != userInfo) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
 //        if (null != userInfo) {
 //            userName.setText(userInfo.phone);
 //            userName.setSelection(userName.getText().length());

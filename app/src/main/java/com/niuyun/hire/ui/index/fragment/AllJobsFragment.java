@@ -198,6 +198,7 @@ public class AllJobsFragment extends BaseFragment {
             public void onSuccess(Call<AllJobsBean> call, Response<AllJobsBean> response) {
                 if (refreshLayout != null) {
                     refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadmore();
                 }
                 if (pageNum == 1) {
                     listItemAdapter.ClearData();
@@ -227,6 +228,7 @@ public class AllJobsFragment extends BaseFragment {
                         listItemAdapter.ClearData();
                     }
                     refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadmore();
                 }
                 LogUtils.e(t.getMessage());
             }
@@ -238,6 +240,7 @@ public class AllJobsFragment extends BaseFragment {
                         listItemAdapter.ClearData();
                     }
                     refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadmore();
                 }
                 try {
                     LogUtils.e(response.errorBody().string());

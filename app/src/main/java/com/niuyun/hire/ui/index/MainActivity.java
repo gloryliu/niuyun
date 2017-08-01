@@ -128,7 +128,10 @@ public class MainActivity extends BaseActivity {
 
 
         initMessage();
-        initChat();
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            initChat();
+        }
         checkData();
     }
 
@@ -139,9 +142,9 @@ public class MainActivity extends BaseActivity {
                 if (BaseContext.getInstance().getUserInfo().perfect == 1) {
                     if (BaseContext.getInstance().getUserInfo().perfect == 1) {
                         Intent findPsIntent = new Intent(MainActivity.this, PerfectEnterpriseInformation.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid+"");
-                        bundle.putString("companyId", BaseContext.getInstance().getUserInfo().companyId+"");
+                        Bundle bundle = new Bundle();
+                        bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid + "");
+                        bundle.putString("companyId", BaseContext.getInstance().getUserInfo().companyId + "");
                         findPsIntent.putExtras(bundle);
                         startActivity(findPsIntent);
                     }
@@ -150,8 +153,8 @@ public class MainActivity extends BaseActivity {
                 //个人注册
                 if (BaseContext.getInstance().getUserInfo().perfect == 1) {
                     Intent findPsIntent = new Intent(MainActivity.this, PerfectPersonInformation.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid+"");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid + "");
                     findPsIntent.putExtras(bundle);
                     startActivity(findPsIntent);
                 }
@@ -168,8 +171,8 @@ public class MainActivity extends BaseActivity {
         DemoDBManager.getInstance().closeDB();
 
         // reset current user name before login
-        DemoHelper.getInstance().setCurrentUserName("aaaa1234567");
-        EMClient.getInstance().login("aaaa1234567", "1234567", new EMCallBack() {
+        DemoHelper.getInstance().setCurrentUserName(BaseContext.getInstance().getUserInfo().chatUserName);
+        EMClient.getInstance().login(BaseContext.getInstance().getUserInfo().chatUserName, BaseContext.getInstance().getUserInfo().chatPwd, new EMCallBack() {
 
             @Override
             public void onSuccess() {

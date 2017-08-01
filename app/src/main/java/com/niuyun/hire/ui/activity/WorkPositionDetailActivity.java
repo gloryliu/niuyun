@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
+import com.niuyun.hire.ui.chat.Constant;
+import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
@@ -65,6 +68,8 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     TextView tv_responsibility_more;//更多
     @BindView(R.id.ll_company)
     LinearLayout ll_company;
+    @BindView(R.id.bt_talk)
+    Button bt_talk;
     private String companyId;//公司id
     private String id;//职位id
 
@@ -90,6 +95,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         }
         initTitle();
         ll_company.setOnClickListener(this);
+        bt_talk.setOnClickListener(this);
     }
 
     @Override
@@ -231,6 +237,20 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                     Intent intent = new Intent(this, CompanyDetailsActivity.class);
                     intent.putExtra("id", bean.getData().getCompanyId() + "");
                     startActivity(intent);
+                }
+
+                break;
+            case R.id.bt_talk:
+
+                if (BaseContext.getInstance().getUserInfo() == null) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                } else {
+                    if (bean != null) {
+                        Intent intent = new Intent(this, ChatActivity.class);
+                        intent.putExtra(Constant.EXTRA_USER_ID, "niuyunApp" + bean.getData().getUid());
+                        startActivity(intent);
+                    }
+
                 }
 
                 break;

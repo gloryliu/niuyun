@@ -94,6 +94,13 @@ public interface JyApi {
      */
     @GET("/resource/categoryJobs/findJobsById")
     Call<JobTagBean> getJobType(@Query("id") String id);
+    /**
+     * 获取所在城市
+     *
+     * @return
+     */
+    @GET("/resource/categoryDistrict/getDistrict")
+    Call<JobTagBean> getDistrict(@Query("id") String id);
 
     /**
      * 根据标签获取相应的数据
@@ -105,16 +112,42 @@ public interface JyApi {
     Call<CommonTagBean> getWorkAgeAndResume(@Body GetBaseTagBean bean);
 
     /**
-     * 完善资料
+     * 完善个人资料
      *
      * @return
      */
     @POST("/resource/membersInfo/save")
     Call<SuperBean<UserInfoBean>> perfectBaseInfo(@Body Map<String, String> map);
+    /**
+     * 完善企业资料
+     *
+     * @return
+     */
+    @POST("/resource/companyProfile/completeCompanyInfo")
+    Call<SuperBean<UserInfoBean>> perfectEnterprefectInfo(@Body Map<String, String> map);
 
 
     /**
-     * 上传图片
+     * 上传公司营业执照图片
+     *
+     * @param file
+     * @return
+     */
+    @Multipart
+    @POST("/sys/uploadCertificate")
+    Call<SuperBean<String>> uploadCertificateImage(@Part MultipartBody.Part file);
+    /**
+     * 上传公司logo图片
+     *
+     * @param file
+     * @return
+     */
+    @Multipart
+    @POST("/sys/uploadLogo")
+    Call<SuperBean<String>> uploadLogoImage(@Part MultipartBody.Part file);
+
+    /**
+     * 上传个人头像图片
      *
      * @param file
      * @return
@@ -140,6 +173,16 @@ public interface JyApi {
      */
     @POST("/resource/jobs/findJobList")
     Call<AllJobsBean> getAllJobs(@Body Map<String, String> map);
+
+    /**
+     * 筛选职位
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/jobSearch")
+    Call<AllJobsBean> getFilterJobs(@Body Map<String, String> map);
+
     /**
      * 获取职位详情
      *
@@ -148,6 +191,7 @@ public interface JyApi {
      */
     @POST("/resource/jobs/jobDetail")
     Call<JobDetailsBean> getJobDetails(@Body Map<String, String> map);
+
     /**
      * 获取公司详情
      *
@@ -156,8 +200,6 @@ public interface JyApi {
      */
     @POST("/resource/companyProfile/companyProfileDetail")
     Call<CompanyDetailsBean> getCompanyDetails(@Body Map<String, String> map);
-
-
 
 
 }

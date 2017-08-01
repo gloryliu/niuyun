@@ -75,6 +75,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void initViewsAndEvents() {
+        if (BaseContext.getInstance().getUserInfo() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
         setIsOpenTitle(false);
         initTitle();
         mDialog = new CustomProgressDialog(this, "登录中...");
@@ -133,6 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 //
                 Intent mainIntent = new Intent(this, MainActivity.class);
                 startActivity(mainIntent);
+                finish();
                 break;
 
 

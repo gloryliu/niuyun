@@ -15,6 +15,14 @@ public class CommonTagItemBean {
     private String statJobs;
     private String statResume;
 
+    public CommonTagItemBean() {
+    }
+
+    public CommonTagItemBean(int cId, String cName) {
+        this.cId = cId;
+        this.cName = cName;
+    }
+
     public int getCId() {
         return cId;
     }

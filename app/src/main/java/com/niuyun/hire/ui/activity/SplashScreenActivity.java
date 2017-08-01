@@ -48,7 +48,7 @@ public class SplashScreenActivity extends BaseActivity {
                     startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                     SplashScreenActivity.this.finish();
                 }
-            }, 2000);
+            }, 1);
 //            this.finish();
         }
 

@@ -65,6 +65,16 @@ public class CompanyDetailsBean {
         private String contents;
         private String video;
 
+        public String getWebsite() {
+            return website;
+        }
+
+        public void setWebsite(String website) {
+            this.website = website;
+        }
+
+        private String website;
+
         public int getId() {
             return id;
         }

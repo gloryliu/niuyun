@@ -222,7 +222,7 @@
                 android:layout_marginTop="24dp">
 
                 <com.niuyun.hire.view.CleanableEditText
-                    android:id="@+id/user_nick_name"
+                    android:id="@+id/user_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -262,7 +262,7 @@
                 android:layout_marginTop="24dp">
 
                 <com.niuyun.hire.view.CleanableEditText
-                    android:id="@+id/user_password"
+                    android:id="@+id/user_password_again"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

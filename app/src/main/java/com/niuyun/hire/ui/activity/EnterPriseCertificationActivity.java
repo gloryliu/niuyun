@@ -1,11 +1,15 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.index.MainActivity;
+import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 
 import butterknife.BindView;
@@ -67,9 +71,19 @@ public class EnterPriseCertificationActivity extends BaseActivity {
         titleView.addAction(new TitleBar.TextAction("跳过") {
             @Override
             public void performAction(View view) {
-
+                startActivity(new Intent(EnterPriseCertificationActivity.this, MainActivity.class));
+                finish();
             }
         });
         titleView.setImmersive(true);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            UIUtil.showToast("您可以选择跳过");
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

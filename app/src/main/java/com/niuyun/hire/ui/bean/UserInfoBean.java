@@ -6,7 +6,7 @@ import com.niuyun.hire.bean.ErrorBean;
  * Created by chen.zhiwei on 2017-6-22.
  */
 
-public class UserInfoBean extends ErrorBean{
+public class UserInfoBean extends ErrorBean {
 
 
     public String username;
@@ -20,5 +20,24 @@ public class UserInfoBean extends ErrorBean{
     public int status;
     public int perfect;
     public String token;
+    /**
+     * 环信登陆用户名
+     */
+    public String chatUserName;
+
+    /**
+     * 环信登陆密码
+     */
+    public String chatPwd;
+
+    /**
+     * 简历id
+     */
+    public int resumeId;
+
+    /**
+     * 企业id
+     */
+    public int companyId;
 
 }

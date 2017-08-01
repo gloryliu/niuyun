@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="立即认证"
+        android:id="@+id/bt_certification"
         android:textColor="@color/color_ffffff"
         android:textSize="14sp" />
 </RelativeLayout>

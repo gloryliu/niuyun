@@ -71,6 +71,14 @@ public class JobTagBean {
         private String relation2;
         private String relation2Cn;
 
+        public DataBean(int id, String categoryname) {
+            this.id = id;
+            this.categoryname = categoryname;
+        }
+
+        public DataBean() {
+        }
+
         public int getId() {
             return id;
         }

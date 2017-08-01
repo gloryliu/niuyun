@@ -181,7 +181,17 @@ public class AllJobsFragment extends BaseFragment {
         map.put("pageNum", pageNum + "");
         map.put("pageSize", pageSize + "");
 
-        allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
+        if (!TextUtils.isEmpty(intentionJobsId2) || !TextUtils.isEmpty(education) || !TextUtils.isEmpty(experience) || !TextUtils.isEmpty(wage)) {
+            map.put("category", intentionJobsId2);
+            map.put("education", education);
+            map.put("experience", experience);
+            map.put("wage", wage);
+            allJobsBeanCall = RestAdapterManager.getApi().getFilterJobs(map);
+        } else {
+
+            allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
+        }
+
 
         allJobsBeanCall.enqueue(new JyCallBack<AllJobsBean>() {
             @Override
@@ -192,7 +202,7 @@ public class AllJobsFragment extends BaseFragment {
                 if (pageNum == 1) {
                     listItemAdapter.ClearData();
                 }
-                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                if (response != null && response.body() != null && response.body().getData() != null && response.body().getCode() == Constants.successCode) {
                     listItemAdapter.addList(response.body().getData().getData());
                     if (pageNum >= response.body().getData().getPageCount()) {
                         refreshLayout.setEnableLoadmore(false);
@@ -213,6 +223,9 @@ public class AllJobsFragment extends BaseFragment {
             @Override
             public void onError(Call<AllJobsBean> call, Throwable t) {
                 if (refreshLayout != null) {
+                    if (pageNum == 1) {
+                        listItemAdapter.ClearData();
+                    }
                     refreshLayout.finishRefresh();
                 }
                 LogUtils.e(t.getMessage());
@@ -221,6 +234,9 @@ public class AllJobsFragment extends BaseFragment {
             @Override
             public void onError(Call<AllJobsBean> call, Response<AllJobsBean> response) {
                 if (refreshLayout != null) {
+                    if (pageNum == 1) {
+                        listItemAdapter.ClearData();
+                    }
                     refreshLayout.finishRefresh();
                 }
                 try {
@@ -269,26 +285,32 @@ public class AllJobsFragment extends BaseFragment {
                             @Override
                             public void onClick(Object bean) {
                                 //点击了第三页
-                                intentionJobsId3 = ((JobTagBean.DataBean) bean).getId() + "";
+                                intentionJobsId3 = ((JobTagBean.DataBean) bean).getId() == -1 ? "" : ((JobTagBean.DataBean) bean).getId() + "";
                                 cacheJobTag = (JobTagBean.DataBean) bean;
-                                if (!TextUtils.isEmpty(intentionJobsId1) && !TextUtils.isEmpty(intentionJobsId2) && !TextUtils.isEmpty(intentionJobsId3)) {
-                                    intentionJobsId = intentionJobsId1 + "." + intentionJobsId2 + "." + intentionJobsId3;
+//                                if (!TextUtils.isEmpty(intentionJobsId1) && !TextUtils.isEmpty(intentionJobsId2) && !TextUtils.isEmpty(intentionJobsId3)) {
+//                                    intentionJobsId = intentionJobsId1 + "." + intentionJobsId2 + "." + intentionJobsId3;
+//                                }
+                                if (((JobTagBean.DataBean) bean).getId() == -1) {
+                                    intentionJobs = "职位";
+                                } else {
+                                    intentionJobs = cacheJobTag.getCategoryname();
                                 }
-                                intentionJobs = cacheJobTag.getCategoryname();
+                                pageNum = 1;
+                                getAllJobs();
+                                mDropDownMenu.setTabText(intentionJobs);
                                 mDropDownMenu.closeMenu();
-//                                mDropDownMenu.setTabText(demands.get(position).getName());
                             }
                         });
 
                         jobStep = 2;
-                        intentionJobsId2 = ((JobTagBean.DataBean) bean).getId() + "";
+                        intentionJobsId2 = ((JobTagBean.DataBean) bean).getId() == -1 ? "" : ((JobTagBean.DataBean) bean).getId() + "";
                         getJobData(((JobTagBean.DataBean) bean).getId() + "");
                     }
                 });
 
                 //点击了第一页的
                 jobStep = 1;
-                intentionJobsId1 = ((JobTagBean.DataBean) bean).getId() + "";
+                intentionJobsId1 = ((JobTagBean.DataBean) bean).getId() == -1 ? "" : ((JobTagBean.DataBean) bean).getId() + "";
                 getJobData(((JobTagBean.DataBean) bean).getId() + "");
             }
         });
@@ -300,14 +322,24 @@ public class AllJobsFragment extends BaseFragment {
         View experienceView = View.inflate(getActivity(), R.layout.popupwindow_common_tag, null);
         RecyclerView tag_recyclerview = (RecyclerView) experienceView.findViewById(R.id.tag_recyclerview);
         tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        CommonPerfectInfoTagAdapter experienceAdapter = new CommonPerfectInfoTagAdapter(getActivity(), commonTagBean.getData().getQS_experience());
+        List<CommonTagItemBean> listExperience = commonTagBean.getData().getQS_experience();
+        listExperience.add(0, new CommonTagItemBean(-1, "不限"));
+        CommonPerfectInfoTagAdapter experienceAdapter = new CommonPerfectInfoTagAdapter(getActivity(), listExperience);
         tag_recyclerview.setAdapter(experienceAdapter);
         experienceAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
                 cacheCommonTagBean = (CommonTagItemBean) bean;
-                experience = cacheCommonTagBean.getCId() + "";
-                experienceCn = cacheCommonTagBean.getCName();
+                if (cacheCommonTagBean.getCId() == -1) {
+                    experience = "";
+                    experienceCn = "经验";
+                } else {
+                    experience = cacheCommonTagBean.getCId() + "";
+                    experienceCn = cacheCommonTagBean.getCName();
+                }
+                pageNum = 1;
+                getAllJobs();
+                mDropDownMenu.setTabText(experienceCn);
                 mDropDownMenu.closeMenu();
             }
         });
@@ -318,14 +350,24 @@ public class AllJobsFragment extends BaseFragment {
         View educationView = View.inflate(getActivity(), R.layout.popupwindow_common_tag, null);
         RecyclerView education_tag_recyclerview = (RecyclerView) educationView.findViewById(R.id.tag_recyclerview);
         education_tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        CommonPerfectInfoTagAdapter1 educationAdapter = new CommonPerfectInfoTagAdapter1(getActivity(), commonTagBean.getData().getQS_education());
+        List<CommonTagItemBean> listEducation = commonTagBean.getData().getQS_education();
+        listEducation.add(0, new CommonTagItemBean(-1, "不限"));
+        CommonPerfectInfoTagAdapter1 educationAdapter = new CommonPerfectInfoTagAdapter1(getActivity(), listEducation);
         education_tag_recyclerview.setAdapter(educationAdapter);
         educationAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
                 cacheCommonTagBean = (CommonTagItemBean) bean;
-                education = cacheCommonTagBean.getCId() + "";
-                educationCn = cacheCommonTagBean.getCName();
+                if (cacheCommonTagBean.getCId() == -1) {
+                    education = "";
+                    educationCn = "学历";
+                } else {
+                    education = cacheCommonTagBean.getCId() + "";
+                    educationCn = cacheCommonTagBean.getCName();
+                }
+                pageNum = 1;
+                getAllJobs();
+                mDropDownMenu.setTabText(educationCn);
                 mDropDownMenu.closeMenu();
             }
         });
@@ -336,14 +378,24 @@ public class AllJobsFragment extends BaseFragment {
         View wageView = View.inflate(getActivity(), R.layout.popupwindow_common_tag, null);
         RecyclerView wage_tag_recyclerview = (RecyclerView) wageView.findViewById(R.id.tag_recyclerview);
         wage_tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        CommonPerfectInfoTagAdapter2 wageAdapter = new CommonPerfectInfoTagAdapter2(getActivity(), commonTagBean.getData().getQS_wage());
+        List<CommonTagItemBean> listWage = commonTagBean.getData().getQS_wage();
+        listWage.add(0, new CommonTagItemBean(-1, "不限"));
+        CommonPerfectInfoTagAdapter2 wageAdapter = new CommonPerfectInfoTagAdapter2(getActivity(), listWage);
         wage_tag_recyclerview.setAdapter(wageAdapter);
         wageAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
                 cacheCommonTagBean = (CommonTagItemBean) bean;
-                wage = cacheCommonTagBean.getCId() + "";
-                wageCn = cacheCommonTagBean.getCName();
+                if (cacheCommonTagBean.getCId() == -1) {
+                    wage = "";
+                    wageCn = "薪资";
+                } else {
+                    wage = cacheCommonTagBean.getCId() + "";
+                    wageCn = cacheCommonTagBean.getCName();
+                }
+                pageNum = 1;
+                getAllJobs();
+                mDropDownMenu.setTabText(wageCn);
                 mDropDownMenu.closeMenu();
             }
         });
@@ -367,13 +419,18 @@ public class AllJobsFragment extends BaseFragment {
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     if (jobStep == 0) {
                         jobTagBean = response.body().getData();
+                        jobTagBean.add(0, new JobTagBean.DataBean(-1, "不限"));
                         setFilter();
                     } else if (jobStep == 1) {
                         adapter1.ClearData();
-                        adapter1.addList(response.body().getData());
+                        List<JobTagBean.DataBean> jobTagBean2 = response.body().getData();
+                        jobTagBean2.add(0, new JobTagBean.DataBean(-1, "不限"));
+                        adapter1.addList(jobTagBean2);
                     } else if (jobStep == 2) {
                         adapter2.ClearData();
-                        adapter2.addList(response.body().getData());
+                        List<JobTagBean.DataBean> jobTagBean3 = response.body().getData();
+                        jobTagBean3.add(0, new JobTagBean.DataBean(-1, "不限"));
+                        adapter2.addList(jobTagBean3);
                     }
                 } else {
                     UIUtil.showToast("接口错误");
@@ -404,7 +461,7 @@ public class AllJobsFragment extends BaseFragment {
         list.add("QS_education");
         list.add("QS_experience");
         list.add("QS_wage");
-        GetBaseTagBean tagBean=new GetBaseTagBean();
+        GetBaseTagBean tagBean = new GetBaseTagBean();
         tagBean.setAlias(list);
         Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(tagBean);
         commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {

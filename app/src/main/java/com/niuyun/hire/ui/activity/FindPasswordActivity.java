@@ -85,7 +85,7 @@ public class FindPasswordActivity extends BaseActivity {
     private void initTitle() {
         titleView.setTitle("忘记密码");
         titleView.setTitleColor(Color.WHITE);
-        titleView.setBackgroundColor(getResources().getColor(R.color.color_ff6900));
+        titleView.setBackgroundColor(getResources().getColor(R.color.color_ea0000));
         titleView.setImmersive(true);
     }
 

@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -13,8 +14,8 @@ import android.widget.Toast;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
-import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.bean.ErrorBean;
@@ -40,7 +41,7 @@ import retrofit2.Response;
  * Created by chen.zhiwei on 2017-7-19.
  */
 
-public class EnterpriseRegisterActivity extends BaseActivity {
+public class EnterpriseRegisterActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.phone_name)
     CleanableEditText etPhone;
     @BindView(R.id.et_check_code)
@@ -54,15 +55,16 @@ public class EnterpriseRegisterActivity extends BaseActivity {
 
     @BindView(R.id.title_view)
     TitleBar titleView;
-    @BindView(R.id.user_nick_name)
-    CleanableEditText user_nick_name;
+    @BindView(R.id.user_password_again)
+    CleanableEditText user_password_again;
     @BindView(R.id.user_password)
     CleanableEditText user_password;
     @BindView(R.id.company_name)
     CleanableEditText company_name;
     @BindView(R.id.user_name)
     CleanableEditText user_name;
-
+    @BindView(R.id.tv_to_login)
+    TextView tv_to_login;
     CountDownTimer timer;
 
     boolean isCodeSended = false;
@@ -78,7 +80,7 @@ public class EnterpriseRegisterActivity extends BaseActivity {
     public void initViewsAndEvents() {
         initTitle();
         etCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
-
+        tv_to_login.setOnClickListener(this);
         timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -199,15 +201,19 @@ public class EnterpriseRegisterActivity extends BaseActivity {
             UIUtil.showToast("验证码不能为空");
             return;
         }
-        if (TextUtils.isEmpty(user_nick_name.getText())) {
-            UIUtil.showToast("昵称不能为空");
-            return;
-        }
+
         if (TextUtils.isEmpty(user_password.getText())) {
             UIUtil.showToast("密码不能为空");
             return;
         }
-
+        if (TextUtils.isEmpty(user_password_again.getText())) {
+            UIUtil.showToast("确认密码不能为为空");
+            return;
+        }
+        if (!user_password_again.getText().toString().equals(user_password.getText().toString())) {
+            UIUtil.showToast("两次密码不一致");
+            return;
+        }
 //        final String tel = etPhone.getText().toString();
 //        final String code = etCode.getText().toString();
         HashMap<String, String> map = new HashMap<>();
@@ -225,15 +231,24 @@ public class EnterpriseRegisterActivity extends BaseActivity {
                 try {
 
                     if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                        BaseContext.getInstance().setUserInfo(response.body().getData());
+//                        BaseContext.getInstance().setUserInfo(response.body().getData());
                         Intent findPsIntent = new Intent(EnterpriseRegisterActivity.this, PerfectEnterpriseInformation.class);
                         timer.cancel();
-//                            findPsIntent.putExtra("phone", etPhone.getText().toString());
-//                            findPsIntent.putExtra("pwd", user_password.getText().toString());
+                        Bundle bundle=new Bundle();
+                        bundle.putString("uid", response.body().getData().uid+"");
+                        bundle.putString("companyId", response.body().getData().companyId+"");
+                        findPsIntent.putExtras(bundle);
                         startActivity(findPsIntent);
+                        AppManager.getAppManager().finishActivity(LoginActivity.class);
+                        finish();
                         ErrorMessageUtils.taostErrorMessage(EnterpriseRegisterActivity.this, response.body().getMsg(), "");
                     } else {
-                        UIUtil.showToast("注册失败");
+                        try {
+                            ErrorMessageUtils.taostErrorMessage(EnterpriseRegisterActivity.this, response.body().getMsg(), "");
+                        } catch (Exception e) {
+                            UIUtil.showToast("注册失败");
+                        }
+
                     }
                 } catch (Exception e) {
 
@@ -283,5 +298,16 @@ public class EnterpriseRegisterActivity extends BaseActivity {
         });
         titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         titleView.setImmersive(true);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_to_login:
+                //返回登陆
+                AppManager.getAppManager().finishActivity(SelectedRegisterRoler.class);
+                finish();
+                break;
+        }
     }
 }

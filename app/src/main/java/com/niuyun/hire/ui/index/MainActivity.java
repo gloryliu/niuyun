@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -23,6 +24,8 @@ import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.PerfectEnterpriseInformation;
+import com.niuyun.hire.ui.activity.PerfectPersonInformation;
 import com.niuyun.hire.ui.chat.Constant;
 import com.niuyun.hire.ui.chat.DemoHelper;
 import com.niuyun.hire.ui.chat.db.DemoDBManager;
@@ -126,6 +129,34 @@ public class MainActivity extends BaseActivity {
 
         initMessage();
         initChat();
+        checkData();
+    }
+
+    private void checkData() {
+        if (BaseContext.getInstance().getUserInfo() != null) {
+            if (BaseContext.getInstance().getUserInfo().utype == 1) {
+                //企业注册
+                if (BaseContext.getInstance().getUserInfo().perfect == 1) {
+                    if (BaseContext.getInstance().getUserInfo().perfect == 1) {
+                        Intent findPsIntent = new Intent(MainActivity.this, PerfectEnterpriseInformation.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid+"");
+                        bundle.putString("companyId", BaseContext.getInstance().getUserInfo().companyId+"");
+                        findPsIntent.putExtras(bundle);
+                        startActivity(findPsIntent);
+                    }
+                }
+            } else {
+                //个人注册
+                if (BaseContext.getInstance().getUserInfo().perfect == 1) {
+                    Intent findPsIntent = new Intent(MainActivity.this, PerfectPersonInformation.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid+"");
+                    findPsIntent.putExtras(bundle);
+                    startActivity(findPsIntent);
+                }
+            }
+        }
     }
 
     /**

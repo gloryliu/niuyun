@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,17 +17,21 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter2;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter3;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter4;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
@@ -39,9 +45,13 @@ import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import okhttp3.MultipartBody;
@@ -87,6 +97,8 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
     ImageView ivAddressDetailsLocation;
     @BindView(R.id.iv_address_details_more)
     ImageView ivAddressDetailsMore;
+    @BindView(R.id.bt_next)
+    Button bt_next;
     private Call<SuperBean<String>> upLoadImageCall;
     private String headimg;
     private String logoimg;
@@ -109,10 +121,27 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
     private String intentionJobsId2;
     private String intentionJobsId3;
 
+
     private int jobStep = 0;
     private JobPerfectInfoTagAdapter1 adapter1;
     private JobPerfectInfoTagAdapter2 adapter2;
     private JobTagBean.DataBean cacheJobTag;
+    private JobTagBean JobBean;
+
+    private String intentionCityId;//所在城市,每一级的name中间用 / 隔开
+    private String intentionCity;
+
+    private String intentionCityCn1;
+    private String intentionCityCn2;
+    private String intentionCityCn3;
+    private String intentionCityId1;
+    private String intentionCityId2;
+    private String intentionCityId3;
+    private int cityStep = 0;
+    private JobTagBean.DataBean cacheCityTag;
+    private JobTagBean cityBean;
+    private JobPerfectInfoTagAdapter3 adapter11;
+    private JobPerfectInfoTagAdapter4 adapter22;
 
     private CommonTagBean commonTagBean;
     private String clickTag;
@@ -124,6 +153,8 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
     private String companyType;//企业性质
     private String companyTypeCn;
 
+    private String uid;
+    private String companyId;
 
     @Override
     public int getContentViewLayoutId() {
@@ -133,6 +164,11 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
     @Override
     public void initViewsAndEvents() {
         initTitle();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            uid = bundle.getString("uid");
+            companyId = bundle.getString("uid");
+        }
         ivHeader.setOnClickListener(this);
         tvPosition.setOnClickListener(this);
         ivPositionMore.setOnClickListener(this);
@@ -145,6 +181,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         ivEnterpriseNatureMore.setOnClickListener(this);
         ivAddressDetailsLocation.setOnClickListener(this);
         ivAddressDetailsMore.setOnClickListener(this);
+        bt_next.setOnClickListener(this);
     }
 
     @Override
@@ -206,12 +243,25 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             case R.id.iv_position_more:
                 if (!UIUtil.isFastDoubleClick()) {
                     jobStep = 0;
-                    getJobData("0");
+                    if (JobBean == null) {
+                        DialogUtils.showDialog(this, "加载...", false);
+                        getJobData("0");
+                    } else {
+                        jobTagDialog(JobBean);
+                    }
                 }
                 break;
             case R.id.tv_city://所在城市
             case R.id.iv_location_city_more:
-
+                if (!UIUtil.isFastDoubleClick()) {
+                    cityStep = 0;
+                    if (cityBean == null) {
+                        DialogUtils.showDialog(this, "加载...", false);
+                        getCityData("0");
+                    } else {
+                        cityTagDialog(cityBean);
+                    }
+                }
                 break;
             case R.id.tv_scale://企业规模
             case R.id.iv_enterprise_scale_more:
@@ -233,7 +283,59 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             case R.id.iv_address_details_location:
 
                 break;
+            case R.id.bt_next:
+                //下一步
+                if (!UIUtil.isFastDoubleClick()) {
+                    if (checkData()) {
+                        upLoadImage();
+                    }
+                }
+                break;
         }
+    }
+
+    private boolean checkData() {
+        if (list.size() <= 0) {
+            UIUtil.showToast("请选择头像");
+            return false;
+        }
+        if (TextUtils.isEmpty(etName.getText().toString())) {
+            UIUtil.showToast("请输入名字");
+            return false;
+        }
+        if (TextUtils.isEmpty(tvPosition.getText())) {
+            UIUtil.showToast("请选择职位");
+            return false;
+        }
+        if (TextUtils.isEmpty(etPhone.getText().toString())) {
+            UIUtil.showToast("请输入电话");
+            return false;
+        }
+        if (listLogo.size() <= 0) {
+            UIUtil.showToast("请选择Logo");
+            return false;
+        }
+        if (TextUtils.isEmpty(etEnterpriseName.getText().toString())) {
+            UIUtil.showToast("请输入企业名称");
+            return false;
+        }
+        if (TextUtils.isEmpty(tvCity.getText())) {
+            UIUtil.showToast("请选择城市");
+            return false;
+        }
+        if (TextUtils.isEmpty(tvScale.getText())) {
+            UIUtil.showToast("请选择规模");
+            return false;
+        }
+        if (TextUtils.isEmpty(tvNature.getText())) {
+            UIUtil.showToast("请选择性质");
+            return false;
+        }
+        if (TextUtils.isEmpty(etAddressDetailsName.getText().toString())) {
+            UIUtil.showToast("请输入详细地址");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -242,10 +344,9 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         if (data == null) {
             return;
         }
-        list.clear();
-        listLogo.clear();
 
         if (selectedType == 0) {
+            list.clear();
             if (resultCode == resultCode_header_Camera) {
                 //相机返回图片
                 Bundle b = data.getExtras();
@@ -259,6 +360,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                 list = data.getExtras().getStringArrayList("photo");
             }
         } else if (selectedType == 1) {
+            listLogo.clear();
             if (resultCode == resultCode_header_Camera) {
                 //相机返回图片
                 Bundle b = data.getExtras();
@@ -280,6 +382,61 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             ImageLoadedrManager.getInstance().displayNoFilter(this, listLogo.get(0), ivLogo);
         }
     }
+
+    private void upLoadInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("address", etAddressDetailsName.getText().toString());
+        map.put("avatars", headimg);
+        map.put("companyId", companyId);
+        map.put("companyname", etEnterpriseName.getText().toString());
+        map.put("contact", etName.getText().toString());
+        map.put("district", intentionCityId1);
+        map.put("districtCn", intentionCity);
+        map.put("logo", logoimg);
+        map.put("nature", companyType);
+        map.put("natureCn", companyTypeCn);
+        map.put("scale", scale);
+        map.put("scaleCn", scaleCn);
+        map.put("sdistrict", intentionCityId2);
+        map.put("tdistrict", intentionCityId3);
+        map.put("telephone", etPhone.getText().toString());
+        map.put("uid", uid);
+
+
+        Call<SuperBean<UserInfoBean>> upLoadInfo = RestAdapterManager.getApi().perfectEnterprefectInfo(map);
+        upLoadInfo.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
+                DialogUtils.closeDialog();
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    BaseContext.getInstance().setUserInfo(response.body().getData());
+//                    perfectSuccessDialog();
+                    Intent intent = new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class);
+                    startActivity(intent);
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.PERFECT_INFO_SUCCESS));
+                    finish();
+                } else {
+                    try {
+                        UIUtil.showToast(response.body().getMsg());
+                    } catch (Exception e) {
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
+                DialogUtils.closeDialog();
+            }
+
+            @Override
+            public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
+                DialogUtils.closeDialog();
+            }
+        });
+    }
+
+
     ///////////////////////////////////////////////////////////////////上传头像///////////////////////////////////////////////////////
 
     /**
@@ -422,7 +579,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
     private void upLoadLogoImage() {
         DialogUtils.showDialog(this, "上传中", false);
         List<MultipartBody.Part> parts = UploadFile.filesToMultipartBody(listLogo);
-        upLoadImageCall = RestAdapterManager.getApi().uploadFile(parts.get(0));
+        upLoadImageCall = RestAdapterManager.getApi().uploadLogoImage(parts.get(0));
         upLoadImageCall.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
@@ -432,7 +589,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                     //上传图片成功
                     logoimg = response.body().getData();
                     LogUtils.e(logoimg);
-//                    upLoadInfo();
+                    upLoadInfo();
                 } else {
                     UIUtil.showToast("上传企业logo失败");
                     DialogUtils.closeDialog();
@@ -457,6 +614,140 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             }
         });
     }
+    //    --------------------------所在城市开始-----------------------------------------------------------------------
+
+    /**
+     * 选择城市dialog
+     */
+    public void cityTagDialog(JobTagBean tagBean) {
+        if (tagBean == null) {
+            return;
+        }
+
+        View view = View.inflate(PerfectEnterpriseInformation.this, R.layout.dialog_city_tag, null);
+        showdialog(view);
+        final RecyclerView tag1 = (RecyclerView) view.findViewById(R.id.tag1);
+        final RecyclerView tag22 = (RecyclerView) view.findViewById(R.id.tag2);
+        final RecyclerView tag33 = (RecyclerView) view.findViewById(R.id.tag3);
+        TextView cancle = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView confirm = (TextView) view.findViewById(R.id.tv_confirm);
+        TextView tv_itle = (TextView) view.findViewById(R.id.tv_itle);
+        tv_itle.setText("选择城市");
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cityStep != 3) {
+                    UIUtil.showToast("请选择");
+                    return;
+                }
+                setTvCityTag(cacheCityTag);
+                myDialog.dismiss();
+            }
+        });
+        tag1.setLayoutManager(new LinearLayoutManager(PerfectEnterpriseInformation.this));
+        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(PerfectEnterpriseInformation.this, tagBean.getData());
+        tag1.setAdapter(adapter);
+        adapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+
+                tag22.setLayoutManager(new LinearLayoutManager(PerfectEnterpriseInformation.this));
+                adapter11 = new JobPerfectInfoTagAdapter3(PerfectEnterpriseInformation.this);
+                tag22.setAdapter(adapter11);
+                adapter11.setCommonInterface(new RecyclerViewCommonInterface() {
+                    @Override
+                    public void onClick(Object bean) {
+                        //点击了第二页的
+                        tag33.setLayoutManager(new LinearLayoutManager(PerfectEnterpriseInformation.this));
+                        adapter22 = new JobPerfectInfoTagAdapter4(PerfectEnterpriseInformation.this);
+                        tag33.setAdapter(adapter22);
+                        adapter22.setCommonInterface(new RecyclerViewCommonInterface() {
+                            @Override
+                            public void onClick(Object bean) {
+                                //点击了第三页
+                                cityStep = 3;
+                                intentionCityCn3 = ((JobTagBean.DataBean) bean).getCategoryname() + "";
+                                intentionCityId3 = ((JobTagBean.DataBean) bean).getId() + "";
+                                cacheCityTag = (JobTagBean.DataBean) bean;
+                            }
+                        });
+
+                        cityStep = 2;
+                        intentionCityCn2 = ((JobTagBean.DataBean) bean).getCategoryname() + "";
+                        intentionCityId2 = ((JobTagBean.DataBean) bean).getId() + "";
+                        getCityData(((JobTagBean.DataBean) bean).getId() + "");
+                    }
+                });
+
+                //点击了第一页的
+                cityStep = 1;
+                intentionCityCn1 = ((JobTagBean.DataBean) bean).getCategoryname() + "";
+                intentionCityId1 = ((JobTagBean.DataBean) bean).getId() + "";
+                getCityData(((JobTagBean.DataBean) bean).getId() + "");
+            }
+        });
+
+    }
+
+    /**
+     * 根据各级id获取城市信息
+     *
+     * @param id
+     */
+    private void getCityData(String id) {
+        Call<JobTagBean> jobTagBeanCall = RestAdapterManager.getApi().getDistrict(id);
+        jobTagBeanCall.enqueue(new JyCallBack<JobTagBean>() {
+            @Override
+            public void onSuccess(Call<JobTagBean> call, Response<JobTagBean> response) {
+                DialogUtils.closeDialog();
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    if (cityStep == 0) {
+                        cityBean = response.body();
+                        cityTagDialog(cityBean);
+                    } else if (cityStep == 1) {
+                        adapter11.ClearData();
+                        adapter11.addList(response.body().getData());
+                    } else if (cityStep == 2) {
+                        adapter22.ClearData();
+                        adapter22.addList(response.body().getData());
+                    }
+                } else {
+                    UIUtil.showToast("接口错误");
+                }
+
+
+            }
+
+            @Override
+            public void onError(Call<JobTagBean> call, Throwable t) {
+                LogUtils.e(t.getMessage());
+                DialogUtils.closeDialog();
+                UIUtil.showToast("接口错误");
+            }
+
+            @Override
+            public void onError(Call<JobTagBean> call, Response<JobTagBean> response) {
+                DialogUtils.closeDialog();
+            }
+        });
+    }
+
+    private void setTvCityTag(JobTagBean.DataBean cacheTag) {
+        if (cacheTag == null) {
+            UIUtil.showToast("请选择");
+            return;
+        }
+        intentionCity = intentionCityCn1 + "/" + intentionCityCn2 + "/" + intentionCityCn3;
+        tvCity.setText(cacheTag.getCategoryname());
+    }
+    //    --------------------------所在城市结束-----------------------------------------------------------------------
+
     //    --------------------------期望职位开始-----------------------------------------------------------------------
 
     /**
@@ -485,6 +776,10 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (jobStep != 3) {
+                    UIUtil.showToast("请选择");
+                    return;
+                }
                 setJonTag(cacheJobTag);
                 myDialog.dismiss();
             }
@@ -510,6 +805,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                             @Override
                             public void onClick(Object bean) {
                                 //点击了第三页
+                                jobStep = 3;
                                 intentionJobsId3 = ((JobTagBean.DataBean) bean).getId() + "";
                                 cacheJobTag = (JobTagBean.DataBean) bean;
                             }
@@ -530,14 +826,21 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
     }
 
+    /**
+     * 根据各级id获取职位信息
+     *
+     * @param id
+     */
     private void getJobData(String id) {
         Call<JobTagBean> jobTagBeanCall = RestAdapterManager.getApi().getJobType(id);
         jobTagBeanCall.enqueue(new JyCallBack<JobTagBean>() {
             @Override
             public void onSuccess(Call<JobTagBean> call, Response<JobTagBean> response) {
+                DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     if (jobStep == 0) {
-                        jobTagDialog(response.body());
+                        JobBean = response.body();
+                        jobTagDialog(JobBean);
                     } else if (jobStep == 1) {
                         adapter1.ClearData();
                         adapter1.addList(response.body().getData());
@@ -555,6 +858,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             @Override
             public void onError(Call<JobTagBean> call, Throwable t) {
                 LogUtils.e(t.getMessage());
+                DialogUtils.closeDialog();
                 UIUtil.showToast("接口错误");
             }
 
@@ -567,6 +871,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
     private void setJonTag(JobTagBean.DataBean cacheJobTag) {
         if (cacheJobTag == null) {
+            DialogUtils.closeDialog();
             UIUtil.showToast("请选择");
             return;
         }

@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chenzhiwei 2016/6/14.
  */
-public class JobPerfectInfoTagAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class JobPerfectInfoTagAdapter3 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static List<JobTagBean.DataBean> list;
     private static Context context;
     private boolean isLight;
@@ -37,13 +37,13 @@ public class JobPerfectInfoTagAdapter1 extends RecyclerView.Adapter<RecyclerView
         this.commonInterface = commonInterface;
     }
 
-    public JobPerfectInfoTagAdapter1(Context context) {
+    public JobPerfectInfoTagAdapter3(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public JobPerfectInfoTagAdapter1(Context context, List<JobTagBean.DataBean> items) {
+    public JobPerfectInfoTagAdapter3(Context context, List<JobTagBean.DataBean> items) {
         this.context = context;
         this.list = new ArrayList<>();
         this.list.addAll(items);

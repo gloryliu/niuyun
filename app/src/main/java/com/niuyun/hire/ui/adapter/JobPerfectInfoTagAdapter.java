@@ -26,7 +26,7 @@ public class JobPerfectInfoTagAdapter extends RecyclerView.Adapter<RecyclerView.
     private static Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
-    private int selectedPosition;
+    private int selectedPosition=-1;
     private RecyclerViewCommonInterface commonInterface;
 
     public RecyclerViewCommonInterface getCommonInterface() {

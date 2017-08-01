@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -13,8 +14,8 @@ import android.widget.Toast;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
-import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.bean.ErrorBean;
@@ -64,7 +65,8 @@ public class RegisterActivity extends BaseActivity implements
     CleanableEditText user_nick_name;
     @BindView(R.id.user_password)
     CleanableEditText user_password;
-
+    @BindView(R.id.tv_to_login)
+    TextView tv_to_login;
 
     CountDownTimer timer;
 
@@ -81,7 +83,7 @@ public class RegisterActivity extends BaseActivity implements
     public void initViewsAndEvents() {
         initTitle();
         etCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
-
+        tv_to_login.setOnClickListener(this);
         timer = new CountDownTimer(60 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -262,14 +264,15 @@ public class RegisterActivity extends BaseActivity implements
             @Override
             public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 try {
-
                     if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                        BaseContext.getInstance().setUserInfo(response.body().getData());
+//                        BaseContext.getInstance().setUserInfo(response.body().getData());
                         Intent findPsIntent = new Intent(RegisterActivity.this, PerfectPersonInformation.class);
                         timer.cancel();
-//                            findPsIntent.putExtra("phone", etPhone.getText().toString());
-//                            findPsIntent.putExtra("pwd", user_password.getText().toString());
+                        Bundle bundle=new Bundle();
+                        bundle.putString("uid", response.body().getData().uid+"");
+                        findPsIntent.putExtras(bundle);
                         startActivity(findPsIntent);
+                        finish();
                         ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.body().getMsg(), "");
                     } else {
                         UIUtil.showToast("注册失败");
@@ -325,7 +328,11 @@ public class RegisterActivity extends BaseActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.tv_to_login:
+                //返回登陆
+                AppManager.getAppManager().finishActivity(SelectedRegisterRoler.class);
+                finish();
+                break;
         }
     }
 }

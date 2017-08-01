@@ -1,116 +1,111 @@
-<resources>
-    <string name="app_name">牛云直聘</string>
-    <string name="empty_message">信息跑丢了</string>
-    <string name="no_net_message">网络连接失败\n请检查您的网络</string>
-    <string name="no_net_message_t">网络异常，请检查</string>
-    <string name="loading_message">Please wait</string>
-    <string name="error_message">页面找不到了\n请稍后重试</string>
+<resources xmlns:tools="http://schemas.Android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name" translatable="false">牛云直聘</string>
+    <string name="empty_message" translatable="false">信息跑丢了</string>
+    <string name="no_net_message" translatable="false">网络连接失败\n请检查您的网络</string>
+    <string name="no_net_message_t" translatable="false">网络异常，请检查</string>
+    <string name="loading_message" translatable="false">Please wait</string>
+    <string name="error_message" translatable="false">页面找不到了\n请稍后重试</string>
 
-    <string name="empty_button">逛逛首页</string>
-    <string name="loading_button">Cancel</string>
-    <string name="error_button">刷新</string>
-    <string name="load_over">已加载全部数据</string>
-    <string name="load_ing">加载中</string>
-    <string name="net_state_error">网络连接失败，请检测您的网络</string>
-    <string name="plz_input_phone">请输入手机号</string>
-    <string name="login">登录</string>
-    <string name="plz_input_password">请输入密码</string>
-    <string name="plz_input_check_code">请输入验证码</string>
-    <string name="regist">注册</string>
-    <string name="get_verify_code">获取验证码</string>
-    <string name="agrrement_agree">我已经阅读并同意</string>
-    <string name="agrrement_title">《用户服务协议》</string>
-    <string name="password_hint">请输入您的密码</string>
-    <string name="password_agin_hint">请再次输入密码</string>
-    <string name="publish_photo">从图片库</string>
-    <string name="publish_picture">拍照</string>
-    <string name="publish_photo_max">最多添加9张图片</string>
-    <string name="main_tab_name_index">首页</string>
-    <string name="main_tab_name_me">我的</string>
-    <string name="main_tab_name_alljobs">找工作</string>
-    <string name="main_tab_name_live">直播</string>
-    <string name="main_tab_name_find">发现</string>
-    <string name="index_tab_name_message">聊天</string>
-    <string name="index_tab_name_company">职位</string>
-    <string name="company_home_page">公司主页</string>
-    <string name="company_hot_position">热招职位</string>
-
-
+    <string name="empty_button" translatable="false">逛逛首页</string>
+    <string name="loading_button" translatable="false">Cancel</string>
+    <string name="error_button" translatable="false">刷新</string>
+    <string name="load_over" translatable="false">已加载全部数据</string>
+    <string name="load_ing" translatable="false">加载中</string>
+    <string name="net_state_error" translatable="false">网络连接失败，请检测您的网络</string>
+    <string name="plz_input_phone" translatable="false">请输入手机号</string>
+    <string name="login" translatable="false">登录</string>
+    <string name="plz_input_password" translatable="false">请输入密码</string>
+    <string name="plz_input_check_code" translatable="false">请输入验证码</string>
+    <string name="regist" translatable="false">注册</string>
+    <string name="get_verify_code" translatable="false">获取验证码</string>
+    <string name="agrrement_agree" translatable="false">我已经阅读并同意</string>
+    <string name="agrrement_title" translatable="false">《用户服务协议》</string>
+    <string name="password_hint" translatable="false">请输入您的密码</string>
+    <string name="password_agin_hint" translatable="false">请再次输入密码</string>
+    <string name="publish_photo" translatable="false">从图片库</string>
+    <string name="publish_picture" translatable="false">拍照</string>
+    <string name="publish_photo_max" translatable="false">最多添加9张图片</string>
+    <string name="main_tab_name_index" translatable="false">首页</string>
+    <string name="main_tab_name_me" translatable="false">我的</string>
+    <string name="main_tab_name_alljobs" translatable="false">找工作</string>
+    <string name="main_tab_name_live" translatable="false">直播</string>
+    <string name="main_tab_name_find" translatable="false">发现</string>
+    <string name="index_tab_name_message" translatable="false">聊天</string>
+    <string name="index_tab_name_company" translatable="false">职位</string>
+    <string name="company_home_page" translatable="false">公司主页</string>
+    <string name="company_hot_position" translatable="false">热招职位</string>
 
 
+    <string name="sm_item_auth" translatable="false">ShareSDK授权demo</string>
+    <string name="not_yet_authorized" translatable="false">尚未授权</string>
+    <string name="close_info_dialog" translatable="false">关闭信息界面</string>
+    <string name="login_to_format" translatable="false">登陆到%s</string>
+    <string name="remove_to_format" translatable="false">注销%s登录</string>
+    <string name="remove_to_format_success" translatable="false">成功移除%s登录信息</string>
 
+    <string name="register_key_user_icon" translatable="false">头像:</string>
+    <string name="register_key_user_name" translatable="false">昵称:</string>
+    <string name="register_key_user_gender" translatable="false">性别:</string>
+    <string name="register_key_user_UID" translatable="false">U I D:</string>
+    <string name="register_key_user_mail" translatable="false">邮箱:</string>
+    <string name="register_key_user_password" translatable="false">密码:</string>
 
+    <string name="register_user_info" translatable="false">用户信息</string>
+    <string name="register_up" translatable="false">注册</string>
+    <string name="register_girl" translatable="false">女</string>
+    <string name="register_boy" translatable="false">男</string>
+    <string name="register_UserID" translatable="false">UserID不能修改</string>
+    <string name="tpl_no_sdcard" translatable="false">sdcard 卡不存在</string>
+    <string name="register_success" translatable="false">注册成功</string>
+    <string name="register_failed" translatable="false">注册失败</string>
 
-    <string name="sm_item_auth">ShareSDK授权demo</string>
-    <string name="not_yet_authorized">尚未授权</string>
-    <string name="close_info_dialog">关闭信息界面</string>
-    <string name="login_to_format">登陆到%s</string>
-    <string name="remove_to_format">注销%s登录</string>
-    <string name="remove_to_format_success">成功移除%s登录信息</string>
+    <string name="wechat_client_inavailable" translatable="false">目前您的微信版本过低或未安装微信，需要安装微信才能使用</string>
+    <string name="google_plus_client_inavailable" translatable="false">Google+ 版本过低或者没有安装，需要升级或安装Google+才能使用！</string>
 
-    <string name="register_key_user_icon">头像:</string>
-    <string name="register_key_user_name">昵称:</string>
-    <string name="register_key_user_gender">性别:</string>
-    <string name="register_key_user_UID">U I D:</string>
-    <string name="register_key_user_mail">邮箱:</string>
-    <string name="register_key_user_password">密码:</string>
-
-    <string name="register_user_info">用户信息</string>
-    <string name="register_up">注册</string>
-    <string name="register_girl">女</string>
-    <string name="register_boy">男</string>
-    <string name="register_UserID">UserID不能修改</string>
-    <string name="tpl_no_sdcard">sdcard 卡不存在</string>
-    <string name="register_success">注册成功</string>
-    <string name="register_failed">注册失败</string>
-
-    <string name="wechat_client_inavailable">目前您的微信版本过低或未安装微信，需要安装微信才能使用</string>
-    <string name="google_plus_client_inavailable">Google+ 版本过低或者没有安装，需要升级或安装Google+才能使用！</string>
-
-    <string name="app_slogon">IM as a service</string>
-    <string name="text_ack_msg">Read</string>
-    <string name="text_delivered_msg">Delivered</string>
-    <string name="back">Back</string>
-    <string name="save">Save</string>
-    <string name="button_pushtotalk">Hold to talk</string>
-    <string name="button_send">Send</string>
-    <string name="attach_smile">Emoticon</string>
-    <string name="attach_picture">Image</string>
-    <string name="attach_take_pic">Capture</string>
-    <string name="attach_location">Location</string>
-    <string name="attach_video">Video</string>
-    <string name="attach_file">File</string>
-    <string name="attach_voice_call">Voice call</string>
-    <string name="attach_video_call">Video call</string>
-    <string name="user_card">Business card</string>
-    <string name="move_up_to_cancel">Finger up to cancel sending</string>
-    <string name="release_to_cancel">Finger release to cancel sending</string>
-    <string name="send_fail">Send failed</string>
-    <string name="delete_message">Delete message</string>
-    <string name="delete_conversation_messages">Delete conversation and messages</string>
-    <string name="delete_conversation">Delete conversation</string>
-    <string name="copy_message">Copy message</string>
-    <string name="delete_voice">Delete voice</string>
-    <string name="delete_video">Delete video</string>
-    <string name="delete">Delete</string>
-    <string name="resend">Resend</string>
-    <string name="confirm_resend">Confirm to resend？</string>
-    <string name="connect_failuer_toast">Please check the network or try again later</string>
-    <string name="network_unavailable">The network connection is not available, please check the network</string>
-    <string name="copy">Copy</string>
-    <string name="forward">Forward</string>
-    <string name="button_logout">Logout</string>
-    <string name="button_uploadlog">Upload the log</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="search_contanier">Search："%s"</string>
-    <string name="prompt">Prompt</string>
+    <string name="app_slogon" translatable="false">IM as a service</string>
+    <string name="text_ack_msg" translatable="false">Read</string>
+    <string name="text_delivered_msg" translatable="false">Delivered</string>
+    <string name="back" translatable="false">Back</string>
+    <string name="save" translatable="false">Save</string>
+    <string name="button_pushtotalk" translatable="false">Hold to talk</string>
+    <string name="button_send" translatable="false">Send</string>
+    <string name="attach_smile" translatable="false">Emoticon</string>
+    <string name="attach_picture" translatable="false">Image</string>
+    <string name="attach_take_pic" translatable="false">Capture</string>
+    <string name="attach_location" translatable="false">Location</string>
+    <string name="attach_video" translatable="false">Video</string>
+    <string name="attach_file" translatable="false">File</string>
+    <string name="attach_voice_call" translatable="false">Voice call</string>
+    <string name="attach_video_call" translatable="false">Video call</string>
+    <string name="user_card" translatable="false">Business card</string>
+    <string name="move_up_to_cancel" translatable="false">Finger up to cancel sending</string>
+    <string name="release_to_cancel" translatable="false">Finger release to cancel sending</string>
+    <string name="send_fail" translatable="false">Send failed</string>
+    <string name="delete_message" translatable="false">Delete message</string>
+    <string name="delete_conversation_messages" translatable="false">Delete conversation and messages</string>
+    <string name="delete_conversation" translatable="false">Delete conversation</string>
+    <string name="copy_message" translatable="false">Copy message</string>
+    <string name="delete_voice" translatable="false">Delete voice</string>
+    <string name="delete_video" translatable="false">Delete video</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="resend" translatable="false">Resend</string>
+    <string name="confirm_resend" translatable="false">Confirm to resend？</string>
+    <string name="connect_failuer_toast" translatable="false">Please check the network or try again later</string>
+    <string name="network_unavailable" translatable="false">The network connection is not available, please check the network</string>
+    <string name="copy" translatable="false">Copy</string>
+    <string name="forward" translatable="false">Forward</string>
+    <string name="button_logout" translatable="false">Logout</string>
+    <string name="button_uploadlog" translatable="false">Upload the log</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="cancel" translatable="false">Cancel</string>
+    <string name="search_contanier" translatable="false">Search："%s"</string>
+    <string name="prompt" translatable="false">Prompt</string>
     <string name="clear_records">Clear conversation?</string>
     <string name="clear_all_records">Clear all conversations？</string>
     <string name="location_recv">[%s location]</string>
     <string name="location_message">The location information</string>
     <string name="recording_video">Record video</string>
-    <string name="stop_record">Stop record</string>
+    <!--<string name="stop_record">Stop record</string>-->
     <string name="switch_camera">Switch camera</string>
     <string name="capture_image">Capture image</string>
     <string name="record_finish_toast">Recording finish, file saved in %s</string>

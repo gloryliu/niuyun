@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
@@ -50,6 +51,8 @@ import com.niuyun.hire.utils.photoTool.TakingPicturesActivity;
 import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -146,6 +149,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
 
     private String sex;//1 男  ------     2 女
     private String sexCn;
+    private String uid;
 
     @Override
     public int getContentViewLayoutId() {
@@ -155,6 +159,10 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
     @Override
     public void initViewsAndEvents() {
         initTitle();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            uid = bundle.getString("uid");
+        }
         bt_next.setOnClickListener(this);
         iv_head.setOnClickListener(this);
         rl_resume.setOnClickListener(this);
@@ -745,7 +753,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
 
     private void upLoadInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        map.put("uid", uid);
 //        map.put("uid", "48");
         map.put("avatars", headimg);
         map.put("realname", et_name.getText().toString());
@@ -807,6 +815,8 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
                 Intent intent = new Intent(PerfectPersonInformation.this, MainActivity.class);
                 startActivity(intent);
                 myDialog.dismiss();
+                AppManager.getAppManager().finishActivity(LoginActivity.class);
+                EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.PERFECT_INFO_SUCCESS));
                 finish();
             }
         });

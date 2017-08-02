@@ -19,7 +19,6 @@
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -29,8 +28,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name="com.niuyun.hire.base.BaseContext"
@@ -44,7 +43,15 @@
         <meta-data
             android:name="Mob-AppSecret"
             android:value="b89d2427a3bc7ad1aea1e1e8c1d36bf3" />
-
+        <!--<provider-->
+        <!--android:name="android.support.v4.content.FileProvider"-->
+        <!--android:authorities="com.niuyun.hire.fileprovider"-->
+        <!--android:exported="false"-->
+        <!--android:grantUriPermissions="true">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--android:resource="@xml/file_paths" />-->
+        <!--</provider>-->
         <activity
             android:name="com.niuyun.hire.ui.activity.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -66,25 +73,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.index.MainActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name="com.niuyun.hire.utils.photoTool.TakingPicturesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.utils.photoTool.ImageGridActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.utils.photoTool.PhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.utils.photoTool.SingleImageGridActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.utils.photoTool.SinglePhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.niuyun.hire.utils.photoTool.PhotoPicActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.SelectedRegisterRoler"
@@ -114,10 +103,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.PerfectEnterpriseInformation"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustResize" />
         <activity
             android:name="com.niuyun.hire.ui.activity.EnterPriseCertificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.utils.photoutils.TakeSimpleActivity"
             android:screenOrientation="portrait" />
 
 

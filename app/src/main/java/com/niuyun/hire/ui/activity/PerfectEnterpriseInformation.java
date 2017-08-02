@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.model.InvokeParam;
+import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.permission.InvokeListener;
+import com.jph.takephoto.permission.PermissionManager;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
@@ -39,8 +44,7 @@ import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.utils.UploadFile;
-import com.niuyun.hire.utils.photoTool.PhotoPicActivity;
-import com.niuyun.hire.utils.photoTool.TakingPicturesActivity;
+import com.niuyun.hire.utils.photoutils.TakeSimpleActivity;
 import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
@@ -58,11 +62,15 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.niuyun.hire.base.Constants.resultCode_header_Camera;
+import static com.niuyun.hire.base.Constants.resultCode_header_Photos;
+import static com.niuyun.hire.base.Constants.resultCode_logo_Photos;
+
 /**
  * Created by chen.zhiwei on 2017-7-31.
  */
 
-public class PerfectEnterpriseInformation extends BaseActivity implements View.OnClickListener {
+public class PerfectEnterpriseInformation extends BaseActivity implements View.OnClickListener , TakePhoto.TakeResultListener,InvokeListener {
     @BindView(R.id.title_view)
     TitleBar titleView;
     @BindView(R.id.iv_header)
@@ -102,15 +110,8 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
     private Call<SuperBean<String>> upLoadImageCall;
     private String headimg;
     private String logoimg;
-    List<String> list = new ArrayList<String>();
-    List<String> listLogo = new ArrayList<String>();
-    //个人头像
-    private static final int resultCode_header_Photos = 10;//跳转到相册
-    private static final int resultCode_header_Camera = 11;//跳转到相机
-
-    //企业logo
-    private static final int resultCode_logo_Photos = 12;//跳转到相册
-    private static final int resultCode_logo_Camera = 13;//跳转到相机
+    List<String> list = new ArrayList<>();
+    List<String> listLogo = new ArrayList<>();
 
     private int selectedType;//0为头像选择，1位logo选择
 
@@ -222,7 +223,11 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         titleView.addAction(new TitleBar.TextAction("下一步") {
             @Override
             public void performAction(View view) {
-                startActivity(new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class));
+                if (!UIUtil.isFastDoubleClick()) {
+                    if (checkData()) {
+                        upLoadImage();
+                    }
+                }
             }
         });
 //        titleView.setImmersive(true);
@@ -349,29 +354,27 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             list.clear();
             if (resultCode == resultCode_header_Camera) {
                 //相机返回图片
-                Bundle b = data.getExtras();
-                String fileName = b.getString("picture");
-                list.add(fileName);
+//                Bundle b = data.getExtras();
+//                String fileName = b.getString("picture");
+                list = data.getStringArrayListExtra("picture");
             } else if (resultCode == resultCode_header_Photos) {
                 // 图库中选择
                 if (data == null || "".equals(data)) {
                     return;
                 }
-                list = data.getExtras().getStringArrayList("photo");
+                list = data.getStringArrayListExtra("photo");
             }
         } else if (selectedType == 1) {
             listLogo.clear();
             if (resultCode == resultCode_header_Camera) {
                 //相机返回图片
-                Bundle b = data.getExtras();
-                String fileName = b.getString("picture");
-                listLogo.add(fileName);
+                listLogo=data.getStringArrayListExtra("picture");
             } else if (resultCode == resultCode_header_Photos) {
                 // 图库中选择
                 if (data == null || "".equals(data)) {
                     return;
                 }
-                listLogo = data.getExtras().getStringArrayList("photo");
+                listLogo = data.getStringArrayListExtra("photo");
             }
         }
 //        headIsChange = true;
@@ -457,8 +460,8 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
                 if (photo.getText().toString().contains(getResources().getString(R.string.publish_photo))) {
 
-                    Intent intent = new Intent(PerfectEnterpriseInformation.this, PhotoPicActivity.class);
-                    intent.putExtra("max", 1);
+                    Intent intent = new Intent(PerfectEnterpriseInformation.this, TakeSimpleActivity.class);
+                    intent.putExtra("Type",1);
                     if (type == 0) {
                         //头像
                         startActivityForResult(intent, resultCode_header_Photos);
@@ -478,13 +481,14 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             @Override
             public void onClick(View v) {
                 if (picture.getText().toString().contains(getResources().getString(R.string.publish_picture))) {
-                    Intent intent = new Intent(PerfectEnterpriseInformation.this, TakingPicturesActivity.class);
+                    Intent intent = new Intent(PerfectEnterpriseInformation.this, TakeSimpleActivity.class);
+                    intent.putExtra("Type",0);
                     if (type == 0) {
                         //头像
                         startActivityForResult(intent, resultCode_header_Camera);
                     } else {
                         //企业logo
-                        startActivityForResult(intent, resultCode_logo_Camera);
+                        startActivityForResult(intent, Constants.resultCode_logo_Camera);
 
                     }
                     myDialog.dismiss();
@@ -1025,5 +1029,25 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
             }
         });
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+
+    }
+
+    @Override
+    public void takeCancel() {
+
+    }
+
+    @Override
+    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
+        return null;
     }
 }

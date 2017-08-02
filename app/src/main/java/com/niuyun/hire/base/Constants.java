@@ -24,6 +24,12 @@ public static final String COMMON_IMAGE_URL="http://niuyunzp.com/data/upload/com
     public static final int LOGIN_FAILURE = 0x40;//登录失败
     public static final int LOGIN_SUCCESS = 0x41;//登录失败
     public static final int PERFECT_INFO_SUCCESS = 0x42;//完善信息成功
+    //个人头像
+    public static final int resultCode_header_Photos = 10;//跳转到相册
+    public static final int resultCode_header_Camera = 11;//跳转到相机
 
+    //企业logo
+    public static final int resultCode_logo_Photos = 12;//跳转到相册
+    public static final int resultCode_logo_Camera = 13;//跳转到相机
 
 }

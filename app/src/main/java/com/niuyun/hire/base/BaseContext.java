@@ -17,7 +17,6 @@ import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
-import com.mob.MobSDK;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.chat.DemoHelper;
@@ -86,7 +85,6 @@ public class BaseContext extends MultiDexApplication {
         super.onCreate();
         MultiDex.install(this);
         instance = this;
-        MobSDK.init(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());

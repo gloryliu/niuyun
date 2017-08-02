@@ -77,6 +77,7 @@ public class IndexFragment extends BaseFragment {
 
     @Override
     protected int getContentViewLayoutId() {
+
         return R.layout.fragment_index_layout;
     }
 

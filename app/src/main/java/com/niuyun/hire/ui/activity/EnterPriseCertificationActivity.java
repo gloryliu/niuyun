@@ -4,15 +4,39 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.api.JyCallBack;
+import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.index.MainActivity;
+import com.niuyun.hire.utils.DialogUtils;
+import com.niuyun.hire.utils.ErrorMessageUtils;
+import com.niuyun.hire.utils.ImageLoadedrManager;
+import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
+import com.niuyun.hire.utils.UploadFile;
+import com.niuyun.hire.utils.photoutils.TakeSimpleActivity;
+import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import okhttp3.MultipartBody;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import static com.niuyun.hire.base.Constants.resultCode_header_Camera;
+import static com.niuyun.hire.base.Constants.resultCode_header_Photos;
 
 /**
  * 企业认证
@@ -22,6 +46,12 @@ import butterknife.BindView;
 public class EnterPriseCertificationActivity extends BaseActivity {
     @BindView(R.id.title_view)
     TitleBar titleView;
+    @BindView(R.id.iv_add_business_license)
+    ImageView iv_add_business_license;
+    @BindView(R.id.bt_certification)
+    Button bt_certification;
+    List<String> list = new ArrayList<String>();
+    private Call<SuperBean<String>> upLoadImageCall;
 
     @Override
     public int getContentViewLayoutId() {
@@ -31,6 +61,18 @@ public class EnterPriseCertificationActivity extends BaseActivity {
     @Override
     public void initViewsAndEvents() {
         initTitle();
+        iv_add_business_license.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photodialog();
+            }
+        });
+        bt_certification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                upLoadImage();
+            }
+        });
     }
 
     @Override
@@ -85,5 +127,153 @@ public class EnterPriseCertificationActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        list.clear();
+        if (resultCode == resultCode_header_Camera) {
+            //相机返回图片
+            list = data.getStringArrayListExtra("picture");
+        } else if (resultCode == resultCode_header_Photos) {
+            // 图库中选择
+            if (data == null || "".equals(data)) {
+                return;
+            }
+            list = data.getStringArrayListExtra("photo");
+            LogUtils.e("image路径--" + list.get(0));
+        }
+//        headIsChange = true;
+        ImageLoadedrManager.getInstance().displayNoFilter(this, list.get(0), iv_add_business_license);
+    }
+    ///////////////////////////////////////////////////////////////////上传头像///////////////////////////////////////////////////////
+
+    /**
+     * 选择图片dialog
+     */
+    public void photodialog() {
+
+        View view = View.inflate(EnterPriseCertificationActivity.this, R.layout.dialog_publish_photo, null);
+        showdialog1(view);
+
+        final TextView photo = (TextView) view.findViewById(R.id.photo);
+        final TextView picture = (TextView) view.findViewById(R.id.picture);
+        // 从图库中选择
+        photo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (photo.getText().toString().contains(getResources().getString(R.string.publish_photo))) {
+
+                    Intent intent = new Intent(EnterPriseCertificationActivity.this, TakeSimpleActivity.class);
+                    intent.putExtra("Type", 1);
+                    startActivityForResult(intent, resultCode_header_Photos);
+                    myDialog.dismiss();
+                }
+
+            }
+        });
+        // 拍照
+        picture.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (picture.getText().toString().contains(getResources().getString(R.string.publish_picture))) {
+                    Intent intent = new Intent(EnterPriseCertificationActivity.this, TakeSimpleActivity.class);
+                    intent.putExtra("Type", 0);
+                    startActivityForResult(intent, resultCode_header_Camera);
+                    myDialog.dismiss();
+                }
+            }
+        });
+
+    }
+
+    private MyDialog myDialog;
+
+    /**
+     * 弹出dialog
+     *
+     * @param view
+     */
+    private void showdialog(View view) {
+
+        myDialog = new MyDialog(this, 0, UIUtil.dip2px(this, 200), view, R.style.dialog);
+        myDialog.show();
+    }
+
+    /**
+     * 弹出dialog
+     *
+     * @param view
+     */
+    private void showdialog1(View view) {
+
+        myDialog = new MyDialog(this, 0, 0, view, R.style.dialog);
+        myDialog.show();
+    }
+
+
+    /**
+     * 上传头像
+     */
+    private void upLoadImage() {
+        DialogUtils.showDialog(this, "上传中", false);
+        List<MultipartBody.Part> parts = UploadFile.filesToMultipartBody(list);
+        upLoadImageCall = RestAdapterManager.getApi().uploadCertificateImage(parts.get(0));
+        upLoadImageCall.enqueue(new JyCallBack<SuperBean<String>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+//                UIUtil.showToast(response.body());
+                DialogUtils.closeDialog();
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    //上传图片成功
+                    startActivity(new Intent(EnterPriseCertificationActivity.this,MainActivity.class));
+                    finish();
+                    try {
+                        ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.body().getMsg(), "");
+                    } catch (Exception e) {
+
+                    }
+                } else {
+                    try {
+                        ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.body().getMsg(), "");
+                    } catch (Exception e) {
+
+                    }
+                    DialogUtils.closeDialog();
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("上传失败");
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                try {
+                    DialogUtils.closeDialog();
+                    ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.errorBody().string(), "");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (upLoadImageCall != null) {
+            upLoadImageCall.cancel();
+        }
     }
 }

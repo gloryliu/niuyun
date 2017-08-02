@@ -1,6 +1,7 @@
 package com.niuyun.hire.ui.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -66,6 +67,7 @@ public class CompanyDetailsActivity extends BaseActivity {
     private String id;
     Call<CompanyDetailsBean> companyDetailsBeanCall;
     private CompanyDetailsBean companyDetailsBean;
+    private CompanyHomePageFragment homePageFragment;
 
     @Override
     public int getContentViewLayoutId() {
@@ -79,8 +81,19 @@ public class CompanyDetailsActivity extends BaseActivity {
             id = getIntent().getExtras().getString("id");
         } catch (Exception e) {
         }
+
+    }
+
+    private void init() {
         if (fragmentList.size() == 0) {
-            fragmentList.add(new CompanyHomePageFragment());
+            homePageFragment = new CompanyHomePageFragment();
+            if (companyDetailsBean != null && companyDetailsBean.getData() != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("content", companyDetailsBean.getData().getContents());
+                homePageFragment.setArguments(bundle);
+            }
+
+            fragmentList.add(homePageFragment);
             fragmentList.add(new CompanyHotPositionFragment());
             for (int i = 0; i < tabNames.length; i++) {
                 View tabView = View.inflate(CompanyDetailsActivity.this, R.layout.layout_tab_item, null);
@@ -101,6 +114,14 @@ public class CompanyDetailsActivity extends BaseActivity {
 
                 @Override
                 public Fragment getItem(int position) {
+                    if (position == 0) {
+                        if (homePageFragment != null && companyDetailsBean != null && companyDetailsBean.getData() != null) {
+                            homePageFragment.upDate(companyDetailsBean.getData().getContents());
+                            Bundle bundle = new Bundle();
+                            bundle.putString("content", companyDetailsBean.getData().getContents());
+                            homePageFragment.setArguments(bundle);
+                        }
+                    }
                     return Fragment.instantiate(CompanyDetailsActivity.this, fragments[position].getName());
                 }
 
@@ -113,6 +134,7 @@ public class CompanyDetailsActivity extends BaseActivity {
                     int position = mTabLayout.getSelectedTabPosition();//tab.getPosition();
                     viewPager.setCurrentItem(tab.getPosition());
                     if (position == 0) {
+
                         vv_v1.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
                         vv_v2.setBackgroundColor(Color.TRANSPARENT);
                     } else {
@@ -132,7 +154,6 @@ public class CompanyDetailsActivity extends BaseActivity {
                 }
             });
         }
-
     }
 
     @Override
@@ -156,12 +177,13 @@ public class CompanyDetailsActivity extends BaseActivity {
     }
 
     private void setData() {
+        init();
         if (companyDetailsBean != null) {
             ImageLoadedrManager.getInstance().display(this, Constants.COMMON_IMAGE_URL + companyDetailsBean.getData().getLogo(), iv_company);
             tv_company_name.setText(companyDetailsBean.getData().getCompanyname());
             tv_company_scale.setText(companyDetailsBean.getData().getDistrictCn() + "/" + companyDetailsBean.getData().getNatureCn() + "/" + companyDetailsBean.getData().getScaleCn());
             tv_company_type.setText(companyDetailsBean.getData().getTradeCn());
-//            tv_web_addresss.setText(companyDetailsBean.getData().);
+            tv_web_addresss.setText(companyDetailsBean.getData().getWebsite());
         }
     }
 

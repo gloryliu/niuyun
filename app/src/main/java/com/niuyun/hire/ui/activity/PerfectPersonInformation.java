@@ -46,8 +46,7 @@ import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.utils.UploadFile;
-import com.niuyun.hire.utils.photoTool.PhotoPicActivity;
-import com.niuyun.hire.utils.photoTool.TakingPicturesActivity;
+import com.niuyun.hire.utils.photoutils.TakeSimpleActivity;
 import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
@@ -647,9 +646,8 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
 
                 if (photo.getText().toString().contains(getResources().getString(R.string.publish_photo))) {
 
-                    Intent intent = new Intent(PerfectPersonInformation.this, PhotoPicActivity.class);
-                    intent.putExtra("max", 1);
-
+                    Intent intent = new Intent(PerfectPersonInformation.this, TakeSimpleActivity.class);
+                    intent.putExtra("Type",1);
                     startActivityForResult(intent, resultCode_Photos);
                     myDialog.dismiss();
                 }
@@ -662,8 +660,8 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 if (picture.getText().toString().contains(getResources().getString(R.string.publish_picture))) {
-                    Intent intent = new Intent(PerfectPersonInformation.this, TakingPicturesActivity.class);
-
+                    Intent intent = new Intent(PerfectPersonInformation.this, TakeSimpleActivity.class);
+                    intent.putExtra("Type",0);
                     startActivityForResult(intent, resultCode_Camera);
                     myDialog.dismiss();
                 }
@@ -832,15 +830,13 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
         list.clear();
         if (resultCode == resultCode_Camera) {
             //相机返回图片
-            Bundle b = data.getExtras();
-            String fileName = b.getString("picture");
-            list.add(fileName);
+            list = data.getStringArrayListExtra("picture");
         } else if (resultCode == resultCode_Photos) {
             // 图库中选择
             if (data == null || "".equals(data)) {
                 return;
             }
-            list = data.getExtras().getStringArrayList("photo");
+            list = data.getStringArrayListExtra("photo");
             LogUtils.e("image路径--" + list.get(0));
         }
 //        headIsChange = true;

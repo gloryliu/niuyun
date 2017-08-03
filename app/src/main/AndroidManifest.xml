@@ -116,6 +116,7 @@
             android:name=".ui.polyvLive.activity.PolyvPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="PlayerActivity" />

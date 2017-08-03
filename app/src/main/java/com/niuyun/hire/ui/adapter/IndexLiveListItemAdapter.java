@@ -5,14 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
-import com.niuyun.hire.ui.bean.MemberRankBean;
+import com.niuyun.hire.ui.bean.LiveListBean;
+import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.utils.ImageLoadedrManager;
+import com.niuyun.hire.view.AutoNextLineView;
+import com.niuyun.hire.view.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -20,11 +26,20 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<MemberRankBean> list;
+    private static List<LiveListBean.DataBeanX.DataBean> list;
     private static Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
 
+    public RecyclerViewCommonInterface getCommonInterface() {
+        return commonInterface;
+    }
+
+    public void setCommonInterface(RecyclerViewCommonInterface commonInterface) {
+        this.commonInterface = commonInterface;
+    }
+
+    private RecyclerViewCommonInterface commonInterface;
 
 
     public IndexLiveListItemAdapter(Context context) {
@@ -33,14 +48,14 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public IndexLiveListItemAdapter(Context context, List<MemberRankBean> items) {
+    public IndexLiveListItemAdapter(Context context, List<LiveListBean.DataBeanX.DataBean> items) {
         this.context = context;
         this.list = new ArrayList<>();
         this.list.addAll(items);
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public void addList(List<MemberRankBean> items) {
+    public void addList(List<LiveListBean.DataBeanX.DataBean> items) {
         this.list.addAll(items);
         notifyDataSetChanged();
     }
@@ -50,7 +65,7 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
-    public static List<MemberRankBean> getEntities() {
+    public static List<LiveListBean.DataBeanX.DataBean> getEntities() {
         return list;
     }
 
@@ -64,19 +79,19 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
 
-//            ((ImageViewHolder) viewHolder).tv_rank1_title.setText(list.get(position).getName());
-//            ((ImageViewHolder) viewHolder).tv_rank.setText(list.get(position).getMoney()/100.00 + "");
+            ((ImageViewHolder) viewHolder).tv_name.setText(list.get(position).getName());
+            ImageLoadedrManager.getInstance().display(context, list.get(position).getCoverImage(), ((ImageViewHolder) viewHolder).iv_live_cover);
         }
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? 5 : 5;
+        return list == null ? 0 : list.size();
     }
 
     /**
-     * @param house
-     * @param viewHolder 标签
+     * @param
+     * @param
      */
 //    private void bindTags(NewCommonHouseBean.DataBean house, ViewHolder viewHolder) {
 //        if (null != house.getTags() && house.getTags().size() > 0) {
@@ -98,10 +113,22 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
 //        }
 //    }
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-//        @BindView(R.id.tv_rank1_title)
-//        TextView tv_rank1_title;
-//        @BindView(R.id.tv_rank)
-//        TextView tv_rank;
+        @BindView(R.id.iv_head)
+        CircularImageView iv_head;//头像
+        @BindView(R.id.tv_name)
+        TextView tv_name;//名称
+        @BindView(R.id.tv_company_name)
+        TextView tv_company_name;//名称
+        @BindView(R.id.tv_look_number)
+        TextView tv_look_number;//直播间人数
+        @BindView(R.id.iv_is_live)
+        ImageView iv_is_live;//是否在直播
+        @BindView(R.id.iv_live_cover)
+        ImageView iv_live_cover;//封面
+        @BindView(R.id.tv_describe)
+        TextView tv_describe;//描述
+        @BindView(R.id.an_tags)
+        AutoNextLineView an_tags;
 
         ImageViewHolder(final View view) {
             super(view);
@@ -109,9 +136,10 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (clickListerner != null) {
-//                        clickListerner.onClick(list.get(getAdapterPosition()));
-//                    }
+                    if (commonInterface != null) {
+                        commonInterface.onClick(list.get(getAdapterPosition()));
+//                        commonInterface.onClick(0);
+                    }
                 }
             });
         }

@@ -3,8 +3,6 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-//    aaptOptions.cruncherEnabled = false
-//    aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "com.niuyun.hire"
         minSdkVersion 19
@@ -48,20 +46,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'org.greenrobot:greendao:3.2.2'
-    // add library
-    //ConverterFactory的String依赖包
-//    compile files('libs/commons-codec-1.3.jar')
-//    compile files('libs/commons-logging-1.1.1.jar')
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
-//    compile 'com.github.bumptech.glide:glide:3.7.0'
-//    compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-
     testCompile 'junit:junit:4.12'
     compile 'com.bigkoo:convenientbanner:2.0.5'
     //下拉刷新
@@ -71,6 +62,24 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
+//   保利视频接流
+    //视频播放库，SDK中使用
+    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
+    //视频播放库，SDK中使用
+    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.7.1'
+    //弹幕库
+    compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
+    //图片下载库，SDK中使用
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile files('libs/admastersdk_v2.1.3.jar')
+    compile files('libs/polyvLivePlayer2.0.6.jar')
+    compile files('libs/polyvWidget0.5.1.4.jar')
+    compile project(':polyvAndroidSDKGif1.0')
+    //聊天室，PPT直播
+    compile('io.socket:socket.io-client:0.8.3') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 }
 def getDate() {
     def date = new Date()

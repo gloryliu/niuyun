@@ -1,5 +1,6 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -68,6 +69,15 @@ public class CompanyDetailsActivity extends BaseActivity {
     Call<CompanyDetailsBean> companyDetailsBeanCall;
     private CompanyDetailsBean companyDetailsBean;
     private CompanyHomePageFragment homePageFragment;
+    public static Context mContext;
+
+    public static Context getmContext() {
+        return mContext;
+    }
+
+    public CompanyDetailsBean getCompanyDetailsBean() {
+        return companyDetailsBean;
+    }
 
     @Override
     public int getContentViewLayoutId() {
@@ -76,6 +86,7 @@ public class CompanyDetailsActivity extends BaseActivity {
 
     @Override
     public void initViewsAndEvents() {
+        mContext = this;
         initTitle();
         try {
             id = getIntent().getExtras().getString("id");
@@ -87,12 +98,6 @@ public class CompanyDetailsActivity extends BaseActivity {
     private void init() {
         if (fragmentList.size() == 0) {
             homePageFragment = new CompanyHomePageFragment();
-            if (companyDetailsBean != null && companyDetailsBean.getData() != null) {
-                Bundle bundle = new Bundle();
-                bundle.putString("content", companyDetailsBean.getData().getContents());
-                homePageFragment.setArguments(bundle);
-            }
-
             fragmentList.add(homePageFragment);
             fragmentList.add(new CompanyHotPositionFragment());
             for (int i = 0; i < tabNames.length; i++) {
@@ -114,15 +119,15 @@ public class CompanyDetailsActivity extends BaseActivity {
 
                 @Override
                 public Fragment getItem(int position) {
+                    Bundle bundle = new Bundle();
                     if (position == 0) {
+
                         if (homePageFragment != null && companyDetailsBean != null && companyDetailsBean.getData() != null) {
-                            homePageFragment.upDate(companyDetailsBean.getData().getContents());
-                            Bundle bundle = new Bundle();
                             bundle.putString("content", companyDetailsBean.getData().getContents());
                             homePageFragment.setArguments(bundle);
                         }
                     }
-                    return Fragment.instantiate(CompanyDetailsActivity.this, fragments[position].getName());
+                    return Fragment.instantiate(CompanyDetailsActivity.this, fragments[position].getName(), bundle);
                 }
 
 

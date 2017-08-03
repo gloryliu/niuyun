@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
+import com.easefun.polyvsdk.live.chat.PolyvChatManager;
 import com.easemob.redpacketsdk.RPInitRedPacketCallback;
 import com.easemob.redpacketsdk.RPValueCallback;
 import com.easemob.redpacketsdk.RedPacket;
@@ -34,12 +35,16 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 
-
 /**
  */
 
 public class BaseContext extends MultiDexApplication {
-
+    /**
+     * 登录聊天室/ppt直播所需，请填写自己的appId和appSecret，否则无法登陆
+     * appId和appSecret在直播系统管理后台的用户信息页的API设置中用获取
+     */
+    private static final String appId = "es99t13h27";
+    private static final String appSecret = "93b89c2a81494f5ba4a4dfa5873e0c38";
     private static BaseContext instance;
     //用户信息
     public static UserInfoBean userInfo;
@@ -79,6 +84,13 @@ public class BaseContext extends MultiDexApplication {
 //    }
 
 //    private LocationInfo locationInfo;
+
+    /**
+     * 初始化聊天室配置
+     */
+    public void initPolyvChatConfig() {
+        PolyvChatManager.initConfig(appId, appSecret);
+    }
 
     @Override
     public void onCreate() {
@@ -147,7 +159,7 @@ public class BaseContext extends MultiDexApplication {
         RedPacket.getInstance().setDebugMode(true);
         //end of red packet code
 
-
+        initPolyvChatConfig();
 
     }
 

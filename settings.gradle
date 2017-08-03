@@ -1,1 +1,1 @@
-include ':app', ':easeui', ':redpacketlibrary'
+include ':app', ':easeui', ':redpacketlibrary', ':polyvAndroidSDKGif1.0'

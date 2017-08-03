@@ -112,7 +112,16 @@
             android:name="com.niuyun.hire.utils.photoutils.TakeSimpleActivity"
             android:screenOrientation="portrait" />
 
-
+        <activity
+            android:name=".ui.polyvLive.activity.PolyvPlayerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="PlayerActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- 聊天页面 -->
         <activity
             android:name=".ui.chat.ui.ChatActivity"
@@ -551,5 +560,7 @@
             android:value="6b54bd4edc63eba3ef59d69f8e0a5070bea384e2" />
         <!-- fabric end -->
     </application>
+    <!-- 视频演示主类 -->
+    <!-- 如需初始为横屏，请在代码中使用PolyvPlayerMediaController.changeToLandscape()方法设置 -->
 
 </manifest>

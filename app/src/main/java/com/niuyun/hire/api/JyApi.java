@@ -9,6 +9,7 @@ import com.niuyun.hire.ui.bean.CompanyDetailsBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
+import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 
@@ -200,6 +201,16 @@ public interface JyApi {
      */
     @POST("/resource/companyProfile/companyProfileDetail")
     Call<CompanyDetailsBean> getCompanyDetails(@Body Map<String, String> map);
+    /**
+     * 获取直播列表
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/live/getLiveList")
+    Call<LiveListBean> getLiveList(@Body Map<String, String> map);
+
+
 
 
 }

@@ -77,4 +77,7 @@
         <attr name="contactItemImage" format="reference"/>
         <attr name="contactItemName" format="string"/>
     </declare-styleable>
+    <declare-styleable name="PolyvLineEdittext">
+        <attr name="line_color" format="color"></attr>
+    </declare-styleable>
 </resources>

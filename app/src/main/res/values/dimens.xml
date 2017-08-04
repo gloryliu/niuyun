@@ -164,4 +164,7 @@
     <dimen name="et_maxlenght">280dp</dimen>
     <dimen name="iv_height_s">17.7dp</dimen>
     <dimen name="danmaku_tv_textsize">11.9sp</dimen>
+    <dimen name="dialog_title_view_height">1dp</dimen>
+    <dimen name="dialog_title_marginleft">8dp</dimen>
+    <dimen name="dialog_title_margintop">4dp</dimen>
 </resources>

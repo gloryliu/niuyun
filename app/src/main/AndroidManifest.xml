@@ -139,7 +139,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/setting_activity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".ui.polyvLive.activity.PolyvFinishActivity" />
         <activity

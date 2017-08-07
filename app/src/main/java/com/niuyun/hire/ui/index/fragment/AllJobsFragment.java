@@ -423,7 +423,11 @@ public class AllJobsFragment extends BaseFragment {
                     if (jobStep == 0) {
                         jobTagBean = response.body().getData();
                         jobTagBean.add(0, new JobTagBean.DataBean(-1, "不限"));
-                        setFilter();
+                        try {
+                            setFilter();
+                        } catch (Exception e) {
+                        }
+
                     } else if (jobStep == 1) {
                         adapter1.ClearData();
                         List<JobTagBean.DataBean> jobTagBean2 = response.body().getData();

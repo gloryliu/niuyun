@@ -76,7 +76,8 @@
         <ImageView
             android:id="@+id/iv_live_cover"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/iv_is_live"
@@ -100,7 +101,8 @@
             android:id="@+id/tv_describe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="招聘android，ios" />
+            android:textColor="@color/color_333333"
+            android:textSize="13sp" />
 
         <com.niuyun.hire.view.AutoNextLineView
             android:id="@+id/an_tags"

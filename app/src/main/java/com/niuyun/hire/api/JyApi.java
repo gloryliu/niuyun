@@ -12,6 +12,7 @@ import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
+import com.niuyun.hire.ui.polyvLive.bean.CreateLiveBean;
 
 import java.util.Map;
 
@@ -154,6 +155,15 @@ public interface JyApi {
      * @return
      */
     @Multipart
+    @POST("/sys/uploadLiveCoverImage")
+    Call<SuperBean<String>> uploadCover(@Part MultipartBody.Part file);
+    /**
+     * 上传个人头像图片
+     *
+     * @param file
+     * @return
+     */
+    @Multipart
     @POST("/sys/uploadHeadPic")
     Call<SuperBean<String>> uploadFile(@Part MultipartBody.Part file);
 
@@ -209,6 +219,14 @@ public interface JyApi {
      */
     @POST("/resource/live/getLiveList")
     Call<LiveListBean> getLiveList(@Body Map<String, String> map);
+    /**
+     * 创建直播
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/live/createLive")
+    Call<CreateLiveBean> createLive(@Body Map<String, String> map);
 
 
 

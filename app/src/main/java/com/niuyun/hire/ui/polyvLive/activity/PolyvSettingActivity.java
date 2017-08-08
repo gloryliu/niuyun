@@ -14,7 +14,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,28 +33,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easefun.polyvsdk.rtmp.core.login.IPolyvRTMPLoginListener;
+import com.easefun.polyvsdk.rtmp.core.login.PolyvRTMPLoginErrorReason;
+import com.easefun.polyvsdk.rtmp.core.login.PolyvRTMPLoginVerify;
 import com.easefun.polyvsdk.rtmp.core.userinterface.PolyvAuthTypeSetting;
-import com.easefun.polyvsdk.rtmp.core.userinterface.PolyvTitleUpdate;
 import com.easefun.polyvsdk.rtmp.core.video.PolyvRTMPDefinition;
-import com.easefun.polyvsdk.rtmp.core.video.PolyvRTMPErrorReason;
 import com.easefun.polyvsdk.rtmp.core.video.PolyvRTMPOrientation;
 import com.easefun.polyvsdk.rtmp.core.video.PolyvRTMPRenderScreenSize;
 import com.easefun.polyvsdk.rtmp.core.video.PolyvRTMPView;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnCameraChangeListener;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnDisconnectionListener;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnErrorListener;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnLivingStartSuccessListener;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnOpenCameraSuccessListener;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnPreparedListener;
-import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnPublishFailListener;
 import com.easefun.polyvsdk.rtmp.sopcast.video.effect.BeautyEffect;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
+import com.niuyun.hire.ui.adapter.LiveTagAdapter;
+import com.niuyun.hire.ui.bean.CommonTagBean;
+import com.niuyun.hire.ui.bean.CommonTagItemBean;
+import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.polyvLive.adapter.ResolutionItemAdapter;
+import com.niuyun.hire.ui.polyvLive.bean.CreateLiveBean;
 import com.niuyun.hire.ui.polyvLive.permission.PolyvPermission;
 import com.niuyun.hire.ui.polyvLive.util.PolyvScreenUtils;
 import com.niuyun.hire.ui.polyvLive.util.PolyvStatusBarUtil;
@@ -70,12 +72,15 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.niuyun.hire.base.Constants.LIVE_PASSWORD;
 import static com.niuyun.hire.base.Constants.resultCode_header_Camera;
 import static com.niuyun.hire.base.Constants.resultCode_header_Photos;
 
@@ -109,6 +114,8 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
     private PolyvPermission polyvPermission = null;
 
     private String mChannelId;
+    private String userId;
+    private String nickName;
     private int mOrientation = PolyvRTMPOrientation.SCREEN_ORIENTATION_PORTRAIT;
     private int mDefinition = PolyvRTMPDefinition.GAO_QING;
     // 观看认证类型
@@ -158,7 +165,14 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
     private Call<SuperBean<String>> upLoadImageCall;
     private String headimg;
     List<String> list = new ArrayList<>();
-
+    private CommonTagBean commonTagBean;
+    private RecyclerView an_tags;
+    private LiveTagAdapter tagAdapter;
+    private List<CommonTagItemBean> tagSelectedList = new ArrayList<>();
+    private NestedScrollView nsv_scroll;
+    private EditText et_company_name;
+    private EditText et_host_name;
+    private TextView tv_more;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +188,7 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
         findId();
         initView();
         registerReceiver();
-        mChannelId = getIntent().getStringExtra("channelId");
+//        mChannelId = getIntent().getStringExtra("channelId");
 
         polyvPermission = new PolyvPermission();
         polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
@@ -185,8 +199,9 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
         });
 
         initOrientation();
-        polyvRTMPView = (PolyvRTMPView) findViewById(R.id.polyv_rtmp_view);
+        polyvRTMPView = (PolyvRTMPView) findViewById(R.id.polyv_rtmp_view1);
         initPolyvRTMPView();
+        getTagItmes();
     }
 
     private void initOrientation() {
@@ -202,148 +217,93 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
     }
 
     private void initPolyvRTMPView() {
-//        polyvRTMPView.setPlayerBufferingIndicator(playerBuffering);
-        polyvRTMPView.setOnPreparedListener(new IPolyvRTMPOnPreparedListener() {
-            @Override
-            public void onPrepared() {
-                handler.sendEmptyMessageDelayed(START, 1000);
-            }
-        });
-        polyvRTMPView.setOnErrorListener(new IPolyvRTMPOnErrorListener() {
-            @Override
-            public void onError(PolyvRTMPErrorReason errorReason) {
-                String message = "";
-                switch (errorReason.getType()) {
-                    case PolyvRTMPErrorReason.GET_NGB_PUSH_URL_EMPTY:
-                        message = "获取NGB推流地址为空，请重试 (error code " + PolyvRTMPErrorReason.GET_NGB_PUSH_URL_EMPTY + ")";
-                        break;
-                    case PolyvRTMPErrorReason.NETWORK_DENIED:
-                        message = "请连接网络 (error code " + PolyvRTMPErrorReason.NETWORK_DENIED + ")";
-                        break;
-                    case PolyvRTMPErrorReason.NOT_CAMERA:
-                        message = "没有摄像头，请更换设备 (error coee " + PolyvRTMPErrorReason.NOT_CAMERA + ")";
-                        break;
-                    case PolyvRTMPErrorReason.AUDIO_AEC_ERROR:
-                        message = "不支持音频aec (error code " + PolyvRTMPErrorReason.AUDIO_AEC_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.AUDIO_CONFIGURATION_ERROR:
-                        message = "音频编解码器配置错误 (error code " + PolyvRTMPErrorReason.AUDIO_CONFIGURATION_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.AUDIO_ERROR:
-                        message = "不能记录音频 (error code " + PolyvRTMPErrorReason.AUDIO_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.AUDIO_TYPE_ERROR:
-                        message = "音频类型错误 (error code " + PolyvRTMPErrorReason.AUDIO_TYPE_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.CAMERA_DISABLED:
-                        message = "摄相机被禁用 (error code " + PolyvRTMPErrorReason.CAMERA_DISABLED + ")";
-                        break;
-                    case PolyvRTMPErrorReason.CAMERA_ERROR:
-                        message = "摄像机没有开启 (error code " + PolyvRTMPErrorReason.CAMERA_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.CAMERA_NOT_SUPPORT:
-                        message = "摄相机不支持 (error code " + PolyvRTMPErrorReason.CAMERA_NOT_SUPPORT + ")";
-                        break;
-                    case PolyvRTMPErrorReason.CAMERA_OPEN_FAILED:
-                        message = "摄相机打开失败 (error code " + PolyvRTMPErrorReason.CAMERA_OPEN_FAILED + ")";
-                        break;
-                    case PolyvRTMPErrorReason.SDK_VERSION_ERROR:
-                        message = "Android sdk 版本低于18（Android 4.3.1）(error code " + PolyvRTMPErrorReason.SDK_VERSION_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.VIDEO_CONFIGURATION_ERROR:
-                        message = "视频编解码器配置错误 (error code " + PolyvRTMPErrorReason.VIDEO_CONFIGURATION_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.VIDEO_TYPE_ERROR:
-                        message = "视频类型错误 (error code " + PolyvRTMPErrorReason.VIDEO_TYPE_ERROR + ")";
-                        break;
-                    case PolyvRTMPErrorReason.NOT_LOGIN:
-                        message = "请先登录 (error code " + PolyvRTMPErrorReason.NOT_LOGIN + ")";
-                        break;
-                    case PolyvRTMPErrorReason.RELOGIN_FAIL:
-                        message = "请重新登陆 (error code " + PolyvRTMPErrorReason.RELOGIN_FAIL + ")";
-                        break;
-                }
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(PolyvSettingActivity.this);
-                builder.setTitle("错误");
-                builder.setMessage(message);
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.show();
-
-//            mainFragment.getTimeView().setText(PolyvDisplayUtils.getVideoDisplayTime(0));
-//            handler.removeMessages(TIME_COUNT);
-            }
-        });
-
-        polyvRTMPView.setOnOpenCameraSuccessListener(new IPolyvRTMPOnOpenCameraSuccessListener() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(PolyvSettingActivity.this, "打开摄像机成功", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        polyvRTMPView.setOnCameraChangeListener(new IPolyvRTMPOnCameraChangeListener() {
-            @Override
-            public void onChange() {
-                Toast.makeText(PolyvSettingActivity.this, "切换摄像机", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        polyvRTMPView.setOnLivingStartSuccessListener(new IPolyvRTMPOnLivingStartSuccessListener() {
-            @Override
-            public void onSuccess() {
-//            mainFragment.getTimeView().setVisibility(View.VISIBLE);
-//            startTime = System.currentTimeMillis();
-//            handler.sendEmptyMessageDelayed(TIME_COUNT, 1000);
-//            Toast.makeText(PolyvSettingActivity.this, "推流开始", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        polyvRTMPView.setOnDisconnectionListener(new IPolyvRTMPOnDisconnectionListener() {
-            @Override
-            public void onDisconnection() {
-//            handler.removeMessages(START);
-//            handler.removeMessages(TIME_COUNT);
-//            Toast.makeText(PolyvSettingActivity.this, "断开连接", Toast.LENGTH_SHORT).show();
-//            //断线增加网络改变回调事件
-//            if (!isReceiver) {
-//                isReceiver = true;
-//                PolyvSettingActivity.this.registerReceiver(receiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+//        polyvRTMPView.setOnPreparedListener(new IPolyvRTMPOnPreparedListener() {
+//            @Override
+//            public void onPrepared() {
+//                handler.sendEmptyMessageDelayed(START, 1000);
 //            }
-            }
-        });
+//        });
+//        polyvRTMPView.setOnErrorListener(new IPolyvRTMPOnErrorListener() {
+//            @Override
+//            public void onError(PolyvRTMPErrorReason errorReason) {
+//                String message = "";
+//                switch (errorReason.getType()) {
+//                    case PolyvRTMPErrorReason.GET_NGB_PUSH_URL_EMPTY:
+//                        message = "获取NGB推流地址为空，请重试 (error code " + PolyvRTMPErrorReason.GET_NGB_PUSH_URL_EMPTY + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.NETWORK_DENIED:
+//                        message = "请连接网络 (error code " + PolyvRTMPErrorReason.NETWORK_DENIED + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.NOT_CAMERA:
+//                        message = "没有摄像头，请更换设备 (error coee " + PolyvRTMPErrorReason.NOT_CAMERA + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.AUDIO_AEC_ERROR:
+//                        message = "不支持音频aec (error code " + PolyvRTMPErrorReason.AUDIO_AEC_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.AUDIO_CONFIGURATION_ERROR:
+//                        message = "音频编解码器配置错误 (error code " + PolyvRTMPErrorReason.AUDIO_CONFIGURATION_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.AUDIO_ERROR:
+//                        message = "不能记录音频 (error code " + PolyvRTMPErrorReason.AUDIO_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.AUDIO_TYPE_ERROR:
+//                        message = "音频类型错误 (error code " + PolyvRTMPErrorReason.AUDIO_TYPE_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.CAMERA_DISABLED:
+//                        message = "摄相机被禁用 (error code " + PolyvRTMPErrorReason.CAMERA_DISABLED + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.CAMERA_ERROR:
+//                        message = "摄像机没有开启 (error code " + PolyvRTMPErrorReason.CAMERA_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.CAMERA_NOT_SUPPORT:
+//                        message = "摄相机不支持 (error code " + PolyvRTMPErrorReason.CAMERA_NOT_SUPPORT + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.CAMERA_OPEN_FAILED:
+//                        message = "摄相机打开失败 (error code " + PolyvRTMPErrorReason.CAMERA_OPEN_FAILED + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.SDK_VERSION_ERROR:
+//                        message = "Android sdk 版本低于18（Android 4.3.1）(error code " + PolyvRTMPErrorReason.SDK_VERSION_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.VIDEO_CONFIGURATION_ERROR:
+//                        message = "视频编解码器配置错误 (error code " + PolyvRTMPErrorReason.VIDEO_CONFIGURATION_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.VIDEO_TYPE_ERROR:
+//                        message = "视频类型错误 (error code " + PolyvRTMPErrorReason.VIDEO_TYPE_ERROR + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.NOT_LOGIN:
+//                        message = "请先登录 (error code " + PolyvRTMPErrorReason.NOT_LOGIN + ")";
+//                        break;
+//                    case PolyvRTMPErrorReason.RELOGIN_FAIL:
+//                        message = "请重新登陆 (error code " + PolyvRTMPErrorReason.RELOGIN_FAIL + ")";
+//                        break;
+//                }
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(PolyvSettingActivity.this);
+//                builder.setTitle("错误");
+//                builder.setMessage(message);
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int whichButton) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                builder.show();
+//            }
+//        });
 
-        polyvRTMPView.setOnPublishFailListener(new IPolyvRTMPOnPublishFailListener() {
-            @Override
-            public void onPublishFail() {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(PolyvSettingActivity.this);
-//            builder.setTitle("提示");
-//            builder.setMessage("推流失败，是否重试?");
-//            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int whichButton) {
-//                    handler.sendEmptyMessage(START);
-//                    dialog.dismiss();
-//                }
-//            });
+//        polyvRTMPView.setOnOpenCameraSuccessListener(new IPolyvRTMPOnOpenCameraSuccessListener() {
+//            @Override
+//            public void onSuccess() {
+//                Toast.makeText(PolyvSettingActivity.this, "打开摄像机成功", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 //
-//            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//
-//            alertDialog = builder.show();
-                // show之后才可以获取，否则获取为null
-//            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.gray_main_d));
-//            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_custom));
-            }
-        });
+//        polyvRTMPView.setOnCameraChangeListener(new IPolyvRTMPOnCameraChangeListener() {
+//            @Override
+//            public void onChange() {
+//                Toast.makeText(PolyvSettingActivity.this, "切换摄像机", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         polyvRTMPView.setConfiguration(mDefinition, mOrientation);
         polyvRTMPView.setRenderScreenSize(PolyvRTMPRenderScreenSize.AR_ASPECT_FILL_PARENT);
@@ -384,9 +344,15 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
         bt_start = (Button) findViewById(R.id.bt_start);
         et_title = (EditText) findViewById(R.id.et_title);
         tv_logoff = (TextView) findViewById(R.id.tv_logoff);
+        tv_more = (TextView) findViewById(R.id.tv_more);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_add_cover = (ImageView) findViewById(R.id.iv_add_cover);
         iv_change_camera = (ImageView) findViewById(R.id.iv_change_camera);
+        an_tags = (RecyclerView) findViewById(R.id.an_tags);
+        nsv_scroll = (NestedScrollView) findViewById(R.id.nsv_scroll);
+        et_company_name = (EditText) findViewById(R.id.et_company_name);
+        et_host_name = (EditText) findViewById(R.id.et_host_name);
+
 
     }
 
@@ -410,8 +376,9 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
         iv_add_cover.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         iv_change_camera.setOnClickListener(this);
-        et_title.setText(title);
-        et_title.setSelection(et_title.length());
+        tv_more.setOnClickListener(this);
+//        et_title.setText(title);
+//        et_title.setSelection(et_title.length());
 
 //        resetDefinition(PolyvRTMPDefinition.CHAO_QING);
 //        resetMode(PolyvRTMPOrientation.SCREEN_ORIENTATION_LANDSCAPE);
@@ -672,6 +639,14 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
                 //增加封面
                 photodialog();
                 break;
+            case R.id.tv_more:
+                //展示更多标签
+                if (tagAdapter != null && commonTagBean != null && commonTagBean.getData() != null && commonTagBean.getData().getQS_jobtag() != null) {
+                    tagAdapter.ClearData();
+                    tagAdapter.addList(commonTagBean.getData().getQS_jobtag());
+                    tv_more.setVisibility(View.GONE);
+                }
+                break;
             case R.id.iv_wechat:
                 break;
             case R.id.iv_moments:
@@ -691,30 +666,58 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
         unregisterReceiver(receiver);
         handler.removeMessages(START);
         polyvRTMPView.destroy();
+        LogUtils.e("setting-------destroy");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        polyvRTMPView.stop();
+        LogUtils.e("setting-------onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         polyvRTMPView.pause();
+        LogUtils.e("setting-------onPause");
     }
 
     private void gotoPlay() {
+
+        if (list.size() <= 0) {
+            UIUtil.showToast("请上传封面");
+        }
         String title = et_title.getText().toString();
         if (title.trim().length() == 0) {
-            Toast.makeText(this, "活动标题不能为空！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "标题不能为空！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(et_company_name.getText().toString())) {
+            UIUtil.showToast("公司名称不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(et_host_name.getText().toString())) {
+            UIUtil.showToast("主持人不能为空");
+            return;
+        }
+        if (tagSelectedList.size() <= 0) {
+            UIUtil.showToast("请选择标签");
             return;
         }
         // 更新活动标题
-        new PolyvTitleUpdate().updateTitle(mChannelId, title, null);
+//        new PolyvTitleUpdate().updateTitle(mChannelId, title, null);
         // 待完善
 //        new PolyvAuthTypeSetting().setAuthType(mChannelId, authType, code, price, null);
-        Intent intent = new Intent(PolyvSettingActivity.this, PolyvMainActivity.class);
-        intent.putExtra("channelId", mChannelId);
-        intent.putExtra("orientation", mOrientation);
-        intent.putExtra("definition", mDefinition);
-        intent.putExtra("avatarUrl", getIntent().getStringExtra("avatarUrl"));
-        startActivity(intent);
+        if (!TextUtils.isEmpty(headimg)) {
+            if (!TextUtils.isEmpty(mChannelId)) {
+                prepareLive();
+            } else {
+                commitBase();
+            }
+        } else {
+            upLoadImage();
+        }
     }
 
     /**
@@ -857,9 +860,12 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
      * 上传头像
      */
     private void upLoadImage() {
-        DialogUtils.showDialog(this, "上传中", false);
         List<MultipartBody.Part> parts = UploadFile.filesToMultipartBody(list);
-        upLoadImageCall = RestAdapterManager.getApi().uploadFile(parts.get(0));
+        if (parts.size() <= 0) {
+            return;
+        }
+        DialogUtils.showDialog(this, "准备中...", false);
+        upLoadImageCall = RestAdapterManager.getApi().uploadCover(parts.get(0));
         upLoadImageCall.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
@@ -870,9 +876,9 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
                     headimg = response.body().getData();
                     LogUtils.e(headimg);
 //                        UIUtil.showToast("成功" + headimg);
-//                    upLoadLogoImage();
+                    commitBase();
                 } else {
-                    UIUtil.showToast("上传图片失败");
+                    UIUtil.showToast(response.body().getMsg());
                     DialogUtils.closeDialog();
                 }
             }
@@ -896,4 +902,223 @@ public class PolyvSettingActivity extends Activity implements View.OnClickListen
         });
     }
 
+    private void commitBase() {
+        Map<String, String> map = new HashMap<>();
+        map.put("coverImage", headimg);
+        map.put("id", "");
+        map.put("liveDescribe", et_title.getText().toString());
+        map.put("name", et_company_name.getText().toString());
+        map.put("publisher", et_host_name.getText().toString());
+        String tag = "";
+        String tagCn = "";
+        for (int i = 0; i < tagSelectedList.size(); i++) {
+            tag += tagSelectedList.get(i).getCId() + ",";
+            tagCn += tagSelectedList.get(i).getCName() + ",";
+        }
+        if (!TextUtils.isEmpty(tag)) {
+            tag = tag.substring(0, tag.length() - 1);
+        }
+        if (!TextUtils.isEmpty(tagCn)) {
+            tagCn = tagCn.substring(0, tag.length() - 1);
+        }
+        map.put("tag", tag);
+        map.put("tagCn", tagCn);
+        if (BaseContext.getInstance().getUserInfo() != null) {
+            map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        }
+        Call<CreateLiveBean> call = RestAdapterManager.getApi().createLive(map);
+        call.enqueue(new JyCallBack<CreateLiveBean>() {
+            @Override
+            public void onSuccess(Call<CreateLiveBean> call, Response<CreateLiveBean> response) {
+
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    mChannelId = response.body().getData().getChannelId() + "";
+                    userId = response.body().getData().getUserId() + "";
+                    nickName = response.body().getData().getPublisher() + "";
+//                    new PolyvTitleUpdate().updateTitle(mChannelId, title, null);
+                    prepareLive();
+                } else {
+                    try {
+                        UIUtil.showToast(response.body().getMsg());
+                        DialogUtils.closeDialog();
+                    } catch (Exception e) {
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(Call<CreateLiveBean> call, Throwable t) {
+                DialogUtils.closeDialog();
+            }
+
+            @Override
+            public void onError(Call<CreateLiveBean> call, Response<CreateLiveBean> response) {
+                DialogUtils.closeDialog();
+            }
+        });
+    }
+
+    private void prepareLive() {
+        PolyvRTMPLoginVerify.verify(mChannelId, LIVE_PASSWORD, new IPolyvRTMPLoginListener() {
+            @Override
+            public void onError(PolyvRTMPLoginErrorReason errorReason) {
+                switch (errorReason.getType()) {
+                    case PolyvRTMPLoginErrorReason.SERVER_STATUS_EMPTY:
+                        UIUtil.showToast("服务返回状态为空");
+                        break;
+                    case PolyvRTMPLoginErrorReason.SERVER_STATUS_FAIL:
+                        UIUtil.showToast(errorReason.getMsg());
+                        break;
+                    case PolyvRTMPLoginErrorReason.NETWORK_DENIED:
+                        UIUtil.showToast("无法连接网络");
+                        break;
+                    case PolyvRTMPLoginErrorReason.DATA_ERROR:
+                        UIUtil.showToast("数据错误");
+                        break;
+                    case PolyvRTMPLoginErrorReason.CHANNEL_ID_EMPTY:
+                        UIUtil.showToast("请输入直播频道ID");
+                        break;
+                    case PolyvRTMPLoginErrorReason.PASSWORD_EMPTY:
+                        UIUtil.showToast("请输入直播密码");
+                        break;
+                    case PolyvRTMPLoginErrorReason.REQUEST_SERVER_FAIL:
+                        UIUtil.showToast("登陆失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void onSuccess(String[] preview_nickname_avatar) {
+                PolyvScreenUtils.setDecorVisible(PolyvSettingActivity.this);
+                // 初始化分享配置
+//                PolyvShareFragment.initShareConfig(preview_nickname_avatar[0], preview_nickname_avatar[2], null, null);
+//
+//                SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString(LAST_ACCOUNT_ID_KEY, channelId);
+//                editor.commit();
+//
+//                Set<String> accountIdList = sharedPreferences.getStringSet(ACCOUNT_ID_LIST_KEY, new HashSet<String>());
+//                if (!accountIdList.contains(channelId)) {
+//                    accountIdList.add(channelId);
+//                    editor = sharedPreferences.edit();
+//                    editor.putStringSet(ACCOUNT_ID_LIST_KEY, accountIdList);
+//                    editor.commit();
+//                }
+//
+//                if (!isSavePasswordCB.isChecked()) {
+//                    if (sharedPreferences.contains(channelId)) {
+//                        editor = sharedPreferences.edit();
+//                        editor.remove(channelId);
+//                        editor.commit();
+//                    }
+//
+//                    if (sharedPreferences.contains(getCheckSelectKey(channelId))) {
+//                        editor = sharedPreferences.edit();
+//                        editor.remove(getCheckSelectKey(channelId));
+//                        editor.commit();
+//                    }
+//                } else {
+//                    editor = sharedPreferences.edit();
+//                    editor.putString(channelId, password);
+//                    editor.commit();
+//
+//                    if (!sharedPreferences.contains(getCheckSelectKey(channelId))) {
+//                        editor = sharedPreferences.edit();
+//                        editor.putBoolean(getCheckSelectKey(channelId), true);
+//                        editor.commit();
+//                    }
+//                }
+//                polyvRTMPView.pause();
+                polyvRTMPView.dispose();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DialogUtils.closeDialog();
+                        Intent intent = new Intent(PolyvSettingActivity.this, PolyvMainActivity.class);
+                        intent.putExtra("channelId", mChannelId);
+                        intent.putExtra("orientation", mOrientation);
+                        intent.putExtra("definition", mDefinition);
+                        intent.putExtra("avatarUrl", headimg);
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("nickName", nickName);
+                        startActivity(intent);
+                    }
+                }, 1000);
+            }
+        }, this);
+    }
+
+    /**
+     * 根据对应的分类id获取对应的数据
+     */
+
+    private void getTagItmes() {
+        List<String> list = new ArrayList<>();
+        list.add("QS_jobtag");
+        GetBaseTagBean tagBean = new GetBaseTagBean();
+        tagBean.setAlias(list);
+        Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(tagBean);
+        commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {
+            @Override
+            public void onSuccess(Call<CommonTagBean> call, Response<CommonTagBean> response) {
+                LogUtils.e(response.body().getMsg());
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    commonTagBean = response.body();
+                    setTagData();
+                } else {
+                    UIUtil.showToast(response.body().getMsg());
+                }
+            }
+
+            @Override
+            public void onError(Call<CommonTagBean> call, Throwable t) {
+                LogUtils.e(t.getMessage());
+            }
+
+            @Override
+            public void onError(Call<CommonTagBean> call, Response<CommonTagBean> response) {
+
+            }
+        });
+    }
+
+    private void setTagData() {
+        nsv_scroll.setNestedScrollingEnabled(false);
+        tagSelectedList.clear();
+        if (commonTagBean != null && commonTagBean.getData() != null && commonTagBean.getData().getQS_jobtag() != null && commonTagBean.getData().getQS_jobtag().size() > 0) {
+            an_tags.setLayoutManager(new GridLayoutManager(this, 4));
+            List<CommonTagItemBean> items;
+            if (commonTagBean.getData().getQS_jobtag().size() > 8) {
+                items = commonTagBean.getData().getQS_jobtag().subList(0, 8);
+            } else {
+                items = commonTagBean.getData().getQS_jobtag();
+            }
+            tagAdapter = new LiveTagAdapter(this, items);
+            an_tags.setAdapter(tagAdapter);
+            tagAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+                @Override
+                public void onClick(Object bean) {
+                    CommonTagItemBean tagBean = (CommonTagItemBean) bean;
+                    if (tagSelectedList.size() <= 0) {
+                        tagSelectedList.add(tagBean);
+                    } else {
+                        if (tagSelectedList.contains(tagBean)) {
+                            tagSelectedList.remove(tagBean);
+                        } else {
+                            if (tagSelectedList.size() >= 3) {
+                                UIUtil.showToast("最多可选择三个标签");
+                            } else {
+                                tagSelectedList.add(tagBean);
+                            }
+                        }
+                    }
+                    tagAdapter.setSelectedList(tagSelectedList);
+                }
+            });
+        }
+
+
+    }
 }

@@ -38,7 +38,7 @@
             android:text="发送"
             android:textColor="@color/white_share" />
 
-        <com.easefun.polyvrtmp.view.PolyvLineEdittext
+        <com.niuyun.hire.ui.polyvLive.view.PolyvLineEdittext
             android:id="@+id/et_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

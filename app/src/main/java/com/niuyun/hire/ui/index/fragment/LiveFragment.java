@@ -10,21 +10,19 @@ import android.widget.ImageButton;
 import com.easefun.polyvsdk.live.chat.ppt.api.PolyvLiveMessage;
 import com.easefun.polyvsdk.live.chat.ppt.api.entity.PolyvLiveMessageEntity;
 import com.easefun.polyvsdk.live.chat.ppt.api.listener.PolyvLiveMessageListener;
-import com.easefun.polyvsdk.rtmp.core.login.IPolyvRTMPLoginListener;
-import com.easefun.polyvsdk.rtmp.core.login.PolyvRTMPLoginErrorReason;
-import com.easefun.polyvsdk.rtmp.core.login.PolyvRTMPLoginVerify;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.adapter.IndexLiveListItemAdapter;
 import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerActivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvSettingActivity;
-import com.niuyun.hire.ui.polyvLive.util.PolyvScreenUtils;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
@@ -218,88 +216,17 @@ public class LiveFragment extends BaseFragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.bt_go_live:
                 //我要直播
-                prepareLive();
+                if (BaseContext.getInstance().getUserInfo() != null) {
+                    Intent intent = new Intent(getActivity(), PolyvSettingActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
 
         }
     }
-    private void prepareLive(){
-        PolyvRTMPLoginVerify.verify("128664", "123456", new IPolyvRTMPLoginListener() {
-            @Override
-            public void onError(PolyvRTMPLoginErrorReason errorReason) {
-                switch (errorReason.getType()) {
-                    case PolyvRTMPLoginErrorReason.SERVER_STATUS_EMPTY:
-                        UIUtil.showToast("服务返回状态为空");
-                        break;
-                    case PolyvRTMPLoginErrorReason.SERVER_STATUS_FAIL:
-                        UIUtil.showToast(errorReason.getMsg());
-                        break;
-                    case PolyvRTMPLoginErrorReason.NETWORK_DENIED:
-                        UIUtil.showToast("无法连接网络");
-                        break;
-                    case PolyvRTMPLoginErrorReason.DATA_ERROR:
-                        UIUtil.showToast("数据错误");
-                        break;
-                    case PolyvRTMPLoginErrorReason.CHANNEL_ID_EMPTY:
-                        UIUtil.showToast("请输入直播频道ID");
-                        break;
-                    case PolyvRTMPLoginErrorReason.PASSWORD_EMPTY:
-                        UIUtil.showToast("请输入直播密码");
-                        break;
-                    case PolyvRTMPLoginErrorReason.REQUEST_SERVER_FAIL:
-                        UIUtil.showToast("登陆失败");
-                        break;
-                }
-            }
 
-            @Override
-            public void onSuccess(String[] preview_nickname_avatar) {
-                PolyvScreenUtils.setDecorVisible(getActivity());
-                // 初始化分享配置
-//                PolyvShareFragment.initShareConfig(preview_nickname_avatar[0], preview_nickname_avatar[2], null, null);
-//
-//                SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString(LAST_ACCOUNT_ID_KEY, channelId);
-//                editor.commit();
-//
-//                Set<String> accountIdList = sharedPreferences.getStringSet(ACCOUNT_ID_LIST_KEY, new HashSet<String>());
-//                if (!accountIdList.contains(channelId)) {
-//                    accountIdList.add(channelId);
-//                    editor = sharedPreferences.edit();
-//                    editor.putStringSet(ACCOUNT_ID_LIST_KEY, accountIdList);
-//                    editor.commit();
-//                }
-//
-//                if (!isSavePasswordCB.isChecked()) {
-//                    if (sharedPreferences.contains(channelId)) {
-//                        editor = sharedPreferences.edit();
-//                        editor.remove(channelId);
-//                        editor.commit();
-//                    }
-//
-//                    if (sharedPreferences.contains(getCheckSelectKey(channelId))) {
-//                        editor = sharedPreferences.edit();
-//                        editor.remove(getCheckSelectKey(channelId));
-//                        editor.commit();
-//                    }
-//                } else {
-//                    editor = sharedPreferences.edit();
-//                    editor.putString(channelId, password);
-//                    editor.commit();
-//
-//                    if (!sharedPreferences.contains(getCheckSelectKey(channelId))) {
-//                        editor = sharedPreferences.edit();
-//                        editor.putBoolean(getCheckSelectKey(channelId), true);
-//                        editor.commit();
-//                    }
-//                }
-                Intent intent = new Intent(getActivity(), PolyvSettingActivity.class);
-                intent.putExtra("channelId", "128664");
-                intent.putExtra("title", preview_nickname_avatar[1]);
-                intent.putExtra("avatarUrl", preview_nickname_avatar[2]);
-                startActivity(intent);
-            }
-        }, getActivity());
-    }
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.niuyun.hire.R;
 import com.niuyun.hire.ui.polyvLive.fragment.PolyvDanmakuFragment;
 import com.niuyun.hire.ui.polyvLive.fragment.PolyvMainFragment;
+import com.niuyun.hire.ui.polyvLive.view.PolyvLineEdittext;
 
 
 /**
@@ -26,7 +27,7 @@ public class PolyvChatActivity extends Activity implements View.OnClickListener 
     // 发送按钮
     private TextView tv_send;
     // 信息编辑框
-    private EditText et_message;
+    private PolyvLineEdittext et_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class PolyvChatActivity extends Activity implements View.OnClickListener 
     private void findId() {
         iv_danmakuswitch = (ImageView) findViewById(R.id.iv_danmakuswitch);
         tv_send = (TextView) findViewById(R.id.tv_send);
-        et_message = (EditText) findViewById(R.id.et_message);
+        et_message = (PolyvLineEdittext) findViewById(R.id.et_message);
     }
 
     private void initView() {

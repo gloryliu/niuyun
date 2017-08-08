@@ -119,6 +119,60 @@ public class LiveListBean {
             private String stream;
             private String m3u8Url;
             private String coverImage;
+            private String publisher;
+            private String logoImage;
+            private String tag;
+            private String tagCn;
+            private String liveDescribe;
+            private String liveStatus;
+
+            public String getPublisher() {
+                return publisher;
+            }
+
+            public void setPublisher(String publisher) {
+                this.publisher = publisher;
+            }
+
+            public String getLogoImage() {
+                return logoImage;
+            }
+
+            public void setLogoImage(String logoImage) {
+                this.logoImage = logoImage;
+            }
+
+            public String getTag() {
+                return tag;
+            }
+
+            public void setTag(String tag) {
+                this.tag = tag;
+            }
+
+            public String getTagCn() {
+                return tagCn;
+            }
+
+            public void setTagCn(String tagCn) {
+                this.tagCn = tagCn;
+            }
+
+            public String getLiveDescribe() {
+                return liveDescribe;
+            }
+
+            public void setLiveDescribe(String liveDescribe) {
+                this.liveDescribe = liveDescribe;
+            }
+
+            public String getLiveStatus() {
+                return liveStatus;
+            }
+
+            public void setLiveStatus(String liveStatus) {
+                this.liveStatus = liveStatus;
+            }
 
             public int getId() {
                 return id;

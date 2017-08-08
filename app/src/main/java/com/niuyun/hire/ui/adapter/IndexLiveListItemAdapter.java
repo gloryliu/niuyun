@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +80,15 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
 
-            ((ImageViewHolder) viewHolder).tv_name.setText(list.get(position).getName());
+            ((ImageViewHolder) viewHolder).tv_name.setText(list.get(position).getPublisher());
+            ((ImageViewHolder) viewHolder).tv_company_name.setText(list.get(position).getName());
+            ((ImageViewHolder) viewHolder).tv_describe.setText(list.get(position).getLiveDescribe());
             ImageLoadedrManager.getInstance().display(context, list.get(position).getCoverImage(), ((ImageViewHolder) viewHolder).iv_live_cover);
+            ImageLoadedrManager.getInstance().display(context, list.get(position).getLogoImage(), ((ImageViewHolder) viewHolder).iv_head);
+            if (!TextUtils.isEmpty(list.get(position).getTagCn())) {
+                String arr[] = list.get(position).getTagCn().split(",");
+                bindTags(arr, (ImageViewHolder) viewHolder);
+            }
         }
     }
 
@@ -93,25 +101,23 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
      * @param
      * @param
      */
-//    private void bindTags(NewCommonHouseBean.DataBean house, ViewHolder viewHolder) {
-//        if (null != house.getTags() && house.getTags().size() > 0) {
-//            viewHolder.atTags.removeAllViews();
-//            int i = 0;
-//            for (NewCommonHouseBean.DataBean.TagsBean tag : house.getTags()) {
-//                TextView textView = new TextView(context);
-//
-//                textView.setText(tag.getName());
-//                textView.setPadding(9, 5, 9, 5);
-//                viewHolder.colorlist = ToolsUtil.getRandonBackGroundColor(i % 5);
-//                i++;
-//                textView.setBackgroundResource(viewHolder.colorlist.get(1));
-//                textView.setTextColor(context.getResources().getColor(viewHolder.colorlist.get(0)));
-//                ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-//                lp.setMargins(8, 8, 8, 8);
-//                viewHolder.atTags.addView(textView, lp);
-//            }
-//        }
-//    }
+    private void bindTags(String stringse[], ImageViewHolder viewHolder) {
+        if (null != stringse && stringse.length > 0) {
+            viewHolder.an_tags.removeAllViews();
+            for (String tag : stringse) {
+                TextView textView = new TextView(context);
+
+                textView.setText(tag);
+                textView.setPadding(9, 5, 9, 5);
+                textView.setBackgroundResource(R.drawable.bg_333333_corner);
+                textView.setTextColor(context.getResources().getColor(R.color.color_333333));
+                ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                lp.setMargins(10, 10, 10, 10);
+                viewHolder.an_tags.addView(textView, lp);
+            }
+        }
+    }
+
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_head)
         CircularImageView iv_head;//头像

@@ -75,6 +75,11 @@ public class IndexCompanyListItemAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
+            try {
+                ImageLoadedrManager.getInstance().display(context, Constants.COMMON_IMAGE_URL + list.get(position).getLogo(), ((ImageViewHolder) viewHolder).iv_company);
+
+            } catch (Exception e) {
+            }
             ImageLoadedrManager.getInstance().display(context, Constants.COMMON_IMAGE_URL + list.get(position).getLogo(), ((ImageViewHolder) viewHolder).iv_company);
             ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getJobsName());
             ((ImageViewHolder) viewHolder).tv_position_price.setText(list.get(position).getMinwage() / 1000 + "k-" + list.get(position).getMaxwage() / 1000 + "k");

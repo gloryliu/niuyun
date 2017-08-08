@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,9 +33,11 @@ import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnPreparedListene
 import com.easefun.polyvsdk.rtmp.core.video.listener.IPolyvRTMPOnPublishFailListener;
 import com.easefun.polyvsdk.rtmp.sopcast.video.effect.BeautyEffect;
 import com.niuyun.hire.R;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.ui.polyvLive.fragment.PolyvMainFragment;
 import com.niuyun.hire.ui.polyvLive.util.PolyvDisplayUtils;
 import com.niuyun.hire.ui.polyvLive.util.PolyvScreenUtils;
+import com.niuyun.hire.utils.LogUtils;
 
 public class PolyvMainActivity extends FragmentActivity {
     private PolyvRTMPView polyvRTMPView = null;
@@ -50,6 +51,8 @@ public class PolyvMainActivity extends FragmentActivity {
     private String mChannelId;
     private int mOrientation;
     private int mDefinition;
+    private String userId;
+    private String nickName;
 
     private static final int START = 1;
     private static final int TIME_COUNT = 2;
@@ -74,6 +77,7 @@ public class PolyvMainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().finishActivity(PolyvSettingActivity.class);
         setContentView(R.layout.polyv_activity_main);
         initExtraParam();
         initOrientation();
@@ -84,13 +88,15 @@ public class PolyvMainActivity extends FragmentActivity {
 
     private void addFragment(String channelId) {
         mainFragment = new PolyvMainFragment();
-        mainFragment.loginChatRoom(Build.SERIAL + "123", channelId, "主持人");
+        mainFragment.loginChatRoom(userId, channelId, nickName);
         mainFragment.setPolyvRTMPView(polyvRTMPView);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, mainFragment, "mainFragment").commit();
     }
 
     private void initExtraParam() {
         mChannelId = getIntent().getStringExtra("channelId");
+        userId = getIntent().getStringExtra("userId");
+        nickName = getIntent().getStringExtra("nickName");
         mOrientation = getIntent().getIntExtra("orientation", PolyvRTMPOrientation.SCREEN_ORIENTATION_LANDSCAPE);
         mDefinition = getIntent().getIntExtra("definition", PolyvRTMPDefinition.GAO_QING);
     }
@@ -212,7 +218,6 @@ public class PolyvMainActivity extends FragmentActivity {
                 Toast.makeText(PolyvMainActivity.this, "打开摄像机成功", Toast.LENGTH_SHORT).show();
             }
         });
-
         polyvRTMPView.setOnCameraChangeListener(new IPolyvRTMPOnCameraChangeListener() {
             @Override
             public void onChange() {
@@ -273,7 +278,11 @@ public class PolyvMainActivity extends FragmentActivity {
 
         polyvRTMPView.setConfiguration(mDefinition, mOrientation);
         polyvRTMPView.setRenderScreenSize(PolyvRTMPRenderScreenSize.AR_ASPECT_FIT_PARENT);
-        polyvRTMPView.setEffect(new BeautyEffect(this));
+        try {
+            polyvRTMPView.setEffect(new BeautyEffect(this));
+        } catch (Exception e) {
+        }
+
     }
 
     // 网络恢复，重连推流
@@ -291,7 +300,9 @@ public class PolyvMainActivity extends FragmentActivity {
     protected void onStop() {
         super.onStop();
         polyvRTMPView.pause();
+        LogUtils.e("main-------onStop");
     }
+
 
     @Override
     protected void onStart() {
@@ -300,7 +311,14 @@ public class PolyvMainActivity extends FragmentActivity {
             alertDialog.dismiss();
         }
 
+//        polyvRTMPView.resume();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         polyvRTMPView.resume();
+        LogUtils.e("main-------onResume");
     }
 
     @Override
@@ -309,6 +327,7 @@ public class PolyvMainActivity extends FragmentActivity {
         handler.removeMessages(START);
         handler.removeMessages(TIME_COUNT);
         polyvRTMPView.destroy();
+        LogUtils.e("main-------onDestroy");
         if (isReceiver) {
             unregisterReceiver(receiver);
         }

@@ -1,6 +1,7 @@
 package com.niuyun.hire.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
@@ -21,7 +22,9 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.chat.DemoHelper;
+import com.niuyun.hire.ui.chat.ui.SplashActivity;
 import com.niuyun.hire.utils.SharePreManager;
+import com.niuyun.hire.utils.Utils;
 import com.niuyunzhipin.greendao.DaoMaster;
 import com.niuyunzhipin.greendao.DaoSession;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -309,7 +312,8 @@ public class BaseContext extends MultiDexApplication {
     public void Exit() {
         SharePreManager.instance(this).clearUserInfO();
         userInfo = null;
-//        AppManager.getAppManager().finishAllActivity();
+        AppManager.getAppManager().finishAllActivity();
+        restartApp();
 //        exitfromServer();
     }
 
@@ -349,15 +353,15 @@ public class BaseContext extends MultiDexApplication {
 //        });
 //    }
 
-//    public void restartApp() {
-//        if (!Utils.isBackground(this)) {
-//            Intent intent = new Intent(instance, SplashActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            instance.startActivity(intent);
-//        }
-//        AppManager.getAppManager().AppExit(this);
-//        android.os.Process.killProcess(android.os.Process.myPid()); //
-//    }
+    public void restartApp() {
+        if (!Utils.isBackground(this)) {
+            Intent intent = new Intent(instance, SplashActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            instance.startActivity(intent);
+        }
+        AppManager.getAppManager().AppExit(this);
+        android.os.Process.killProcess(android.os.Process.myPid()); //
+    }
 //
     public DaoSession getDaoSession() {
         return mDaoSession;

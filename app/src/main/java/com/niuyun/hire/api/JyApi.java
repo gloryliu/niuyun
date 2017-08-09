@@ -96,6 +96,7 @@ public interface JyApi {
      */
     @GET("/resource/categoryJobs/findJobsById")
     Call<JobTagBean> getJobType(@Query("id") String id);
+
     /**
      * 获取所在城市
      *
@@ -120,6 +121,7 @@ public interface JyApi {
      */
     @POST("/resource/membersInfo/save")
     Call<SuperBean<UserInfoBean>> perfectBaseInfo(@Body Map<String, String> map);
+
     /**
      * 完善企业资料
      *
@@ -138,6 +140,7 @@ public interface JyApi {
     @Multipart
     @POST("/sys/uploadCertificate")
     Call<SuperBean<String>> uploadCertificateImage(@Part MultipartBody.Part file);
+
     /**
      * 上传公司logo图片
      *
@@ -157,6 +160,7 @@ public interface JyApi {
     @Multipart
     @POST("/sys/uploadLiveCoverImage")
     Call<SuperBean<String>> uploadCover(@Part MultipartBody.Part file);
+
     /**
      * 上传个人头像图片
      *
@@ -211,6 +215,7 @@ public interface JyApi {
      */
     @POST("/resource/companyProfile/companyProfileDetail")
     Call<CompanyDetailsBean> getCompanyDetails(@Body Map<String, String> map);
+
     /**
      * 获取直播列表
      *
@@ -219,6 +224,7 @@ public interface JyApi {
      */
     @POST("/resource/live/getLiveList")
     Call<LiveListBean> getLiveList(@Body Map<String, String> map);
+
     /**
      * 创建直播
      *
@@ -228,7 +234,14 @@ public interface JyApi {
     @POST("/resource/live/createLive")
     Call<CreateLiveBean> createLive(@Body Map<String, String> map);
 
-
+    /**
+     * 添加工作经历
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resumeWork/addWork")
+    Call<SuperBean<String>> addWorkExperience(@Body Map<String, String> map);
 
 
 }

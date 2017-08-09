@@ -181,7 +181,7 @@ public class DialogUtils {
         } else {
             pvTime = new TimePickerView(context, TimePickerView.Type.YEAR_MONTH_DAY);
         }
-        pvTime.setRange(Integer.parseInt(UIUtil.getTime(new Date(), "yyyy")), Integer.parseInt(UIUtil.getTime(new Date(), "yyyy")) + 10);
+//        pvTime.setRange(Integer.parseInt(UIUtil.getTime(new Date(), "yyyy")), Integer.parseInt(UIUtil.getTime(new Date(), "yyyy")) + 10);
         pvTime.setTime(new Date());
         pvTime.setCyclic(false);
         pvTime.setCancelable(true);

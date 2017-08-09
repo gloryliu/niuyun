@@ -93,6 +93,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_setting:
+                BaseContext.getInstance().Exit();
+
                 //设置
 //                if (BaseContext.getInstance().getUserInfo() == null) {
 //                    startActivity(new Intent(getActivity(), LoginActivity.class));

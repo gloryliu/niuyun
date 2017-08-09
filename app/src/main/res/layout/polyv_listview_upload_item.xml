@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/fl_start"
+        android:layout_width="128dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/common_margin_lr"
+        android:alpha="0.7"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/iv_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_add_work" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_seri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01"
+            android:textColor="@color/center_view_color_blue"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/tv_seri"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="这是一行测试的文本。。。。。。。。。。。。。。。。。。。。。。。。。。........。..。。。。。。。。。。"
+            android:textColor="@color/center_view_color_blue"
+            />
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_title"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="100M"
+            android:textColor="@color/top_right_text_color_black"
+             />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_size"
+            android:layout_alignTop="@id/tv_size"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/tv_size"
+            android:gravity="center"
+            android:text="正在上传"
+             />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_title"
+            android:layout_below="@id/tv_size"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_speed"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="0K/S"
+                 />
+
+            <ProgressBar
+                android:id="@+id/pb_progress"
+                style="?android:progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="2.1dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_speed"
+                android:progress="50"
+                android:progressDrawable="@drawable/polyv_pb_pg_drawable" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -111,6 +111,12 @@
         <activity
             android:name="com.niuyun.hire.utils.photoutils.TakeSimpleActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.EditWorkExperienceActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.polyvLive.activity.PolyvPlayerActivity"

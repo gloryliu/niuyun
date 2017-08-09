@@ -12,6 +12,7 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
+import com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.view.CircularImageView;
 
@@ -102,8 +103,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             case R.id.rl_video_resume:
                 //视频简历
 //                Intent intent = new Intent(getActivity(), CompanyDetailsActivity.class);
-//                Intent intent = new Intent(getActivity(), PerfectEnterpriseInformation.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), PolyvUploadActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_stars:
                 //我的关注

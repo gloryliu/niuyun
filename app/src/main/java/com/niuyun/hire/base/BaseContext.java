@@ -90,6 +90,7 @@ public class BaseContext extends MultiDexApplication {
      */
     public void initPolyvChatConfig() {
         PolyvChatManager.initConfig(appId, appSecret);
+        com.easefun.polyvsdk.rtmp.chat.PolyvChatManager.initConfig(appId, appSecret);
     }
 
     @Override
@@ -97,6 +98,7 @@ public class BaseContext extends MultiDexApplication {
         super.onCreate();
         MultiDex.install(this);
         instance = this;
+        initPolyvChatConfig();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
@@ -159,7 +161,6 @@ public class BaseContext extends MultiDexApplication {
         RedPacket.getInstance().setDebugMode(true);
         //end of red packet code
 
-        initPolyvChatConfig();
 
     }
 

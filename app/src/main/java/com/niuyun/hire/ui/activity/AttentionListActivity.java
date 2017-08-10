@@ -114,7 +114,7 @@ public class AttentionListActivity extends BaseActivity {
     }
 
     private void initTitle() {
-        titleView.setTitle("我的关注");
+        titleView.setTitle("我关注的职位");
         titleView.setTitleColor(Color.WHITE);
         titleView.setLeftImageResource(R.mipmap.ic_title_back);
         titleView.setLeftText("返回");

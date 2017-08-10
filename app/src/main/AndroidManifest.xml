@@ -116,6 +116,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.EditWorkExperienceActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.EditEducationActivity"
+            android:windowSoftInputMode="adjustPan|"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.EditEvaluationSelfActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.PreviewResumeActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
 
         <activity

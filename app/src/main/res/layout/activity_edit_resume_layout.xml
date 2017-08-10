@@ -33,7 +33,7 @@
                     android:layout_marginTop="15dp">
 
                     <com.niuyun.hire.view.ColorfulRingProgressView
-                        android:id="@+id/crpv"
+                        android:id="@+id/crpv_progress"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:bgColor="#e0e0e0"
@@ -151,7 +151,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/tv_member"
+                        android:id="@+id/tv_intent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_user_name"
@@ -160,7 +160,7 @@
                         android:layout_marginTop="7dp"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:text="近期有意向换工作"
+                        android:text="编辑个人信息"
                         android:textColor="@color/color_333333"
                         android:textSize="12sp" />
 
@@ -255,8 +255,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="15dp"
-                android:paddingLeft="19dp"
-                android:paddingRight="21dp"
                 android:paddingTop="9dp">
 
                 <TextView
@@ -264,6 +262,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:paddingLeft="19dp"
+                    android:paddingRight="21dp"
                     android:text="工作经历"
                     android:textColor="@color/color_333333"
                     android:textSize="13sp" />
@@ -279,7 +279,9 @@
                     android:id="@+id/rv_work_experience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/vv_v1" />
+                    android:layout_below="@+id/vv_v1"
+                    android:paddingLeft="19dp"
+                    android:paddingRight="21dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -320,7 +322,8 @@
                 android:paddingBottom="15dp"
                 android:paddingLeft="19dp"
                 android:paddingRight="21dp"
-                android:paddingTop="9dp">
+                android:paddingTop="9dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_work_project_title"
@@ -444,6 +447,7 @@
 
 
     <Button
+        android:id="@+id/bt_preview"
         style="@style/btn_red_btn_no_corner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

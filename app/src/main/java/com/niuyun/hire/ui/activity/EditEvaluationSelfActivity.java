@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
@@ -18,12 +16,10 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.UIUtil;
-import com.niuyun.hire.utils.timepicker.TimePickerView;
 import com.niuyun.hire.view.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,38 +31,22 @@ import retrofit2.Response;
  * Created by chen.zhiwei on 2017-8-9.
  */
 
-public class EditWorkExperienceActivity extends BaseActivity implements View.OnClickListener {
+public class EditEvaluationSelfActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.title_view)
     TitleBar titleView;
-    @BindView(R.id.et_begin_time)
-    TextView et_begin_time;
-    @BindView(R.id.iv_begin_time_more)
-    ImageView iv_begin_time_more;
-    @BindView(R.id.et_end_time)
-    TextView et_end_time;
-    @BindView(R.id.iv_end_time_more)
-    ImageView iv_end_time_more;
     @BindView(R.id.bt_save)
     Button bt_save;
-    @BindView(R.id.et_company_name)
-    EditText et_company_name;
     @BindView(R.id.et_describe)
     EditText et_describe;
-    @BindView(R.id.et_position_name)
-    EditText et_position_name;
 
     @Override
     public int getContentViewLayoutId() {
-        return R.layout.activity_edit_work_experience;
+        return R.layout.activity_edit_evaluation_self;
     }
 
     @Override
     public void initViewsAndEvents() {
         initTitle();
-        et_begin_time.setOnClickListener(this);
-        iv_begin_time_more.setOnClickListener(this);
-        et_end_time.setOnClickListener(this);
-        iv_end_time_more.setOnClickListener(this);
         bt_save.setOnClickListener(this);
     }
 
@@ -92,7 +72,7 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
 
     private void initTitle() {
 
-        titleView.setTitle("工作经历");
+        titleView.setTitle("自我评价");
         titleView.setTitleColor(Color.WHITE);
         titleView.setLeftImageResource(R.mipmap.ic_title_back);
         titleView.setLeftText("返回");
@@ -117,24 +97,6 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.et_begin_time:
-            case R.id.iv_begin_time_more:
-                DialogUtils.showTimePcikerDialog(this, TimePickerView.Type.YEAR_MONTH, new TimePickerView.OnTimeSelectListener() {
-                    @Override
-                    public void onTimeSelect(Date date) {
-                        et_begin_time.setText(UIUtil.getTime(date, "yyyy-MM"));
-                    }
-                });
-                break;
-            case R.id.et_end_time:
-            case R.id.iv_end_time_more:
-                DialogUtils.showTimePcikerDialog(this, TimePickerView.Type.YEAR_MONTH, new TimePickerView.OnTimeSelectListener() {
-                    @Override
-                    public void onTimeSelect(Date date) {
-                        et_end_time.setText(UIUtil.getTime(date, "yyyy-MM"));
-                    }
-                });
-                break;
             case R.id.bt_save:
                 UpPrepare();
                 break;
@@ -151,21 +113,14 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
     }
 
     private void upLoadInfo() {
-        DialogUtils.showDialog(EditWorkExperienceActivity.this, "上传中...", false);
+        DialogUtils.showDialog(EditEvaluationSelfActivity.this, "上传中...", false);
         Map<String, String> map = new HashMap<>();
-        map.put("achievements", et_describe.getText().toString());
-        map.put("companyname", et_company_name.getText().toString());
-        map.put("endmonth", et_end_time.getText().toString().split("-")[1] + "");
-        map.put("endyear", et_end_time.getText().toString().split("-")[0] + "");
-        map.put("jobs", et_position_name.getText().toString());
-        map.put("startmonth", et_begin_time.getText().toString().split("-")[1] + "");
-        map.put("startyear", et_begin_time.getText().toString().split("-")[0] + "");
+        map.put("specialty", et_describe.getText().toString());
         if (BaseContext.getInstance().getUserInfo() != null) {
             map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
-            map.put("pid", BaseContext.getInstance().getUserInfo().resumeId + "");//简历id
         }
 
-        Call<SuperBean<String>> addWorkExperienceCall = RestAdapterManager.getApi().addWorkExperience(map);
+        Call<SuperBean<String>> addWorkExperienceCall = RestAdapterManager.getApi().addEvaluation(map);
         addWorkExperienceCall.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
@@ -195,22 +150,6 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
     }
 
     private boolean checkData() {
-        if (TextUtils.isEmpty(et_company_name.getText().toString())) {
-            UIUtil.showToast("公司名称不能为空");
-            return false;
-        }
-        if (TextUtils.isEmpty(et_position_name.getText().toString())) {
-            UIUtil.showToast("职位不能为空");
-            return false;
-        }
-        if (TextUtils.isEmpty(et_begin_time.getText().toString())) {
-            UIUtil.showToast("开始时间不能为空");
-            return false;
-        }
-        if (TextUtils.isEmpty(et_end_time.getText().toString())) {
-            UIUtil.showToast("结束时间不能为空");
-            return false;
-        }
         if (TextUtils.isEmpty(et_describe.getText().toString())) {
             UIUtil.showToast("描述不能为空");
             return false;

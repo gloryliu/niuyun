@@ -10,6 +10,7 @@ import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.LiveListBean;
+import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.polyvLive.bean.CreateLiveBean;
@@ -243,5 +244,27 @@ public interface JyApi {
     @POST("/resource/resumeWork/addWork")
     Call<SuperBean<String>> addWorkExperience(@Body Map<String, String> map);
 
+    /**
+     * 添加教育
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resumeEducation/addEducation")
+    Call<SuperBean<String>> addEducation(@Body Map<String, String> map);
 
+    /**
+     * 添加教育
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resume/addSpecialty")
+    Call<SuperBean<String>> addEvaluation(@Body Map<String, String> map);
+
+    /**
+     * 预览简历数据
+     */
+    @GET("/resource/resume/resumePreView")
+    Call<PreviewResumeBean> previewResume(@Query("uid") String uid);
 }

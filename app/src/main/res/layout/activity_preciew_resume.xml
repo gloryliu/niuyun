@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.niuyun.hire.view.TitleBar
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@color/color_e20e0e">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp">
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_head"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_mine_login_head"
+                        android:gravity="center">
+
+                        <com.niuyun.hire.view.CircularImageView
+                            android:id="@+id/iv_head"
+                            android:layout_width="95dp"
+                            android:layout_height="95dp"
+                            android:scaleType="centerInside" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@+id/ll_head"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="10dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_head"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <LinearLayout style="@style/style_linearlayout">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:text="基本信息" />
+            </LinearLayout>
+
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/style_edit_word_experience"
+                    android:text="最高学历：" />
+
+                <TextView
+                    android:id="@+id/tv_education"
+                    style="@style/style_edit_word_experience"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/style_edit_word_experience"
+                    android:text="工作年限：" />
+
+                <TextView
+                    android:id="@+id/tv_work_age"
+                    style="@style/style_edit_word_experience"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/style_edit_word_experience"
+                    android:text="出生年份：" />
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    style="@style/style_edit_word_experience"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/style_edit_word_experience"
+                    android:text="联系电话：" />
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    style="@style/style_edit_word_experience"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/style_edit_word_experience"
+                    android:text="联系邮箱：" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    style="@style/style_edit_word_experience"
+                    android:text="" />
+            </LinearLayout>
+
+            <View style="@style/common_divider_f0f0f0_10" />
+            <!--求职意向-->
+            <LinearLayout style="@style/style_linearlayout">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:text="求职意向" />
+            </LinearLayout>
+
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_intent_position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp" />
+
+            <View style="@style/common_divider_f0f0f0_10" />
+
+            <!--自我评价-->
+            <LinearLayout style="@style/style_linearlayout">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:text="自我评价" />
+            </LinearLayout>
+
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <TextView
+                android:id="@+id/tv_evaluation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:text=""
+                android:textColor="@color/color_333333"
+                android:textSize="13sp" />
+
+            <View style="@style/common_divider_f0f0f0_10" />
+
+            <!--工作经历-->
+
+
+            <LinearLayout style="@style/style_linearlayout">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:text="工作经历" />
+            </LinearLayout>
+
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_work_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp" />
+
+            <View style="@style/common_divider_f0f0f0_10" />
+            <!--教育经历-->
+
+
+            <LinearLayout style="@style/style_linearlayout">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:text="教育经历" />
+            </LinearLayout>
+
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_education"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

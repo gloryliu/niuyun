@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f0f0f0"
+    android:orientation="vertical">
+
+    <com.niuyun.hire.view.TitleBar
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/title_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="25dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="请认真填写，以提升你在求职的竞争力"
+                    android:textColor="@color/color_999999"
+
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="40dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_school_title"
+                    style="@style/style_edit_word_experience"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学校名称"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+
+                <EditText
+                    android:id="@+id/et_school_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_school_title"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <View style="@style/common_divider_f0f0f0" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="40dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_profession_title"
+                    style="@style/style_edit_word_experience"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="专业"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+
+                <EditText
+                    android:id="@+id/et_profession_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_profession_title"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <View style="@style/common_divider_f0f0f0" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="17dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_education_title"
+                    style="@style/style_edit_word_experience"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学历" />
+
+                <TextView
+                    android:id="@+id/et_education"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/iv_education_more"
+                    android:layout_toRightOf="@+id/tv_education_title"
+                    android:gravity="right"
+                    android:text="请选择"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_education_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right" />
+            </RelativeLayout>
+
+            <View style="@style/common_divider_f0f0f0" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="17dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_begintime_title"
+                    style="@style/style_edit_word_experience"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="开始时间" />
+
+                <TextView
+                    android:id="@+id/et_begin_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/iv_begin_time_more"
+                    android:layout_toRightOf="@+id/tv_begintime_title"
+                    android:gravity="right"
+                    android:text="请选择"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_begin_time_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right" />
+            </RelativeLayout>
+
+            <View style="@style/common_divider_f0f0f0" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="17dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_endtime_title"
+                    style="@style/style_edit_word_experience"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="结束时间" />
+
+                <TextView
+                    android:id="@+id/et_end_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/iv_end_time_more"
+                    android:layout_toRightOf="@+id/tv_endtime_title"
+                    android:gravity="right"
+                    android:text="请选择"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_end_time_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="25dp"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="工作描述"
+                    android:textColor="@color/color_999999"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/et_describe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="简要阐述工作经历，工作内容及工作成果"
+                    android:minHeight="130dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="17dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bt_save"
+        style="@style/btn_red_btn_no_corner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="保存"
+        android:textColor="@color/color_ffffff"
+        android:textSize="14sp" />
+
+</RelativeLayout>

@@ -89,6 +89,18 @@ public class JobDetailsBean {
         private int scale;
         private String scaleCn;
 
+        public String getFollowFlag() {
+            return followFlag;
+        }
+
+        public void setFollowFlag(String followFlag) {
+            this.followFlag = followFlag;
+        }
+
+        /**是否对该职位关注1为没有关注2为已经关注*/
+        private String followFlag;
+
+
         public int getId() {
             return id;
         }

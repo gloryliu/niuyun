@@ -165,6 +165,13 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
             tv_company_type.setText(bean.getData().getTradeCn());
             tv_company_location.setText("地址：" + bean.getData().getAddress());
 
+            //是否关注
+            if (!TextUtils.isEmpty(bean.getData().getFollowFlag()) && bean.getData().getFollowFlag().equals("2")) {
+                mCollectView.setImageResource(R.mipmap.ic_stars_yes);
+            } else {
+                mCollectView.setImageResource(R.mipmap.ic_stars_no);
+            }
+
         }
     }
 

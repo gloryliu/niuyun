@@ -10,6 +10,7 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.AttentionListActivity;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity;
@@ -110,6 +111,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_stars:
                 //我的关注
+
+                Intent intentAttention = new Intent(getActivity(), AttentionListActivity.class);
+                startActivity(intentAttention);
                 break;
             case R.id.rl_watched:
                 //谁看过我

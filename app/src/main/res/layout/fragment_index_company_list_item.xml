@@ -26,6 +26,7 @@
             android:src="@mipmap/ic_default" />
 
         <ImageView
+            android:id="@+id/iv_divider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

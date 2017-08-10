@@ -147,6 +147,7 @@ public class AllJobsFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", databean.getId() + "");
                     bundle.putString("companyId", databean.getCompanyId() + "");
+                    bundle.putString("uid", databean.getUid() + "");
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

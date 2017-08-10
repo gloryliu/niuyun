@@ -130,6 +130,10 @@
             android:name="com.niuyun.hire.ui.activity.PreviewResumeActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.AttentionListActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.polyvLive.activity.PolyvPlayerActivity"

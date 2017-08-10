@@ -40,4 +40,6 @@ public class UserInfoBean extends ErrorBean {
      */
     public int companyId;
 
+    public int memberUid;
+
 }

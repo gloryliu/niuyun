@@ -18,6 +18,7 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
+import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.chat.Constant;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -72,8 +73,10 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     Button bt_talk;
     private String companyId;//公司id
     private String id;//职位id
-
+    private String uid;//职位id
+    private ImageView mCollectView;
     Call<JobDetailsBean> jobDetailsBeanCall;
+    Call<SuperBean<String>> addAttentionCall;
     private JobDetailsBean bean;
 
     @Override
@@ -92,6 +95,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         if (bundle != null) {
             companyId = bundle.getString("companyId");
             id = bundle.getString("id");
+            uid = bundle.getString("uid");
         }
         initTitle();
         ll_company.setOnClickListener(this);
@@ -168,9 +172,9 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("companyId", companyId);
+        map.put("uid", uid);
         if (BaseContext.getInstance().getUserInfo() != null) {
-
-            map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+            map.put("memberUid", BaseContext.getInstance().getUserInfo().memberUid + "");
         }
         jobDetailsBeanCall = RestAdapterManager.getApi().getJobDetails(map);
         jobDetailsBeanCall.enqueue(new JyCallBack<JobDetailsBean>() {
@@ -220,12 +224,18 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         });
         titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         titleView.setActionTextColor(Color.WHITE);
-        titleView.addAction(new TitleBar.ImageAction(R.mipmap.ic_stars_no) {
+        mCollectView = (ImageView) titleView.addAction(new TitleBar.ImageAction(R.mipmap.ic_stars_no) {
             @Override
             public void performAction(View view) {
+                if (!UIUtil.isFastDoubleClick()) {
+                    if (BaseContext.getInstance().getUserInfo() != null) {
+                        addAttention();
+                    }
+                }
 
             }
         });
+
         titleView.setImmersive(true);
     }
 
@@ -262,6 +272,39 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         if (jobDetailsBeanCall != null) {
             jobDetailsBeanCall.cancel();
         }
+        if (addAttentionCall != null) {
+            addAttentionCall.cancel();
+        }
         super.onDestroy();
+    }
+
+    private void addAttention() {
+        Map<String, String> map = new HashMap<>();
+        map.put("jobsId", bean.getData().getId() + "");
+        map.put("jobsName", bean.getData().getJobsName());
+        map.put("personalUid", BaseContext.getInstance().getUserInfo().uid + "");
+        addAttentionCall = RestAdapterManager.getApi().addAttention(map);
+        addAttentionCall.enqueue(new JyCallBack<SuperBean<String>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                if (response.body() != null && response.body().getCode() == Constants.successCode) {
+                    UIUtil.showToast(response.body().getMsg());
+                    mCollectView.setImageResource(R.mipmap.ic_stars_yes);
+                } else {
+                    UIUtil.showToast("接口异常");
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
+                UIUtil.showToast("接口异常");
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                UIUtil.showToast("接口异常");
+            }
+        });
+
     }
 }

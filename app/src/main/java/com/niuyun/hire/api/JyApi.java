@@ -10,6 +10,7 @@ import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.LiveListBean;
+import com.niuyun.hire.ui.bean.MyAttentionListBean;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
@@ -267,4 +268,24 @@ public interface JyApi {
      */
     @GET("/resource/resume/resumePreView")
     Call<PreviewResumeBean> previewResume(@Query("uid") String uid);
+
+
+    /**
+     * 关注
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/addFollow")
+    Call<SuperBean<String>> addAttention(@Body Map<String, String> map);
+    /**
+     * 关注
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/getFollows")
+    Call<MyAttentionListBean> getMyAttention(@Body Map<String, String> map);
+
+
 }

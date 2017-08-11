@@ -90,6 +90,8 @@ dependencies {
     compile files('libs/polyvRTMP1.0.6.jar')
     compile files('libs/polyvRTMPChat1.0.6.jar')
     compile files('libs/polyvUpload2.0.3.jar')
+    compile files('libs/polyvPlayer2.0.3.jar')
+    compile files('libs/polyvSub2.0.3.jar')
 }
 def getDate() {
     def date = new Date()

@@ -11,6 +11,7 @@ import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.bean.MyAttentionListBean;
+import com.niuyun.hire.ui.bean.PersonBaseInfo;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
@@ -179,7 +180,7 @@ public interface JyApi {
      * @param map
      * @return
      */
-    @POST("/resource/user/userUpdate")
+    @POST("/resource/membersInfo/update")
     Call<String> upLoadInfo(@Body Map<String, String> map);
 
     /**
@@ -269,6 +270,12 @@ public interface JyApi {
     @GET("/resource/resume/resumePreView")
     Call<PreviewResumeBean> previewResume(@Query("uid") String uid);
 
+    /**
+     * 获取个人信息
+     */
+    @GET("/resource/membersInfo/getInfo")
+    Call<PersonBaseInfo> getPersonInfo(@Query("uid") String uid);
+
 
     /**
      * 关注
@@ -278,6 +285,7 @@ public interface JyApi {
      */
     @POST("/resource/jobs/addFollow")
     Call<SuperBean<String>> addAttention(@Body Map<String, String> map);
+
     /**
      * 关注
      *

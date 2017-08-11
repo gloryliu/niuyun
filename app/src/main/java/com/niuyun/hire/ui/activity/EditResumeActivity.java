@@ -65,6 +65,8 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
     NestedScrollView ns_content;
     @BindView(R.id.bt_preview)
     Button bt_preview;
+    @BindView(R.id.tv_edit_resume)
+    TextView tv_edit_resume;
     private Call<PreviewResumeBean> previewResumeCall;
     private PreviewResumeBean previewResumeBean;
     private EditResumeWorkExperienceAdapter workExperienceAdapter;
@@ -82,6 +84,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
         iv_add_education.setOnClickListener(this);
         rl_self_evaluation.setOnClickListener(this);
         bt_preview.setOnClickListener(this);
+        tv_edit_resume.setOnClickListener(this);
         init();
     }
 
@@ -149,6 +152,9 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.bt_preview:
                 goPreview();
+                break;
+            case R.id.tv_edit_resume:
+                startActivity(new Intent(this, PersonInformationActivity.class));
                 break;
 
         }

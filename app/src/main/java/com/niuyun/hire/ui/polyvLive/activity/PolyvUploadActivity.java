@@ -3,11 +3,12 @@ package com.niuyun.hire.ui.polyvLive.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,25 +20,29 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.polyvLive.adapter.PolyvUploadListViewAdapter;
 import com.niuyun.hire.ui.polyvLive.bean.PolyvUploadInfo;
 import com.niuyun.hire.ui.polyvLive.util.PolyvUploadSQLiteHelper;
+import com.niuyun.hire.view.TitleBar;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 public class PolyvUploadActivity extends BaseActivity {
     // 上传的listView
     private ListView lv_upload;
     private PolyvUploadListViewAdapter adapter;
     private List<PolyvUploadInfo> lists;
-    // 返回按钮
-    private ImageView iv_finish;
     // 底部选择本地视频按钮
     private RelativeLayout rl_bot;
     private PolyvUploadSQLiteHelper uploadSQLiteHelper;
+    @BindView(R.id.title_view)
+    TitleBar title_view;
+    @BindView(R.id.pv_play)
+    PolyvPlayerView pv_play;
 
     private void findIdAndNew() {
         lv_upload = (ListView) findViewById(R.id.lv_upload);
-        iv_finish = (ImageView) findViewById(R.id.iv_finish);
         rl_bot = (RelativeLayout) findViewById(R.id.rl_bot);
         lists = new ArrayList<>();
         uploadSQLiteHelper = PolyvUploadSQLiteHelper.getInstance(this);
@@ -58,13 +63,6 @@ public class PolyvUploadActivity extends BaseActivity {
                             }
                         }).setNegativeButton(android.R.string.cancel, null).show();
                 return true;
-            }
-        });
-        iv_finish.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
         rl_bot.setOnClickListener(new OnClickListener() {
@@ -148,9 +146,14 @@ public class PolyvUploadActivity extends BaseActivity {
 
     @Override
     public void initViewsAndEvents() {
+        initTitle();
         findIdAndNew();
         initView();
         initData();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
+        pv_play.setTransaction(ft);
+        pv_play.setVid("c538856ddeb0abe3b875545932c82c59_c");
     }
 
     @Override
@@ -193,5 +196,27 @@ public class PolyvUploadActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    /**
+     * 初始化标题
+     */
+    private void initTitle() {
+        title_view.setTitle("视频简历");
+        title_view.setTitleColor(Color.WHITE);
+//        title_view.setLeftImageResource(R.mipmap.ic_title_back);
+//        title_view.setLeftText("返回");
+//        title_view.setLeftTextColor(Color.WHITE);
+//        title_view.setLeftClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
+        title_view.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
+        title_view.setActionTextColor(Color.WHITE);
+        title_view.setImmersive(true);
+
+
     }
 }

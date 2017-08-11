@@ -80,4 +80,8 @@
     <declare-styleable name="PolyvLineEdittext">
         <attr name="line_color" format="color"></attr>
     </declare-styleable>
+    <declare-styleable name="polyvPlayerView">
+        <attr name="playModeCode"  format="integer"/>
+        <attr name="startNow"  format="boolean"/>
+    </declare-styleable>
 </resources>

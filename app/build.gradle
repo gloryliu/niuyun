@@ -92,6 +92,7 @@ dependencies {
     compile files('libs/polyvUpload2.0.3.jar')
     compile files('libs/polyvPlayer2.0.3.jar')
     compile files('libs/polyvSub2.0.3.jar')
+    compile files('libs/gson-2.7.jar')
 }
 def getDate() {
     def date = new Date()

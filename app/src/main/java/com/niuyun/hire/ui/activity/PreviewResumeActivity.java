@@ -120,7 +120,7 @@ public class PreviewResumeActivity extends BaseActivity {
             tv_evaluation.setText(previewResumeBean.getData().getSpecialty());
 
 
-            ns_scroll.setNestedScrollingEnabled(false);
+//            ns_scroll.setNestedScrollingEnabled(false);
             rv_intent_position.setLayoutManager(new LinearLayoutManager(this));
 
 

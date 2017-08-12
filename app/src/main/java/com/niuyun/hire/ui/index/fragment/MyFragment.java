@@ -13,6 +13,7 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.AttentionListActivity;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
+import com.niuyun.hire.ui.activity.Settingctivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.view.CircularImageView;
@@ -94,14 +95,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_setting:
-                BaseContext.getInstance().Exit();
-
+//                BaseContext.getInstance().Exit();
                 //设置
-//                if (BaseContext.getInstance().getUserInfo() == null) {
-//                    startActivity(new Intent(getActivity(), LoginActivity.class));
-//                    return;
-//                }
-//                startActivity(new Intent(getActivity(), PersonInformationActivity.class));
+                if (BaseContext.getInstance().getUserInfo() == null) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    return;
+                }
+                startActivity(new Intent(getActivity(), Settingctivity.class));
                 break;
             case R.id.rl_video_resume:
                 //视频简历

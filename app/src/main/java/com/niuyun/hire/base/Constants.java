@@ -28,6 +28,8 @@ public class Constants {
     public static final int PERFECT_INFO_SUCCESS = 0x42;//完善信息成功
     public static final String LIVE_PASSWORD = "123456";//完善信息成功
     public static final int UPDATE_LIVE_RESUME = 0x43;//需要更新在线简历
+    public static final int VIDEO_RECORD_REQUEST = 0x44;//录制视频
+
 
     //个人头像
     public static final int resultCode_header_Photos = 10;//跳转到相册

@@ -138,6 +138,18 @@
             android:name="com.niuyun.hire.ui.activity.PersonInformationActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.Settingctivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.ControlPositionIntentActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.EditPositionIntentActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.polyvLive.activity.PolyvPlayerActivity"

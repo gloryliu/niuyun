@@ -279,6 +279,7 @@
                     android:id="@+id/rv_work_experience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     android:layout_below="@+id/vv_v1"
                     android:paddingLeft="19dp"
                     android:paddingRight="21dp" />
@@ -344,6 +345,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_work_project"
                     android:layout_width="match_parent"
+                    android:nestedScrollingEnabled="false"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/vv_v2" />
 
@@ -407,6 +409,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_education"
                     android:layout_width="match_parent"
+                    android:nestedScrollingEnabled="false"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/vv_v3" />
 

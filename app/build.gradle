@@ -69,7 +69,7 @@ dependencies {
     //裁剪图片的库，用于选择直播logo
     compile 'com.yalantis:ucrop:2.2.0-native'
     //圆形图片，用于显示圆形logo
-    compile 'de.hdodenhof:circleimageview:1.3.0'
+//    compile 'de.hdodenhof:circleimageview:1.3.0'
     //视频播放库，SDK中使用
     compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
     //视频播放库，SDK中使用
@@ -93,6 +93,9 @@ dependencies {
     compile files('libs/polyvPlayer2.0.3.jar')
     compile files('libs/polyvSub2.0.3.jar')
     compile files('libs/gson-2.7.jar')
+    compile files('libs/converter-gson-2.1.0.jar')
+    compile files('libs/alicloud-android-sdk-httpdns-1.1.0.jar')
+    compile files('libs/alicloud-android-utils-1.0.2.jar')
 }
 def getDate() {
     def date = new Date()

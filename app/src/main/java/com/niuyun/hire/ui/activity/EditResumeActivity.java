@@ -67,6 +67,8 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
     Button bt_preview;
     @BindView(R.id.tv_edit_resume)
     TextView tv_edit_resume;
+    @BindView(R.id.rl_control_resume_intent)
+    RelativeLayout rl_control_resume_intent;
     private Call<PreviewResumeBean> previewResumeCall;
     private PreviewResumeBean previewResumeBean;
     private EditResumeWorkExperienceAdapter workExperienceAdapter;
@@ -84,6 +86,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
         iv_add_education.setOnClickListener(this);
         rl_self_evaluation.setOnClickListener(this);
         bt_preview.setOnClickListener(this);
+        rl_control_resume_intent.setOnClickListener(this);
         tv_edit_resume.setOnClickListener(this);
         init();
     }
@@ -156,6 +159,9 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_edit_resume:
                 startActivity(new Intent(this, PersonInformationActivity.class));
                 break;
+            case R.id.rl_control_resume_intent:
+                startActivity(new Intent(this, ControlPositionIntentActivity.class));
+                break;
 
         }
     }
@@ -172,7 +178,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void init() {
-        ns_content.setNestedScrollingEnabled(false);
+//        ns_content.setNestedScrollingEnabled(false);
         rv_work_experience.setLayoutManager(new LinearLayoutManager(this));
         workExperienceAdapter = new EditResumeWorkExperienceAdapter(this);
         rv_work_experience.setAdapter(workExperienceAdapter);
@@ -202,7 +208,11 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
         if (previewResumeBean != null && previewResumeBean.getData() != null) {
             crpv_progress.setPercent((float) previewResumeBean.getData().getCompletePercent());
             tvPercent.setText(previewResumeBean.getData().getCompletePercent() + "");
-            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + previewResumeBean.getData().getAvatars(), iv_head);
+            try {
+                ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + previewResumeBean.getData().getAvatars(), iv_head);
+            } catch (Exception e) {
+            }
+
             tv_user_name.setText(previewResumeBean.getData().getRealname() + "|" + previewResumeBean.getData().getSexCn());
 //            tv_intent.setText(previewResumeBean.getData().getRealname());
             workExperienceAdapter.ClearData();

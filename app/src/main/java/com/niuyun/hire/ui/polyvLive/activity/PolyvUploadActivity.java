@@ -3,8 +3,10 @@ package com.niuyun.hire.ui.polyvLive.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.easefun.polyvsdk.util.GetPathFromUri;
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.polyvLive.adapter.PolyvUploadListViewAdapter;
 import com.niuyun.hire.ui.polyvLive.bean.PolyvUploadInfo;
@@ -40,6 +43,7 @@ public class PolyvUploadActivity extends BaseActivity {
     TitleBar title_view;
     @BindView(R.id.pv_play)
     PolyvPlayerView pv_play;
+    private String filPaths;
 
     private void findIdAndNew() {
         lv_upload = (ListView) findViewById(R.id.lv_upload);
@@ -195,6 +199,22 @@ public class PolyvUploadActivity extends BaseActivity {
                     Toast.makeText(PolyvUploadActivity.this, "视频获取失败", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case Constants.VIDEO_RECORD_REQUEST:
+                if (null != data) {
+                    Uri uri = data.getData();
+                    if (uri == null) {
+                        return;
+                    } else {
+                        Cursor c = getContentResolver().query(uri,
+                                new String[]{MediaStore.MediaColumns.DATA},
+                                null, null, null);
+                        if (c != null && c.moveToFirst()) {
+                            filPaths = c.getString(0);
+//                            showUploadVideoDialog();
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -217,6 +237,40 @@ public class PolyvUploadActivity extends BaseActivity {
         title_view.setActionTextColor(Color.WHITE);
         title_view.setImmersive(true);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pv_play.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pv_play.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        pv_play.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pv_play.destroy();
+    }
+
+    private void goRecording() {
+        Intent intent;
+        intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);// 创建一个请求视频的意图
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);// 设置视频的质量，值为0-1，
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);// 设置视频的录制长度，s为单位
+        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20 * 1024 * 1024L);// 设置视频文件大小，字节为单位
+        startActivityForResult(intent, Constants.VIDEO_RECORD_REQUEST);// 设置请求码，在onActivityResult()方法中接收结果
 
     }
 }

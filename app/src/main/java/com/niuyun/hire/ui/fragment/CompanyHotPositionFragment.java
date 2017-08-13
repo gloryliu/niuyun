@@ -114,7 +114,7 @@ public class CompanyHotPositionFragment extends BaseFragment {
         map.put("pageNum", pageNum + "");
         map.put("pageSize", pageSize + "");
 
-        allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
+        allJobsBeanCall = RestAdapterManager.getApi().getCompanyJobs(map);
 
         allJobsBeanCall.enqueue(new JyCallBack<AllJobsBean>() {
             @Override

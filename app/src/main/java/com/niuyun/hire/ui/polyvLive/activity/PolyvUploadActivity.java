@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.polyvLive.adapter.PolyvUploadListViewAdapter;
 import com.niuyun.hire.ui.polyvLive.bean.PolyvUploadInfo;
 import com.niuyun.hire.ui.polyvLive.util.PolyvUploadSQLiteHelper;
+import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 
 import java.io.File;
@@ -43,6 +45,8 @@ public class PolyvUploadActivity extends BaseActivity {
     TitleBar title_view;
     @BindView(R.id.pv_play)
     PolyvPlayerView pv_play;
+    @BindView(R.id.bt_next)
+    Button bt_next;
     private String filPaths;
 
     private void findIdAndNew() {
@@ -76,6 +80,12 @@ public class PolyvUploadActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("video/*");
                 startActivityForResult(Intent.createChooser(intent, "完成操作需使用"), 12);
+            }
+        });
+        bt_next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goRecording();
             }
         });
     }
@@ -205,13 +215,14 @@ public class PolyvUploadActivity extends BaseActivity {
                     if (uri == null) {
                         return;
                     } else {
-                        Cursor c = getContentResolver().query(uri,
-                                new String[]{MediaStore.MediaColumns.DATA},
-                                null, null, null);
-                        if (c != null && c.moveToFirst()) {
-                            filPaths = c.getString(0);
+//                        Cursor c = getContentResolver().query(uri,
+//                                new String[]{MediaStore.MediaColumns.DATA},
+//                                null, null, null);
+//                        if (c != null && c.moveToFirst()) {
+//                            filPaths = c.getString(0);
 //                            showUploadVideoDialog();
-                        }
+                            handle(uri);
+//                        }
                     }
                 }
                 break;
@@ -268,8 +279,8 @@ public class PolyvUploadActivity extends BaseActivity {
         Intent intent;
         intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);// 创建一个请求视频的意图
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);// 设置视频的质量，值为0-1，
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);// 设置视频的录制长度，s为单位
-        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20 * 1024 * 1024L);// 设置视频文件大小，字节为单位
+//        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);// 设置视频的录制长度，s为单位
+//        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20 * 1024 * 1024L);// 设置视频文件大小，字节为单位
         startActivityForResult(intent, Constants.VIDEO_RECORD_REQUEST);// 设置请求码，在onActivityResult()方法中接收结果
 
     }

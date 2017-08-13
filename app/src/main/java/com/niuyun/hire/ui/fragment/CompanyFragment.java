@@ -29,7 +29,7 @@ import butterknife.BindView;
 public class CompanyFragment extends BaseFragment {
     @BindView(R.id.tag_recyclerview)
     RecyclerView tag_recyclerview;
-    @BindView(R.id.recyclerview)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerview;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;

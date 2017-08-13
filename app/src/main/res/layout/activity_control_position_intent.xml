@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_ffffff"
@@ -33,7 +34,7 @@
                 android:text="求职状态" />
 
             <TextView
-                android:id="@+id/et_end_time"
+                android:id="@+id/tv_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

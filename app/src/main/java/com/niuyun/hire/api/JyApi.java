@@ -12,6 +12,7 @@ import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.bean.MyAttentionListBean;
 import com.niuyun.hire.ui.bean.PersonBaseInfo;
+import com.niuyun.hire.ui.bean.PositionIntentBean;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
@@ -184,12 +185,20 @@ public interface JyApi {
     Call<String> upLoadInfo(@Body Map<String, String> map);
 
     /**
-     * 获取所有的职位
+     * 公司详情页中获取所有的职位
      *
      * @param map
      * @return
      */
     @POST("/resource/jobs/findJobList")
+    Call<AllJobsBean> getCompanyJobs(@Body Map<String, String> map);
+    /**
+     * 获取所有的职位
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/indexFindJobList")
     Call<AllJobsBean> getAllJobs(@Body Map<String, String> map);
 
     /**
@@ -275,6 +284,11 @@ public interface JyApi {
      */
     @GET("/resource/membersInfo/getInfo")
     Call<PersonBaseInfo> getPersonInfo(@Query("uid") String uid);
+    /**
+     * 获取求职意向列表
+     */
+    @GET("/resource/membersIntention/findIntentions")
+    Call<PositionIntentBean> gePositionIntentList(@Query("uid") String uid);
 
 
     /**

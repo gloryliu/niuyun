@@ -30,6 +30,7 @@ public class Constants {
     public static final int UPDATE_LIVE_RESUME = 0x43;//需要更新在线简历
     public static final int VIDEO_RECORD_REQUEST = 0x44;//录制视频
     public static final int UPDATE_POSITION_INTENT = 0x45;//需要更新求职意向
+    public static final int GET_VIDEO_VID = 0x46;//获取视频vid
 
 
     //个人头像

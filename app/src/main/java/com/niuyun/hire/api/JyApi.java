@@ -337,6 +337,7 @@ public interface JyApi {
     @POST("/resource/membersIntention/updateIntention")
     Call<SuperBean<String>> editPositionIntent(@Body Map<String, String> map);
 
+
     /**
      * 删除求职意向
      *
@@ -346,5 +347,13 @@ public interface JyApi {
     @GET("/resource/membersIntention/deleteIntention")
     Call<SuperBean<String>> deletePositionIntent(@Query("id") String id);
 
-
+    /**
+     * 上传视频建立vid
+     *
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/members/addVideo")
+    Call<SuperBean<String>> commitVideoVid(@Body Map<String, String> map);
 }

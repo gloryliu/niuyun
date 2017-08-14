@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/title_view"
         android:orientation="vertical">
 
@@ -25,7 +26,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="期望行业" />
+                android:text="期望行业"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_job_type"
@@ -34,7 +37,9 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="3dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:text="请选择" />
+                android:text="请选择"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <View style="@style/common_divider_f0f0f0" />
@@ -48,16 +53,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="期望职位" />
+                android:text="期望职位"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tv_job"
+            <EditText
+                android:id="@+id/et_job"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:background="@null"
                 android:drawablePadding="3dp"
-                android:drawableRight="@mipmap/ic_arrow_right"
-                android:text="请选择" />
+                android:hint="请输入"
+                android:textColor="@color/color_999999"
+                android:textColorHint="@color/color_999999"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <View style="@style/common_divider_f0f0f0" />
@@ -71,7 +81,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="工作城市" />
+                android:text="工作城市"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_city"
@@ -80,7 +92,9 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="3dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:text="请选择" />
+                android:text="请选择"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <View style="@style/common_divider_f0f0f0" />
@@ -94,6 +108,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp"
                 android:text="期望薪资" />
 
             <TextView
@@ -103,7 +119,9 @@
                 android:layout_alignParentRight="true"
                 android:drawablePadding="3dp"
                 android:drawableRight="@mipmap/ic_arrow_right"
-                android:text="请选择" />
+                android:text="请选择"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
         </RelativeLayout>
 
     </LinearLayout>

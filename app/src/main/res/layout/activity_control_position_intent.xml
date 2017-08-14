@@ -55,7 +55,7 @@
                 android:src="@mipmap/ic_arrow_right" />
         </RelativeLayout>
 
-        <View style="@style/common_divider_f0f0f0" />
+        <View style="@style/common_divider_f0f0f0_5" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_list"

@@ -187,11 +187,8 @@ public class AllJobsFragment extends BaseFragment {
             map.put("education", education);
             map.put("experience", experience);
             map.put("wage", wage);
-            allJobsBeanCall = RestAdapterManager.getApi().getFilterJobs(map);
-        } else {
-
-            allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
         }
+        allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
 
 
         allJobsBeanCall.enqueue(new JyCallBack<AllJobsBean>() {

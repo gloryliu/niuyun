@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,14 +23,19 @@ import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.PositionIntentBean;
+import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -51,6 +57,7 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
     @BindView(R.id.tv_state)
     TextView tv_state;
     private Call<PositionIntentBean> gePositionIntentList;
+    private Call<SuperBean<String>> setCurrentStateCall;
     private PositionIntentListAdapter listAdapter;
     private CommonTagBean commonTagBean;
     private CommonTagItemBean cacheCommonTagBean;
@@ -65,27 +72,48 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
     @Override
     public void initViewsAndEvents() {
         initTitle();
+        tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
         bt_add.setOnClickListener(this);
         rl_state.setOnClickListener(this);
         rv_list.setLayoutManager(new LinearLayoutManager(this));
         listAdapter = new PositionIntentListAdapter(this);
         rv_list.setAdapter(listAdapter);
+        listAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                if (bean != null) {
+                    PositionIntentBean.DataBean dataBean = (PositionIntentBean.DataBean) bean;
+                    Intent intent = new Intent(ControlPositionIntentActivity.this, EditPositionIntentActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("positionintent", dataBean);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
     public void loadData() {
-        getIntentList();
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            getIntentList();
+        }
         getTagItmes();
     }
 
     @Override
     public boolean isRegistEventBus() {
-        return false;
+        return true;
     }
 
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
-
+        if (eventBusCenter != null) {
+            if (eventBusCenter.getEvenCode() == Constants.UPDATE_POSITION_INTENT) {
+                getIntentList();
+            }
+        }
     }
 
     @Override
@@ -139,6 +167,7 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
             @Override
             public void onSuccess(Call<PositionIntentBean> call, Response<PositionIntentBean> response) {
                 if (response.body() != null && response.body().getCode() == Constants.successCode) {
+                    listAdapter.ClearData();
                     listAdapter.addList(response.body().getData());
                 } else {
                     UIUtil.showToast(response.body().getMsg());
@@ -153,6 +182,47 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
             @Override
             public void onError(Call<PositionIntentBean> call, Response<PositionIntentBean> response) {
                 UIUtil.showToast("接口异常");
+            }
+        });
+    }
+
+    private void setCurrentState() {
+        DialogUtils.showDialog(this, "加载中", false);
+        Map<String, String> map = new HashMap<>();
+        map.put("current", cId);
+        map.put("currentCn", cName);
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        }
+        setCurrentStateCall
+                = RestAdapterManager.getApi().setCurrentState(map);
+        setCurrentStateCall.enqueue(new JyCallBack<SuperBean<String>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
+                if (response.body() != null && response.body().getCode() == Constants.successCode) {
+                    UIUtil.showToast(response.body().getMsg());
+                    tv_state.setText(cName);
+                    UserInfoBean infoBean = BaseContext.getInstance().getUserInfo();
+                    infoBean.current = Integer.parseInt(cId);
+                    infoBean.currentCn = cName;
+                    BaseContext.getInstance().setUserInfo(infoBean);
+                } else {
+                    UIUtil.showToast("修改失败");
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
+                UIUtil.showToast("接口异常");
+                DialogUtils.closeDialog();
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                UIUtil.showToast("接口异常");
+                DialogUtils.closeDialog();
             }
         });
     }
@@ -248,9 +318,10 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
             UIUtil.showToast("请重新选择");
             return;
         }
-        tv_state.setText(tagBean.getCName());
+
         cId = tagBean.getCId() + "";
         cName = tagBean.getCName();
+        setCurrentState();
         cacheCommonTagBean = null;
     }
 

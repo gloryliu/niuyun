@@ -16,6 +16,7 @@ import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.activity.Settingctivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity;
 import com.niuyun.hire.utils.DialogUtils;
+import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.view.CircularImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,6 +43,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rl_setting;
     @BindView(R.id.tv_edit_resume)
     TextView tv_edit_resume;
+    @BindView(R.id.tv_state)
+    TextView tv_state;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -63,6 +66,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void setUserInfo() {
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            ImageLoadedrManager.getInstance().display(getActivity(), BaseContext.getInstance().getUserInfo().avatars, ivHead);
+            tv_user_name.setText(BaseContext.getInstance().getUserInfo().username);
+            tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
+        } else {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
     }
 
     @Override

@@ -214,7 +214,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             }
 
             tv_user_name.setText(previewResumeBean.getData().getRealname() + "|" + previewResumeBean.getData().getSexCn());
-//            tv_intent.setText(previewResumeBean.getData().getRealname());
+            tv_intent.setText(BaseContext.getInstance().getUserInfo().currentCn);
             workExperienceAdapter.ClearData();
             workExperienceAdapter.addList(previewResumeBean.getData().getResumeWork());
             workEducationAdapter.ClearData();

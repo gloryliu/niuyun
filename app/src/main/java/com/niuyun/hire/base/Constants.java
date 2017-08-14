@@ -29,6 +29,7 @@ public class Constants {
     public static final String LIVE_PASSWORD = "123456";//完善信息成功
     public static final int UPDATE_LIVE_RESUME = 0x43;//需要更新在线简历
     public static final int VIDEO_RECORD_REQUEST = 0x44;//录制视频
+    public static final int UPDATE_POSITION_INTENT = 0x45;//需要更新求职意向
 
 
     //个人头像

@@ -41,5 +41,15 @@ public class UserInfoBean extends ErrorBean {
     public int companyId;
 
     public int memberUid;
+    /**
+     * 目前状态id
+     */
+    public int current;
+
+    /**
+     * 目前状态
+     */
+    public String currentCn;
+
 
 }

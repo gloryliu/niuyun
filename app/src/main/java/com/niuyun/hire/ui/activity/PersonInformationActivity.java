@@ -158,15 +158,6 @@ public class PersonInformationActivity extends BaseActivity implements View.OnCl
     public void loadData() {
         getBaseInfo();
         getTagItmes();
-        if (BaseContext.getInstance().getUserInfo() != null) {
-//
-//            tv_sick_name.setText(BaseContext.getInstance().getUserInfo().nickname);
-//            if (!TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().sex)) {
-//                tv_sex.setText(BaseContext.getInstance().getUserInfo().sex.equals("1") ? "男" : "女");
-//            }
-//            tv_birthday.setText(UIUtil.timeStamp2Date(BaseContext.getInstance().getUserInfo().birthday));
-//            ImageLoadedrManager.getInstance().displayNoFilter(this, BaseContext.getInstance().getUserInfo().headimg, iv_head);
-        }
     }
 
     @Override

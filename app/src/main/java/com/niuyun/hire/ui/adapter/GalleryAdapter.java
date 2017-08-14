@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
-import com.niuyun.hire.ui.listerner.IntentTagClickListerner;
+import com.niuyun.hire.ui.bean.PositionIntentBean;
+import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,8 +22,8 @@ public class GalleryAdapter extends
         RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<String> mDatas;
-    private IntentTagClickListerner intentTagClickListerner;
+    private List<PositionIntentBean.DataBean> mDatas;
+    private RecyclerViewCommonInterface intentTagClickListerner;
     private Context mContext;
 
     public int getSelectedPosition() {
@@ -34,18 +36,37 @@ public class GalleryAdapter extends
 
     private int selectedPosition;
 
-    public IntentTagClickListerner getIntentTagClickListerner() {
+    public RecyclerViewCommonInterface getIntentTagClickListerner() {
         return intentTagClickListerner;
     }
 
-    public void setIntentTagClickListerner(IntentTagClickListerner intentTagClickListerner) {
+    public void setIntentTagClickListerner(RecyclerViewCommonInterface intentTagClickListerner) {
         this.intentTagClickListerner = intentTagClickListerner;
     }
+    public void addList(List<PositionIntentBean.DataBean> items) {
+        this.mDatas.addAll(items);
+        notifyDataSetChanged();
+    }
 
-    public GalleryAdapter(Context context, List<String> datats) {
+    public List<PositionIntentBean.DataBean> getmDatas() {
+        return mDatas;
+    }
+
+    public void ClearData() {
+        mDatas.clear();
+        notifyDataSetChanged();
+    }
+    public GalleryAdapter(Context context, List<PositionIntentBean.DataBean> datats) {
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
-        mDatas = datats;
+        this.mDatas=new ArrayList<>();
+        this.mDatas = datats;
+    }
+
+    public GalleryAdapter(Context context) {
+        this.mContext = context;
+        this.mDatas=new ArrayList<>();
+        mInflater = LayoutInflater.from(context);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -80,7 +101,7 @@ public class GalleryAdapter extends
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        viewHolder.mTag.setText(mDatas.get(i));
+        viewHolder.mTag.setText(mDatas.get(i).getJobsName());
         if (selectedPosition == i) {
             viewHolder.mTag.setTextColor(mContext.getResources().getColor(R.color.color_ea0000));
             viewHolder.mTag.setBackground(mContext.getResources().getDrawable(R.drawable.bg_ea0000_stroke));
@@ -92,7 +113,7 @@ public class GalleryAdapter extends
             @Override
             public void onClick(View view) {
                 if (intentTagClickListerner != null) {
-                    intentTagClickListerner.onClickListerrner(mDatas.get(i));
+                    intentTagClickListerner.onClick(mDatas.get(i));
                     selectedPosition = i;
                     notifyDataSetChanged();
                 }

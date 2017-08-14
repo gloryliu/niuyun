@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
-import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.PositionIntentBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 
@@ -74,8 +73,8 @@ public class PositionIntentListAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
-            ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getCategoryCn());
-            ((ImageViewHolder) viewHolder).tv_intent.setText(list.get(position).getDistrictCn());
+            ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getJobsName());
+            ((ImageViewHolder) viewHolder).tv_intent.setText(list.get(position).getDistrictCn()+"|"+list.get(position).getWageCn());
         }
     }
 

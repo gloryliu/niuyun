@@ -91,11 +91,10 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
                 canvasSize = canvasWidth;
             }
             try {
-
+                BitmapShader shader = new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                paint.setShader(shader);
             } catch (Exception e) {
             }
-            BitmapShader shader = new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            paint.setShader(shader);
 
             // circleCenter is the x or y of the view's center
             // radius is the radius in pixels of the cirle to be drawn

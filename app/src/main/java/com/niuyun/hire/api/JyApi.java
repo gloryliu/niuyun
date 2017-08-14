@@ -192,23 +192,32 @@ public interface JyApi {
      */
     @POST("/resource/jobs/findJobList")
     Call<AllJobsBean> getCompanyJobs(@Body Map<String, String> map);
+
     /**
      * 获取所有的职位
      *
      * @param map
      * @return
      */
-    @POST("/resource/jobs/indexFindJobList")
+    @POST("/resource/jobs/jobSearch")
     Call<AllJobsBean> getAllJobs(@Body Map<String, String> map);
 
     /**
-     * 筛选职位
+     * 根据意向筛选职位
      *
      * @param map
      * @return
      */
-    @POST("/resource/jobs/jobSearch")
+    @POST("/resource/jobs/indexFindJobList")
     Call<AllJobsBean> getFilterJobs(@Body Map<String, String> map);
+    /**
+     * 修改在职状态
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resume/updateCurrent")
+    Call<SuperBean<String>> setCurrentState(@Body Map<String, String> map);
 
     /**
      * 获取职位详情
@@ -284,6 +293,7 @@ public interface JyApi {
      */
     @GET("/resource/membersInfo/getInfo")
     Call<PersonBaseInfo> getPersonInfo(@Query("uid") String uid);
+
     /**
      * 获取求职意向列表
      */
@@ -308,6 +318,33 @@ public interface JyApi {
      */
     @POST("/resource/jobs/getFollows")
     Call<MyAttentionListBean> getMyAttention(@Body Map<String, String> map);
+
+    /**
+     * 新增求职意向
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/membersIntention/addIntention")
+    Call<SuperBean<String>> commitPositionIntent(@Body Map<String, String> map);
+
+    /**
+     * 编辑求职意向
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/membersIntention/updateIntention")
+    Call<SuperBean<String>> editPositionIntent(@Body Map<String, String> map);
+
+    /**
+     * 删除求职意向
+     *
+     * @param id
+     * @return
+     */
+    @GET("/resource/membersIntention/deleteIntention")
+    Call<SuperBean<String>> deletePositionIntent(@Query("id") String id);
 
 
 }

@@ -1,12 +1,13 @@
 package com.niuyun.hire.ui.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/8/13.
  */
 
-public class PositionIntentBean {
+public class PositionIntentBean implements Serializable{
 
     /**
      * code : 1000
@@ -42,7 +43,7 @@ public class PositionIntentBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 3
          * uid : 50
@@ -74,6 +75,16 @@ public class PositionIntentBean {
         private int maxwage;
         private int wage;
         private String wageCn;
+
+        public String getJobsName() {
+            return jobsName;
+        }
+
+        public void setJobsName(String jobsName) {
+            this.jobsName = jobsName;
+        }
+
+        private String jobsName;
 
         public int getId() {
             return id;

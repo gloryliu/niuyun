@@ -151,6 +151,18 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.niuyun.hire.ui.activity.AboutWeActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.UpdatePasswordActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.niuyun.hire.ui.activity.UpdatePhoneActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.niuyun.hire.ui.polyvLive.activity.PolyvUploadVideoScannerActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />

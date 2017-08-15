@@ -51,5 +51,9 @@ public class UserInfoBean extends ErrorBean {
      */
     public String currentCn;
 
+    /**
+     * 简历完整度
+     */
+    private int completePercent;
 
 }

@@ -75,6 +75,22 @@ public interface JyApi {
      */
     @POST("/resource/user/forgetPwd")
     Call<ErrorBean> commitNewPassword(@Body Map<String, String> map);
+    /**
+     * 修改密码
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/members/updatePwd")
+    Call<ErrorBean> updatePassword(@Body Map<String, String> map);
+    /**
+     * 修改电话号码
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/members/updateMobile")
+    Call<ErrorBean> updatePhne(@Body Map<String, String> map);
 
     /**
      * 修改密码

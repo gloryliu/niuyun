@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-
+android:id="@+id/rl_change_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp">
@@ -45,6 +45,7 @@
             android:layout_marginRight="12dp" />
 
         <RelativeLayout
+            android:id="@+id/rl_change_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp">
@@ -70,6 +71,7 @@
             android:layout_marginRight="12dp" />
 
         <RelativeLayout
+            android:id="@+id/rl_clear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp">
@@ -95,6 +97,7 @@
             android:layout_marginRight="12dp" />
 
         <RelativeLayout
+            android:id="@+id/rl_about_we"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp">

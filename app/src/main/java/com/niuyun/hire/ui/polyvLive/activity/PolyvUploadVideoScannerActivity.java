@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Button;
@@ -51,7 +52,7 @@ import retrofit2.Response;
  * Created by Administrator on 2017/8/14.
  */
 
-class PolyvUploadVideoScannerActivity extends BaseActivity {
+public class PolyvUploadVideoScannerActivity extends BaseActivity {
     private static PolyvUploadSQLiteHelper uploadSQLiteHelper;
     @BindView(R.id.title_view)
     TitleBar title_view;
@@ -205,7 +206,7 @@ class PolyvUploadVideoScannerActivity extends BaseActivity {
     /**
      * 把任务从列表中移除
      */
-    public void removeTask(int position) {
+    public void removeTask() {
 //        PolyvUploadInfo uploadInfo = lists.remove(position);
         // 该方法会先暂停上传再移除任务
         PolyvUploaderManager.removePolyvUpload(uploadInfo.getFilepath());
@@ -272,38 +273,45 @@ class PolyvUploadVideoScannerActivity extends BaseActivity {
             uploadInfo = new PolyvUploadInfo(title, desc, filesize, filepath);
             if (!uploadSQLiteHelper.isAdd(uploadInfo)) {
                 uploadSQLiteHelper.insert(uploadInfo);
-//                lists.add(uploadInfo);
-//                adapter.initUploader();
                 handler = new MyHandler(uploadInfo);
                 initUploader();
 
                 if (uris[i].toString().startsWith("image/*")) {
-//                    ImageView view = new ImageView(this);
-//                    iv_pre.setImageURI(uris[i]);
                     UIUtil.showToast(uris[i] + "");
-//                    view.setLayoutParams(layoutParams);
-//                    relativeLayout.addView(view);
                 } else {
                     MediaController mc = new MediaController(this);
-//                    VideoView view = new VideoView(this);
                     mc.setAnchorView(iv_pre);
                     mc.setMediaPlayer(iv_pre);
                     iv_pre.setMediaController(mc);
                     iv_pre.setVideoURI(uris[i]);
-
-//                    view.setLayoutParams(layoutParams);
-//                    relativeLayout.addView(view);
+                    iv_pre.start();
                 }
 
-//                iv_pre.setImageURI(uris[0]);
             } else {
-                PolyvUploadVideoScannerActivity.this.runOnUiThread(new Runnable() {
+                uploadSQLiteHelper.delete(uploadInfo);
 
-                    @Override
-                    public void run() {
-                        Toast.makeText(PolyvUploadVideoScannerActivity.this, "上传任务已经增加到队列", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                uploadSQLiteHelper.insert(uploadInfo);
+                handler = new MyHandler(uploadInfo);
+                initUploader();
+
+                if (uris[i].toString().startsWith("image/*")) {
+                    UIUtil.showToast(uris[i] + "");
+                } else {
+                    MediaController mc = new MediaController(this);
+                    mc.setAnchorView(iv_pre);
+                    mc.setMediaPlayer(iv_pre);
+                    iv_pre.setMediaController(mc);
+                    iv_pre.setVideoURI(uris[i]);
+                    iv_pre.start();
+                }
+
+//                PolyvUploadVideoScannerActivity.this.runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(PolyvUploadVideoScannerActivity.this, "上传任务已经增加到队列", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         }
 //        adapter.notifyDataSetChanged();
@@ -387,18 +395,31 @@ class PolyvUploadVideoScannerActivity extends BaseActivity {
             }
         });
         uploadSQLiteHelper = PolyvUploadSQLiteHelper.getInstance(this);
-        bt_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (bt_next.getText().equals("立即拍摄")) {
-                    goRecording();
-                } else if (bt_next.getText().equals("立即上传")) {
-                    startUpload();
-                }
-            }
-        });
+//        bt_next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (bt_next.getText().equals("立即拍摄")) {
+//                    goRecording();
+//                } else if (bt_next.getText().equals("立即上传")) {
+//                    startUpload();
+//                }
+//            }
+//        });
 //        initData();
-        goRecording();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String type = bundle.getString("type");
+            if (!TextUtils.isEmpty(type) && type.equals("local")) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("video/*");
+                startActivityForResult(Intent.createChooser(intent, "完成操作需使用"), 12);
+            } else {
+                goRecording();
+            }
+        } else {
+            goRecording();
+        }
+
     }
 
     @Override
@@ -429,16 +450,25 @@ class PolyvUploadVideoScannerActivity extends BaseActivity {
                 if (resultCode == RESULT_OK && data != null) {
                     // 获取文件路径
                     Uri uri = data.getData();
-                    handle(uri);
+                    if (uri != null) {
+                        handle(uri);
+                        startUpload();
+                    } else {
+                        Toast.makeText(PolyvUploadVideoScannerActivity.this, "视频获取失败", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
                 } else {
                     Toast.makeText(PolyvUploadVideoScannerActivity.this, "视频获取失败", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 break;
             case Constants.VIDEO_RECORD_REQUEST:
                 if (null != data) {
                     Uri uri = data.getData();
                     if (uri == null) {
-                        return;
+                        Toast.makeText(PolyvUploadVideoScannerActivity.this, "视频获取失败", Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
 //                        Cursor c = getContentResolver().query(uri,
 //                                new String[]{MediaStore.MediaColumns.DATA},
@@ -447,9 +477,13 @@ class PolyvUploadVideoScannerActivity extends BaseActivity {
 //                            filPaths = c.getString(0);
 //                            showUploadVideoDialog();
                         handle(uri);
-                        bt_next.setText("立即上传");
+//                        bt_next.setText("立即上传");
+                        startUpload();
 //                        }
                     }
+                } else {
+                    Toast.makeText(PolyvUploadVideoScannerActivity.this, "视频获取失败", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 break;
         }

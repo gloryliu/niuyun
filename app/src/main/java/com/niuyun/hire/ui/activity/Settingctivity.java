@@ -1,8 +1,10 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
@@ -21,6 +23,14 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
     TitleBar title_view;
     @BindView(R.id.ll_quit_login)
     LinearLayout ll_quit_login;
+    @BindView(R.id.rl_about_we)
+    RelativeLayout rl_about_we;
+    @BindView(R.id.rl_change_pass)
+    RelativeLayout rl_change_pass;
+    @BindView(R.id.rl_change_phone)
+    RelativeLayout rl_change_phone;
+    @BindView(R.id.rl_clear)
+    RelativeLayout rl_clear;
 
     @Override
     public int getContentViewLayoutId() {
@@ -31,6 +41,10 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
     public void initViewsAndEvents() {
         initTitle();
         ll_quit_login.setOnClickListener(this);
+        rl_about_we.setOnClickListener(this);
+        rl_change_pass.setOnClickListener(this);
+        rl_change_phone.setOnClickListener(this);
+        rl_clear.setOnClickListener(this);
     }
 
     @Override
@@ -80,6 +94,18 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.ll_quit_login:
                 BaseContext.getInstance().Exit();
+                break;
+            case R.id.rl_about_we:
+                startActivity(new Intent(this, AboutWeActivity.class));
+                break;
+            case R.id.rl_change_pass:
+                startActivity(new Intent(this, UpdatePasswordActivity.class));
+                break;
+            case R.id.rl_change_phone:
+                startActivity(new Intent(this, UpdatePhoneActivity.class));
+                break;
+            case R.id.rl_clear:
+//                startActivity(new Intent(this, UpdatePasswordActivity.class));
                 break;
         }
     }

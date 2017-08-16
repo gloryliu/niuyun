@@ -181,7 +181,7 @@ public class PolyvUploadActivity extends BaseActivity {
 
     private void setData() {
         if (BaseContext.getInstance().getUserInfo() != null) {
-            tv_percent.setText("完善度：" + BaseContext.getInstance().getUserInfo().perfect + "%");
+            tv_percent.setText("完善度：" + BaseContext.getInstance().getUserInfo().completePercent + "%");
             if (!TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().video)) {
                 rl_video_content.setVisibility(View.VISIBLE);
                 rl_online_resume_content.setVisibility(View.GONE);

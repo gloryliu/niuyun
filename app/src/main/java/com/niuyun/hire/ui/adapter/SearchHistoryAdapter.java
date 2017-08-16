@@ -92,9 +92,10 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ImageViewHolder) viewHolder).iv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    list.remove(position);
+
                     if (searchHistoryService!=null){
                         searchHistoryService.deleteByItem(list.get(position));
+                        list.remove(position);
                     }
                     notifyDataSetChanged();
                 }

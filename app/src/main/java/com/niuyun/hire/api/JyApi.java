@@ -43,6 +43,11 @@ public interface JyApi {
      */
     @POST("/resource/members/login")
     Call<SuperBean<UserInfoBean>> login(@Body Map<String, String> map);
+    /**
+     * 登陆
+     */
+    @GET("/resource/members/getMemberInfo")
+    Call<SuperBean<UserInfoBean>> getUser(@Query("uid")String uid);
 
     /**
      * 第三方登录

@@ -37,6 +37,7 @@ import retrofit2.Response;
 
 public class LoginUtils {
     static Call<SuperBean<UserInfoBean>> loginCall;
+    static Call<SuperBean<UserInfoBean>> getUserInfoCall;
     static Call<SuperBean<UserInfoBean>> thirdLoginCall;
     static boolean isSuccess;
 
@@ -69,6 +70,48 @@ public class LoginUtils {
             @Override
             public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
                 UIUtil.showToast("登陆失败~请稍后重试");
+                DialogUtils.closeDialog();
+            }
+
+            @Override
+            public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
+                try {
+                    DialogUtils.closeDialog();
+                    ErrorMessageUtils.taostErrorMessage(context, response.errorBody().string(), "");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public static void getUserByUid(final Context context) {
+        if (BaseContext.getInstance().getUserInfo() == null) {
+            return;
+        }
+        getUserInfoCall = RestAdapterManager.getApi().getUser(BaseContext.getInstance().getUserInfo().uid + "");
+        getUserInfoCall.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
+                DialogUtils.closeDialog();
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    BaseContext.getInstance().setUserInfo(response.body().getData());
+                    Timestamp now = new Timestamp(System.currentTimeMillis());
+                    SharePreManager.instance(context).setLoginTime(now.getTime());
+                    SharePreManager.instance(context).setUserInfo(response.body().getData());
+                    SharePreManager.instance(context).setUserInfo(response.body().getData());
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.LOGIN_SUCCESS));
+//                    Intent jmActivityIntent = new Intent(context, MainActivity.class);
+//                    context.startActivity(jmActivityIntent);
+//                    ((Activity) context).finish();
+                } else {
+                    UIUtil.showToast(response.body().getMsg());
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
+//                UIUtil.showToast("登陆失败~请稍后重试");
                 DialogUtils.closeDialog();
             }
 

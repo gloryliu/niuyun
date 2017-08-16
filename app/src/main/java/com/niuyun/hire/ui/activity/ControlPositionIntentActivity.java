@@ -32,6 +32,8 @@ import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,6 +210,7 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
                     infoBean.current = Integer.parseInt(cId);
                     infoBean.currentCn = cName;
                     BaseContext.getInstance().setUserInfo(infoBean);
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_LIVE_RESUME));
                 } else {
                     UIUtil.showToast("修改失败");
                 }

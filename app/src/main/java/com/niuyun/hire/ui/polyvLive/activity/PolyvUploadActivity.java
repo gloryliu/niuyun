@@ -16,6 +16,7 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.EditResumeActivity;
 import com.niuyun.hire.view.TitleBar;
 
 import butterknife.BindView;
@@ -33,6 +34,8 @@ public class PolyvUploadActivity extends BaseActivity {
     RelativeLayout rl_online_resume_content;
     @BindView(R.id.tv_percent)
     TextView tv_percent;
+    @BindView(R.id.ll_online_resume_title)
+    RelativeLayout ll_online_resume_title;
 
     private void initView() {
         bt_next.setOnClickListener(new OnClickListener() {
@@ -40,6 +43,13 @@ public class PolyvUploadActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(PolyvUploadActivity.this, PolyvUploadVideoScannerActivity.class);
                 startActivityForResult(intent, Constants.GET_VIDEO_VID);
+            }
+        });
+        ll_online_resume_title.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PolyvUploadActivity.this, EditResumeActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -55,6 +65,7 @@ public class PolyvUploadActivity extends BaseActivity {
         initView();
         setVid("");
         setData();
+
     }
 
     @Override
@@ -64,12 +75,17 @@ public class PolyvUploadActivity extends BaseActivity {
 
     @Override
     public boolean isRegistEventBus() {
-        return false;
+        return true;
     }
 
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
-
+        if (eventBusCenter != null) {
+            if (eventBusCenter.getEvenCode() == Constants.UPDATE_LIVE_RESUME) {
+                //更新简历
+                setData();
+            }
+        }
     }
 
     @Override

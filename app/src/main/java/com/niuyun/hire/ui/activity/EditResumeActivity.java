@@ -30,6 +30,8 @@ import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.ColorfulRingProgressView;
 import com.niuyun.hire.view.TitleBar;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -107,6 +109,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             if (eventBusCenter.getEvenCode() == Constants.UPDATE_LIVE_RESUME) {
                 //更新简历
                 getResume();
+                EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_LIVE_RESUME));
             }
         }
     }

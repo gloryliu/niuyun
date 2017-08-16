@@ -22,8 +22,6 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter3;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter4;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
@@ -118,8 +116,8 @@ public class PersonInformationActivity extends BaseActivity implements View.OnCl
     private int cityStep = 0;
     private JobTagBean.DataBean cacheCityTag;
     private JobTagBean cityBean;
-    private JobPerfectInfoTagAdapter3 adapter11;
-    private JobPerfectInfoTagAdapter4 adapter22;
+    private JobPerfectInfoTagAdapter adapter11;
+    private JobPerfectInfoTagAdapter adapter22;
 
     @Override
     public int getContentViewLayoutId() {
@@ -466,14 +464,14 @@ public class PersonInformationActivity extends BaseActivity implements View.OnCl
             public void onClick(Object bean) {
 
                 tag22.setLayoutManager(new LinearLayoutManager(PersonInformationActivity.this));
-                adapter11 = new JobPerfectInfoTagAdapter3(PersonInformationActivity.this);
+                adapter11 = new JobPerfectInfoTagAdapter(PersonInformationActivity.this);
                 tag22.setAdapter(adapter11);
                 adapter11.setCommonInterface(new RecyclerViewCommonInterface() {
                     @Override
                     public void onClick(Object bean) {
                         //点击了第二页的
                         tag33.setLayoutManager(new LinearLayoutManager(PersonInformationActivity.this));
-                        adapter22 = new JobPerfectInfoTagAdapter4(PersonInformationActivity.this);
+                        adapter22 = new JobPerfectInfoTagAdapter(PersonInformationActivity.this);
                         tag33.setAdapter(adapter22);
                         adapter22.setCommonInterface(new RecyclerViewCommonInterface() {
                             @Override

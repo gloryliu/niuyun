@@ -36,7 +36,7 @@ android {
     }
 }
 greendao {
-    schemaVersion 1
+    schemaVersion 2
     daoPackage 'com.niuyunzhipin.greendao'
     targetGenDir 'src/main/java'
 }

@@ -25,8 +25,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class IndexCompanyListItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<AllJobsBean.DataBeanX.DataBean> list;
-    private static Context context;
+    private  List<AllJobsBean.DataBeanX.DataBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private RecyclerViewCommonInterface commonInterface;
@@ -62,7 +62,7 @@ public class IndexCompanyListItemAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
-    public static List<AllJobsBean.DataBeanX.DataBean> getEntities() {
+    public  List<AllJobsBean.DataBeanX.DataBean> getEntities() {
         return list;
     }
 

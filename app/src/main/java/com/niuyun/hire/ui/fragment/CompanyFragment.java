@@ -1,6 +1,7 @@
 package com.niuyun.hire.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.ControlPositionIntentActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
+import com.niuyun.hire.ui.activity.WorkPositionDetailActivity;
 import com.niuyun.hire.ui.adapter.GalleryAdapter;
 import com.niuyun.hire.ui.adapter.IndexCompanyListItemAdapter;
 import com.niuyun.hire.ui.bean.AllJobsBean;
@@ -104,6 +106,22 @@ public class CompanyFragment extends BaseFragment implements View.OnClickListene
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         listItemAdapter = new IndexCompanyListItemAdapter(getActivity());
         recyclerview.setAdapter(listItemAdapter);
+        listItemAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                AllJobsBean.DataBeanX.DataBean databean = (AllJobsBean.DataBeanX.DataBean) bean;
+                if (databean != null) {
+                    Intent intent = new Intent(getActivity(), WorkPositionDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", databean.getId() + "");
+                    bundle.putString("companyId", databean.getCompanyId() + "");
+                    bundle.putString("uid", databean.getUid() + "");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
+            }
+        });
 
     }
 

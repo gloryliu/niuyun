@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class JobPerfectInfoTagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<JobTagBean.DataBean> list;
-    private static Context context;
+    private  List<JobTagBean.DataBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private int selectedPosition=-1;
@@ -60,7 +60,7 @@ public class JobPerfectInfoTagAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
-    public static List<JobTagBean.DataBean> getEntities() {
+    public  List<JobTagBean.DataBean> getEntities() {
         return list;
     }
 

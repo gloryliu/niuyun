@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/iv_more"
-            android:text="完善度：10%" />
+            android:text="完善度：%" />
 
         <ImageView
             android:id="@+id/iv_more"

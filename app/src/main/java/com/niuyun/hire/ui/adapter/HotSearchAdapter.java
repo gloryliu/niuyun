@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
-import com.niuyun.hire.ui.bean.JobTagBean;
+import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 
 import java.util.ArrayList;
@@ -21,12 +21,13 @@ import butterknife.ButterKnife;
 /**
  * Created by chenzhiwei 2016/6/14.
  */
-public class JobPerfectInfoTagAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<JobTagBean.DataBean> list;
+public class HotSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static List<CommonTagItemBean> list;
+    private static List<CommonTagItemBean> selectedList = new ArrayList<>();
     private static Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
-    private int selectedPosition=-1;
+    private int selectedPosition = -1;
     private RecyclerViewCommonInterface commonInterface;
 
     public RecyclerViewCommonInterface getCommonInterface() {
@@ -37,20 +38,20 @@ public class JobPerfectInfoTagAdapter1 extends RecyclerView.Adapter<RecyclerView
         this.commonInterface = commonInterface;
     }
 
-    public JobPerfectInfoTagAdapter1(Context context) {
+    public HotSearchAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public JobPerfectInfoTagAdapter1(Context context, List<JobTagBean.DataBean> items) {
+    public HotSearchAdapter(Context context, List<CommonTagItemBean> items) {
         this.context = context;
         this.list = new ArrayList<>();
         this.list.addAll(items);
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public void addList(List<JobTagBean.DataBean> items) {
+    public void addList(List<CommonTagItemBean> items) {
         this.list.addAll(items);
         notifyDataSetChanged();
     }
@@ -60,26 +61,27 @@ public class JobPerfectInfoTagAdapter1 extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    public static List<JobTagBean.DataBean> getEntities() {
+    public void setSelectedList(List<CommonTagItemBean> items) {
+        this.selectedList.clear();
+        this.selectedList.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public static List<CommonTagItemBean> getEntities() {
         return list;
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ImageViewHolder(mLayoutInflater.inflate(R.layout.item_perfect_info_tag, parent, false));
+        return new ImageViewHolder(mLayoutInflater.inflate(R.layout.item_hot_search_tag, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
-            if (selectedPosition == position) {
-                ((ImageViewHolder) viewHolder).tv_title.setTextColor(context.getResources().getColor(R.color.color_333333));
-            } else {
-                ((ImageViewHolder) viewHolder).tv_title.setTextColor(context.getResources().getColor(R.color.color_999999));
-            }
-            ((ImageViewHolder) viewHolder).tv_title.setText(list.get(position).getCategoryname());
-//            ((ImageViewHolder) viewHolder).tv_rank.setText(list.get(position).getMoney()/100.00 + "");
+            ((ImageViewHolder) viewHolder).tv_title.setText(list.get(position).getCName());
+
         }
     }
 
@@ -92,8 +94,6 @@ public class JobPerfectInfoTagAdapter1 extends RecyclerView.Adapter<RecyclerView
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_title)
         TextView tv_title;
-//        @BindView(R.id.tv_rank)
-//        TextView tv_rank;
 
         ImageViewHolder(final View view) {
             super(view);

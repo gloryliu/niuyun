@@ -163,6 +163,10 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.niuyun.hire.ui.activity.AllJobSearchActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.niuyun.hire.ui.polyvLive.activity.PolyvUploadVideoScannerActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />

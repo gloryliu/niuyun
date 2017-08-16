@@ -29,8 +29,6 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter2;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
@@ -142,8 +140,8 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
 
     private int jobStep = 0;
 
-    private JobPerfectInfoTagAdapter1 adapter1;
-    private JobPerfectInfoTagAdapter2 adapter2;
+    private JobPerfectInfoTagAdapter adapter1;
+    private JobPerfectInfoTagAdapter adapter2;
     private JobTagBean.DataBean cacheJobTag;
 
     private String sex;//1 男  ------     2 女
@@ -365,14 +363,14 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
             public void onClick(Object bean) {
 
                 tag2.setLayoutManager(new LinearLayoutManager(PerfectPersonInformation.this));
-                adapter1 = new JobPerfectInfoTagAdapter1(PerfectPersonInformation.this);
+                adapter1 = new JobPerfectInfoTagAdapter(PerfectPersonInformation.this);
                 tag2.setAdapter(adapter1);
                 adapter1.setCommonInterface(new RecyclerViewCommonInterface() {
                     @Override
                     public void onClick(Object bean) {
                         //点击了第二页的
                         tag3.setLayoutManager(new LinearLayoutManager(PerfectPersonInformation.this));
-                        adapter2 = new JobPerfectInfoTagAdapter2(PerfectPersonInformation.this);
+                        adapter2 = new JobPerfectInfoTagAdapter(PerfectPersonInformation.this);
                         tag3.setAdapter(adapter2);
                         adapter2.setCommonInterface(new RecyclerViewCommonInterface() {
                             @Override

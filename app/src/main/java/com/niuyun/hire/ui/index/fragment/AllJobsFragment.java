@@ -15,14 +15,11 @@ import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.AllJobSearchActivity;
 import com.niuyun.hire.ui.activity.WorkPositionDetailActivity;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
-import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter1;
-import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter2;
 import com.niuyun.hire.ui.adapter.IndexCompanyListItemAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter2;
 import com.niuyun.hire.ui.adapter.PoPuMenuListCommonAdapter;
 import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
@@ -82,8 +79,8 @@ public class AllJobsFragment extends BaseFragment {
 
     private int jobStep = 0;
 
-    private JobPerfectInfoTagAdapter1 adapter1;
-    private JobPerfectInfoTagAdapter2 adapter2;
+    private JobPerfectInfoTagAdapter adapter1;
+    private JobPerfectInfoTagAdapter adapter2;
     private JobTagBean.DataBean cacheJobTag;
 
     private List<JobTagBean.DataBean> jobTagBean;
@@ -273,14 +270,14 @@ public class AllJobsFragment extends BaseFragment {
             public void onClick(Object bean) {
 
                 tag2.setLayoutManager(new LinearLayoutManager(getActivity()));
-                adapter1 = new JobPerfectInfoTagAdapter1(getActivity());
+                adapter1 = new JobPerfectInfoTagAdapter(getActivity());
                 tag2.setAdapter(adapter1);
                 adapter1.setCommonInterface(new RecyclerViewCommonInterface() {
                     @Override
                     public void onClick(Object bean) {
                         //点击了第二页的
                         tag3.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        adapter2 = new JobPerfectInfoTagAdapter2(getActivity());
+                        adapter2 = new JobPerfectInfoTagAdapter(getActivity());
                         tag3.setAdapter(adapter2);
                         adapter2.setCommonInterface(new RecyclerViewCommonInterface() {
                             @Override
@@ -353,7 +350,7 @@ public class AllJobsFragment extends BaseFragment {
         education_tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         List<CommonTagItemBean> listEducation = commonTagBean.getData().getQS_education();
         listEducation.add(0, new CommonTagItemBean(-1, "不限"));
-        CommonPerfectInfoTagAdapter1 educationAdapter = new CommonPerfectInfoTagAdapter1(getActivity(), listEducation);
+        CommonPerfectInfoTagAdapter educationAdapter = new CommonPerfectInfoTagAdapter(getActivity(), listEducation);
         education_tag_recyclerview.setAdapter(educationAdapter);
         educationAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
@@ -381,7 +378,7 @@ public class AllJobsFragment extends BaseFragment {
         wage_tag_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         List<CommonTagItemBean> listWage = commonTagBean.getData().getQS_wage();
         listWage.add(0, new CommonTagItemBean(-1, "不限"));
-        CommonPerfectInfoTagAdapter2 wageAdapter = new CommonPerfectInfoTagAdapter2(getActivity(), listWage);
+        CommonPerfectInfoTagAdapter wageAdapter = new CommonPerfectInfoTagAdapter(getActivity(), listWage);
         wage_tag_recyclerview.setAdapter(wageAdapter);
         wageAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
@@ -501,8 +498,8 @@ public class AllJobsFragment extends BaseFragment {
         mSearchView = (ImageView) titleView.addAction(new TitleBar.ImageAction(R.mipmap.ic_search) {
             @Override
             public void performAction(View view) {
-//                Intent intent = new Intent(ShoppingAddressActivity.this, ShoppingAddressEditActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), AllJobSearchActivity.class);
+                startActivity(intent);
             }
         });
         titleView.setImmersive(true);

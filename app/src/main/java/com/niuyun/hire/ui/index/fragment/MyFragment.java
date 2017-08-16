@@ -68,7 +68,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private void setUserInfo() {
         if (BaseContext.getInstance().getUserInfo() != null) {
 
-            ImageLoadedrManager.getInstance().display(getActivity(), BaseContext.getInstance().getUserInfo().avatars, ivHead);
+            ImageLoadedrManager.getInstance().display(getActivity(), Constants.COMMON_PERSON_URL+BaseContext.getInstance().getUserInfo().avatars, ivHead);
             tv_user_name.setText(BaseContext.getInstance().getUserInfo().username);
             tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
         } else {
@@ -89,7 +89,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
         if (eventBusCenter != null) {
-            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS || eventBusCenter.getEvenCode() == Constants.LOGIN_FAILURE) {
+            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS || eventBusCenter.getEvenCode() == Constants.LOGIN_FAILURE||eventBusCenter.getEvenCode() == Constants.UPDATE_LIVE_RESUME) {
                 //登陆成功,或者退出
                 setUserInfo();
             }

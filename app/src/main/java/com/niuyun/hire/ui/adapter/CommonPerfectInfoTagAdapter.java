@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class CommonPerfectInfoTagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<CommonTagItemBean> list;
-    private static Context context;
+    private  List<CommonTagItemBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private int selectedPosition;
@@ -60,7 +60,7 @@ public class CommonPerfectInfoTagAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
-    public static List<CommonTagItemBean> getEntities() {
+    public  List<CommonTagItemBean> getEntities() {
         return list;
     }
 

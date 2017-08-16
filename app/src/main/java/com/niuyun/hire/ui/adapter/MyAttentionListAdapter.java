@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class MyAttentionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<MyAttentionListBean.DataBeanX.DataBean> list;
-    private static Context context;
+    private  List<MyAttentionListBean.DataBeanX.DataBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private RecyclerViewCommonInterface commonInterface;
@@ -60,7 +60,7 @@ public class MyAttentionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyDataSetChanged();
     }
 
-    public static List<MyAttentionListBean.DataBeanX.DataBean> getEntities() {
+    public  List<MyAttentionListBean.DataBeanX.DataBean> getEntities() {
         return list;
     }
 

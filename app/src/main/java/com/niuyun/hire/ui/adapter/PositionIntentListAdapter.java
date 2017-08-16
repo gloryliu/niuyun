@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class PositionIntentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<PositionIntentBean.DataBean> list;
-    private static Context context;
+    private  List<PositionIntentBean.DataBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private int selectedPosition;
@@ -60,7 +60,7 @@ public class PositionIntentListAdapter extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    public static List<PositionIntentBean.DataBean> getEntities() {
+    public  List<PositionIntentBean.DataBean> getEntities() {
         return list;
     }
 

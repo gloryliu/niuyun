@@ -27,8 +27,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<LiveListBean.DataBeanX.DataBean> list;
-    private static Context context;
+    private  List<LiveListBean.DataBeanX.DataBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
 
@@ -66,7 +66,7 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
-    public static List<LiveListBean.DataBeanX.DataBean> getEntities() {
+    public  List<LiveListBean.DataBeanX.DataBean> getEntities() {
         return list;
     }
 

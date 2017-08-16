@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class LiveTagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<CommonTagItemBean> list;
-    private static List<CommonTagItemBean> selectedList = new ArrayList<>();
-    private static Context context;
+    private  List<CommonTagItemBean> list;
+    private  List<CommonTagItemBean> selectedList = new ArrayList<>();
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private int selectedPosition = -1;
@@ -67,7 +67,7 @@ public class LiveTagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public static List<CommonTagItemBean> getEntities() {
+    public  List<CommonTagItemBean> getEntities() {
         return list;
     }
 

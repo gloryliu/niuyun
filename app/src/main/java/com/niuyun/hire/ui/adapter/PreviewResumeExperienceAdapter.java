@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class PreviewResumeExperienceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<PreviewResumeBean.DataBean.ResumeWorkBean> list;
-    private static Context context;
+    private  List<PreviewResumeBean.DataBean.ResumeWorkBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private int selectedPosition;
@@ -60,7 +60,7 @@ public class PreviewResumeExperienceAdapter extends RecyclerView.Adapter<Recycle
         notifyDataSetChanged();
     }
 
-    public static List<PreviewResumeBean.DataBean.ResumeWorkBean> getEntities() {
+    public  List<PreviewResumeBean.DataBean.ResumeWorkBean> getEntities() {
         return list;
     }
 

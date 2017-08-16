@@ -24,9 +24,9 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class SearchHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<SearchHistoryBean> list;
-    private static List<SearchHistoryBean> selectedList = new ArrayList<>();
-    private static Context context;
+    private  List<SearchHistoryBean> list;
+    private  List<SearchHistoryBean> selectedList = new ArrayList<>();
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private int selectedPosition = -1;
@@ -74,7 +74,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
-    public static List<SearchHistoryBean> getEntities() {
+    public  List<SearchHistoryBean> getEntities() {
         return list;
     }
 

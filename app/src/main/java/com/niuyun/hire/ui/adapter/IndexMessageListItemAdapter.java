@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class IndexMessageListItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static List<MemberRankBean> list;
-    private static Context context;
+    private  List<MemberRankBean> list;
+    private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
 
@@ -48,7 +48,7 @@ public class IndexMessageListItemAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
-    public static List<MemberRankBean> getEntities() {
+    public  List<MemberRankBean> getEntities() {
         return list;
     }
 

@@ -1,5 +1,7 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
@@ -20,17 +23,25 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.HotSearchAdapter;
+import com.niuyun.hire.ui.adapter.IndexCompanyListItemAdapter;
 import com.niuyun.hire.ui.adapter.SearchHistoryAdapter;
-import com.niuyun.hire.ui.bean.CommonTagBean;
-import com.niuyun.hire.ui.bean.GetBaseTagBean;
+import com.niuyun.hire.ui.bean.AllJobsBean;
+import com.niuyun.hire.ui.bean.HotSearchBean;
 import com.niuyun.hire.ui.bean.SearchHistoryBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.utils.service.SearchHistoryService;
+import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -55,12 +66,24 @@ public class AllJobSearchActivity extends BaseActivity implements View.OnClickLi
     TextView tv_clear_all;
     @BindView(R.id.iv_clear)
     ImageView iv_clear;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.rv_search_result)
+    RecyclerView rv_search_result;
+    @BindView(R.id.ll_tag)
+    LinearLayout ll_tag;
     private HotSearchAdapter adapter;
     private SearchHistoryAdapter historyAdapter;
-    private CommonTagBean commonTagBean;
+    private HotSearchBean commonTagBean;
     private int mSearchType = 0;//当前选中的业态
     private List<SearchHistoryBean> searchList;
     private SearchHistoryService searchHistoryService;
+    private Call<AllJobsBean> allJobsBeanCall;
+    private Call<HotSearchBean> commonTagBeanCall;
+    private int pageNum = 1;
+    private int pageSize = 20;
+    private IndexCompanyListItemAdapter listItemAdapter;
+    private String keyword;
 
     @Override
     public int getContentViewLayoutId() {
@@ -69,13 +92,20 @@ public class AllJobSearchActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initViewsAndEvents() {
-        rv_hot_tag.setLayoutManager(new GridLayoutManager(this, 4));
-        adapter = new HotSearchAdapter(this);
-        rv_hot_tag.setAdapter(adapter);
+
         tv_clear_all.setOnClickListener(this);
         tv_button.setOnClickListener(this);
         iv_clear.setOnClickListener(this);
-
+        rv_hot_tag.setLayoutManager(new GridLayoutManager(this, 4));
+        adapter = new HotSearchAdapter(this);
+        rv_hot_tag.setAdapter(adapter);
+        adapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                et_search.setText(((HotSearchBean.DataBean) bean).getKeyword());
+                search(((HotSearchBean.DataBean) bean).getKeyword());
+            }
+        });
 
         rv_history_tag.setLayoutManager(new LinearLayoutManager(this));
         historyAdapter = new SearchHistoryAdapter(this);
@@ -91,6 +121,58 @@ public class AllJobSearchActivity extends BaseActivity implements View.OnClickLi
 
             }
         });
+
+
+        refreshLayout.setEnableHeaderTranslationContent(false);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (!TextUtils.isEmpty(keyword)) {
+                    pageNum = 1;
+                    getAllJobs();
+                } else {
+                    refreshLayout.finishRefresh();
+
+                }
+
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (!TextUtils.isEmpty(keyword)) {
+                    pageNum += 1;
+                    getAllJobs();
+                } else {
+                    refreshLayout.finishLoadmore();
+                }
+
+            }
+        });
+        refreshLayout.setEnableLoadmore(false);
+
+
+        rv_search_result.setLayoutManager(new LinearLayoutManager(this));
+
+        listItemAdapter = new IndexCompanyListItemAdapter(this);
+        rv_search_result.setAdapter(listItemAdapter);
+        listItemAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                AllJobsBean.DataBeanX.DataBean databean = (AllJobsBean.DataBeanX.DataBean) bean;
+                if (databean != null) {
+                    Intent intent = new Intent(AllJobSearchActivity.this, WorkPositionDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", databean.getId() + "");
+                    bundle.putString("companyId", databean.getCompanyId() + "");
+                    bundle.putString("uid", databean.getUid() + "");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
 
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -160,9 +242,10 @@ public class AllJobSearchActivity extends BaseActivity implements View.OnClickLi
         //history.setId(0);
         history.setType(mSearchType);
         getSearchHistoryService().saveRecent(history);
-//        search(word, mSearchType);
         UIUtil.closeSoftKeyBoard(this);
         getHistoryData();
+        keyword = et_search.getText().toString();
+        getAllJobs();
     }
 
     private SearchHistoryService getSearchHistoryService() {
@@ -180,47 +263,29 @@ public class AllJobSearchActivity extends BaseActivity implements View.OnClickLi
         searchList = getSearchHistoryService().getAll(mSearchType);
         historyAdapter.ClearData();
         historyAdapter.addList(searchList);
-//        if (searchList != null) {
-//            if (searchList.size() > 0) {
-//                tv_no_search_history.setVisibility(View.GONE);
-//                tv_search_clear.setVisibility(View.VISIBLE);
-//            } else {
-//                tv_no_search_history.setVisibility(View.VISIBLE);
-//                tv_search_clear.setVisibility(View.GONE);
-//            }
-//        } else {
-//            tv_no_search_history.setVisibility(View.VISIBLE);
-//            tv_search_clear.setVisibility(View.GONE);
-//        }
-//        rl_latest_search.setVisibility(View.VISIBLE);
-//        ll_no_result_search.setVisibility(View.GONE);
     }
 
     private void getTagItmes() {
-        List<String> list = new ArrayList<>();
-        list.add("QS_jobtag");
-        GetBaseTagBean tagBean = new GetBaseTagBean();
-        tagBean.setAlias(list);
-        Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(tagBean);
-        commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {
+        commonTagBeanCall = RestAdapterManager.getApi().getHotSearchTag();
+        commonTagBeanCall.enqueue(new JyCallBack<HotSearchBean>() {
             @Override
-            public void onSuccess(Call<CommonTagBean> call, Response<CommonTagBean> response) {
+            public void onSuccess(Call<HotSearchBean> call, Response<HotSearchBean> response) {
                 LogUtils.e(response.body().getMsg());
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     commonTagBean = response.body();
-                    adapter.addList(commonTagBean.getData().getQS_jobtag());
+                    adapter.addList(commonTagBean.getData());
                 } else {
                     UIUtil.showToast(response.body().getMsg());
                 }
             }
 
             @Override
-            public void onError(Call<CommonTagBean> call, Throwable t) {
+            public void onError(Call<HotSearchBean> call, Throwable t) {
                 LogUtils.e(t.getMessage());
             }
 
             @Override
-            public void onError(Call<CommonTagBean> call, Response<CommonTagBean> response) {
+            public void onError(Call<HotSearchBean> call, Response<HotSearchBean> response) {
 
             }
         });
@@ -242,8 +307,119 @@ public class AllJobSearchActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.iv_clear:
                 et_search.setText("");
+                keyword = "";
+                setData();
                 break;
 
+        }
+    }
+
+    private void getAllJobs() {
+        DialogUtils.showDialog(AllJobSearchActivity.this, "", false);
+        Map<String, String> map = new HashMap<>();
+        map.put("pageNum", pageNum + "");
+        map.put("pageSize", pageSize + "");
+        map.put("keyword", keyword);
+        allJobsBeanCall = RestAdapterManager.getApi().getFilterJobs(map);
+
+
+        allJobsBeanCall.enqueue(new JyCallBack<AllJobsBean>() {
+            @Override
+            public void onSuccess(Call<AllJobsBean> call, Response<AllJobsBean> response) {
+                DialogUtils.closeDialog();
+                if (refreshLayout != null) {
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadmore();
+                }
+                if (pageNum == 1) {
+                    listItemAdapter.ClearData();
+                }
+
+                if (response != null && response.body() != null && response.body().getData() != null && response.body().getCode() == Constants.successCode) {
+                    listItemAdapter.addList(response.body().getData().getData());
+                    if (pageNum >= response.body().getData().getPageCount()) {
+                        refreshLayout.setEnableLoadmore(false);
+                    } else {
+                        refreshLayout.setEnableLoadmore(true);
+                    }
+                } else {
+                    if (pageNum == 1) {
+                        //无数据
+
+                    } else {
+                        //加载完全部数据
+                    }
+                }
+                setData();
+            }
+
+            @Override
+            public void onError(Call<AllJobsBean> call, Throwable t) {
+                DialogUtils.closeDialog();
+                if (refreshLayout != null) {
+                    if (pageNum == 1) {
+                        listItemAdapter.ClearData();
+                    }
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadmore();
+                }
+                try {
+                    setData();
+                } catch (Exception e) {
+                }
+
+                LogUtils.e(t.getMessage());
+            }
+
+            @Override
+            public void onError(Call<AllJobsBean> call, Response<AllJobsBean> response) {
+                DialogUtils.closeDialog();
+                if (refreshLayout != null) {
+                    if (pageNum == 1) {
+                        listItemAdapter.ClearData();
+                    }
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadmore();
+                }
+                try {
+                    setData();
+                    LogUtils.e(response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
+
+    private void setData() {
+        if (!TextUtils.isEmpty(keyword)) {
+            if (listItemAdapter.getList() != null && listItemAdapter.getList().size() > 0) {
+//显示list
+                ll_tag.setVisibility(View.GONE);
+                rv_search_result.setVisibility(View.VISIBLE);
+            } else {
+                //全部以藏
+                ll_tag.setVisibility(View.GONE);
+                rv_search_result.setVisibility(View.GONE);
+            }
+        } else {
+//显示热门
+            ll_tag.setVisibility(View.VISIBLE);
+            rv_search_result.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (allJobsBeanCall != null) {
+            allJobsBeanCall.cancel();
+        }
+        if (commonTagBeanCall != null) {
+            commonTagBeanCall.cancel();
         }
     }
 }

@@ -7,6 +7,7 @@ import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
+import com.niuyun.hire.ui.bean.HotSearchBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.LiveListBean;
@@ -75,6 +76,7 @@ public interface JyApi {
      */
     @POST("/resource/user/forgetPwd")
     Call<ErrorBean> commitNewPassword(@Body Map<String, String> map);
+
     /**
      * 修改密码
      *
@@ -83,6 +85,7 @@ public interface JyApi {
      */
     @POST("/resource/members/updatePwd")
     Call<ErrorBean> updatePassword(@Body Map<String, String> map);
+
     /**
      * 修改电话号码
      *
@@ -226,6 +229,7 @@ public interface JyApi {
      */
     @POST("/resource/jobs/indexFindJobList")
     Call<AllJobsBean> getFilterJobs(@Body Map<String, String> map);
+
     /**
      * 修改在职状态
      *
@@ -366,10 +370,15 @@ public interface JyApi {
     /**
      * 上传视频建立vid
      *
-     *
      * @param map
      * @return
      */
     @POST("/resource/members/addVideo")
     Call<SuperBean<String>> commitVideoVid(@Body Map<String, String> map);
+
+    /**
+     * 获取热搜标签
+     */
+    @GET("/resource/searchKeyword/getKeywordList")
+    Call<HotSearchBean> getHotSearchTag();
 }

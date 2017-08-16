@@ -14,6 +14,7 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.adapter.PreViewResumeIntentListAdapter;
 import com.niuyun.hire.ui.adapter.PreviewResumeEducationAdapter;
 import com.niuyun.hire.ui.adapter.PreviewResumeExperienceAdapter;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
@@ -122,7 +123,8 @@ public class PreviewResumeActivity extends BaseActivity {
 
 //            ns_scroll.setNestedScrollingEnabled(false);
             rv_intent_position.setLayoutManager(new LinearLayoutManager(this));
-
+            PreViewResumeIntentListAdapter intentAdapter=new PreViewResumeIntentListAdapter(this,previewResumeBean.getData().getIntentions());
+            rv_intent_position.setAdapter(intentAdapter);
 
             rv_work_experience.setLayoutManager(new LinearLayoutManager(this));
             PreviewResumeExperienceAdapter experienceAdapter = new PreviewResumeExperienceAdapter(this, previewResumeBean.getData().getResumeWork());

@@ -45,6 +45,10 @@ public class IndexCompanyListItemAdapter extends RecyclerView.Adapter<RecyclerVi
         mLayoutInflater = LayoutInflater.from(context);
     }
 
+    public List<AllJobsBean.DataBeanX.DataBean> getList() {
+        return list;
+    }
+
     public IndexCompanyListItemAdapter(Context context, List<AllJobsBean.DataBeanX.DataBean> items) {
         this.context = context;
         this.list = new ArrayList<>();

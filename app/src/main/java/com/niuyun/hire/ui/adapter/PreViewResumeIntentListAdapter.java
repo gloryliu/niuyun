@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
-import com.niuyun.hire.ui.bean.HotSearchBean;
+import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 
 import java.util.ArrayList;
@@ -21,13 +21,12 @@ import butterknife.ButterKnife;
 /**
  * Created by chenzhiwei 2016/6/14.
  */
-public class HotSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private  List<HotSearchBean.DataBean> list;
-    private  List<HotSearchBean.DataBean> selectedList = new ArrayList<>();
+public class PreViewResumeIntentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private  List<PreviewResumeBean.DataBean.IntentionsBean> list;
     private  Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
-    private int selectedPosition = -1;
+    private int selectedPosition;
     private RecyclerViewCommonInterface commonInterface;
 
     public RecyclerViewCommonInterface getCommonInterface() {
@@ -38,20 +37,20 @@ public class HotSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.commonInterface = commonInterface;
     }
 
-    public HotSearchAdapter(Context context) {
+    public PreViewResumeIntentListAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public HotSearchAdapter(Context context, List<HotSearchBean.DataBean> items) {
+    public PreViewResumeIntentListAdapter(Context context, List<PreviewResumeBean.DataBean.IntentionsBean> items) {
         this.context = context;
         this.list = new ArrayList<>();
         this.list.addAll(items);
         mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public void addList(List<HotSearchBean.DataBean> items) {
+    public void addList(List<PreviewResumeBean.DataBean.IntentionsBean> items) {
         this.list.addAll(items);
         notifyDataSetChanged();
     }
@@ -61,27 +60,21 @@ public class HotSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public void setSelectedList(List<HotSearchBean.DataBean> items) {
-        this.selectedList.clear();
-        this.selectedList.addAll(items);
-        notifyDataSetChanged();
-    }
-
-    public  List<HotSearchBean.DataBean> getEntities() {
+    public  List<PreviewResumeBean.DataBean.IntentionsBean> getEntities() {
         return list;
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ImageViewHolder(mLayoutInflater.inflate(R.layout.item_hot_search_tag, parent, false));
+        return new ImageViewHolder(mLayoutInflater.inflate(R.layout.item_position_intent_list, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
-            ((ImageViewHolder) viewHolder).tv_title.setText(list.get(position).getKeyword());
-
+            ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getJobsName());
+            ((ImageViewHolder) viewHolder).tv_intent.setText(list.get(position).getDistrictCn()+"|"+list.get(position).getWageCn());
         }
     }
 
@@ -92,8 +85,10 @@ public class HotSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_title)
-        TextView tv_title;
+        @BindView(R.id.tv_position_name)
+        TextView tv_position_name;
+        @BindView(R.id.tv_intent)
+        TextView tv_intent;
 
         ImageViewHolder(final View view) {
             super(view);

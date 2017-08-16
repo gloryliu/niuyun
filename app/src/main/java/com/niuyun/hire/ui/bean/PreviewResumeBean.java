@@ -9,10 +9,11 @@ import java.util.List;
 
 public class PreviewResumeBean implements Serializable{
 
+
     /**
      * code : 1000
      * msg : 成功
-     * data : {"realname":"测具体","sex":1,"sexCn":"男","birthdate":"待确定","avatars":"{\"code\":1000,\"msg\":\"1707/C:\\\\Users\\\\WWW\\\\74cms_v4.2.3\\\\upload\\\\data\\\\upload\\\\avatar\\\\1707\\\\25/20170725170525811.jpg\",\"data\":null}","residence":"待确定","experience":75,"experienceCn":"1年以下","education":65,"educationCn":"初中","telephone":"13214141414","email":"待确定","nature":0,"natureCn":"待确定","wage":56,"wageCn":"1000~1500/月","intentionJobsId":"2.18.124","intentionJobs":"前台/总机/接待","specialty":"哦哦哦哦哦哦哦哦哦哦","resumeWork":[{"id":153,"pid":18,"uid":50,"startyear":2015,"startmonth":8,"endyear":2017,"endmonth":8,"companyname":"哈哈","jobs":"哈哈","achievements":"tut默默哦流量监控哦哦","todate":0}],"resumeEducation":[{"id":120,"pid":18,"uid":50,"startyear":1,"startmonth":2015,"endyear":2016,"endmonth":6,"school":"东京大学","speciality":"计算机","education":71,"educationCn":"硕士","todate":0,"campusId":0},{"id":121,"pid":18,"uid":50,"startyear":2010,"startmonth":8,"endyear":2017,"endmonth":8,"school":"测测","speciality":"测测","education":66,"educationCn":"高中","todate":0,"campusId":0},{"id":122,"pid":18,"uid":50,"startyear":2014,"startmonth":8,"endyear":2016,"endmonth":8,"school":"阿伦","speciality":"阿菊","education":66,"educationCn":"高中","todate":0,"campusId":0}],"completePercent":35}
+     * data : {"realname":"测具体","sex":1,"sexCn":"男","birthdate":"待确定","avatars":"1708/11/20170811152145005.jpg","residence":"待确定","experience":75,"experienceCn":"1年以下","education":65,"educationCn":"初中","telephone":"13214141414","email":"待确定","nature":0,"natureCn":"待确定","wage":56,"wageCn":"1000~1500/月","intentionJobsId":"2.18.124","intentionJobs":"前台/总机/接待","specialty":"阿菊哦哦哦粽粽粽粽粽粽粽知我者谓我心忧知我者谓我心忧知我者谓我心忧知我者谓我心忧YY图兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔","resumeWork":[{"id":153,"pid":18,"uid":50,"startyear":2015,"startmonth":8,"endyear":2017,"endmonth":8,"companyname":"哈哈","jobs":"哈哈","achievements":"tut默默哦流量监控哦哦","todate":0},{"id":182,"pid":18,"uid":50,"startyear":2016,"startmonth":8,"endyear":2017,"endmonth":8,"companyname":"公司了","jobs":"测距","achievements":"策论我摸摸默默哦模具兔兔兔兔","todate":0}],"resumeEducation":[{"id":120,"pid":18,"uid":50,"startyear":1,"startmonth":2015,"endyear":2016,"endmonth":6,"school":"东京大学","speciality":"计算机","education":71,"educationCn":"硕士","todate":0,"campusId":0},{"id":121,"pid":18,"uid":50,"startyear":2010,"startmonth":8,"endyear":2017,"endmonth":8,"school":"测测","speciality":"测测","education":66,"educationCn":"高中","todate":0,"campusId":0},{"id":122,"pid":18,"uid":50,"startyear":2014,"startmonth":8,"endyear":2016,"endmonth":8,"school":"阿伦","speciality":"阿菊","education":66,"educationCn":"高中","todate":0,"campusId":0}],"intentions":[{"id":6,"uid":50,"trade":3,"tradeCn":"通信(设备/运营/服务)","category":0,"categoryCn":null,"district":1,"sdistrict":0,"tdistrict":0,"districtCn":"太原","minwage":0,"maxwage":0,"wage":58,"wageCn":"2000~3000/月","jobsName":"测试"},{"id":7,"uid":50,"trade":1,"tradeCn":"计算机软件/硬件","category":0,"categoryCn":null,"district":1,"sdistrict":0,"tdistrict":0,"districtCn":"太原","minwage":0,"maxwage":0,"wage":58,"wageCn":"2000~3000/月","jobsName":"安卓"}],"completePercent":90}
      */
 
     private int code;
@@ -49,7 +50,7 @@ public class PreviewResumeBean implements Serializable{
          * sex : 1
          * sexCn : 男
          * birthdate : 待确定
-         * avatars : {"code":1000,"msg":"1707/C:\\Users\\WWW\\74cms_v4.2.3\\upload\\data\\upload\\avatar\\1707\\25/20170725170525811.jpg","data":null}
+         * avatars : 1708/11/20170811152145005.jpg
          * residence : 待确定
          * experience : 75
          * experienceCn : 1年以下
@@ -63,10 +64,11 @@ public class PreviewResumeBean implements Serializable{
          * wageCn : 1000~1500/月
          * intentionJobsId : 2.18.124
          * intentionJobs : 前台/总机/接待
-         * specialty : 哦哦哦哦哦哦哦哦哦哦
-         * resumeWork : [{"id":153,"pid":18,"uid":50,"startyear":2015,"startmonth":8,"endyear":2017,"endmonth":8,"companyname":"哈哈","jobs":"哈哈","achievements":"tut默默哦流量监控哦哦","todate":0}]
+         * specialty : 阿菊哦哦哦粽粽粽粽粽粽粽知我者谓我心忧知我者谓我心忧知我者谓我心忧知我者谓我心忧YY图兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔兔
+         * resumeWork : [{"id":153,"pid":18,"uid":50,"startyear":2015,"startmonth":8,"endyear":2017,"endmonth":8,"companyname":"哈哈","jobs":"哈哈","achievements":"tut默默哦流量监控哦哦","todate":0},{"id":182,"pid":18,"uid":50,"startyear":2016,"startmonth":8,"endyear":2017,"endmonth":8,"companyname":"公司了","jobs":"测距","achievements":"策论我摸摸默默哦模具兔兔兔兔","todate":0}]
          * resumeEducation : [{"id":120,"pid":18,"uid":50,"startyear":1,"startmonth":2015,"endyear":2016,"endmonth":6,"school":"东京大学","speciality":"计算机","education":71,"educationCn":"硕士","todate":0,"campusId":0},{"id":121,"pid":18,"uid":50,"startyear":2010,"startmonth":8,"endyear":2017,"endmonth":8,"school":"测测","speciality":"测测","education":66,"educationCn":"高中","todate":0,"campusId":0},{"id":122,"pid":18,"uid":50,"startyear":2014,"startmonth":8,"endyear":2016,"endmonth":8,"school":"阿伦","speciality":"阿菊","education":66,"educationCn":"高中","todate":0,"campusId":0}]
-         * completePercent : 35
+         * intentions : [{"id":6,"uid":50,"trade":3,"tradeCn":"通信(设备/运营/服务)","category":0,"categoryCn":null,"district":1,"sdistrict":0,"tdistrict":0,"districtCn":"太原","minwage":0,"maxwage":0,"wage":58,"wageCn":"2000~3000/月","jobsName":"测试"},{"id":7,"uid":50,"trade":1,"tradeCn":"计算机软件/硬件","category":0,"categoryCn":null,"district":1,"sdistrict":0,"tdistrict":0,"districtCn":"太原","minwage":0,"maxwage":0,"wage":58,"wageCn":"2000~3000/月","jobsName":"安卓"}]
+         * completePercent : 90
          */
 
         private String realname;
@@ -91,6 +93,7 @@ public class PreviewResumeBean implements Serializable{
         private int completePercent;
         private List<ResumeWorkBean> resumeWork;
         private List<ResumeEducationBean> resumeEducation;
+        private List<IntentionsBean> intentions;
 
         public String getRealname() {
             return realname;
@@ -266,6 +269,14 @@ public class PreviewResumeBean implements Serializable{
 
         public void setResumeEducation(List<ResumeEducationBean> resumeEducation) {
             this.resumeEducation = resumeEducation;
+        }
+
+        public List<IntentionsBean> getIntentions() {
+            return intentions;
+        }
+
+        public void setIntentions(List<IntentionsBean> intentions) {
+            this.intentions = intentions;
         }
 
         public static class ResumeWorkBean implements Serializable{
@@ -517,6 +528,162 @@ public class PreviewResumeBean implements Serializable{
 
             public void setCampusId(int campusId) {
                 this.campusId = campusId;
+            }
+        }
+
+        public static class IntentionsBean implements Serializable{
+            /**
+             * id : 6
+             * uid : 50
+             * trade : 3
+             * tradeCn : 通信(设备/运营/服务)
+             * category : 0
+             * categoryCn : null
+             * district : 1
+             * sdistrict : 0
+             * tdistrict : 0
+             * districtCn : 太原
+             * minwage : 0
+             * maxwage : 0
+             * wage : 58
+             * wageCn : 2000~3000/月
+             * jobsName : 测试
+             */
+
+            private int id;
+            private int uid;
+            private int trade;
+            private String tradeCn;
+            private int category;
+            private Object categoryCn;
+            private int district;
+            private int sdistrict;
+            private int tdistrict;
+            private String districtCn;
+            private int minwage;
+            private int maxwage;
+            private int wage;
+            private String wageCn;
+            private String jobsName;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getUid() {
+                return uid;
+            }
+
+            public void setUid(int uid) {
+                this.uid = uid;
+            }
+
+            public int getTrade() {
+                return trade;
+            }
+
+            public void setTrade(int trade) {
+                this.trade = trade;
+            }
+
+            public String getTradeCn() {
+                return tradeCn;
+            }
+
+            public void setTradeCn(String tradeCn) {
+                this.tradeCn = tradeCn;
+            }
+
+            public int getCategory() {
+                return category;
+            }
+
+            public void setCategory(int category) {
+                this.category = category;
+            }
+
+            public Object getCategoryCn() {
+                return categoryCn;
+            }
+
+            public void setCategoryCn(Object categoryCn) {
+                this.categoryCn = categoryCn;
+            }
+
+            public int getDistrict() {
+                return district;
+            }
+
+            public void setDistrict(int district) {
+                this.district = district;
+            }
+
+            public int getSdistrict() {
+                return sdistrict;
+            }
+
+            public void setSdistrict(int sdistrict) {
+                this.sdistrict = sdistrict;
+            }
+
+            public int getTdistrict() {
+                return tdistrict;
+            }
+
+            public void setTdistrict(int tdistrict) {
+                this.tdistrict = tdistrict;
+            }
+
+            public String getDistrictCn() {
+                return districtCn;
+            }
+
+            public void setDistrictCn(String districtCn) {
+                this.districtCn = districtCn;
+            }
+
+            public int getMinwage() {
+                return minwage;
+            }
+
+            public void setMinwage(int minwage) {
+                this.minwage = minwage;
+            }
+
+            public int getMaxwage() {
+                return maxwage;
+            }
+
+            public void setMaxwage(int maxwage) {
+                this.maxwage = maxwage;
+            }
+
+            public int getWage() {
+                return wage;
+            }
+
+            public void setWage(int wage) {
+                this.wage = wage;
+            }
+
+            public String getWageCn() {
+                return wageCn;
+            }
+
+            public void setWageCn(String wageCn) {
+                this.wageCn = wageCn;
+            }
+
+            public String getJobsName() {
+                return jobsName;
+            }
+
+            public void setJobsName(String jobsName) {
+                this.jobsName = jobsName;
             }
         }
     }

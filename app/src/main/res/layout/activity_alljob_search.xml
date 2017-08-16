@@ -59,9 +59,11 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_view">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,6 +71,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_ffffff"
@@ -151,5 +154,5 @@
         </LinearLayout>
 
 
-    </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

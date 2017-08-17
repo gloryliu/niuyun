@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -122,8 +123,16 @@ public class MainActivity extends BaseActivity {
             mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    int position = mTabLayout.getSelectedTabPosition();//tab.getPosition();
-                    viewPager.setCurrentItem(tab.getPosition());
+                    if (BaseContext.getInstance().getUserInfo() != null) {
+                        viewPager.setCurrentItem(tab.getPosition());
+                    } else {
+                        if (tab.getPosition() != 1) {
+                            startActivity(new Intent(MainActivity.this, com.niuyun.hire.ui.activity.LoginActivity.class));
+                        } else {
+                            viewPager.setCurrentItem(tab.getPosition());
+                        }
+                    }
+
                 }
 
                 @Override
@@ -139,12 +148,12 @@ public class MainActivity extends BaseActivity {
         }
 
 
-        initMessage();
         if (BaseContext.getInstance().getUserInfo() != null) {
 
             initChat();
+            initMessage();
+            checkData();
         }
-        checkData();
     }
 
     private void checkData() {
@@ -184,6 +193,9 @@ public class MainActivity extends BaseActivity {
      * 登陆聊天
      */
     private void initChat() {
+        if (TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().chatUserName) || TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().chatPwd)) {
+            return;
+        }
         // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
         // close it before login to make sure DemoDB not overlap
         DemoDBManager.getInstance().closeDB();

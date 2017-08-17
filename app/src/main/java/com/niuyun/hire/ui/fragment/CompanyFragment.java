@@ -80,6 +80,7 @@ public class CompanyFragment extends BaseFragment implements View.OnClickListene
         mAdapter.setIntentTagClickListerner(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
+                listItemAdapter.ClearData();
                 clickCacheFilterBean = (PositionIntentBean.DataBean) bean;
                 pageNum = 1;
                 getAllJobs();
@@ -183,7 +184,8 @@ public class CompanyFragment extends BaseFragment implements View.OnClickListene
      */
     private void getIntentList() {
         if (BaseContext.getInstance().getUserInfo() == null) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
+//            startActivity(new Intent(getActivity(), LoginActivity.class));
+            return;
         }
         gePositionIntentList = RestAdapterManager.getApi().gePositionIntentList(BaseContext.getInstance().getUserInfo().uid + "");
         gePositionIntentList.enqueue(new JyCallBack<PositionIntentBean>() {

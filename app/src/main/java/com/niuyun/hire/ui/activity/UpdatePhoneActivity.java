@@ -18,6 +18,7 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.bean.ErrorBean;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.NetUtil;
@@ -228,6 +229,7 @@ public class UpdatePhoneActivity extends BaseActivity {
                 if (response != null && response.body() != null) {
                     if (response.body().code == 1000) {
                         UIUtil.showToast(response.body().msg);
+                        LoginUtils.getUserByUid();
                         finish();
                     } else {
                         UIUtil.showToast("修改手机号失败~请稍后重试");

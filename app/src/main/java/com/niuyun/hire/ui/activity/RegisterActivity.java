@@ -266,6 +266,7 @@ public class RegisterActivity extends BaseActivity implements
                 try {
                     if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
 //                        BaseContext.getInstance().setUserInfo(response.body().getData());
+                        UIUtil.showToast(response.body().getMsg());
                         Intent findPsIntent = new Intent(RegisterActivity.this, PerfectPersonInformation.class);
                         timer.cancel();
                         Bundle bundle=new Bundle();
@@ -273,7 +274,6 @@ public class RegisterActivity extends BaseActivity implements
                         findPsIntent.putExtras(bundle);
                         startActivity(findPsIntent);
                         finish();
-                        ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.body().getMsg(), "");
                     } else {
                         UIUtil.showToast("注册失败");
                     }

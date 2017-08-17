@@ -8,10 +8,11 @@ import java.util.List;
 
 public class MyAttentionListBean {
 
+
     /**
      * code : 1000
      * msg : 成功
-     * data : {"pageNo":1,"totalCount":2,"pageCount":1,"pageSize":10,"data":[{"did":3,"personalUid":50,"jobsId":3,"jobsName":"Java","addtime":1502353672},{"did":4,"personalUid":50,"jobsId":2,"jobsName":"UI设计","addtime":1502354211}]}
+     * data : {"pageNo":0,"totalCount":0,"pageCount":0,"pageSize":0,"data":[{"id":3,"uid":6,"companyId":3,"logo":null,"jobsName":"Java","companyname":"山西昱达传媒有限公司","districtCn":"太原/小店区/小店","experienceCn":"不限","educationCn":"不限","minwage":6200,"maxwage":8000}]}
      */
 
     private int code;
@@ -44,11 +45,11 @@ public class MyAttentionListBean {
 
     public static class DataBeanX {
         /**
-         * pageNo : 1
-         * totalCount : 2
-         * pageCount : 1
-         * pageSize : 10
-         * data : [{"did":3,"personalUid":50,"jobsId":3,"jobsName":"Java","addtime":1502353672},{"did":4,"personalUid":50,"jobsId":2,"jobsName":"UI设计","addtime":1502354211}]
+         * pageNo : 0
+         * totalCount : 0
+         * pageCount : 0
+         * pageSize : 0
+         * data : [{"id":3,"uid":6,"companyId":3,"logo":null,"jobsName":"Java","companyname":"山西昱达传媒有限公司","districtCn":"太原/小店区/小店","experienceCn":"不限","educationCn":"不限","minwage":6200,"maxwage":8000}]
          */
 
         private int pageNo;
@@ -99,41 +100,61 @@ public class MyAttentionListBean {
 
         public static class DataBean {
             /**
-             * did : 3
-             * personalUid : 50
-             * jobsId : 3
+             * id : 3
+             * uid : 6
+             * companyId : 3
+             * logo : null
              * jobsName : Java
-             * addtime : 1502353672
+             * companyname : 山西昱达传媒有限公司
+             * districtCn : 太原/小店区/小店
+             * experienceCn : 不限
+             * educationCn : 不限
+             * minwage : 6200
+             * maxwage : 8000
              */
 
-            private int did;
-            private int personalUid;
-            private int jobsId;
+            private int id;
+            private int uid;
+            private int companyId;
+            private Object logo;
             private String jobsName;
-            private int addtime;
+            private String companyname;
+            private String districtCn;
+            private String experienceCn;
+            private String educationCn;
+            private int minwage;
+            private int maxwage;
 
-            public int getDid() {
-                return did;
+            public int getId() {
+                return id;
             }
 
-            public void setDid(int did) {
-                this.did = did;
+            public void setId(int id) {
+                this.id = id;
             }
 
-            public int getPersonalUid() {
-                return personalUid;
+            public int getUid() {
+                return uid;
             }
 
-            public void setPersonalUid(int personalUid) {
-                this.personalUid = personalUid;
+            public void setUid(int uid) {
+                this.uid = uid;
             }
 
-            public int getJobsId() {
-                return jobsId;
+            public int getCompanyId() {
+                return companyId;
             }
 
-            public void setJobsId(int jobsId) {
-                this.jobsId = jobsId;
+            public void setCompanyId(int companyId) {
+                this.companyId = companyId;
+            }
+
+            public Object getLogo() {
+                return logo;
+            }
+
+            public void setLogo(Object logo) {
+                this.logo = logo;
             }
 
             public String getJobsName() {
@@ -144,12 +165,52 @@ public class MyAttentionListBean {
                 this.jobsName = jobsName;
             }
 
-            public int getAddtime() {
-                return addtime;
+            public String getCompanyname() {
+                return companyname;
             }
 
-            public void setAddtime(int addtime) {
-                this.addtime = addtime;
+            public void setCompanyname(String companyname) {
+                this.companyname = companyname;
+            }
+
+            public String getDistrictCn() {
+                return districtCn;
+            }
+
+            public void setDistrictCn(String districtCn) {
+                this.districtCn = districtCn;
+            }
+
+            public String getExperienceCn() {
+                return experienceCn;
+            }
+
+            public void setExperienceCn(String experienceCn) {
+                this.experienceCn = experienceCn;
+            }
+
+            public String getEducationCn() {
+                return educationCn;
+            }
+
+            public void setEducationCn(String educationCn) {
+                this.educationCn = educationCn;
+            }
+
+            public int getMinwage() {
+                return minwage;
+            }
+
+            public void setMinwage(int minwage) {
+                this.minwage = minwage;
+            }
+
+            public int getMaxwage() {
+                return maxwage;
+            }
+
+            public void setMaxwage(int maxwage) {
+                this.maxwage = maxwage;
             }
         }
     }

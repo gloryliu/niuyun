@@ -1,6 +1,8 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -81,12 +83,12 @@ public class AttentionListActivity extends BaseActivity {
             public void onClick(Object bean) {
                 MyAttentionListBean.DataBeanX.DataBean databean = (MyAttentionListBean.DataBeanX.DataBean) bean;
                 if (databean != null) {
-//                    Intent intent = new Intent(AttentionListActivity.this, WorkPositionDetailActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("id", databean.getId() + "");
-//                    bundle.putString("companyId", databean.getCompanyId() + "");
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
+                    Intent intent = new Intent(AttentionListActivity.this, WorkPositionDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", databean.getId() + "");
+                    bundle.putString("companyId", databean.getCompanyId() + "");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
 
             }

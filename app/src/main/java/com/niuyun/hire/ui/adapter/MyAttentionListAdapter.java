@@ -74,13 +74,13 @@ public class MyAttentionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
             ((ImageViewHolder) viewHolder).iv_company.setVisibility(View.GONE);
-            ((ImageViewHolder) viewHolder).iv_divider.setVisibility(View.GONE);
+            ((ImageViewHolder) viewHolder).iv_divider.setVisibility(View.INVISIBLE);
             ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getJobsName());
-//            ((ImageViewHolder) viewHolder).tv_position_price.setText(list.get(position).getMinwage() / 1000 + "k-" + list.get(position).getMaxwage() / 1000 + "k");
-//            ((ImageViewHolder) viewHolder).tv_company_name.setText(list.get(position).getCompanyname());
-//            ((ImageViewHolder) viewHolder).tv_location.setText(list.get(position).getDistrictCn());
-//            ((ImageViewHolder) viewHolder).tv_work_age.setText(list.get(position).getExperienceCn());
-//            ((ImageViewHolder) viewHolder).tv_education.setText(list.get(position).getEducationCn());
+            ((ImageViewHolder) viewHolder).tv_position_price.setText(list.get(position).getMinwage() / 1000 + "k-" + list.get(position).getMaxwage() / 1000 + "k");
+            ((ImageViewHolder) viewHolder).tv_company_name.setText(list.get(position).getCompanyname());
+            ((ImageViewHolder) viewHolder).tv_location.setText(list.get(position).getDistrictCn());
+            ((ImageViewHolder) viewHolder).tv_work_age.setText(list.get(position).getExperienceCn());
+            ((ImageViewHolder) viewHolder).tv_education.setText(list.get(position).getEducationCn());
         }
     }
 

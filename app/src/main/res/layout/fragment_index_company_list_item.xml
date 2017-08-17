@@ -23,6 +23,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="16.5dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="19dp"
             android:src="@mipmap/ic_default" />
 
         <ImageView
@@ -30,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="19dp"
             android:layout_marginRight="14dp"
             android:layout_toRightOf="@+id/iv_company"
             android:src="@mipmap/ic_divider_large" />

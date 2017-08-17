@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/vv_divider0"
+        android:background="@color/color_ffffff"
         android:visibility="gone">
 
         <com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView

@@ -771,6 +771,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     BaseContext.getInstance().setUserInfo(response.body().getData());
+                    BaseContext.getInstance().updateUserInfo(response.body().getData());
                     perfectSuccessDialog();
                 } else {
                     try {

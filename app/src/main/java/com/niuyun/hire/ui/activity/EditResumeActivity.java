@@ -23,6 +23,7 @@ import com.niuyun.hire.ui.adapter.EditResumeEducationAdapter;
 import com.niuyun.hire.ui.adapter.EditResumeWorkExperienceAdapter;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
@@ -109,6 +110,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             if (eventBusCenter.getEvenCode() == Constants.UPDATE_LIVE_RESUME) {
                 //更新简历
                 getResume();
+                LoginUtils.getUserByUid();
                 EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_LIVE_RESUME));
             }
         }

@@ -409,6 +409,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     BaseContext.getInstance().setUserInfo(response.body().getData());
+                    BaseContext.getInstance().updateUserInfo(response.body().getData());
 //                    perfectSuccessDialog();
                     Intent intent = new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class);
                     startActivity(intent);

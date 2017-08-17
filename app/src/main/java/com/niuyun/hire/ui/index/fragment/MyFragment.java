@@ -72,7 +72,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             tv_user_name.setText(BaseContext.getInstance().getUserInfo().username);
             tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
         } else {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
+//            startActivity(new Intent(getActivity(), LoginActivity.class));
         }
     }
 

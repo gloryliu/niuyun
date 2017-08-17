@@ -31,6 +31,7 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.polyvLive.bean.PolyvUploadInfo;
 import com.niuyun.hire.ui.polyvLive.util.PolyvUploadSQLiteHelper;
 import com.niuyun.hire.utils.DialogUtils;
@@ -517,7 +518,6 @@ public class PolyvUploadVideoScannerActivity extends BaseActivity {
         intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);// 创建一个请求视频的意图
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);// 设置视频的质量，值为0-1，
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);// 设置视频的录制长度，s为单位
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);// 设置视频的录制长度，s为单位
 //        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20 * 1024 * 1024L);// 设置视频文件大小，字节为单位
         startActivityForResult(intent, Constants.VIDEO_RECORD_REQUEST);// 设置请求码，在onActivityResult()方法中接收结果
 
@@ -535,6 +535,9 @@ public class PolyvUploadVideoScannerActivity extends BaseActivity {
                 DialogUtils.closeDialog();
                 UIUtil.showToast(response.body().getMsg());
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    UserInfoBean infoBean=BaseContext.getInstance().getUserInfo();
+                    infoBean.video=videoVid;
+                    BaseContext.getInstance().updateUserInfo(infoBean);
                     Intent intent = new Intent();
                     intent.putExtra("videoVid", videoVid);
                     setResult(Constants.GET_VIDEO_VID, intent);

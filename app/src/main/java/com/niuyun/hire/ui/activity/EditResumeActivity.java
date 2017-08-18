@@ -111,7 +111,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
                 //更新简历
                 getResume();
                 LoginUtils.getUserByUid();
-                EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_LIVE_RESUME));
+                EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_PERSON));
             }
         }
     }

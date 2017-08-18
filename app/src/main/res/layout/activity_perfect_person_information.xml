@@ -90,7 +90,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/ic_default" />
+                android:src="@mipmap/ic_default_head" />
 
             <TextView
                 android:id="@+id/tv_head_title"

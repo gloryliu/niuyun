@@ -130,6 +130,7 @@ public class PolyvPlayerView extends LinearLayout {
 
     private boolean startNow;//是否立即开始播放
 
+    private boolean toggle=false;//是否开启自动切换
     private Activity activity;
 
     private FragmentTransaction transaction;
@@ -179,6 +180,14 @@ public class PolyvPlayerView extends LinearLayout {
     public void setVid(String vid) {
         this.vid = vid;
         play(vid, bitrate, startNow, isMustFromLocal);
+    }
+
+    public boolean isToggle() {
+        return toggle;
+    }
+
+    public void setToggle(boolean toggle) {
+        this.toggle = toggle;
     }
 
     public int getPlayModeCode() {
@@ -259,6 +268,7 @@ public class PolyvPlayerView extends LinearLayout {
 
         mediaController.initConfig(viewLayout);
         mediaController.setDanmuFragment(danmuFragment);
+        mediaController.setToggle(toggle);
 //        questionView.setPolyvVideoView(videoView);
 //        auditionView.setPolyvVideoView(videoView);
         auxiliaryVideoView.setPlayerBufferingIndicator(auxiliaryLoadingProgress);
@@ -267,12 +277,13 @@ public class PolyvPlayerView extends LinearLayout {
         videoView.setMediaController(mediaController);
         videoView.setAuxiliaryVideoView(auxiliaryVideoView);
         videoView.setPlayerBufferingIndicator(loadingProgress);
+        videoView.setBackgroundColor(getResources().getColor(R.color.color_000000));
     }
 
     private void initView() {
-        videoView.setOpenAd(true);
+        videoView.setOpenAd(false);
         videoView.setOpenTeaser(true);
-        videoView.setOpenQuestion(true);
+        videoView.setOpenQuestion(false);
         videoView.setOpenSRT(true);
         videoView.setOpenPreload(true, 2);
         videoView.setAutoContinue(true);
@@ -291,7 +302,7 @@ public class PolyvPlayerView extends LinearLayout {
             @Override
             public void onPlay() {
                 // 开启预加载在这里开始弹幕
-                danmuFragment.start();
+//                danmuFragment.start();
             }
         });
 

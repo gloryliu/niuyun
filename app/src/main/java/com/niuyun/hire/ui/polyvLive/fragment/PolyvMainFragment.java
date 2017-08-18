@@ -38,6 +38,7 @@ import com.niuyun.hire.ui.polyvLive.activity.PolyvFinishActivity;
 import com.niuyun.hire.ui.polyvLive.adapter.AvatarRecyclerViewAdapter;
 import com.niuyun.hire.ui.polyvLive.adapter.ChatRecyclerViewAdapter;
 import com.niuyun.hire.ui.polyvLive.util.PolyvBitmapUtils;
+import com.niuyun.hire.view.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -56,7 +57,8 @@ public class PolyvMainFragment extends Fragment implements View.OnClickListener 
     private static final int RECONNECTSUCCESS = 30;
     private static final int UPDATEONLINE = 35;
     private View view;
-    private ImageView iv_logo, iv_close, iv_chat, iv_micro, iv_beauty, iv_more, iv_share, iv_switchcamera, iv_flashlight;
+    private ImageView  iv_close, iv_chat, iv_micro, iv_beauty, iv_more, iv_share, iv_switchcamera, iv_flashlight;
+    private CircularImageView iv_logo;
     // 右下角的"更多"按钮
     private LinearLayout ll_right_bottom;
     // 在线人数，时间，速度
@@ -270,7 +272,7 @@ public class PolyvMainFragment extends Fragment implements View.OnClickListener 
         tv_online = (TextView) view.findViewById(R.id.tv_online);
         tv_time = (TextView) view.findViewById(R.id.tv_time);
         tv_kb = (TextView) view.findViewById(R.id.tv_kb);
-        iv_logo = (ImageView) view.findViewById(R.id.iv_logo);
+        iv_logo = (CircularImageView) view.findViewById(R.id.iv_logo);
         iv_close = (ImageView) view.findViewById(R.id.iv_close);
         iv_chat = (ImageView) view.findViewById(R.id.iv_chat);
         iv_micro = (ImageView) view.findViewById(R.id.iv_micro);

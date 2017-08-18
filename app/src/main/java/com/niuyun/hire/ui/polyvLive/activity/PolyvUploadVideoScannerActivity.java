@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.polyvLive.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -518,6 +519,7 @@ public class PolyvUploadVideoScannerActivity extends BaseActivity {
         intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);// 创建一个请求视频的意图
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);// 设置视频的质量，值为0-1，
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);// 设置视频的录制长度，s为单位
+        intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, Configuration.ORIENTATION_LANDSCAPE);//
 //        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 20 * 1024 * 1024L);// 设置视频文件大小，字节为单位
         startActivityForResult(intent, Constants.VIDEO_RECORD_REQUEST);// 设置请求码，在onActivityResult()方法中接收结果
 

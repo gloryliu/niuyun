@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
 import com.niuyun.hire.ui.fragment.CompanyHomePageFragment;
 import com.niuyun.hire.ui.fragment.CompanyHotPositionFragment;
+import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.NoScrollViewPager;
@@ -60,6 +62,8 @@ public class CompanyDetailsActivity extends BaseActivity {
     TextView tv_company_type;//公司类型
     @BindView(R.id.tv_web_addresss)
     TextView tv_web_addresss;//公司网址
+    @BindView(R.id.pv_play)
+    PolyvPlayerView pv_play;
     Class[] fragments = {CompanyHomePageFragment.class, CompanyHotPositionFragment.class};
     private int[] tabNames = {R.string.company_home_page, R.string.company_hot_position};
     private int[] tabIcons = {R.drawable.selector_index_tab_message, R.drawable.selector_index_tab_company};
@@ -189,6 +193,9 @@ public class CompanyDetailsActivity extends BaseActivity {
             tv_company_scale.setText(companyDetailsBean.getData().getDistrictCn() + "/" + companyDetailsBean.getData().getNatureCn() + "/" + companyDetailsBean.getData().getScaleCn());
             tv_company_type.setText(companyDetailsBean.getData().getTradeCn());
             tv_web_addresss.setText(companyDetailsBean.getData().getWebsite());
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            pv_play.setTransaction(ft);
+            pv_play.setVid(companyDetailsBean.getData().getVideo());
         }
     }
 

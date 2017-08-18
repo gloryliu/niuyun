@@ -4,11 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.easefun.polyvsdk.rtmp.core.userinterface.entity.PolyvUser;
 import com.niuyun.hire.R;
+import com.niuyun.hire.view.CircularImageView;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class AvatarRecyclerViewAdapter extends AbsRecyclerViewAdapter {
     }
 
     private class ItemViewHolder extends AbsRecyclerViewAdapter.ClickableViewHolder {
-        private ImageView iv_avatar;
+        private CircularImageView iv_avatar;
 
         public ItemViewHolder(View itemView) {
             super(itemView);

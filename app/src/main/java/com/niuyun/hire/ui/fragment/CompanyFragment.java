@@ -213,6 +213,9 @@ public class CompanyFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void getAllJobs() {
+        if (clickCacheFilterBean==null){
+            return;
+        }
         Map<String, String> map = new HashMap<>();
         map.put("pageNum", pageNum + "");
         map.put("pageSize", pageSize + "");

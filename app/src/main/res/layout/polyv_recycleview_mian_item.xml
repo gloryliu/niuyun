@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.niuyun.hire.view.CircularImageView
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/main_iv_width_m"
         android:layout_height="match_parent"

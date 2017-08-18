@@ -144,6 +144,15 @@ public class PolyvPlayerMediaControllerSignIn extends PolyvBaseMediaController i
     // 播放器在显示弹幕布局前的状态
     private boolean status_isPlaying;
     private PolyvSensorHelper sensorHelper;
+    private boolean toggle = false;
+
+    public boolean isToggle() {
+        return toggle;
+    }
+
+    public void setToggle(boolean toggle) {
+        this.toggle = toggle;
+    }
 
     //用于处理控制栏的显示状态
     private Handler handler = new Handler() {
@@ -396,10 +405,17 @@ public class PolyvPlayerMediaControllerSignIn extends PolyvBaseMediaController i
             initBitRateViewVisible(videoView.getBitRate());
         }
         // 视频准备完成后，开启随手势自动切换屏幕
-        if (PolyvScreenUtils.isLandscape(mContext))
-            sensorHelper.toggle(true, false);
-        else
-            sensorHelper.toggle(true, true);
+        if (toggle) {
+            iv_land.setVisibility(VISIBLE);
+            if (PolyvScreenUtils.isLandscape(mContext))
+                sensorHelper.toggle(true, false);
+            else
+                sensorHelper.toggle(true, true);
+
+        } else {
+            iv_land.setVisibility(GONE);
+        }
+
     }
 
     @Override
@@ -518,7 +534,9 @@ public class PolyvPlayerMediaControllerSignIn extends PolyvBaseMediaController i
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        resetControllerLayout();
+        if (toggle) {
+            resetControllerLayout();
+        }
     }
 
     //根据屏幕状态改变控制栏布局

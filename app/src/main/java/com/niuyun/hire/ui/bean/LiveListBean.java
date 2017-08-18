@@ -125,6 +125,15 @@ public class LiveListBean {
             private String tagCn;
             private String liveDescribe;
             private String liveStatus;
+            private String liveCount;
+
+            public String getLiveCount() {
+                return liveCount;
+            }
+
+            public void setLiveCount(String liveCount) {
+                this.liveCount = liveCount;
+            }
 
             public String getPublisher() {
                 return publisher;

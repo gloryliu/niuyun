@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -27,8 +28,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private  List<LiveListBean.DataBeanX.DataBean> list;
-    private  Context context;
+    private List<LiveListBean.DataBeanX.DataBean> list;
+    private Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
 
@@ -66,7 +67,7 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
-    public  List<LiveListBean.DataBeanX.DataBean> getEntities() {
+    public List<LiveListBean.DataBeanX.DataBean> getEntities() {
         return list;
     }
 
@@ -83,8 +84,14 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
             ((ImageViewHolder) viewHolder).tv_name.setText(list.get(position).getPublisher());
             ((ImageViewHolder) viewHolder).tv_company_name.setText(list.get(position).getName());
             ((ImageViewHolder) viewHolder).tv_describe.setText(list.get(position).getLiveDescribe());
-            ImageLoadedrManager.getInstance().display(context, list.get(position).getCoverImage(), ((ImageViewHolder) viewHolder).iv_live_cover);
-            ImageLoadedrManager.getInstance().display(context, list.get(position).getLogoImage(), ((ImageViewHolder) viewHolder).iv_head);
+            ((ImageViewHolder) viewHolder).tv_look_number.setText(list.get(position).getLiveCount() + " 在看");
+            if (!TextUtils.isEmpty(list.get(position).getLiveStatus()) && list.get(position).getLiveStatus().contains("直播")) {
+                ((ImageViewHolder) viewHolder).iv_is_live.setVisibility(View.VISIBLE);
+            } else {
+                ((ImageViewHolder) viewHolder).iv_is_live.setVisibility(View.GONE);
+            }
+            ImageLoadedrManager.getInstance().display(context, Constants.COMMON_cover_URL + list.get(position).getCoverImage(), ((ImageViewHolder) viewHolder).iv_live_cover);
+            ImageLoadedrManager.getInstance().display(context, Constants.COMMON_PERSON_URL + list.get(position).getLogoImage(), ((ImageViewHolder) viewHolder).iv_head);
             if (!TextUtils.isEmpty(list.get(position).getTagCn())) {
                 String arr[] = list.get(position).getTagCn().split(",");
                 bindTags(arr, (ImageViewHolder) viewHolder);

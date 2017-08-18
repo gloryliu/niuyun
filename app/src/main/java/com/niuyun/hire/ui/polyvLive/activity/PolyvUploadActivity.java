@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,16 +30,25 @@ public class PolyvUploadActivity extends BaseActivity {
     @BindView(R.id.bt_next)
     Button bt_next;
     @BindView(R.id.rl_video_content)
-    RelativeLayout rl_video_content;
+    FrameLayout rl_video_content;
     @BindView(R.id.rl_online_resume_content)
     RelativeLayout rl_online_resume_content;
     @BindView(R.id.tv_percent)
     TextView tv_percent;
+    @BindView(R.id.tv_again_upload)
+    TextView tv_again_upload;
     @BindView(R.id.ll_online_resume_title)
     RelativeLayout ll_online_resume_title;
 
     private void initView() {
         bt_next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PolyvUploadActivity.this, PolyvUploadVideoScannerActivity.class);
+                startActivityForResult(intent, Constants.GET_VIDEO_VID);
+            }
+        });
+        tv_again_upload.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PolyvUploadActivity.this, PolyvUploadVideoScannerActivity.class);
@@ -173,9 +183,7 @@ public class PolyvUploadActivity extends BaseActivity {
 
     private void setVid(String vid) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        android.app.FragmentTransaction transaction=getFragmentManager().beginTransaction();
         pv_play.setTransaction(ft);
-//        pv_play.setVid("c538856ddeb0abe3b875545932c82c59_c");
         pv_play.setVid(vid);
     }
 

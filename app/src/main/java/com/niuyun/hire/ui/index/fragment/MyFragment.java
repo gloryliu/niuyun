@@ -89,7 +89,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
         if (eventBusCenter != null) {
-            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS || eventBusCenter.getEvenCode() == Constants.LOGIN_FAILURE||eventBusCenter.getEvenCode() == Constants.UPDATE_LIVE_RESUME) {
+            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS || eventBusCenter.getEvenCode() == Constants.LOGIN_FAILURE||eventBusCenter.getEvenCode() == Constants.UPDATE_PERSON) {
                 //登陆成功,或者退出
                 setUserInfo();
             }

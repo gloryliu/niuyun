@@ -24,7 +24,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:background="@color/color_e20e0e">
+                android:background="@color/color_ffffff">
 
 
                 <RelativeLayout
@@ -68,7 +68,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text=""
-                    android:textColor="@color/color_ffffff"
+                    android:textColor="@color/color_333333"
                     android:textSize="14sp" />
 
                 <TextView
@@ -79,7 +79,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text=""
-                    android:textColor="@color/color_ffffff"
+                    android:textColor="@color/color_666666"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -204,10 +204,10 @@
                 android:id="@+id/rv_intent_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false" />
 
             <View style="@style/common_divider_f0f0f0_10" />
 
@@ -256,11 +256,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_work_experience"
                 android:layout_width="match_parent"
-                android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false" />
 
             <View style="@style/common_divider_f0f0f0_10" />
             <!--教育经历-->
@@ -284,8 +284,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:nestedScrollingEnabled="false"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false" />
 
 
         </LinearLayout>

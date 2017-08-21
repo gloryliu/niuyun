@@ -1,6 +1,7 @@
 package com.niuyun.hire.ui.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.UIUtil;
@@ -54,6 +56,9 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
     EditText et_describe;
     @BindView(R.id.et_position_name)
     EditText et_position_name;
+    @BindView(R.id.bt_delete)
+    Button bt_delete;
+    private PreviewResumeBean.DataBean.ResumeWorkBean editBean;
 
     @Override
     public int getContentViewLayoutId() {
@@ -63,11 +68,22 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
     @Override
     public void initViewsAndEvents() {
         initTitle();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            editBean = (PreviewResumeBean.DataBean.ResumeWorkBean) bundle.getSerializable("bean");
+        }
+        if (editBean != null) {
+            bt_delete.setVisibility(View.VISIBLE);
+            setDefaultData();
+        } else {
+            bt_delete.setVisibility(View.GONE);
+        }
         et_begin_time.setOnClickListener(this);
         iv_begin_time_more.setOnClickListener(this);
         et_end_time.setOnClickListener(this);
         iv_end_time_more.setOnClickListener(this);
         bt_save.setOnClickListener(this);
+        bt_delete.setOnClickListener(this);
     }
 
     @Override
@@ -138,6 +154,11 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
             case R.id.bt_save:
                 UpPrepare();
                 break;
+            case R.id.bt_delete:
+                if (editBean != null) {
+                    deleteExperience();
+                }
+                break;
         }
     }
 
@@ -148,6 +169,21 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
             }
         }
 
+    }
+
+    /**
+     * 编辑模式设置数据
+     */
+    private void setDefaultData() {
+        if (editBean != null) {
+            et_describe.setText(editBean.getAchievements());
+            if (!TextUtils.isEmpty(editBean.getCompanyname())) {
+                et_company_name.setText(editBean.getCompanyname());
+            }
+            et_position_name.setText(editBean.getJobs());
+            et_end_time.setText(editBean.getEndyear() + "_" + editBean.getEndmonth());
+            et_begin_time.setText(editBean.getStartyear() + "_" + editBean.getStartmonth());
+        }
     }
 
     private void upLoadInfo() {
@@ -164,9 +200,47 @@ public class EditWorkExperienceActivity extends BaseActivity implements View.OnC
             map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
             map.put("pid", BaseContext.getInstance().getUserInfo().resumeId + "");//简历id
         }
+        Call<SuperBean<String>> addWorkExperienceCall;
+        if (editBean != null) {
+            map.put("id", editBean.getId() + "");//id
+            addWorkExperienceCall = RestAdapterManager.getApi().editWorkExperience(map);
+        } else {
 
-        Call<SuperBean<String>> addWorkExperienceCall = RestAdapterManager.getApi().addWorkExperience(map);
+            addWorkExperienceCall = RestAdapterManager.getApi().addWorkExperience(map);
+        }
         addWorkExperienceCall.enqueue(new JyCallBack<SuperBean<String>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                try {
+                    UIUtil.showToast(response.body().getMsg());
+                } catch (Exception e) {
+                }
+                DialogUtils.closeDialog();
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_LIVE_RESUME));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("接口错误");
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("接口错误");
+            }
+        });
+    }
+
+    private void deleteExperience() {
+        DialogUtils.showDialog(EditWorkExperienceActivity.this, "删除中...", false);
+
+        Call<SuperBean<String>> deleteWorkExperienceCall = RestAdapterManager.getApi().deleteWorkExperience(editBean.getId() + "");
+        deleteWorkExperienceCall.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
                 try {

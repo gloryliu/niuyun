@@ -242,7 +242,11 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
             public void performAction(View view) {
                 if (!UIUtil.isFastDoubleClick()) {
                     if (BaseContext.getInstance().getUserInfo() != null) {
-                        addAttention();
+                        if (!TextUtils.isEmpty(bean.getData().getFollowFlag()) && bean.getData().getFollowFlag().equals("2")) {
+                            UIUtil.showToast("您已关注");
+                        } else {
+                            addAttention();
+                        }
                     }
                 }
 
@@ -303,6 +307,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                 if (response.body() != null && response.body().getCode() == Constants.successCode) {
                     UIUtil.showToast(response.body().getMsg());
                     mCollectView.setImageResource(R.mipmap.ic_stars_yes);
+                    bean.getData().setFollowFlag("2");
                 } else {
                     UIUtil.showToast("接口异常");
                 }

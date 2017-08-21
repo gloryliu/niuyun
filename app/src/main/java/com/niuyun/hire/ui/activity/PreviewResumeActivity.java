@@ -99,8 +99,10 @@ public class PreviewResumeActivity extends BaseActivity {
 
         titleView.setTitle("预览简历");
         titleView.setTitleColor(Color.WHITE);
-        titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
+        titleView.setBackgroundColor(Color.WHITE);
         titleView.setImmersive(true);
+//        setBarTintColor(Color.WHITE);
+
     }
 
     private void initData() {
@@ -123,7 +125,7 @@ public class PreviewResumeActivity extends BaseActivity {
 
 //            ns_scroll.setNestedScrollingEnabled(false);
             rv_intent_position.setLayoutManager(new LinearLayoutManager(this));
-            PreViewResumeIntentListAdapter intentAdapter=new PreViewResumeIntentListAdapter(this,previewResumeBean.getData().getIntentions());
+            PreViewResumeIntentListAdapter intentAdapter = new PreViewResumeIntentListAdapter(this, previewResumeBean.getData().getIntentions());
             rv_intent_position.setAdapter(intentAdapter);
 
             rv_work_experience.setLayoutManager(new LinearLayoutManager(this));

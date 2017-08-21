@@ -78,10 +78,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 设置状态栏颜色
      *
-     * @param color
+     * @param barTintColor
      */
-    public void setIsOpenTitle(int color) {
-        this.barTintColor = color;
+    public void setBarTintColor(int barTintColor) {
+        this.barTintColor = barTintColor;
     }
 
     @TargetApi(19)

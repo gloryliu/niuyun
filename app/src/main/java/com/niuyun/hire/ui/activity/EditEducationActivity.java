@@ -1,6 +1,7 @@
 package com.niuyun.hire.ui.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
+import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.utils.DialogUtils;
@@ -65,10 +67,13 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
     EditText et_profession_name;
     @BindView(R.id.et_education)
     TextView et_education;
+    @BindView(R.id.bt_delete)
+    Button bt_delete;
     private CommonTagBean commonTagBean;
     private CommonTagItemBean cacheCommonTagBean;
     private String education;//学历
     private String educationCn;
+    private PreviewResumeBean.DataBean.ResumeEducationBean editBean;
 
     @Override
     public int getContentViewLayoutId() {
@@ -78,12 +83,23 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
     @Override
     public void initViewsAndEvents() {
         initTitle();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            editBean = (PreviewResumeBean.DataBean.ResumeEducationBean) bundle.getSerializable("bean");
+        }
+        if (editBean != null) {
+            bt_delete.setVisibility(View.VISIBLE);
+            setDefaultData();
+        } else {
+            bt_delete.setVisibility(View.GONE);
+        }
         et_begin_time.setOnClickListener(this);
         iv_begin_time_more.setOnClickListener(this);
         et_end_time.setOnClickListener(this);
         iv_end_time_more.setOnClickListener(this);
         bt_save.setOnClickListener(this);
         et_education.setOnClickListener(this);
+        bt_delete.setOnClickListener(this);
     }
 
     @Override
@@ -154,6 +170,11 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
             case R.id.bt_save:
                 UpPrepare();
                 break;
+            case R.id.bt_delete:
+                if (editBean != null) {
+                    deleteEducation();
+                }
+                break;
             case R.id.et_education:
                 if (!UIUtil.isFastDoubleClick()) {
                     if (commonTagBean != null) {
@@ -165,6 +186,7 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
 
                 }
                 break;
+
         }
     }
 
@@ -234,6 +256,21 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
         myDialog.show();
     }
 
+    /**
+     * 编辑模式设置数据
+     */
+    private void setDefaultData() {
+        if (editBean != null) {
+            et_school_name.setText(editBean.getSchool());
+            et_profession_name.setText(editBean.getSpeciality());
+            et_end_time.setText(editBean.getEndyear() + "_" + editBean.getEndmonth());
+            et_begin_time.setText(editBean.getStartyear() + "_" + editBean.getStartmonth());
+            et_education.setText(editBean.getEducationCn());
+            educationCn = editBean.getEducationCn();
+            education = editBean.getEducation() + "";
+        }
+    }
+
     private void upLoadInfo() {
         DialogUtils.showDialog(EditEducationActivity.this, "上传中...", false);
         Map<String, String> map = new HashMap<>();
@@ -249,9 +286,14 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
             map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
             map.put("pid", BaseContext.getInstance().getUserInfo().resumeId + "");//简历id
         }
-
-        Call<SuperBean<String>> addWorkExperienceCall = RestAdapterManager.getApi().addEducation(map);
-        addWorkExperienceCall.enqueue(new JyCallBack<SuperBean<String>>() {
+        Call<SuperBean<String>> addEducation;
+        if (editBean != null) {
+            map.put("id", editBean.getId() + "");//id
+            addEducation = RestAdapterManager.getApi().editEducation(map);
+        } else {
+            addEducation = RestAdapterManager.getApi().addEducation(map);
+        }
+        addEducation.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
                 try {
@@ -301,6 +343,38 @@ public class EditEducationActivity extends BaseActivity implements View.OnClickL
             return false;
         }
         return true;
+    }
+
+    private void deleteEducation() {
+        DialogUtils.showDialog(EditEducationActivity.this, "删除中...", false);
+
+        Call<SuperBean<String>> deleteWorkExperienceCall = RestAdapterManager.getApi().deleteEducation(editBean.getId() + "");
+        deleteWorkExperienceCall.enqueue(new JyCallBack<SuperBean<String>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                try {
+                    UIUtil.showToast(response.body().getMsg());
+                } catch (Exception e) {
+                }
+                DialogUtils.closeDialog();
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_LIVE_RESUME));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("接口错误");
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("接口错误");
+            }
+        });
     }
 
     /**

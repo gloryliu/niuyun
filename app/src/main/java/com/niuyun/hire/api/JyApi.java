@@ -288,6 +288,38 @@ public interface JyApi {
      */
     @POST("/resource/resumeWork/addWork")
     Call<SuperBean<String>> addWorkExperience(@Body Map<String, String> map);
+    /**
+     * 编辑工作经历
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resumeWork/updateWork")
+    Call<SuperBean<String>> editWorkExperience(@Body Map<String, String> map);
+    /**
+     * 删除工作经历
+     *
+     * @param
+     * @return
+     */
+    @GET("/resource/resumeWork/deleteWork")
+    Call<SuperBean<String>> deleteWorkExperience(@Query("id")String id);
+    /**
+     * 编辑教育经历
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resumeEducation/updateEducation")
+    Call<SuperBean<String>> editEducation(@Body Map<String, String> map);
+    /**
+     * 删除教育经历
+     *
+     * @param
+     * @return
+     */
+    @GET("/resource/resumeEducation/deleteEducation")
+    Call<SuperBean<String>> deleteEducation(@Query("id")String id);
 
     /**
      * 添加教育
@@ -299,7 +331,7 @@ public interface JyApi {
     Call<SuperBean<String>> addEducation(@Body Map<String, String> map);
 
     /**
-     * 添加教育
+     * 添加描述
      *
      * @param map
      * @return

@@ -191,6 +191,12 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(Object bean) {
 //工作经历
+
+                Intent intent=new Intent(EditResumeActivity.this, EditWorkExperienceActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("bean",((PreviewResumeBean.DataBean.ResumeWorkBean)bean));
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
@@ -202,6 +208,11 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(Object bean) {
 //教育经历
+                Intent intent=new Intent(EditResumeActivity.this, EditEducationActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("bean",((PreviewResumeBean.DataBean.ResumeEducationBean)bean));
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }

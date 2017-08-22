@@ -34,6 +34,12 @@ android {
 
         }
     }
+
+//    sourceSets {
+//        main() {
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
 }
 greendao {
     schemaVersion 2

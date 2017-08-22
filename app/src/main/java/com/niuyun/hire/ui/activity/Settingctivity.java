@@ -9,8 +9,12 @@ import android.widget.RelativeLayout;
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
+import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.view.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -93,7 +97,7 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_quit_login:
-                BaseContext.getInstance().Exit();
+                showExitDialog();
                 break;
             case R.id.rl_about_we:
                 startActivity(new Intent(this, AboutWeActivity.class));
@@ -108,5 +112,24 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
 //                startActivity(new Intent(this, UpdatePasswordActivity.class));
                 break;
         }
+    }
+    private void showExitDialog() {
+        DialogUtils.showOrderCancelMsg(this, "确定要退出登录吗？", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getTag().equals("确定")) {
+                    BaseContext.getInstance().Exit();
+                    Intent i = new Intent(Settingctivity.this, LoginActivity.class);
+                    startActivity(i);
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.LOGIN_FAILURE));
+                }
+
+            }
+
+//            @Override
+//            public void callBack() {//退出登录
+//
+//            }
+        });
     }
 }

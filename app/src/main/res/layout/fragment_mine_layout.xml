@@ -90,120 +90,253 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_video_resume"
+        <LinearLayout
+            android:id="@+id/ll_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_ffffff"
-            android:padding="20dp">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/iv_video_resume"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_video_resume"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_video_resume" />
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_video_resume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_video_resume" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_video_resume"
+                    android:text="视频简历"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/color_eeeeee" />
+
+            <RelativeLayout
+                android:id="@+id/rl_stars"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/iv_video_resume"
-                android:text="视频简历"
-                android:textColor="@color/color_333333"
-                android:textSize="13sp" />
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_stars" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_stars"
+                    android:text="我的关注"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_watched"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_arrow_right"
-                android:visibility="gone" />
-        </RelativeLayout>
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/color_eeeeee" />
+                <ImageView
+                    android:id="@+id/iv_watched"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_watched" />
 
-        <RelativeLayout
-            android:id="@+id/rl_stars"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="13dp"
+                    android:layout_toRightOf="@+id/iv_watched"
+                    android:text="谁看过我"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/color_eeeeee" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_enterprise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_ffffff"
-            android:padding="20dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_stars"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_video_enterprise"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_stars" />
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_video_enterprise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_video_resume" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_video_enterprise"
+                    android:text="企业视频"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/color_eeeeee" />
+
+            <RelativeLayout
+                android:id="@+id/rl_control_position"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/iv_stars"
-                android:text="我的关注"
-                android:textColor="@color/color_333333"
-                android:textSize="13sp" />
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_control_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_control_position" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_control_position"
+                    android:text="职位管理"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_enterprise_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_arrow_right"
-                android:visibility="gone" />
-        </RelativeLayout>
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
 
+                <ImageView
+                    android:id="@+id/iv_enterprise_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_enterprise_info" />
 
-        <RelativeLayout
-            android:id="@+id/rl_watched"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_ffffff"
-            android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="13dp"
+                    android:layout_toRightOf="@+id/iv_enterprise_info"
+                    android:text="公司信息"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
 
-            <ImageView
-                android:id="@+id/iv_watched"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_watched" />
+                <ImageView
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="13dp"
-                android:layout_toRightOf="@+id/iv_watched"
-                android:text="谁看过我"
-                android:textColor="@color/color_333333"
-                android:textSize="13sp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
-            <ImageView
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+        </LinearLayout>
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_arrow_right"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/color_eeeeee" />
 
         <RelativeLayout
             android:id="@+id/rl_setting"

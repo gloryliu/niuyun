@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.index.fragment;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,14 +13,12 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.AttentionListActivity;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
+import com.niuyun.hire.ui.activity.EnterprisePositionControlActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.activity.Settingctivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity;
-import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.view.CircularImageView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -45,6 +44,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     TextView tv_edit_resume;
     @BindView(R.id.tv_state)
     TextView tv_state;
+    @BindView(R.id.ll_enterprise)
+    LinearLayout ll_enterprise;
+    @BindView(R.id.ll_person)
+    LinearLayout ll_person;
+    @BindView(R.id.rl_video_enterprise)
+    RelativeLayout rl_video_enterprise;
+    @BindView(R.id.rl_control_position)
+    RelativeLayout rl_control_position;
+    @BindView(R.id.rl_enterprise_info)
+    RelativeLayout rl_enterprise_info;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -58,6 +67,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         rl_watched.setOnClickListener(this);
         rl_setting.setOnClickListener(this);
         tv_edit_resume.setOnClickListener(this);
+        rl_enterprise_info.setOnClickListener(this);
+        rl_control_position.setOnClickListener(this);
+        rl_video_enterprise.setOnClickListener(this);
     }
 
     @Override
@@ -67,8 +79,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     private void setUserInfo() {
         if (BaseContext.getInstance().getUserInfo() != null) {
-
-            ImageLoadedrManager.getInstance().display(getActivity(), Constants.COMMON_PERSON_URL+BaseContext.getInstance().getUserInfo().avatars, ivHead);
+            if (BaseContext.getInstance().getUserInfo().utype == 1) {
+                //企业
+                ll_enterprise.setVisibility(View.VISIBLE);
+                ll_person.setVisibility(View.GONE);
+            } else if (BaseContext.getInstance().getUserInfo().utype == 2) {
+                //个人
+                ll_enterprise.setVisibility(View.GONE);
+                ll_person.setVisibility(View.VISIBLE);
+            }
+            ImageLoadedrManager.getInstance().display(getActivity(), Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars, ivHead);
             tv_user_name.setText(BaseContext.getInstance().getUserInfo().username);
             tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
         } else {
@@ -89,7 +109,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
         if (eventBusCenter != null) {
-            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS || eventBusCenter.getEvenCode() == Constants.LOGIN_FAILURE||eventBusCenter.getEvenCode() == Constants.UPDATE_PERSON) {
+            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS || eventBusCenter.getEvenCode() == Constants.LOGIN_FAILURE || eventBusCenter.getEvenCode() == Constants.UPDATE_PERSON) {
                 //登陆成功,或者退出
                 setUserInfo();
             }
@@ -106,7 +126,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_setting:
-//                BaseContext.getInstance().Exit();
                 //设置
                 if (BaseContext.getInstance().getUserInfo() == null) {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -116,7 +135,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_video_resume:
                 //视频简历
-//                Intent intent = new Intent(getActivity(), CompanyDetailsActivity.class);
                 Intent intent = new Intent(getActivity(), PolyvUploadActivity.class);
                 startActivity(intent);
                 break;
@@ -131,29 +149,31 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.tv_edit_resume:
                 //编辑简历
+                if (BaseContext.getInstance().getUserInfo().utype == 1) {
+                    //企业
+                } else if (BaseContext.getInstance().getUserInfo().utype == 2) {
+                    //个人
+                }
                 Intent intent1 = new Intent(getActivity(), EditResumeActivity.class);
                 startActivity(intent1);
                 break;
+
+            case R.id.rl_video_enterprise:
+                //企业视频
+                Intent enterpriseVideointent = new Intent(getActivity(), PolyvUploadActivity.class);
+                startActivity(enterpriseVideointent);
+                break;
+            case R.id.rl_control_position:
+                //企业职位管理
+                Intent enterprisePositionintent = new Intent(getActivity(), EnterprisePositionControlActivity.class);
+                startActivity(enterprisePositionintent);
+                break;
+            case R.id.rl_enterprise_info:
+                //企业信息
+                break;
+
+
         }
     }
 
-    private void showExitDialog() {
-        DialogUtils.showOrderCancelMsg(getActivity(), "确定要退出登录吗？", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view.getTag().equals("确定")) {
-                    BaseContext.getInstance().Exit();
-                    Intent i = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(i);
-                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.LOGIN_FAILURE));
-                }
-
-            }
-
-//            @Override
-//            public void callBack() {//退出登录
-//
-//            }
-        });
-    }
 }

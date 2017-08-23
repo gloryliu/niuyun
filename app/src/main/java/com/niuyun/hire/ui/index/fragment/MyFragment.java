@@ -12,7 +12,9 @@ import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.AttentionListActivity;
+import com.niuyun.hire.ui.activity.CompanyDetailsActivity;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
+import com.niuyun.hire.ui.activity.EnterpriseEditPersonActivity;
 import com.niuyun.hire.ui.activity.EnterprisePositionControlActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.activity.Settingctivity;
@@ -151,11 +153,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 //编辑简历
                 if (BaseContext.getInstance().getUserInfo().utype == 1) {
                     //企业
+                    Intent intent1 = new Intent(getActivity(), EnterpriseEditPersonActivity.class);
+                    startActivity(intent1);
                 } else if (BaseContext.getInstance().getUserInfo().utype == 2) {
                     //个人
+                    Intent intent1 = new Intent(getActivity(), EditResumeActivity.class);
+                    startActivity(intent1);
                 }
-                Intent intent1 = new Intent(getActivity(), EditResumeActivity.class);
-                startActivity(intent1);
                 break;
 
             case R.id.rl_video_enterprise:
@@ -170,6 +174,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_enterprise_info:
                 //企业信息
+                if (BaseContext.getInstance().getUserInfo() != null) {
+                    Intent companyIntent = new Intent(getActivity(), CompanyDetailsActivity.class);
+                    companyIntent.putExtra("id", BaseContext.getInstance().getUserInfo().companyId + "");
+                    startActivity(companyIntent);
+                } else {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
                 break;
 
 

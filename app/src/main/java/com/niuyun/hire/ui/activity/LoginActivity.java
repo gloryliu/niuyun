@@ -10,12 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
+import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
 import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.NetUtil;
@@ -76,7 +78,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void initViewsAndEvents() {
         if (BaseContext.getInstance().getUserInfo() != null) {
-            startActivity(new Intent(this, MainActivity.class));
+            if (BaseContext.getInstance().getUserInfo().utype==1){
+                startActivity(new Intent(this, EnterpriseMainActivity.class));
+                AppManager.getAppManager().finishActivity(MainActivity.class);
+            }else {
+                startActivity(new Intent(this, MainActivity.class));
+                AppManager.getAppManager().finishActivity(EnterpriseMainActivity.class);
+            }
             finish();
         }
         setIsOpenTitle(false);

@@ -32,6 +32,7 @@ public class Constants {
     public static final int UPDATE_POSITION_INTENT = 0x45;//需要更新求职意向
     public static final int GET_VIDEO_VID = 0x46;//获取视频vid
     public static final int UPDATE_PERSON = 0x47;//更新个人信息
+    public static final int UPDATE_PUBLISHED_POSITION = 0x48;//更新发布的职位列表
 
 
     //个人头像

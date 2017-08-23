@@ -130,7 +130,9 @@
                     android:src="@mipmap/ic_arrow_right" />
             </RelativeLayout>
 
-            <View style="@style/common_divider_f0f0f0" />
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -139,7 +141,8 @@
                 android:paddingBottom="15dp"
                 android:paddingLeft="25dp"
                 android:paddingRight="17dp"
-                android:paddingTop="15dp">
+                android:paddingTop="15dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_city_title"
@@ -289,6 +292,7 @@
                     android:layout_centerVertical="true"
                     android:src="@mipmap/ic_arrow_right" />
             </RelativeLayout>
+
             <View style="@style/common_divider_f0f0f0" />
 
             <RelativeLayout
@@ -328,13 +332,13 @@
                     android:layout_centerVertical="true"
                     android:src="@mipmap/ic_arrow_right" />
             </RelativeLayout>
-
+            <View style="@style/common_divider_f0f0f0" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
                 android:paddingBottom="10dp"
                 android:paddingLeft="25dp"
-                android:background="@color/color_ffffff"
                 android:paddingTop="10dp">
 
                 <TextView

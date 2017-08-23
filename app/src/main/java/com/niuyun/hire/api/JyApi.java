@@ -6,6 +6,7 @@ import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
+import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.HotSearchBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
@@ -43,11 +44,12 @@ public interface JyApi {
      */
     @POST("/resource/members/login")
     Call<SuperBean<UserInfoBean>> login(@Body Map<String, String> map);
+
     /**
      * 登陆
      */
     @GET("/resource/members/getMemberInfo")
-    Call<SuperBean<UserInfoBean>> getUser(@Query("uid")String uid);
+    Call<SuperBean<UserInfoBean>> getUser(@Query("uid") String uid);
 
     /**
      * 第三方登录
@@ -288,6 +290,7 @@ public interface JyApi {
      */
     @POST("/resource/resumeWork/addWork")
     Call<SuperBean<String>> addWorkExperience(@Body Map<String, String> map);
+
     /**
      * 编辑工作经历
      *
@@ -296,6 +299,7 @@ public interface JyApi {
      */
     @POST("/resource/resumeWork/updateWork")
     Call<SuperBean<String>> editWorkExperience(@Body Map<String, String> map);
+
     /**
      * 删除工作经历
      *
@@ -303,7 +307,8 @@ public interface JyApi {
      * @return
      */
     @GET("/resource/resumeWork/deleteWork")
-    Call<SuperBean<String>> deleteWorkExperience(@Query("id")String id);
+    Call<SuperBean<String>> deleteWorkExperience(@Query("id") String id);
+
     /**
      * 编辑教育经历
      *
@@ -312,6 +317,7 @@ public interface JyApi {
      */
     @POST("/resource/resumeEducation/updateEducation")
     Call<SuperBean<String>> editEducation(@Body Map<String, String> map);
+
     /**
      * 删除教育经历
      *
@@ -319,7 +325,7 @@ public interface JyApi {
      * @return
      */
     @GET("/resource/resumeEducation/deleteEducation")
-    Call<SuperBean<String>> deleteEducation(@Query("id")String id);
+    Call<SuperBean<String>> deleteEducation(@Query("id") String id);
 
     /**
      * 添加教育
@@ -418,4 +424,34 @@ public interface JyApi {
      */
     @GET("/resource/searchKeyword/getKeywordList")
     Call<HotSearchBean> getHotSearchTag();
+
+    /**
+     * 企业发布职位
+     *
+     * @return
+     */
+    @POST("/resource/jobs/publishJobs")
+    Call<SuperBean<String>> publishPosition(@Body Map<String, String> map);
+    /**
+     * 编辑企业发布的职位
+     *
+     * @return
+     */
+    @POST("/resource/jobs/updatePublishJobs")
+    Call<SuperBean<String>> editPosition(@Body Map<String, String> map);
+
+    /**
+     * 企业发布的职位列表
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/jobs/findMyPublishJobList")
+    Call<EnterprisePublishedPositionBean> getMyPublishedPosition(@Body Map<String, String> map);
+
+    /**
+     * 删除企业发布的职位
+     */
+    @GET("/resource/jobs/deleteJobs")
+    Call<SuperBean<String>> deleteEnterprisePosition(@Query("id") String id);
 }

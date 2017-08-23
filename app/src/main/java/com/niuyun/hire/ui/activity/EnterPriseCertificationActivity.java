@@ -11,10 +11,13 @@ import android.widget.TextView;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
@@ -113,8 +116,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
         titleView.addAction(new TitleBar.TextAction("跳过") {
             @Override
             public void performAction(View view) {
-                startActivity(new Intent(EnterPriseCertificationActivity.this, MainActivity.class));
-                finish();
+                goNext();
             }
         });
         titleView.setImmersive(true);
@@ -123,10 +125,21 @@ public class EnterPriseCertificationActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            UIUtil.showToast("您可以选择跳过");
+            goNext();
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void goNext() {
+        if (BaseContext.getInstance().getUserInfo().utype == 1) {
+            startActivity(new Intent(this, EnterpriseMainActivity.class));
+            AppManager.getAppManager().finishActivity(MainActivity.class);
+        } else {
+            startActivity(new Intent(this, MainActivity.class));
+            AppManager.getAppManager().finishActivity(EnterpriseMainActivity.class);
+        }
+        finish();
     }
 
     @Override
@@ -233,7 +246,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     //上传图片成功
-                    startActivity(new Intent(EnterPriseCertificationActivity.this,MainActivity.class));
+                    startActivity(new Intent(EnterPriseCertificationActivity.this, MainActivity.class));
                     finish();
                     try {
                         ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.body().getMsg(), "");

@@ -55,6 +55,15 @@ public class CommonTagBean {
         private List<CommonTagItemBean> QS_current;
         private List<CommonTagItemBean> QS_age;
         private List<CommonTagItemBean> QS_jobtag;
+        private List<CommonTagItemBean> QS_jobs_nature;
+
+        public List<CommonTagItemBean> getQS_jobs_nature() {
+            return QS_jobs_nature;
+        }
+
+        public void setQS_jobs_nature(List<CommonTagItemBean> QS_jobs_nature) {
+            this.QS_jobs_nature = QS_jobs_nature;
+        }
 
         public List<CommonTagItemBean> getQS_jobtag() {
             return QS_jobtag;

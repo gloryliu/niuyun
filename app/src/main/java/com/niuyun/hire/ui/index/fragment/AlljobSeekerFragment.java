@@ -47,14 +47,12 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.niuyun.hire.R.id.title_view;
-
 /**
- * Created by chen.zhiwei on 2017-7-18.
+ * Created by chen.zhiwei on 2017-8-23.
  */
 
-public class AllJobsFragment extends BaseFragment {
-    @BindView(title_view)
+public class AlljobSeekerFragment extends BaseFragment{
+    @BindView(R.id.title_view)
     TitleBar titleView;
     @BindView(R.id.dropDownMenu)
     DropDownMenu mDropDownMenu;

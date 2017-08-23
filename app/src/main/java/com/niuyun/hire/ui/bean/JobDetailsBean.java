@@ -1,10 +1,12 @@
 package com.niuyun.hire.ui.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by chen.zhiwei on 2017-7-26.
  */
 
-public class JobDetailsBean {
+public class JobDetailsBean implements Serializable{
 
     /**
      * code : 1000
@@ -40,7 +42,7 @@ public class JobDetailsBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 8
          * uid : 50

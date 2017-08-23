@@ -28,10 +28,12 @@
     <string name="main_tab_name_index" translatable="false">首页</string>
     <string name="main_tab_name_me" translatable="false">我的</string>
     <string name="main_tab_name_alljobs" translatable="false">找工作</string>
+    <string name="main_tab_name_allPerson" translatable="false">找人才</string>
     <string name="main_tab_name_live" translatable="false">直播</string>
     <string name="main_tab_name_find" translatable="false">发现</string>
     <string name="index_tab_name_message" translatable="false">聊天</string>
     <string name="index_tab_name_company" translatable="false">职位</string>
+    <string name="index_tab_name_job_seeker" translatable="false">人才</string>
     <string name="company_home_page" translatable="false">公司主页</string>
     <string name="company_hot_position" translatable="false">热招职位</string>
 

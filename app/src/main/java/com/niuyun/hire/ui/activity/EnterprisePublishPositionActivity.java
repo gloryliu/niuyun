@@ -1,8 +1,10 @@
 package com.niuyun.hire.ui.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
@@ -19,20 +22,30 @@ import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
+import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
+import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.utils.DialogUtils;
+import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.niuyun.hire.R.id.et_position_type;
 
 /**
  * Created by chen.zhiwei on 2017-8-22.
@@ -41,14 +54,14 @@ import retrofit2.Response;
 public class EnterprisePublishPositionActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.title_view)
     TitleBar titleView;
-    @BindView(R.id.et_position_type)
+    @BindView(et_position_type)
     TextView etPositionType;
     @BindView(R.id.et_position_name)
     EditText etPositionName;
     @BindView(R.id.et_position_nature)
     TextView etPositionNature;
-    @BindView(R.id.et_city)
-    TextView etCity;
+    //    @BindView(R.id.et_city)
+//    TextView etCity;
     @BindView(R.id.et_education)
     TextView etEducation;
     @BindView(R.id.et_experience)
@@ -68,12 +81,43 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
 
     private String wage;//期望薪资
     private String wageCn;
-    private String cId;//期望行业
+    private String experience;
+    private String experienceCn;
+    private String nature;
+    private String natureCn;
+    private String cId;
     private String cName;
-    private String intentionCityId;//城市
+    private String intentionCityId;//所在城市,每一级的name中间用 / 隔开
     private String intentionCity;
-    private JobTagBean cityBean;
+
+    private String intentionCityCn1;
+    private String intentionCityCn2;
+    private String intentionCityCn3;
+    private String intentionCityId1;
+    private String intentionCityId2;
+    private String intentionCityId3;
+    private int cityStep = 0;
     private JobTagBean.DataBean cacheCityTag;
+    private JobTagBean cityBean;
+    private JobPerfectInfoTagAdapter adapter11;
+    private JobPerfectInfoTagAdapter adapter22;
+
+
+    private String intentionJobsId;//职业类型,每一级的id中间用 . 隔开
+    private String intentionJobs;
+
+    private String intentionJobsId1;
+    private String intentionJobsId2;
+    private String intentionJobsId3;
+
+
+    private int jobStep = 0;
+
+    private JobPerfectInfoTagAdapter adapter1;
+    private JobPerfectInfoTagAdapter adapter2;
+    private JobTagBean.DataBean cacheJobTag;
+    private JobDetailsBean editBean;
+
     @Override
     public int getContentViewLayoutId() {
         return R.layout.enterprise_activity_publish_position;
@@ -83,9 +127,18 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
     public void initViewsAndEvents() {
         initTitle();
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            editBean = (JobDetailsBean) bundle.getSerializable("bean");
+        }
+        if (editBean != null) {
+            setDefaultData();
+        } else {
+        }
+
+
         etPositionType.setOnClickListener(this);
         etPositionNature.setOnClickListener(this);
-        etCity.setOnClickListener(this);
         etEducation.setOnClickListener(this);
         etExperience.setOnClickListener(this);
         etWage.setOnClickListener(this);
@@ -133,7 +186,9 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         titleView.addAction(new TitleBar.TextAction("保存") {
             @Override
             public void performAction(View view) {
-//                UpPrepare();
+                if (checkData()) {
+                    uploadInfo();
+                }
             }
         });
         titleView.setImmersive(true);
@@ -141,18 +196,172 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.et_position_type:
+        switch (view.getId()) {
+            case et_position_type:
+                //职位类别，三级地址
+                if (!UIUtil.isFastDoubleClick()) {
+                    jobStep = 0;
+                    getJobData("0");
+                }
+                break;
+            case R.id.et_position_nature:
+                //工作性质
+                clickTag = "QS_jobs_nature";
+                click(clickTag);
+                break;
+            case R.id.et_education:
+                //学历
+                clickTag = "QS_education";
+                click(clickTag);
+                break;
+            case R.id.et_experience:
+                //经验
+                clickTag = "QS_experience";
+                click(clickTag);
+                break;
+            case R.id.et_wage:
+                //薪资
+                clickTag = "QS_wage";
+                click(clickTag);
+                break;
+            case R.id.etlocation:
+                if (!UIUtil.isFastDoubleClick()) {
+                    cityStep = 0;
+                    if (cityBean == null) {
+                        DialogUtils.showDialog(this, "加载...", false);
+                        getCityData("0");
+                    } else {
+                        cityTagDialog(cityBean);
+                    }
+                }
+                break;
+            case R.id.bt_publish:
+                if (checkData()) {
+                    uploadInfo();
+                }
                 break;
         }
+    }
+
+    /**
+     * 设置编辑默认值
+     */
+    private void setDefaultData() {
+//        etPositionType.setText(editBean.getData().get);
+    }
+
+    private boolean checkData() {
+        if (TextUtils.isEmpty(intentionJobs)) {
+            UIUtil.showToast("职位类别不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(etPositionName.getText().toString())) {
+            UIUtil.showToast("职位名称不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(nature)) {
+            UIUtil.showToast("工作性质不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(cId)) {
+            UIUtil.showToast("学历要求不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(experience)) {
+            UIUtil.showToast("经验要求不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(wage)) {
+            UIUtil.showToast("薪资范围不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(intentionCity)) {
+            UIUtil.showToast("工作地址不能为空");
+            return false;
+        }
+        if (TextUtils.isEmpty(etDescribe.getText().toString())) {
+            UIUtil.showToast("职位描述不能为空");
+            return false;
+        }
+        return true;
+    }
+
+    private void uploadInfo() {
+        DialogUtils.showDialog(EnterprisePublishPositionActivity.this, "", false);
+        Map<String, String> map = new HashMap<>();
+        map.put("jobsName", etPositionName.getText().toString());
+        map.put("contents", etDescribe.getText().toString());
+
+        map.put("topclass", intentionJobsId1);
+        map.put("category", intentionJobsId2);
+        map.put("subclass", intentionJobsId3);
+        map.put("categoryCn", intentionJobs);
+
+
+        map.put("district", intentionCityId1);
+        map.put("sdistrict", intentionCityId2);
+        map.put("tdistrict", intentionCityId3);
+        map.put("districtCn", intentionCity);
+
+
+        map.put("education", cId);
+        map.put("educationCn", cName);
+        map.put("experience", experience);
+        map.put("experienceCn", experienceCn);
+
+        map.put("nature", nature);
+        map.put("natureCn", natureCn);
+        map.put("wage", wage);
+        map.put("wageCn", wageCn);
+        map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        Call<SuperBean<String>> publishPositionCall;
+        if (editBean != null) {
+            map.put("id", editBean.getData().getId() + "");
+            publishPositionCall = RestAdapterManager.getApi().editPosition(map);
+        } else {
+
+            publishPositionCall = RestAdapterManager.getApi().publishPosition(map);
+        }
+        publishPositionCall.enqueue(new JyCallBack<SuperBean<String>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
+                try {
+                    UIUtil.showToast(response.body().getMsg());
+                } catch (Exception w) {
+                }
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_PUBLISHED_POSITION));
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("接口异常");
+                LogUtils.e(t.getMessage());
+            }
+
+            @Override
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
+                try {
+                    ErrorMessageUtils.taostErrorMessage(EnterprisePublishPositionActivity.this, response.errorBody().string(), "");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     //    --------------------------所在城市开始-----------------------------------------------------------------------
 
     /**
      * 选择城市dialog
      */
-    public void cityTagDialog() {
-        if (cityBean == null) {
+    public void cityTagDialog(JobTagBean tagBean) {
+        if (tagBean == null) {
             return;
         }
 
@@ -164,7 +373,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         TextView cancle = (TextView) view.findViewById(R.id.tv_cancel);
         TextView confirm = (TextView) view.findViewById(R.id.tv_confirm);
         TextView tv_itle = (TextView) view.findViewById(R.id.tv_itle);
-        tv_itle.setText("选择城市");
+        tv_itle.setText("工作地址");
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,18 +383,54 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (cityStep != 3) {
+                    UIUtil.showToast("请选择");
+                    return;
+                }
                 setTvCityTag(cacheCityTag);
-                //点击了第一页的
                 myDialog.dismiss();
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this, cityBean.getData());
+        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this, tagBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
-                cacheCityTag = (JobTagBean.DataBean) bean;
+
+                tag22.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
+                adapter11 = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this);
+                tag22.setAdapter(adapter11);
+                adapter11.setCommonInterface(new RecyclerViewCommonInterface() {
+                    @Override
+                    public void onClick(Object bean) {
+                        //点击了第二页的
+                        tag33.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
+                        adapter22 = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this);
+                        tag33.setAdapter(adapter22);
+                        adapter22.setCommonInterface(new RecyclerViewCommonInterface() {
+                            @Override
+                            public void onClick(Object bean) {
+                                //点击了第三页
+                                cityStep = 3;
+                                intentionCityCn3 = ((JobTagBean.DataBean) bean).getCategoryname() + "";
+                                intentionCityId3 = ((JobTagBean.DataBean) bean).getId() + "";
+                                cacheCityTag = (JobTagBean.DataBean) bean;
+                            }
+                        });
+
+                        cityStep = 2;
+                        intentionCityCn2 = ((JobTagBean.DataBean) bean).getCategoryname() + "";
+                        intentionCityId2 = ((JobTagBean.DataBean) bean).getId() + "";
+                        getCityData(((JobTagBean.DataBean) bean).getId() + "");
+                    }
+                });
+
+                //点击了第一页的
+                cityStep = 1;
+                intentionCityCn1 = ((JobTagBean.DataBean) bean).getCategoryname() + "";
+                intentionCityId1 = ((JobTagBean.DataBean) bean).getId() + "";
+                getCityData(((JobTagBean.DataBean) bean).getId() + "");
             }
         });
 
@@ -197,15 +442,22 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
      * @param id
      */
     private void getCityData(String id) {
-        DialogUtils.showDialog(this, "加载中...", false);
         Call<JobTagBean> jobTagBeanCall = RestAdapterManager.getApi().getDistrict(id);
         jobTagBeanCall.enqueue(new JyCallBack<JobTagBean>() {
             @Override
             public void onSuccess(Call<JobTagBean> call, Response<JobTagBean> response) {
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                    cityBean = response.body();
-                    cityTagDialog();
+                    if (cityStep == 0) {
+                        cityBean = response.body();
+                        cityTagDialog(cityBean);
+                    } else if (cityStep == 1) {
+                        adapter11.ClearData();
+                        adapter11.addList(response.body().getData());
+                    } else if (cityStep == 2) {
+                        adapter22.ClearData();
+                        adapter22.addList(response.body().getData());
+                    }
                 } else {
                     UIUtil.showToast("接口错误");
                 }
@@ -232,12 +484,128 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             UIUtil.showToast("请选择");
             return;
         }
-//        intentionCity = intentionCityCn1 + "/" + intentionCityCn2 + "/" + intentionCityCn3;
-        intentionCity = cacheTag.getCategoryname() + "";
-        intentionCityId = cacheTag.getId() + "";
-        etCity.setText(cacheTag.getCategoryname());
+        intentionCity = intentionCityCn1 + "/" + intentionCityCn2 + "/" + intentionCityCn3;
+        etlocation.setText(cacheTag.getCategoryname());
     }
     //    --------------------------所在城市结束-----------------------------------------------------------------------
+//    --------------------------期望职位开始-----------------------------------------------------------------------
+
+    /**
+     * 选择tag公告dialog
+     */
+    public void jobTagDialog(JobTagBean tagBean) {
+        if (tagBean == null) {
+            return;
+        }
+
+        View view = View.inflate(EnterprisePublishPositionActivity.this, R.layout.dialog_job_tag, null);
+        showdialog(view);
+        final RecyclerView tag1 = (RecyclerView) view.findViewById(R.id.tag1);
+        final RecyclerView tag2 = (RecyclerView) view.findViewById(R.id.tag2);
+        final RecyclerView tag3 = (RecyclerView) view.findViewById(R.id.tag3);
+        TextView cancle = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView confirm = (TextView) view.findViewById(R.id.tv_confirm);
+        TextView tv_itle = (TextView) view.findViewById(R.id.tv_itle);
+        tv_itle.setText("职位类别");
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDialog.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setJonTag(cacheJobTag);
+                myDialog.dismiss();
+            }
+        });
+        tag1.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
+        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this, tagBean.getData());
+        tag1.setAdapter(adapter);
+        adapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+
+                tag2.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
+                adapter1 = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this);
+                tag2.setAdapter(adapter1);
+                adapter1.setCommonInterface(new RecyclerViewCommonInterface() {
+                    @Override
+                    public void onClick(Object bean) {
+                        //点击了第二页的
+                        tag3.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
+                        adapter2 = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this);
+                        tag3.setAdapter(adapter2);
+                        adapter2.setCommonInterface(new RecyclerViewCommonInterface() {
+                            @Override
+                            public void onClick(Object bean) {
+                                //点击了第三页
+                                intentionJobsId3 = ((JobTagBean.DataBean) bean).getId() + "";
+                                cacheJobTag = (JobTagBean.DataBean) bean;
+                            }
+                        });
+
+                        jobStep = 2;
+                        intentionJobsId2 = ((JobTagBean.DataBean) bean).getId() + "";
+                        getJobData(((JobTagBean.DataBean) bean).getId() + "");
+                    }
+                });
+
+                //点击了第一页的
+                jobStep = 1;
+                intentionJobsId1 = ((JobTagBean.DataBean) bean).getId() + "";
+                getJobData(((JobTagBean.DataBean) bean).getId() + "");
+            }
+        });
+
+    }
+
+    private void getJobData(String id) {
+        Call<JobTagBean> jobTagBeanCall = RestAdapterManager.getApi().getJobType(id);
+        jobTagBeanCall.enqueue(new JyCallBack<JobTagBean>() {
+            @Override
+            public void onSuccess(Call<JobTagBean> call, Response<JobTagBean> response) {
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    if (jobStep == 0) {
+                        jobTagDialog(response.body());
+                    } else if (jobStep == 1) {
+                        adapter1.ClearData();
+                        adapter1.addList(response.body().getData());
+                    } else if (jobStep == 2) {
+                        adapter2.ClearData();
+                        adapter2.addList(response.body().getData());
+                    }
+                } else {
+                    UIUtil.showToast("接口错误");
+                }
+
+
+            }
+
+            @Override
+            public void onError(Call<JobTagBean> call, Throwable t) {
+                LogUtils.e(t.getMessage());
+                UIUtil.showToast("接口错误");
+            }
+
+            @Override
+            public void onError(Call<JobTagBean> call, Response<JobTagBean> response) {
+
+            }
+        });
+    }
+
+    private void setJonTag(JobTagBean.DataBean cacheJobTag) {
+        if (cacheJobTag == null) {
+            UIUtil.showToast("请选择");
+            return;
+        }
+        intentionJobsId = intentionJobsId1 + "." + intentionJobsId2 + "." + intentionJobsId3;
+        intentionJobs = cacheJobTag.getCategoryname();
+        etPositionType.setText(cacheJobTag.getCategoryname());
+    }
+//-----------------------------------------------------------------------期望职位结束----------------------------------------------------------
 
 
     /**
@@ -251,11 +619,17 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
 
         } else {
             switch (tag) {
-                case "QS_trade":
-                    commonDialog(commonTagBean.getData().getQS_trade());
+                case "QS_education":
+                    commonDialog(commonTagBean.getData().getQS_education());
                     break;
                 case "QS_wage":
                     commonDialog(commonTagBean.getData().getQS_wage());
+                    break;
+                case "QS_jobs_nature":
+                    commonDialog(commonTagBean.getData().getQS_jobs_nature());
+                    break;
+                case "QS_experience":
+                    commonDialog(commonTagBean.getData().getQS_experience());
                     break;
             }
 
@@ -277,14 +651,17 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         TextView confirm = (TextView) view.findViewById(R.id.tv_confirm);
         TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         switch (clickTag) {
-            case "QS_trade":
-                tv_title.setText("期望行业");
+            case "QS_jobs_nature":
+                tv_title.setText("工作性质");
                 break;
-//            case "QS_experience":
-//                tv_title.setText("工作经验");
-//                break;
+            case "QS_experience":
+                tv_title.setText("经验要求");
+                break;
             case "QS_wage":
-                tv_title.setText("期望薪资");
+                tv_title.setText("薪资范围");
+                break;
+            case "QS_education":
+                tv_title.setText("学历要求");
                 break;
         }
         cancle.setOnClickListener(new View.OnClickListener() {
@@ -322,18 +699,20 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             return;
         }
         switch (clickTag) {
-            case "QS_trade":
+            case "QS_education":
                 cId = tagBean.getCId() + "";
                 cName = tagBean.getCName();
-//                tv_job_type.setText(tagBean.getCName());
+                etEducation.setText(tagBean.getCName());
                 break;
             case "QS_experience":
-//                experience = tagBean.getCId() + "";
-//                experienceCn = tagBean.getCName();
-//                tv_work_age.setText(tagBean.getCName());
+                experience = tagBean.getCId() + "";
+                experienceCn = tagBean.getCName();
+                etExperience.setText(tagBean.getCName());
                 break;
             case "QS_jobs_nature":
-//                tv_job.setText(tagBean.getCName());
+                nature = tagBean.getCId() + "";
+                natureCn = tagBean.getCName();
+                etPositionNature.setText(tagBean.getCName());
                 break;
             case "QS_wage":
                 etWage.setText(tagBean.getCName());
@@ -350,9 +729,11 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
 
     private void getTagItmes() {
         List<String> list = new ArrayList<>();
-        list.add("QS_trade");
+//        list.add("QS_trade");
         list.add("QS_experience");
         list.add("QS_wage");
+        list.add("QS_jobs_nature");
+        list.add("QS_education");
         GetBaseTagBean tagBean = new GetBaseTagBean();
         tagBean.setAlias(list);
         Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(tagBean);

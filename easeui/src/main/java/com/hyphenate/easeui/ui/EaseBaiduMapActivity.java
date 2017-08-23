@@ -76,7 +76,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
      * 搜索模块
      */
     GeoCoder mSearch = null;
-
+    private ReverseGeoCodeResult mGeoCodeResult;
     /**
      * 正向地理编码和反向地理编码
      * @param result
@@ -118,6 +118,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
                 .getLocation()));
         Toast.makeText(EaseBaiduMapActivity.this, result.getAddress(),
                 Toast.LENGTH_LONG).show();
+        mGeoCodeResult=result;
         /**
          * 弹出InfoWindow，显示信息
          */
@@ -177,8 +178,8 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
         iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
         mBaiduReceiver = new BaiduSDKReceiver();
         registerReceiver(mBaiduReceiver, iFilter);
-//		mSearch = GeoCoder.newInstance();
-//		mSearch.setOnGetGeoCodeResultListener(this);
+		mSearch = GeoCoder.newInstance();
+		mSearch.setOnGetGeoCodeResultListener(this);
         mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -188,9 +189,13 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
             @Override
             public boolean onMapPoiClick(MapPoi mapPoi) {
                 Log.e("mBaiduMap", "onMapPoiClick");
+                LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
+                // 反地理编码搜索
+                reverseSearch(ptCenter);
                 return false;
             }
         });
+
     }
 
     private void showMap(double latitude, double longtitude, String address) {
@@ -310,6 +315,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
             mBaiduMap.addOverlay(ooA);
             MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
             mBaiduMap.animateMapStatus(u);
+            mLocClient.stop();
         }
 
         public void onReceivePoi(BDLocation poiLocation) {

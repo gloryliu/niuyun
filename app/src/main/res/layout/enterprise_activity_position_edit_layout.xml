@@ -132,7 +132,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="7.5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -173,7 +174,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="工作职责"
+                    android:text="职位描述"
                     android:textColor="@color/color_333333"
                     android:textSize="13sp" />
 
@@ -218,7 +219,8 @@
                 android:id="@+id/ll_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_company"
@@ -304,41 +306,58 @@
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                style="@style/common_divider_f0f0f0"
                 android:layout_marginLeft="16.5dp"
-                android:layout_marginRight="24dp"
-                android:background="@color/color_f0f0f0" />
+                android:layout_marginRight="24dp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="16.5dp"
+                android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_company_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:layout_toLeftOf="@+id/iv_location"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text=""
-                    android:textColor="@color/color_333333"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/iv_location"
+                    android:id="@+id/tv_location_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_location_red" />
-            </RelativeLayout>
+                    android:layout_marginBottom="10dp"
+                    android:text="工作地址"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <View style="@style/common_divider_f0f0f0" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_company_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/iv_location"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text=""
+                        android:textColor="@color/color_333333"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_location_red" />
+                </RelativeLayout>
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -353,13 +372,31 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/bt_talk"
-        style="@style/btn_red_btn_no_corner"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="立即沟通"
-        android:textColor="@color/color_ffffff"
-        android:textSize="14sp" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_edit"
+            style="@style/btn_red_btn_no_corner_gray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="编辑职位"
+            android:textColor="@color/color_ea0000"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/bt_delete"
+            style="@style/btn_red_btn_no_corner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="删除职位"
+            android:textColor="@color/color_ffffff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
 </RelativeLayout>

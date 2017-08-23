@@ -36,6 +36,7 @@ import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
+import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.utils.DialogUtils;
@@ -562,7 +563,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
         list.add("QS_education");
         list.add("QS_experience");
         list.add("QS_wage");
-        GetBaseTagBean tagBean=new GetBaseTagBean();
+        GetBaseTagBean tagBean = new GetBaseTagBean();
         tagBean.setAlias(list);
         Call<CommonTagBean> commonTagBeanCall = RestAdapterManager.getApi().getWorkAgeAndResume(tagBean);
         commonTagBeanCall.enqueue(new JyCallBack<CommonTagBean>() {
@@ -645,7 +646,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
                 if (photo.getText().toString().contains(getResources().getString(R.string.publish_photo))) {
 
                     Intent intent = new Intent(PerfectPersonInformation.this, TakeSimpleActivity.class);
-                    intent.putExtra("Type",1);
+                    intent.putExtra("Type", 1);
                     startActivityForResult(intent, resultCode_Photos);
                     myDialog.dismiss();
                 }
@@ -659,7 +660,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
             public void onClick(View v) {
                 if (picture.getText().toString().contains(getResources().getString(R.string.publish_picture))) {
                     Intent intent = new Intent(PerfectPersonInformation.this, TakeSimpleActivity.class);
-                    intent.putExtra("Type",0);
+                    intent.putExtra("Type", 0);
                     startActivityForResult(intent, resultCode_Camera);
                     myDialog.dismiss();
                 }
@@ -809,8 +810,17 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PerfectPersonInformation.this, MainActivity.class);
-                startActivity(intent);
+                if (BaseContext.getInstance().getUserInfo() != null) {
+                    if (BaseContext.getInstance().getUserInfo().utype == 1) {
+                        Intent jmActivityIntent = new Intent(PerfectPersonInformation.this, EnterpriseMainActivity.class);
+                        PerfectPersonInformation.this.startActivity(jmActivityIntent);
+                        AppManager.getAppManager().finishActivity(MainActivity.class);
+                    } else {
+                        Intent intent = new Intent(PerfectPersonInformation.this, MainActivity.class);
+                        startActivity(intent);
+                        AppManager.getAppManager().finishActivity(EnterpriseMainActivity.class);
+                    }
+                }
                 myDialog.dismiss();
                 AppManager.getAppManager().finishActivity(LoginActivity.class);
                 EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.PERFECT_INFO_SUCCESS));

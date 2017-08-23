@@ -3,7 +3,6 @@ package com.niuyun.hire.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -20,13 +19,13 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
-import com.niuyun.hire.ui.chat.Constant;
-import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
-import com.niuyun.hire.utils.ImageLoadedrManager;
+import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,7 +39,7 @@ import retrofit2.Response;
  * Created by chen.zhiwei on 2017-7-26.
  */
 
-public class WorkPositionDetailActivity extends BaseActivity implements View.OnClickListener {
+public class EnterprisePositionEditActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.title_view)
     TitleBar titleView;
     @BindView(R.id.tv_company_name1)
@@ -71,16 +70,20 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     TextView tv_responsibility_more;//更多
     @BindView(R.id.ll_company)
     LinearLayout ll_company;
-    @BindView(R.id.bt_talk)
-    Button bt_talk;
+    @BindView(R.id.bt_edit)
+    Button bt_edit;
+    @BindView(R.id.bt_delete)
+    Button bt_delete;
     @BindView(R.id.pv_play)
     PolyvPlayerView pv_play;
+    @BindView(R.id.ll_video)
+    LinearLayout ll_video;
     private String companyId;//公司id
     private String id;//职位id
     private String uid;//职位id
-    private ImageView mCollectView;
+    //    private ImageView mCollectView;
     Call<JobDetailsBean> jobDetailsBeanCall;
-    Call<SuperBean<String>> addAttentionCall;
+    Call<SuperBean<String>> deleteCall;
     private JobDetailsBean bean;
 
     @Override
@@ -90,7 +93,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
 
     @Override
     public int getContentViewLayoutId() {
-        return R.layout.activity_work_position_detail_layout;
+        return R.layout.enterprise_activity_position_edit_layout;
     }
 
     @Override
@@ -103,7 +106,8 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         }
         initTitle();
         ll_company.setOnClickListener(this);
-        bt_talk.setOnClickListener(this);
+        bt_edit.setOnClickListener(this);
+        bt_delete.setOnClickListener(this);
     }
 
     @Override
@@ -129,17 +133,13 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     private void setData(JobDetailsBean bean) {
         if (bean != null && bean.getData() != null) {
             tv_position_name.setText(bean.getData().getJobsName());
-            tv_company_name1.setText(bean.getData().getCompanyname());
-
+            tv_company_name1.setVisibility(View.GONE);
+            ll_video.setVisibility(View.GONE);
             tv_position_price.setText(bean.getData().getMinwage() / 1000 + "k-" + bean.getData().getMaxwage() / 1000 + "k");
             tv_location.setText(bean.getData().getDistrictCn());
             tv_work_age.setText(bean.getData().getExperienceCn());
             tv_education.setText(bean.getData().getEducationCn());
 
-            //视频
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            pv_play.setTransaction(ft);
-            pv_play.setVid(bean.getData().getVideo());
             //工作职责
             if (!TextUtils.isEmpty(bean.getData().getContents())) {
                 tv_work_responsibilities.setText(bean.getData().getContents());
@@ -164,19 +164,8 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                     }
                 }
             });
-//公司
-            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_IMAGE_URL + bean.getData().getLogo(), iv_company);
-            tv_company_name.setText(bean.getData().getCompanyname());
-            tv_company_scale.setText(bean.getData().getDistrictCn() + "/" + bean.getData().getNatureCn() + "/" + bean.getData().getScaleCn());
-            tv_company_type.setText(bean.getData().getTradeCn());
-            tv_company_location.setText("地址：" + bean.getData().getAddress());
+            tv_company_location.setText(bean.getData().getAddress());
 
-            //是否关注
-            if (!TextUtils.isEmpty(bean.getData().getFollowFlag()) && bean.getData().getFollowFlag().equals("2")) {
-                mCollectView.setImageResource(R.mipmap.ic_stars_yes);
-            } else {
-                mCollectView.setImageResource(R.mipmap.ic_stars_no);
-            }
 
         }
     }
@@ -224,7 +213,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
 
     private void initTitle() {
 
-        titleView.setTitle("职位详情");
+        titleView.setTitle("职位管理");
         titleView.setTitleColor(Color.WHITE);
         titleView.setLeftImageResource(R.mipmap.ic_title_back);
         titleView.setLeftText("返回");
@@ -237,22 +226,6 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         });
         titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         titleView.setActionTextColor(Color.WHITE);
-        mCollectView = (ImageView) titleView.addAction(new TitleBar.ImageAction(R.mipmap.ic_stars_no) {
-            @Override
-            public void performAction(View view) {
-                if (!UIUtil.isFastDoubleClick()) {
-                    if (BaseContext.getInstance().getUserInfo() != null) {
-                        if (!TextUtils.isEmpty(bean.getData().getFollowFlag()) && bean.getData().getFollowFlag().equals("2")) {
-                            UIUtil.showToast("您已关注");
-                        } else {
-                            addAttention();
-                        }
-                    }
-                }
-
-            }
-        });
-
         titleView.setImmersive(true);
     }
 
@@ -267,19 +240,20 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                 }
 
                 break;
-            case R.id.bt_talk:
-
-                if (BaseContext.getInstance().getUserInfo() == null) {
-                    startActivity(new Intent(this, LoginActivity.class));
-                } else {
-                    if (bean != null) {
-                        Intent intent = new Intent(this, ChatActivity.class);
-                        intent.putExtra(Constant.EXTRA_USER_ID, "niuyunApp" + bean.getData().getUid());
-                        startActivity(intent);
-                    }
-
+            case R.id.bt_edit:
+                if (bean != null && bean.getData() != null) {
+                    Intent intent = new Intent(this, EnterprisePublishPositionActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("bean", bean);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
 
+                break;
+            case R.id.bt_delete:
+                if (bean != null && bean.getData() != null && bean.getData().getId() > 0) {
+                    deletePosition();
+                }
                 break;
         }
     }
@@ -289,25 +263,23 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         if (jobDetailsBeanCall != null) {
             jobDetailsBeanCall.cancel();
         }
-        if (addAttentionCall != null) {
-            addAttentionCall.cancel();
+        if (deleteCall != null) {
+            deleteCall.cancel();
         }
         super.onDestroy();
     }
 
-    private void addAttention() {
-        Map<String, String> map = new HashMap<>();
-        map.put("jobsId", bean.getData().getId() + "");
-        map.put("jobsName", bean.getData().getJobsName());
-        map.put("personalUid", BaseContext.getInstance().getUserInfo().uid + "");
-        addAttentionCall = RestAdapterManager.getApi().addAttention(map);
-        addAttentionCall.enqueue(new JyCallBack<SuperBean<String>>() {
+    private void deletePosition() {
+        DialogUtils.showDialog(this, "", false);
+        deleteCall = RestAdapterManager.getApi().deleteEnterprisePosition(bean.getData().getId() + "");
+        deleteCall.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
                 if (response.body() != null && response.body().getCode() == Constants.successCode) {
                     UIUtil.showToast(response.body().getMsg());
-                    mCollectView.setImageResource(R.mipmap.ic_stars_yes);
-                    bean.getData().setFollowFlag("2");
+                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_PUBLISHED_POSITION));
+                    finish();
                 } else {
                     UIUtil.showToast("接口异常");
                 }
@@ -315,11 +287,13 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
 
             @Override
             public void onError(Call<SuperBean<String>> call, Throwable t) {
+                DialogUtils.closeDialog();
                 UIUtil.showToast("接口异常");
             }
 
             @Override
             public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
+                DialogUtils.closeDialog();
                 UIUtil.showToast("接口异常");
             }
         });

@@ -8,7 +8,6 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.easefun.polyvsdk.PolyvDevMountInfo;
 import com.easefun.polyvsdk.PolyvSDKClient;
@@ -323,6 +322,7 @@ public class BaseContext extends MultiDexApplication {
      * 清除用户信息
      */
     public void Exit() {
+        EMClient.getInstance().logout(false);
         SharePreManager.instance(this).clearUserInfO();
         userInfo = null;
         AppManager.getAppManager().finishAllActivity();

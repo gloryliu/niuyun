@@ -192,9 +192,9 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             public void onClick(Object bean) {
 //工作经历
 
-                Intent intent=new Intent(EditResumeActivity.this, EditWorkExperienceActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("bean",((PreviewResumeBean.DataBean.ResumeWorkBean)bean));
+                Intent intent = new Intent(EditResumeActivity.this, EditWorkExperienceActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("bean", ((PreviewResumeBean.DataBean.ResumeWorkBean) bean));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -208,9 +208,9 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(Object bean) {
 //教育经历
-                Intent intent=new Intent(EditResumeActivity.this, EditEducationActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("bean",((PreviewResumeBean.DataBean.ResumeEducationBean)bean));
+                Intent intent = new Intent(EditResumeActivity.this, EditEducationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("bean", ((PreviewResumeBean.DataBean.ResumeEducationBean) bean));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -231,10 +231,16 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
 
             tv_user_name.setText(previewResumeBean.getData().getRealname() + "|" + previewResumeBean.getData().getSexCn());
             tv_intent.setText(BaseContext.getInstance().getUserInfo().currentCn);
-            workExperienceAdapter.ClearData();
-            workExperienceAdapter.addList(previewResumeBean.getData().getResumeWork());
-            workEducationAdapter.ClearData();
-            workEducationAdapter.addList(previewResumeBean.getData().getResumeEducation());
+            if (previewResumeBean.getData().getResumeWork() != null) {
+
+                workExperienceAdapter.ClearData();
+                workExperienceAdapter.addList(previewResumeBean.getData().getResumeWork());
+            }
+            if (previewResumeBean.getData().getResumeEducation() != null) {
+                workEducationAdapter.ClearData();
+                workEducationAdapter.addList(previewResumeBean.getData().getResumeEducation());
+            }
+
 
         }
     }

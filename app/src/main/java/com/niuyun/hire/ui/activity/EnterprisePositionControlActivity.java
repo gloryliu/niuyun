@@ -15,8 +15,8 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
-import com.niuyun.hire.ui.adapter.MyAttentionListAdapter;
-import com.niuyun.hire.ui.bean.MyAttentionListBean;
+import com.niuyun.hire.ui.adapter.EnterprisePublishedPisitionAdapter;
+import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.view.TitleBar;
@@ -48,8 +48,8 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
     Button bt_publish;
     private int pageNum = 1;
     private int pageSize = 20;
-    private Call<MyAttentionListBean> getMyAttentionCall;
-    private MyAttentionListAdapter listItemAdapter;
+    private Call<EnterprisePublishedPositionBean> getMyAttentionCall;
+    private EnterprisePublishedPisitionAdapter listItemAdapter;
 
     @Override
     public int getContentViewLayoutId() {
@@ -79,14 +79,14 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
         refreshLayout.setEnableLoadmore(false);
         //求职recyclerView
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        listItemAdapter = new MyAttentionListAdapter(this);
+        listItemAdapter = new EnterprisePublishedPisitionAdapter(this);
         recyclerview.setAdapter(listItemAdapter);
         listItemAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
-                MyAttentionListBean.DataBeanX.DataBean databean = (MyAttentionListBean.DataBeanX.DataBean) bean;
+                EnterprisePublishedPositionBean.DataBeanX.DataBean databean = (EnterprisePublishedPositionBean.DataBeanX.DataBean) bean;
                 if (databean != null) {
-                    Intent intent = new Intent(EnterprisePositionControlActivity.this, WorkPositionDetailActivity.class);
+                    Intent intent = new Intent(EnterprisePositionControlActivity.this, EnterprisePositionEditActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("id", databean.getId() + "");
                     bundle.putString("companyId", databean.getCompanyId() + "");
@@ -100,17 +100,22 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
 
     @Override
     public void loadData() {
-
+        getAllJobs();
     }
 
     @Override
     public boolean isRegistEventBus() {
-        return false;
+        return true;
     }
 
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
-
+        if (eventBusCenter != null) {
+            if (eventBusCenter.getEvenCode() == Constants.UPDATE_PUBLISHED_POSITION) {
+                pageNum = 1;
+                getAllJobs();
+            }
+        }
     }
 
     @Override
@@ -124,11 +129,11 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
         map.put("pageSize", pageSize + "");
         map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
 
-        getMyAttentionCall = RestAdapterManager.getApi().getMyAttention(map);
+        getMyAttentionCall = RestAdapterManager.getApi().getMyPublishedPosition(map);
 
-        getMyAttentionCall.enqueue(new JyCallBack<MyAttentionListBean>() {
+        getMyAttentionCall.enqueue(new JyCallBack<EnterprisePublishedPositionBean>() {
             @Override
-            public void onSuccess(Call<MyAttentionListBean> call, Response<MyAttentionListBean> response) {
+            public void onSuccess(Call<EnterprisePublishedPositionBean> call, Response<EnterprisePublishedPositionBean> response) {
                 if (refreshLayout != null) {
                     refreshLayout.finishRefresh();
                     refreshLayout.finishLoadmore();
@@ -155,7 +160,7 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
             }
 
             @Override
-            public void onError(Call<MyAttentionListBean> call, Throwable t) {
+            public void onError(Call<EnterprisePublishedPositionBean> call, Throwable t) {
                 if (refreshLayout != null) {
                     if (pageNum == 1) {
                         listItemAdapter.ClearData();
@@ -167,7 +172,7 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
             }
 
             @Override
-            public void onError(Call<MyAttentionListBean> call, Response<MyAttentionListBean> response) {
+            public void onError(Call<EnterprisePublishedPositionBean> call, Response<EnterprisePublishedPositionBean> response) {
                 if (refreshLayout != null) {
                     if (pageNum == 1) {
                         listItemAdapter.ClearData();

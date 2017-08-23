@@ -35,9 +35,9 @@ import com.niuyun.hire.ui.chat.db.DemoDBManager;
 import com.niuyun.hire.ui.chat.runtimepermissions.PermissionsManager;
 import com.niuyun.hire.ui.chat.runtimepermissions.PermissionsResultAction;
 import com.niuyun.hire.ui.chat.ui.LoginActivity;
-import com.niuyun.hire.ui.index.fragment.AllJobsFragment;
+import com.niuyun.hire.ui.index.fragment.AlljobSeekerFragment;
+import com.niuyun.hire.ui.index.fragment.EnterpriseIndexFragment;
 import com.niuyun.hire.ui.index.fragment.FindFragment;
-import com.niuyun.hire.ui.index.fragment.IndexFragment;
 import com.niuyun.hire.ui.index.fragment.LiveFragment;
 import com.niuyun.hire.ui.index.fragment.MyFragment;
 import com.niuyun.hire.view.NoScrollViewPager;
@@ -50,7 +50,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 
 
-public class MainActivity extends BaseActivity {
+public class EnterpriseMainActivity extends BaseActivity {
 
     @BindView(R.id.viewpager)
     NoScrollViewPager viewPager;
@@ -66,8 +66,8 @@ public class MainActivity extends BaseActivity {
      * 是否退出
      **/
     private boolean isWaitingExit = false;
-//    Class[] fragments = {ConversationListFragment.class, AllJobsFragment.class, LiveFragment.class, FindFragment.class, MyFragment.class};
-    private int[] tabNames = {R.string.main_tab_name_index, R.string.main_tab_name_alljobs, R.string.main_tab_name_live, R.string.main_tab_name_find, R.string.main_tab_name_me};
+//    Class[] fragments = {EnterpriseIndexFragment.class, AlljobSeekerFragment.class, LiveFragment.class, FindFragment.class, MyFragment.class};
+    private int[] tabNames = {R.string.main_tab_name_index, R.string.main_tab_name_allPerson, R.string.main_tab_name_live, R.string.main_tab_name_find, R.string.main_tab_name_me};
     private int[] tabIcons = {R.drawable.selector_main_tab_index, R.drawable.selector_main_tab_alljobs, R.drawable.selector_main_tab_live, R.drawable.selector_main_tab_find, R.drawable.selector_main_tab_mine};
     private List<Fragment> fragmentList = new ArrayList<>();
 
@@ -91,8 +91,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initViewsAndEvents() {
         if (fragmentList.size() <= 0) {
-            fragmentList.add(new IndexFragment());
-            fragmentList.add(new AllJobsFragment());
+            fragmentList.add(new EnterpriseIndexFragment());
+            fragmentList.add(new AlljobSeekerFragment());
             fragmentList.add(new LiveFragment());
             fragmentList.add(new FindFragment());
             fragmentList.add(new MyFragment());
@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity {
                         viewPager.setCurrentItem(tab.getPosition());
                     } else {
                         if (tab.getPosition() != 1) {
-                            startActivity(new Intent(MainActivity.this, com.niuyun.hire.ui.activity.LoginActivity.class));
+                            startActivity(new Intent(EnterpriseMainActivity.this, com.niuyun.hire.ui.activity.LoginActivity.class));
                         } else {
                             viewPager.setCurrentItem(tab.getPosition());
                         }
@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity {
                         //企业注册
                         if (BaseContext.getInstance().getUserInfo().perfect == 1) {
                             if (BaseContext.getInstance().getUserInfo().perfect == 1) {
-                                Intent findPsIntent = new Intent(MainActivity.this, PerfectEnterpriseInformation.class);
+                                Intent findPsIntent = new Intent(EnterpriseMainActivity.this, PerfectEnterpriseInformation.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid + "");
                                 bundle.putString("companyId", BaseContext.getInstance().getUserInfo().companyId + "");
@@ -176,7 +176,7 @@ public class MainActivity extends BaseActivity {
                     } else {
                         //个人注册
                         if (BaseContext.getInstance().getUserInfo().perfect == 1) {
-                            Intent findPsIntent = new Intent(MainActivity.this, PerfectPersonInformation.class);
+                            Intent findPsIntent = new Intent(EnterpriseMainActivity.this, PerfectPersonInformation.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid + "");
                             findPsIntent.putExtras(bundle);
@@ -327,9 +327,9 @@ public class MainActivity extends BaseActivity {
                 isWaitingExit = false;
 //                Intent intent = new Intent(mContext, TabIconService.class);
 //                stopService(intent);
-                AppManager.getAppManager().AppExit(MainActivity.this);
+                AppManager.getAppManager().AppExit(EnterpriseMainActivity.this);
             } else {
-                Toast.makeText(MainActivity.this, "再按一次退出程序...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EnterpriseMainActivity.this, "再按一次退出程序...", Toast.LENGTH_SHORT).show();
 
                 isWaitingExit = true;
 

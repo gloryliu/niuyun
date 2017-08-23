@@ -9,12 +9,14 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.chat.DemoHelper;
+import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
@@ -58,9 +60,16 @@ public class LoginUtils {
                     SharePreManager.instance(context).setUserInfo(response.body().getData());
                     SharePreManager.instance(context).setUserInfo(response.body().getData());
                     EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.LOGIN_SUCCESS));
+                    if (BaseContext.getInstance().getUserInfo().utype == 1) {
+                        Intent jmActivityIntent = new Intent(context, EnterpriseMainActivity.class);
+                        context.startActivity(jmActivityIntent);
+                        AppManager.getAppManager().finishActivity(MainActivity.class);
+                    } else {
+                        Intent jmActivityIntent = new Intent(context, MainActivity.class);
+                        context.startActivity(jmActivityIntent);
+                        AppManager.getAppManager().finishActivity(EnterpriseMainActivity.class);
+                    }
 
-                    Intent jmActivityIntent = new Intent(context, MainActivity.class);
-                    context.startActivity(jmActivityIntent);
                     ((Activity) context).finish();
                 } else {
                     UIUtil.showToast(response.body().getMsg());

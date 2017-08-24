@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.utils;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,5 +64,20 @@ public class EaseUserUtils {
         	}
         }
     }
-    
+    /**
+     * set user's nickname
+     */
+    public static void setUserPositionTitle(String username,TextView textView){
+        if(textView != null){
+        	EaseUser user = getUserInfo(username);
+        	if(user != null && user.getPosition() != null){
+        		textView.setText(user.getPosition());
+                textView.setVisibility(View.VISIBLE);
+        	}else{
+        		textView.setText("");
+                textView.setVisibility(View.GONE);
+        	}
+        }
+    }
+
 }

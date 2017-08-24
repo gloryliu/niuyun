@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.niuyun.hire.R;
@@ -43,6 +44,7 @@ public class CompanyHotPositionFragment extends BaseFragment {
     private int pageSize = 20;
     private IndexCompanyListItemAdapter listItemAdapter;
     private Call<AllJobsBean> allJobsBeanCall;
+    private String companyId;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -51,6 +53,10 @@ public class CompanyHotPositionFragment extends BaseFragment {
 
     @Override
     protected void initViewsAndEvents() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            companyId = bundle.getString("companyId");
+        }
 //下拉刷新
         refreshLayout.setEnableHeaderTranslationContent(false);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -110,9 +116,13 @@ public class CompanyHotPositionFragment extends BaseFragment {
     }
 
     private void getAllJobs() {
+        if (TextUtils.isEmpty(companyId)) {
+            return;
+        }
         Map<String, String> map = new HashMap<>();
         map.put("pageNum", pageNum + "");
         map.put("pageSize", pageSize + "");
+        map.put("companyId", companyId);
 
         allJobsBeanCall = RestAdapterManager.getApi().getCompanyJobs(map);
 

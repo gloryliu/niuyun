@@ -21,8 +21,8 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
-import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -67,6 +67,8 @@ public class EnterpriseEditPersonActivity extends BaseActivity implements View.O
     ImageView ivPositionMore;
     @BindView(R.id.et_phone)
     EditText etPhone;
+    @BindView(R.id.et_email)
+    EditText et_email;
     @BindView(R.id.bt_next)
     Button bt_next;
     List<String> list = new ArrayList<>();
@@ -123,20 +125,22 @@ public class EnterpriseEditPersonActivity extends BaseActivity implements View.O
     private void setdata() {
         if (BaseContext.getInstance().getUserInfo() != null) {
             try {
-                ImageLoadedrManager.getInstance().display(this, BaseContext.getInstance().getUserInfo().avatars, ivHeader, R.mipmap.ic_default_head);
+                ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars, ivHeader, R.mipmap.ic_default_head);
                 etName.setText(BaseContext.getInstance().getUserInfo().username);
                 etPhone.setText(BaseContext.getInstance().getUserInfo().mobile);
-//                tvPosition.setText(BaseContext.getInstance().getUserInfo().);
+                tvPosition.setText(BaseContext.getInstance().getUserInfo().contactTitle);
+                intentionJobs = BaseContext.getInstance().getUserInfo().contactTitle;
+                et_email.setText(BaseContext.getInstance().getUserInfo().email);
             } catch (Exception e) {
             }
         }
     }
 
     private boolean checkData() {
-        if (list.size() <= 0) {
-            UIUtil.showToast("请选择头像");
-            return false;
-        }
+//        if (list.size() <= 0) {
+//            UIUtil.showToast("请选择头像");
+//            return false;
+//        }
         if (TextUtils.isEmpty(etName.getText().toString())) {
             UIUtil.showToast("请输入名字");
             return false;
@@ -147,6 +151,10 @@ public class EnterpriseEditPersonActivity extends BaseActivity implements View.O
         }
         if (TextUtils.isEmpty(etPhone.getText().toString())) {
             UIUtil.showToast("请输入电话");
+            return false;
+        }
+        if (TextUtils.isEmpty(et_email.getText().toString())) {
+            UIUtil.showToast("请输入邮箱");
             return false;
         }
         return true;
@@ -171,9 +179,7 @@ public class EnterpriseEditPersonActivity extends BaseActivity implements View.O
             @Override
             public void performAction(View view) {
                 if (!UIUtil.isFastDoubleClick()) {
-                    if (checkData()) {
-                        upLoadImage();
-                    }
+                    upload();
                 }
             }
         });
@@ -199,10 +205,22 @@ public class EnterpriseEditPersonActivity extends BaseActivity implements View.O
                 }
                 break;
             case R.id.bt_next:
-                if (checkData()) {
+                upload();
+                break;
+        }
+    }
+
+    private void upload() {
+        if (checkData()) {
+            if (list.size() > 0) {
+                if (!TextUtils.isEmpty(headimg)) {
+                    upLoadInfo();
+                } else {
                     upLoadImage();
                 }
-                break;
+            } else {
+                upLoadInfo();
+            }
         }
     }
     ///////////////////////////////////////////////////////////////////上传头像///////////////////////////////////////////////////////
@@ -475,41 +493,45 @@ public class EnterpriseEditPersonActivity extends BaseActivity implements View.O
     }
 
     private void upLoadInfo() {
+        DialogUtils.showDialog(this, "", false);
         Map<String, String> map = new HashMap<>();
-        map.put("avatars", headimg);
+        if (!TextUtils.isEmpty(headimg)) {
+
+            map.put("avatars", headimg);
+        } else {
+            map.put("avatars", BaseContext.getInstance().getUserInfo().avatars);
+        }
         map.put("contact", etName.getText().toString());
         map.put("telephone", etPhone.getText().toString());
-//        map.put("uid", uid);
+        map.put("contactTitle", intentionJobs);
+        map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        map.put("companyId", BaseContext.getInstance().getUserInfo().companyId + "");
+//        map.put("companyId", BaseContext.getInstance().getUserInfo().email + "");
+        map.put("email", et_email.getText().toString());
 
-        Call<SuperBean<UserInfoBean>> upLoadInfo = RestAdapterManager.getApi().perfectEnterprefectInfo(map);
-        upLoadInfo.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
+        Call<SuperBean<String>> upLoadInfo = RestAdapterManager.getApi().editEnterpreInfo(map);
+        upLoadInfo.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
-            public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
+            public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
                 DialogUtils.closeDialog();
+                try {
+                    UIUtil.showToast(response.body().getMsg());
+                } catch (Exception e) {
+                }
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                    BaseContext.getInstance().setUserInfo(response.body().getData());
-                    BaseContext.getInstance().updateUserInfo(response.body().getData());
-//                    perfectSuccessDialog();
-                    Intent intent = new Intent(EnterpriseEditPersonActivity.this, EnterPriseCertificationActivity.class);
-                    startActivity(intent);
+                    LoginUtils.getUserByUid();
                     EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.PERFECT_INFO_SUCCESS));
                     finish();
-                } else {
-                    try {
-                        UIUtil.showToast(response.body().getMsg());
-                    } catch (Exception e) {
-                    }
-
                 }
             }
 
             @Override
-            public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
+            public void onError(Call<SuperBean<String>> call, Throwable t) {
                 DialogUtils.closeDialog();
             }
 
             @Override
-            public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
+            public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
                 DialogUtils.closeDialog();
             }
         });

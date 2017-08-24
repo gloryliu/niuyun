@@ -16,6 +16,37 @@
         android:orientation="vertical">
 
         <include layout="@layout/activity_common_enterprise_person_info" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_ffffff"
+            android:paddingBottom="13dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="31dp"
+            android:paddingTop="13dp">
+
+            <TextView
+                android:id="@+id/tv_email_title"
+                style="@style/perfect_enterperfect_item_text_style"
+                android:layout_centerVertical="true"
+                android:text="邮箱" />
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/tv_email_title"
+                android:background="@null"
+                android:gravity="right"
+                android:hint="请输入"
+                android:inputType="number"
+                android:textColor="@color/color_303030"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <View style="@style/common_divider_f0f0f0" />
     </LinearLayout>
 
     <Button

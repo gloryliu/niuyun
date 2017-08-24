@@ -21,8 +21,8 @@ import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
+import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
-import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
@@ -60,8 +60,8 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
     EditText etPositionName;
     @BindView(R.id.et_position_nature)
     TextView etPositionNature;
-    //    @BindView(R.id.et_city)
-//    TextView etCity;
+        @BindView(R.id.et_city)
+        TextView etCity;
     @BindView(R.id.et_education)
     TextView etEducation;
     @BindView(R.id.et_experience)
@@ -116,7 +116,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
     private JobPerfectInfoTagAdapter adapter1;
     private JobPerfectInfoTagAdapter adapter2;
     private JobTagBean.DataBean cacheJobTag;
-    private JobDetailsBean editBean;
+    private EnterprisePublishedPositionBean.DataBeanX.DataBean editBean;
 
     @Override
     public int getContentViewLayoutId() {
@@ -129,7 +129,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            editBean = (JobDetailsBean) bundle.getSerializable("bean");
+            editBean = (EnterprisePublishedPositionBean.DataBeanX.DataBean) bundle.getSerializable("bean");
         }
         if (editBean != null) {
             setDefaultData();
@@ -144,6 +144,8 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         etWage.setOnClickListener(this);
         etlocation.setOnClickListener(this);
         btPublish.setOnClickListener(this);
+        btPublish.setOnClickListener(this);
+        etCity.setOnClickListener(this);
 
 
     }
@@ -235,6 +237,17 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
                     }
                 }
                 break;
+            case R.id.et_city:
+                if (!UIUtil.isFastDoubleClick()) {
+                    cityStep = 0;
+                    if (cityBean == null) {
+                        DialogUtils.showDialog(this, "加载...", false);
+                        getCityData("0");
+                    } else {
+                        cityTagDialog(cityBean);
+                    }
+                }
+                break;
             case R.id.bt_publish:
                 if (checkData()) {
                     uploadInfo();
@@ -247,7 +260,43 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
      * 设置编辑默认值
      */
     private void setDefaultData() {
-//        etPositionType.setText(editBean.getData().get);
+        etPositionType.setText(editBean.getCategoryCn());
+        intentionJobsId1 = editBean.getTopclass() + "";
+        intentionJobsId2 = editBean.getCategory() + "";
+        intentionJobsId3 = editBean.getSubclass() + "";
+        intentionJobs = editBean.getCategoryCn();
+
+
+        etPositionName.setText(editBean.getJobsName());
+        etDescribe.setText(editBean.getContents());
+
+
+        etCity.setText(editBean.getDistrictCn());
+        intentionCity = editBean.getDistrictCn();
+        intentionCityId1 = editBean.getDistrict() + "";
+        intentionCityId2 = editBean.getSdistrict() + "";
+        intentionCityId3 = editBean.getTdistrict() + "";
+
+
+        cId = editBean.getEducation() + "";
+        cName = editBean.getEducationCn();
+        etEducation.setText(cName);
+
+
+        experience = editBean.getExperience() + "";
+        experienceCn = editBean.getExperienceCn();
+        etExperience.setText(experienceCn);
+
+
+        nature = editBean.getNature() + "";
+        natureCn = editBean.getNatureCn();
+        etPositionNature.setText(natureCn);
+
+
+        wage = editBean.getMinwage() + "";
+        wageCn = editBean.getNatureCn();
+        etWage.setText(wageCn);
+
     }
 
     private boolean checkData() {
@@ -316,7 +365,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
         Call<SuperBean<String>> publishPositionCall;
         if (editBean != null) {
-            map.put("id", editBean.getData().getId() + "");
+            map.put("id", editBean.getId() + "");
             publishPositionCall = RestAdapterManager.getApi().editPosition(map);
         } else {
 
@@ -485,7 +534,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             return;
         }
         intentionCity = intentionCityCn1 + "/" + intentionCityCn2 + "/" + intentionCityCn3;
-        etlocation.setText(cacheTag.getCategoryname());
+        etCity.setText(cacheTag.getCategoryname());
     }
     //    --------------------------所在城市结束-----------------------------------------------------------------------
 //    --------------------------期望职位开始-----------------------------------------------------------------------

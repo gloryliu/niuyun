@@ -85,14 +85,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 //企业
                 ll_enterprise.setVisibility(View.VISIBLE);
                 ll_person.setVisibility(View.GONE);
+                tv_state.setText(BaseContext.getInstance().getUserInfo().contactTitle);
             } else if (BaseContext.getInstance().getUserInfo().utype == 2) {
                 //个人
                 ll_enterprise.setVisibility(View.GONE);
                 ll_person.setVisibility(View.VISIBLE);
+                tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
             }
             ImageLoadedrManager.getInstance().display(getActivity(), Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars, ivHead);
             tv_user_name.setText(BaseContext.getInstance().getUserInfo().username);
-            tv_state.setText(BaseContext.getInstance().getUserInfo().currentCn);
+
         } else {
 //            startActivity(new Intent(getActivity(), LoginActivity.class));
         }

@@ -88,6 +88,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         if (holder == null) {
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.tv_positioin_name = (TextView) convertView.findViewById(R.id.tv_position_name);
             holder.unreadLabel = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.message = (TextView) convertView.findViewById(R.id.message);
             holder.time = (TextView) convertView.findViewById(R.id.time);
@@ -123,6 +124,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         }else {
             EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
             EaseUserUtils.setUserNick(username, holder.name);
+            EaseUserUtils.setUserPositionTitle(username, holder.tv_positioin_name);
             holder.motioned.setVisibility(View.GONE);
         }
 
@@ -323,6 +325,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         /** layout */
         LinearLayout list_itease_layout;
         TextView motioned;
+        TextView tv_positioin_name;
     }
 }
 

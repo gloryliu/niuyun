@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
      * 是否退出
      **/
     private boolean isWaitingExit = false;
-//    Class[] fragments = {ConversationListFragment.class, AllJobsFragment.class, LiveFragment.class, FindFragment.class, MyFragment.class};
+    //    Class[] fragments = {ConversationListFragment.class, AllJobsFragment.class, LiveFragment.class, FindFragment.class, MyFragment.class};
     private int[] tabNames = {R.string.main_tab_name_index, R.string.main_tab_name_alljobs, R.string.main_tab_name_live, R.string.main_tab_name_find, R.string.main_tab_name_me};
     private int[] tabIcons = {R.drawable.selector_main_tab_index, R.drawable.selector_main_tab_alljobs, R.drawable.selector_main_tab_live, R.drawable.selector_main_tab_find, R.drawable.selector_main_tab_mine};
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -201,6 +201,18 @@ public class MainActivity extends BaseActivity {
         DemoDBManager.getInstance().closeDB();
 
         // reset current user name before login
+//        EaseUser user = DemoHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
+//        user.setAvatar(Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars);
+//        user.setPosition(BaseContext.getInstance().getUserInfo().contactTitle);
+//        DemoHelper.getInstance().saveContact(user);
+//        EaseUI easeUI=EaseUI.getInstance();
+//        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+//            @Override
+//            public EaseUser getUser(String username) {
+//                return getUser(username);
+//            }
+//        });
+
         DemoHelper.getInstance().setCurrentUserName(BaseContext.getInstance().getUserInfo().chatUserName);
         EMClient.getInstance().login(BaseContext.getInstance().getUserInfo().chatUserName, BaseContext.getInstance().getUserInfo().chatPwd, new EMCallBack() {
 
@@ -301,7 +313,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
         if (null != eventBusCenter) {
-            if (eventBusCenter.getEvenCode()== Constants.LOGIN_SUCCESS){
+            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS) {
                 if (BaseContext.getInstance().getUserInfo() != null) {
 
                     initChat();

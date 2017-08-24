@@ -14,22 +14,17 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
-import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.DialogUtils;
-import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -84,7 +79,8 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
     //    private ImageView mCollectView;
     Call<JobDetailsBean> jobDetailsBeanCall;
     Call<SuperBean<String>> deleteCall;
-    private JobDetailsBean bean;
+    //    private JobDetailsBean bean;
+    private EnterprisePublishedPositionBean.DataBeanX.DataBean databean;
 
     @Override
     public void enterPictureInPictureMode() {
@@ -100,9 +96,13 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
     public void initViewsAndEvents() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            companyId = bundle.getString("companyId");
-            id = bundle.getString("id");
-            uid = bundle.getString("uid");
+            databean = (EnterprisePublishedPositionBean.DataBeanX.DataBean) bundle.getSerializable("bean");
+            if (databean != null) {
+                companyId = databean.getCompanyId() + "";
+                id = databean.getId() + "";
+                uid = databean.getUid() + "";
+            }
+
         }
         initTitle();
         ll_company.setOnClickListener(this);
@@ -112,7 +112,8 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
 
     @Override
     public void loadData() {
-        getJobDetails();
+//        getJobDetails();
+        setData(databean);
     }
 
     @Override
@@ -130,33 +131,45 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
         return null;
     }
 
-    private void setData(JobDetailsBean bean) {
-        if (bean != null && bean.getData() != null) {
-            tv_position_name.setText(bean.getData().getJobsName());
+    private void setData(EnterprisePublishedPositionBean.DataBeanX.DataBean bean) {
+        if (bean != null) {
+            tv_position_name.setText(bean.getJobsName());
             tv_company_name1.setVisibility(View.GONE);
             ll_video.setVisibility(View.GONE);
-            tv_position_price.setText(bean.getData().getMinwage() / 1000 + "k-" + bean.getData().getMaxwage() / 1000 + "k");
-            tv_location.setText(bean.getData().getDistrictCn());
-            tv_work_age.setText(bean.getData().getExperienceCn());
-            tv_education.setText(bean.getData().getEducationCn());
+            tv_position_price.setText(bean.getMinwage() / 1000 + "k-" + bean.getMaxwage() / 1000 + "k");
+            tv_location.setText(bean.getDistrictCn());
+            tv_work_age.setText(bean.getExperienceCn());
+            tv_education.setText(bean.getEducationCn());
 
             //工作职责
-            if (!TextUtils.isEmpty(bean.getData().getContents())) {
-                tv_work_responsibilities.setText(bean.getData().getContents());
-                int lineCount = tv_work_responsibilities.getLineCount();
-                if (lineCount > 5) {
-                    tv_responsibility_more.setVisibility(View.VISIBLE);
-                    tv_work_responsibilities.setLines(5);
-                } else {
-                    tv_responsibility_more.setVisibility(View.GONE);
-                    tv_work_responsibilities.setLines(lineCount);
-                }
+            if (!TextUtils.isEmpty(bean.getContents())) {
+                tv_work_responsibilities.setText(bean.getContents());
+                tv_work_responsibilities.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int lineCount = tv_work_responsibilities.getLineCount();
+                        if (lineCount > 5) {
+                            tv_responsibility_more.setVisibility(View.VISIBLE);
+                            tv_work_responsibilities.setLines(5);
+                        } else {
+                            tv_responsibility_more.setVisibility(View.GONE);
+                            tv_work_responsibilities.setLines(lineCount);
+                        }
+                    }
+                });
+
             }
             tv_responsibility_more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (tv_responsibility_more.getText().equals("展开全部")) {
-                        tv_work_responsibilities.setLines(tv_work_responsibilities.getLineCount());
+                        tv_work_responsibilities.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_work_responsibilities.setLines(tv_work_responsibilities.getLineCount());
+                            }
+                        });
+
                         tv_responsibility_more.setText("收起全部");
                     } else {
                         tv_responsibility_more.setText("展开全部");
@@ -164,51 +177,12 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
                     }
                 }
             });
-            tv_company_location.setText(bean.getData().getAddress());
+            tv_company_location.setText(bean.getDistrictCn());
 
 
         }
     }
 
-    private void getJobDetails() {
-        Map<String, String> map = new HashMap<>();
-        map.put("id", id);
-        map.put("companyId", companyId);
-        map.put("uid", uid);
-        if (BaseContext.getInstance().getUserInfo() != null) {
-            map.put("memberUid", BaseContext.getInstance().getUserInfo().uid + "");
-        }
-        jobDetailsBeanCall = RestAdapterManager.getApi().getJobDetails(map);
-        jobDetailsBeanCall.enqueue(new JyCallBack<JobDetailsBean>() {
-            @Override
-            public void onSuccess(Call<JobDetailsBean> call, Response<JobDetailsBean> response) {
-                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                    bean = response.body();
-                    setData(response.body());
-                    LogUtils.e(response.body().getMsg());
-                } else {
-                    UIUtil.showToast("接口异常");
-                }
-
-            }
-
-            @Override
-            public void onError(Call<JobDetailsBean> call, Throwable t) {
-                LogUtils.e(t.getMessage());
-                UIUtil.showToast("接口异常");
-            }
-
-            @Override
-            public void onError(Call<JobDetailsBean> call, Response<JobDetailsBean> response) {
-                try {
-                    LogUtils.e(response.errorBody().string());
-                    UIUtil.showToast("接口异常");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
 
     private void initTitle() {
@@ -233,25 +207,25 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_company:
-                if (bean != null && bean.getData() != null) {
+                if (databean != null) {
                     Intent intent = new Intent(this, CompanyDetailsActivity.class);
-                    intent.putExtra("id", bean.getData().getCompanyId() + "");
+                    intent.putExtra("id", databean.getCompanyId() + "");
                     startActivity(intent);
                 }
 
                 break;
             case R.id.bt_edit:
-                if (bean != null && bean.getData() != null) {
+                if (databean != null) {
                     Intent intent = new Intent(this, EnterprisePublishPositionActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("bean", bean);
+                    bundle.putSerializable("bean", databean);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
 
                 break;
             case R.id.bt_delete:
-                if (bean != null && bean.getData() != null && bean.getData().getId() > 0) {
+                if (databean != null && databean.getId() > 0) {
                     deletePosition();
                 }
                 break;
@@ -271,7 +245,7 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
 
     private void deletePosition() {
         DialogUtils.showDialog(this, "", false);
-        deleteCall = RestAdapterManager.getApi().deleteEnterprisePosition(bean.getData().getId() + "");
+        deleteCall = RestAdapterManager.getApi().deleteEnterprisePosition(databean.getId() + "");
         deleteCall.enqueue(new JyCallBack<SuperBean<String>>() {
             @Override
             public void onSuccess(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {

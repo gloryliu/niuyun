@@ -88,8 +88,7 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
                 if (databean != null) {
                     Intent intent = new Intent(EnterprisePositionControlActivity.this, EnterprisePositionEditActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("id", databean.getId() + "");
-                    bundle.putString("companyId", databean.getCompanyId() + "");
+                    bundle.putSerializable("bean", databean);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.niuyun.hire.R;
+import com.niuyun.hire.base.BaseContext;
+import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.ui.chat.db.DemoDBManager;
 import com.niuyun.hire.ui.chat.db.InviteMessgeDao;
 import com.niuyun.hire.ui.chat.db.UserDao;
@@ -60,6 +63,10 @@ import com.niuyun.hire.ui.chat.ui.VideoCallActivity;
 import com.niuyun.hire.ui.chat.ui.VoiceCallActivity;
 import com.niuyun.hire.ui.chat.utils.PreferenceManager;
 import com.niuyun.hire.ui.index.MainActivity;
+import com.niuyun.hire.utils.LogUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1202,19 +1209,28 @@ public class DemoHelper {
         // To get instance of EaseUser, here we get it from the user list in memory
         // You'd better cache it if you get it from your server
         EaseUser user = null;
-        if (username.equals(EMClient.getInstance().getCurrentUser()))
-            return getUserProfileManager().getCurrentUserInfo();
-        user = getContactList().get(username);
-        if (user == null && getRobotList() != null) {
-            user = getRobotList().get(username);
-        }
-
-        // if user is not in your contacts, set inital letter for him/her
-        if (user == null) {
+        //设置自己的头像
+        if (username.equals(EMClient.getInstance().getCurrentUser())) {
             user = new EaseUser(username);
-            EaseCommonUtils.setUserInitialLetter(user);
+            user.setAvatar(Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars);
+            return user;
+        } else {
+//设置别人的头像
+            if (contactList != null && contactList.containsKey(username)) {
+
+            } else { // 如果内存中没有，则将本地数据库中的取出到内存中。
+                getContactList();
+            }
+            user = getContactList().get(username);
+            if (user == null) {
+                user = new EaseUser(username);
+            } else {
+                if (TextUtils.isEmpty(user.getNick())) { // 如果名字为空，则显示环信号码
+                    user.setNick(user.getUsername());
+                }
+            }
+            return user;
         }
-        return user;
     }
 
     /**
@@ -1230,10 +1246,58 @@ public class DemoHelper {
             public void onMessageReceived(List<EMMessage> messages) {
                 for (EMMessage message : messages) {
                     EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
+
+                    String avatars = "";
+                    String chatUserName = "";
+                    String contactTitle = "";
+                    try {
+                        chatUserName = message.getStringAttribute("chatUserName", "");
+                        avatars = message.getStringAttribute("avatars", "");
+                        LogUtils.e("测试头像：" + avatars);
+                        LogUtils.e("测试名称：" + chatUserName);
+                        contactTitle = message.getStringAttribute("contactTitle", "");
+                        LogUtils.e("测试名称：" + contactTitle);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//下面是环信客服的扩展消息，本身可以使用和上方一样的方法（扩展参数不同），但是不知道为什么取不到值，因此先取weichat，自己解析扩展消息
+                    String hxIdFrom = message.getFrom();
+                    EaseUser easeUser = new EaseUser(hxIdFrom);
+                    if (null == avatars || avatars.length() == 0) {
+                        try {
+                            JSONObject jsonObject = message.getJSONObjectAttribute("weichat");
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("agent");
+                            easeUser.setAvatar("http:" + jsonObject1.getString("avatars"));
+                            easeUser.setNick(jsonObject1.getString("chatUserName"));
+                            easeUser.setPosition(jsonObject1.getString("contactTitle"));
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        easeUser.setAvatar(avatars);
+                        easeUser.setNick(chatUserName);
+                        easeUser.setPosition(contactTitle);
+                    }
+                    // 存入内存
+                    getContactList();
+                    contactList.put(hxIdFrom, easeUser);
+                    // 存入db
+                    UserDao dao = new UserDao(BaseContext.getInstance());
+                    List<EaseUser> users = new ArrayList<>();
+                    users.add(easeUser);
+                    dao.saveContactList(users);
+                    getModel().setContactSynced(true);
+                    // 通知listeners联系人同步完毕
+                    notifyContactsSyncListener(true);
+
                     // in background, do not refresh UI, notify it in notification bar
                     if (!easeUI.hasForegroundActivies()) {
                         getNotifier().onNewMsg(message);
                     }
+
                 }
             }
 

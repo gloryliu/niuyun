@@ -399,6 +399,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         map.put("sdistrict", intentionCityId2);
         map.put("tdistrict", intentionCityId3);
         map.put("telephone", etPhone.getText().toString());
+        map.put("contactTitle", intentionJobs);
         map.put("uid", uid);
 
 

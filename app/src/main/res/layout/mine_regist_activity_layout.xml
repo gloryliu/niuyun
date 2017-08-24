@@ -27,9 +27,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="24dp">
 
                 <com.niuyun.hire.view.CleanableEditText
                     android:id="@+id/user_name"
@@ -38,13 +38,13 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/phone_icon"
                     android:background="@null"
-                    android:hint="请输入您的手机号码"
+                    android:hint="请输入手机号"
                     android:inputType="number"
                     android:maxLength="11"
                     android:paddingLeft="10dp"
                     android:textColor="@color/color_999999"
                     android:textColorHint="@color/color_999999"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/phone_icon"
@@ -60,18 +60,16 @@
             </RelativeLayout>
 
             <View
-                android:background="@color/color_f0f0f0"
-                android:layout_width="match_parent"
+                style="@style/common_divider_f0f0f0"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_height="0.5dp"/>
+                android:layout_marginRight="12dp" />
 
             <LinearLayout
                 android:id="@+id/ll_check_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginBottom="15dp"
+                android:layout_marginTop="24dp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -131,16 +129,17 @@
             </LinearLayout>
 
             <View
-                android:background="@color/color_f0f0f0"
                 android:layout_width="match_parent"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_height="0.5dp"/>
+                android:background="@color/color_f0f0f0" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="24dp">
 
                 <com.niuyun.hire.view.CleanableEditText
                     android:id="@+id/user_nick_name"
@@ -168,17 +167,19 @@
                     android:src="@mipmap/ic_password"
                     android:text="昵    称" />
             </RelativeLayout>
+
             <View
-                android:background="@color/color_f0f0f0"
                 android:layout_width="match_parent"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_height="0.5dp"/>
+                android:background="@color/color_f0f0f0" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="24dp">
 
                 <com.niuyun.hire.view.CleanableEditText
                     android:id="@+id/user_password"
@@ -206,12 +207,13 @@
                     android:src="@mipmap/ic_password"
                     android:text="密    码" />
             </RelativeLayout>
+
             <View
-                android:background="@color/color_f0f0f0"
                 android:layout_width="match_parent"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_height="0.5dp"/>
+                android:background="@color/color_f0f0f0" />
         </LinearLayout>
 
         <LinearLayout
@@ -256,9 +258,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:textSize="13sp"
+            android:text="返回登录"
             android:textColor="@color/color_999999"
-            android:text="返回登录" />
+            android:textSize="13sp" />
 
 
         <LinearLayout

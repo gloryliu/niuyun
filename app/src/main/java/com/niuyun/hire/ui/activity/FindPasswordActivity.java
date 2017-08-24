@@ -48,8 +48,10 @@ public class FindPasswordActivity extends BaseActivity {
     EditText etCode;
     @BindView(R.id.tv_check_code)
     TextView tvGetCode;
-    @BindView(R.id.user_new_pass)
-    CleanableEditText user_new_pass;
+    @BindView(R.id.user_password)
+    CleanableEditText user_password;
+    @BindView(R.id.user_again_password)
+    CleanableEditText user_again_password;
     @BindView(R.id.tv_next)
     Button tvNext;
     private Call<ErrorBean> call;
@@ -83,9 +85,18 @@ public class FindPasswordActivity extends BaseActivity {
     }
 
     private void initTitle() {
-        titleView.setTitle("忘记密码");
+        titleView.setTitle("找回密码");
         titleView.setTitleColor(Color.WHITE);
         titleView.setBackgroundColor(getResources().getColor(R.color.color_ea0000));
+        titleView.setLeftImageResource(R.mipmap.ic_title_back);
+        titleView.setLeftText("返回");
+        titleView.setLeftTextColor(Color.WHITE);
+        titleView.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         titleView.setImmersive(true);
     }
 
@@ -189,8 +200,16 @@ public class FindPasswordActivity extends BaseActivity {
             UIUtil.showToast("验证码不能为空");
             return;
         }
-        if (TextUtils.isEmpty(user_new_pass.getText())) {
+        if (TextUtils.isEmpty(user_password.getText())) {
             UIUtil.showToast("密码不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(user_again_password.getText())) {
+            UIUtil.showToast("密码不能为空");
+            return;
+        }
+        if (!user_again_password.getText().equals(user_again_password.getText())) {
+            UIUtil.showToast("密码不一致");
             return;
         }
         commitData();
@@ -199,7 +218,7 @@ public class FindPasswordActivity extends BaseActivity {
     private void commitData() {
         Map<String, String> map = new HashMap<>();
         map.put("checkCode", etCode.getText().toString());
-        map.put("newPwd", user_new_pass.getText().toString());
+        map.put("newPwd", user_password.getText().toString());
         map.put("phone", etPhone.getText().toString());
         call = RestAdapterManager.getApi().commitNewPassword(map);
         call.enqueue(new JyCallBack<ErrorBean>() {

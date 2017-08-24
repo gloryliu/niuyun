@@ -73,6 +73,7 @@ public class CompanyDetailsActivity extends BaseActivity {
     Call<CompanyDetailsBean> companyDetailsBeanCall;
     private CompanyDetailsBean companyDetailsBean;
     private CompanyHomePageFragment homePageFragment;
+    private CompanyHotPositionFragment hotPositionFragment;
     public static Context mContext;
 
     public static Context getmContext() {
@@ -103,7 +104,8 @@ public class CompanyDetailsActivity extends BaseActivity {
         if (fragmentList.size() == 0) {
             homePageFragment = new CompanyHomePageFragment();
             fragmentList.add(homePageFragment);
-            fragmentList.add(new CompanyHotPositionFragment());
+            hotPositionFragment=new CompanyHotPositionFragment();
+            fragmentList.add(hotPositionFragment);
             for (int i = 0; i < tabNames.length; i++) {
                 View tabView = View.inflate(CompanyDetailsActivity.this, R.layout.layout_tab_item, null);
                 TextView textView = (TextView) tabView.findViewById(R.id.tab_title);
@@ -129,6 +131,11 @@ public class CompanyDetailsActivity extends BaseActivity {
                         if (homePageFragment != null && companyDetailsBean != null && companyDetailsBean.getData() != null) {
                             bundle.putString("content", companyDetailsBean.getData().getContents());
                             homePageFragment.setArguments(bundle);
+                        }
+                    }else if (position == 1){
+                        if (hotPositionFragment != null && companyDetailsBean != null && companyDetailsBean.getData() != null) {
+                            bundle.putString("companyId", companyDetailsBean.getData().getId()+"");
+                            hotPositionFragment.setArguments(bundle);
                         }
                     }
                     return Fragment.instantiate(CompanyDetailsActivity.this, fragments[position].getName(), bundle);

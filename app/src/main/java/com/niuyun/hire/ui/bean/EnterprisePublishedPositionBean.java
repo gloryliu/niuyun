@@ -9,10 +9,11 @@ import java.util.List;
 
 public class EnterprisePublishedPositionBean implements Serializable{
 
+
     /**
      * code : 1000
      * msg : 成功
-     * data : {"pageNo":1,"totalCount":1,"pageCount":1,"pageSize":10,"data":[{"id":101,"uid":281,"companyId":18,"logo":null,"jobsName":"测试","companyname":"测试企业","district":1,"sdistrict":14,"tdistrict":296,"districtCn":"太原/小店区/体育路","experience":75,"experienceCn":"1年以下","education":66,"educationCn":"高中","minwage":1500,"maxwage":2000}]}
+     * data : {"pageNo":1,"totalCount":1,"pageCount":1,"pageSize":10,"data":[{"id":103,"uid":281,"companyId":18,"logo":null,"jobsName":"测试测试","companyname":"测试企业","topclass":2,"category":19,"subclass":140,"categoryCn":"客运司机","nature":62,"natureCn":"全职","district":1,"sdistrict":15,"tdistrict":312,"districtCn":"太原/迎泽/文庙","experience":75,"experienceCn":"1年以下","education":66,"educationCn":"高中","minwage":1500,"maxwage":2000,"contents":"测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述"}]}
      */
 
     private int code;
@@ -49,7 +50,7 @@ public class EnterprisePublishedPositionBean implements Serializable{
          * totalCount : 1
          * pageCount : 1
          * pageSize : 10
-         * data : [{"id":101,"uid":281,"companyId":18,"logo":null,"jobsName":"测试","companyname":"测试企业","district":1,"sdistrict":14,"tdistrict":296,"districtCn":"太原/小店区/体育路","experience":75,"experienceCn":"1年以下","education":66,"educationCn":"高中","minwage":1500,"maxwage":2000}]
+         * data : [{"id":103,"uid":281,"companyId":18,"logo":null,"jobsName":"测试测试","companyname":"测试企业","topclass":2,"category":19,"subclass":140,"categoryCn":"客运司机","nature":62,"natureCn":"全职","district":1,"sdistrict":15,"tdistrict":312,"districtCn":"太原/迎泽/文庙","experience":75,"experienceCn":"1年以下","education":66,"educationCn":"高中","minwage":1500,"maxwage":2000,"contents":"测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述"}]
          */
 
         private int pageNo;
@@ -100,22 +101,29 @@ public class EnterprisePublishedPositionBean implements Serializable{
 
         public static class DataBean implements Serializable{
             /**
-             * id : 101
+             * id : 103
              * uid : 281
              * companyId : 18
              * logo : null
-             * jobsName : 测试
+             * jobsName : 测试测试
              * companyname : 测试企业
+             * topclass : 2
+             * category : 19
+             * subclass : 140
+             * categoryCn : 客运司机
+             * nature : 62
+             * natureCn : 全职
              * district : 1
-             * sdistrict : 14
-             * tdistrict : 296
-             * districtCn : 太原/小店区/体育路
+             * sdistrict : 15
+             * tdistrict : 312
+             * districtCn : 太原/迎泽/文庙
              * experience : 75
              * experienceCn : 1年以下
              * education : 66
              * educationCn : 高中
              * minwage : 1500
              * maxwage : 2000
+             * contents : 测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述测试描述
              */
 
             private int id;
@@ -124,6 +132,12 @@ public class EnterprisePublishedPositionBean implements Serializable{
             private Object logo;
             private String jobsName;
             private String companyname;
+            private int topclass;
+            private int category;
+            private int subclass;
+            private String categoryCn;
+            private int nature;
+            private String natureCn;
             private int district;
             private int sdistrict;
             private int tdistrict;
@@ -134,6 +148,7 @@ public class EnterprisePublishedPositionBean implements Serializable{
             private String educationCn;
             private int minwage;
             private int maxwage;
+            private String contents;
 
             public int getId() {
                 return id;
@@ -181,6 +196,54 @@ public class EnterprisePublishedPositionBean implements Serializable{
 
             public void setCompanyname(String companyname) {
                 this.companyname = companyname;
+            }
+
+            public int getTopclass() {
+                return topclass;
+            }
+
+            public void setTopclass(int topclass) {
+                this.topclass = topclass;
+            }
+
+            public int getCategory() {
+                return category;
+            }
+
+            public void setCategory(int category) {
+                this.category = category;
+            }
+
+            public int getSubclass() {
+                return subclass;
+            }
+
+            public void setSubclass(int subclass) {
+                this.subclass = subclass;
+            }
+
+            public String getCategoryCn() {
+                return categoryCn;
+            }
+
+            public void setCategoryCn(String categoryCn) {
+                this.categoryCn = categoryCn;
+            }
+
+            public int getNature() {
+                return nature;
+            }
+
+            public void setNature(int nature) {
+                this.nature = nature;
+            }
+
+            public String getNatureCn() {
+                return natureCn;
+            }
+
+            public void setNatureCn(String natureCn) {
+                this.natureCn = natureCn;
             }
 
             public int getDistrict() {
@@ -261,6 +324,14 @@ public class EnterprisePublishedPositionBean implements Serializable{
 
             public void setMaxwage(int maxwage) {
                 this.maxwage = maxwage;
+            }
+
+            public String getContents() {
+                return contents;
+            }
+
+            public void setContents(String contents) {
+                this.contents = contents;
             }
         }
     }

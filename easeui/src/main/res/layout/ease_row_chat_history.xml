@@ -58,19 +58,21 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_company_name"
+                android:id="@+id/tv_position_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_content1"
                 android:layout_marginTop="6dp"
-                android:text="万科地产|总监"
+                android:text=""
+                android:lines="1"
+                android:ellipsize="end"
                 android:textColor="#666666"
                 android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_company_name"
+                android:layout_below="@+id/tv_position_name"
                 android:layout_marginRight="17dp"
                 android:layout_marginTop="6dp">
 
@@ -118,7 +120,7 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:singleLine="true"
-                    android:text="我想找一份工dfsdfsfdsfdsfsdfsdfdsfsdfsfsd作。。。"
+                    android:text=""
                     android:textColor="#999999"
                     android:textSize="11sp" />
 

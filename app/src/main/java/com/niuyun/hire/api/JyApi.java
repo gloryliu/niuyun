@@ -159,6 +159,13 @@ public interface JyApi {
      */
     @POST("/resource/companyProfile/completeCompanyInfo")
     Call<SuperBean<UserInfoBean>> perfectEnterprefectInfo(@Body Map<String, String> map);
+    /**
+     * 完善企业个人资料
+     *
+     * @return
+     */
+    @POST("/resource/companyProfile/updateCompanyPersonInfo")
+    Call<SuperBean<String>> editEnterpreInfo(@Body Map<String, String> map);
 
 
     /**

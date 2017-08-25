@@ -90,6 +90,16 @@ public class PreviewResumeBean implements Serializable{
         private String intentionJobsId;
         private String intentionJobs;
         private String specialty;
+        private String video;
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
+
         private int completePercent;
         private List<ResumeWorkBean> resumeWork;
         private List<ResumeEducationBean> resumeEducation;

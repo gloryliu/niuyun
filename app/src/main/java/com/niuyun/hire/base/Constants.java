@@ -10,7 +10,6 @@ public class Constants {
     public static final String COMMON_cover_URL = "http://niuyunzp.com/data/upload/coverImage_img/";
     public static final int AddressUpdateSuccess = 0x10;
     public static final String APP_KEY = "c3c5a51f3a4c70827523f8";
-    public static int ADD_REQUEST_CODE = 11;
     public static int successCode = 1000;
     public static String INT_TAG = "int_tag";
 
@@ -43,4 +42,6 @@ public class Constants {
     public static final int resultCode_logo_Photos = 12;//跳转到相册
     public static final int resultCode_logo_Camera = 13;//跳转到相机
 
+    //发布职位获取地址
+    public static final int resultCode_baidu_address = 14;
 }

@@ -16,7 +16,7 @@ public class UserInfoBean extends ErrorBean {
     public String avatars;
     public String video;
     public int uid;
-    public int utype;
+    public int utype;//1企业
     public int status;
     public int perfect;
     public String token;

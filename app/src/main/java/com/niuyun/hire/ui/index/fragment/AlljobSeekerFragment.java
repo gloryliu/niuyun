@@ -15,15 +15,15 @@ import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
-import com.niuyun.hire.ui.activity.AllJobSearchActivity;
-import com.niuyun.hire.ui.activity.WorkPositionDetailActivity;
+import com.niuyun.hire.ui.activity.AllPersonSearchActivity;
+import com.niuyun.hire.ui.activity.PreviewResumeActivity;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
-import com.niuyun.hire.ui.adapter.IndexCompanyListItemAdapter;
+import com.niuyun.hire.ui.adapter.IndexSeekPersonListItemAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.PoPuMenuListCommonAdapter;
-import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
+import com.niuyun.hire.ui.bean.EnterpriseFindPersonBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SelectedBean;
@@ -60,7 +60,7 @@ public class AlljobSeekerFragment extends BaseFragment{
     RecyclerView recyclerview;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    private IndexCompanyListItemAdapter listItemAdapter;
+    private IndexSeekPersonListItemAdapter listItemAdapter;
     //筛选标题list
     private List<String> types = new ArrayList<>();
     //筛选view的list
@@ -70,7 +70,7 @@ public class AlljobSeekerFragment extends BaseFragment{
     private PoPuMenuListCommonAdapter mMenuAdapter;
     private PoPuMenuListCommonAdapter mMenuAdapter2;
     private ImageView mSearchView;
-    private Call<AllJobsBean> allJobsBeanCall;
+    private Call<EnterpriseFindPersonBean> allJobsBeanCall;
     private int pageNum = 1;
     private int pageSize = 20;
 
@@ -131,17 +131,15 @@ public class AlljobSeekerFragment extends BaseFragment{
         refreshLayout.setEnableLoadmore(false);
         //求职recyclerView
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listItemAdapter = new IndexCompanyListItemAdapter(getActivity());
+        listItemAdapter = new IndexSeekPersonListItemAdapter(getActivity());
         recyclerview.setAdapter(listItemAdapter);
         listItemAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
             public void onClick(Object bean) {
-                AllJobsBean.DataBeanX.DataBean databean = (AllJobsBean.DataBeanX.DataBean) bean;
+                EnterpriseFindPersonBean.DataBeanX.DataBean databean = (EnterpriseFindPersonBean.DataBeanX.DataBean) bean;
                 if (databean != null) {
-                    Intent intent = new Intent(getActivity(), WorkPositionDetailActivity.class);
+                    Intent intent = new Intent(getActivity(), PreviewResumeActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("id", databean.getId() + "");
-                    bundle.putString("companyId", databean.getCompanyId() + "");
                     bundle.putString("uid", databean.getUid() + "");
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -178,17 +176,17 @@ public class AlljobSeekerFragment extends BaseFragment{
         map.put("pageSize", pageSize + "");
 
         if (!TextUtils.isEmpty(intentionJobsId2) || !TextUtils.isEmpty(education) || !TextUtils.isEmpty(experience) || !TextUtils.isEmpty(wage)) {
-            map.put("category", intentionJobsId2);
+            map.put("category", intentionJobs);
             map.put("education", education);
             map.put("experience", experience);
             map.put("wage", wage);
         }
-        allJobsBeanCall = RestAdapterManager.getApi().getAllJobs(map);
+        allJobsBeanCall = RestAdapterManager.getApi().getPersonon(map);
 
 
-        allJobsBeanCall.enqueue(new JyCallBack<AllJobsBean>() {
+        allJobsBeanCall.enqueue(new JyCallBack<EnterpriseFindPersonBean>() {
             @Override
-            public void onSuccess(Call<AllJobsBean> call, Response<AllJobsBean> response) {
+            public void onSuccess(Call<EnterpriseFindPersonBean> call, Response<EnterpriseFindPersonBean> response) {
                 if (refreshLayout != null) {
                     refreshLayout.finishRefresh();
                     refreshLayout.finishLoadmore();
@@ -215,7 +213,7 @@ public class AlljobSeekerFragment extends BaseFragment{
             }
 
             @Override
-            public void onError(Call<AllJobsBean> call, Throwable t) {
+            public void onError(Call<EnterpriseFindPersonBean> call, Throwable t) {
                 if (refreshLayout != null) {
                     if (pageNum == 1) {
                         listItemAdapter.ClearData();
@@ -227,7 +225,7 @@ public class AlljobSeekerFragment extends BaseFragment{
             }
 
             @Override
-            public void onError(Call<AllJobsBean> call, Response<AllJobsBean> response) {
+            public void onError(Call<EnterpriseFindPersonBean> call, Response<EnterpriseFindPersonBean> response) {
                 if (refreshLayout != null) {
                     if (pageNum == 1) {
                         listItemAdapter.ClearData();
@@ -496,9 +494,8 @@ public class AlljobSeekerFragment extends BaseFragment{
         mSearchView = (ImageView) titleView.addAction(new TitleBar.ImageAction(R.mipmap.ic_search) {
             @Override
             public void performAction(View view) {
-                Intent intent = new Intent(getActivity(), AllJobSearchActivity.class);
+                Intent intent = new Intent(getActivity(), AllPersonSearchActivity.class);
                 startActivity(intent);
-//                startActivity(new Intent(getActivity(), EaseBaiduMapActivity.class));
             }
         });
         titleView.setImmersive(true);

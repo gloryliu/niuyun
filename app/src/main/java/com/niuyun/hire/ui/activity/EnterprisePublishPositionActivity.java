@@ -1,18 +1,22 @@
 package com.niuyun.hire.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hyphenate.easeui.ui.EaseBaiduMapActivity;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
+import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
@@ -60,8 +64,8 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
     EditText etPositionName;
     @BindView(R.id.et_position_nature)
     TextView etPositionNature;
-        @BindView(R.id.et_city)
-        TextView etCity;
+    @BindView(R.id.et_city)
+    TextView etCity;
     @BindView(R.id.et_education)
     TextView etEducation;
     @BindView(R.id.et_experience)
@@ -117,6 +121,10 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
     private JobPerfectInfoTagAdapter adapter2;
     private JobTagBean.DataBean cacheJobTag;
     private EnterprisePublishedPositionBean.DataBeanX.DataBean editBean;
+
+    private double longitude;
+    private double latitude;
+    private String address;
 
     @Override
     public int getContentViewLayoutId() {
@@ -227,15 +235,19 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
                 click(clickTag);
                 break;
             case R.id.etlocation:
-                if (!UIUtil.isFastDoubleClick()) {
-                    cityStep = 0;
-                    if (cityBean == null) {
-                        DialogUtils.showDialog(this, "加载...", false);
-                        getCityData("0");
-                    } else {
-                        cityTagDialog(cityBean);
-                    }
+                Intent intent=new Intent(this, EaseBaiduMapActivity.class);
+                if (!TextUtils.isEmpty(address)){
+                    intent.putExtra("address",address);
                 }
+                if (latitude>0){
+                    intent.putExtra("latitude",latitude);
+                    intent.putExtra("isShow",true);
+                }
+                if (longitude>0){
+                    intent.putExtra("longitude",longitude);
+                }
+                Log.e("latitude","latitude:"+latitude+"-------------longitude:"+longitude);
+                startActivityForResult(intent, Constants.resultCode_baidu_address);
                 break;
             case R.id.et_city:
                 if (!UIUtil.isFastDoubleClick()) {
@@ -256,6 +268,20 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && data.getExtras() != null) {
+            if (requestCode == Constants.resultCode_baidu_address) {
+                latitude = data.getExtras().getDouble("latitude");
+                longitude = data.getExtras().getDouble("longitude");
+                LogUtils.e("latitude:"+latitude+"-------------longitude:"+longitude);
+                address = data.getExtras().getString("address");
+                etlocation.setText(address);
+            }
+        }
+    }
+
     /**
      * 设置编辑默认值
      */
@@ -269,6 +295,11 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
 
         etPositionName.setText(editBean.getJobsName());
         etDescribe.setText(editBean.getContents());
+
+        etlocation.setText(editBean.getAddress());
+        address= editBean.getAddress();
+        latitude= editBean.getMapX();
+        longitude= editBean.getMapY();
 
 
         etCity.setText(editBean.getDistrictCn());
@@ -312,6 +343,10 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             UIUtil.showToast("工作性质不能为空");
             return false;
         }
+        if (TextUtils.isEmpty(intentionCity)) {
+            UIUtil.showToast("所在城市不能为空");
+            return false;
+        }
         if (TextUtils.isEmpty(cId)) {
             UIUtil.showToast("学历要求不能为空");
             return false;
@@ -324,10 +359,11 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             UIUtil.showToast("薪资范围不能为空");
             return false;
         }
-        if (TextUtils.isEmpty(intentionCity)) {
+        if (TextUtils.isEmpty(etlocation.getText().toString())) {
             UIUtil.showToast("工作地址不能为空");
             return false;
         }
+
         if (TextUtils.isEmpty(etDescribe.getText().toString())) {
             UIUtil.showToast("职位描述不能为空");
             return false;
@@ -340,6 +376,10 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         Map<String, String> map = new HashMap<>();
         map.put("jobsName", etPositionName.getText().toString());
         map.put("contents", etDescribe.getText().toString());
+
+        map.put("address", address);
+        map.put("mapX", latitude+"");
+        map.put("mapY", longitude+"");
 
         map.put("topclass", intentionJobsId1);
         map.put("category", intentionJobsId2);
@@ -379,11 +419,11 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
                     UIUtil.showToast(response.body().getMsg());
                 } catch (Exception w) {
                 }
+                AppManager.getAppManager().finishActivity(EnterprisePositionEditActivity.class);
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.UPDATE_PUBLISHED_POSITION));
                     finish();
                 }
-
             }
 
             @Override

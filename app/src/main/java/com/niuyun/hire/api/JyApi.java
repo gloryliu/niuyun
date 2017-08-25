@@ -6,6 +6,7 @@ import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
+import com.niuyun.hire.ui.bean.EnterpriseFindPersonBean;
 import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
 import com.niuyun.hire.ui.bean.HotSearchBean;
@@ -455,6 +456,14 @@ public interface JyApi {
      */
     @POST("/resource/jobs/findMyPublishJobList")
     Call<EnterprisePublishedPositionBean> getMyPublishedPosition(@Body Map<String, String> map);
+    /**
+     * 企业发布的职位列表
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/resume/getResumeList")
+    Call<EnterpriseFindPersonBean> getPersonon(@Body Map<String, String> map);
 
     /**
      * 删除企业发布的职位

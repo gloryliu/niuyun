@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.easeui.ui.EaseBaiduMapActivity;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
@@ -73,6 +75,8 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
     PolyvPlayerView pv_play;
     @BindView(R.id.ll_video)
     LinearLayout ll_video;
+    @BindView(R.id.rl_location)
+    RelativeLayout rl_location;
     private String companyId;//公司id
     private String id;//职位id
     private String uid;//职位id
@@ -108,6 +112,7 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
         ll_company.setOnClickListener(this);
         bt_edit.setOnClickListener(this);
         bt_delete.setOnClickListener(this);
+        rl_location.setOnClickListener(this);
     }
 
     @Override
@@ -177,12 +182,11 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
                     }
                 }
             });
-            tv_company_location.setText(bean.getDistrictCn());
+            tv_company_location.setText(bean.getAddress());
 
 
         }
     }
-
 
 
     private void initTitle() {
@@ -228,6 +232,22 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
                 if (databean != null && databean.getId() > 0) {
                     deletePosition();
                 }
+                break;
+            case R.id.rl_location:
+                if (databean != null && databean.getMapX() > 0) {
+                    Intent intent = new Intent(this, EaseBaiduMapActivity.class);
+                    if (!TextUtils.isEmpty(databean.getAddress())) {
+                        intent.putExtra("address", databean.getAddress());
+                    }
+                    if (databean.getMapX() > 0) {
+                        intent.putExtra("latitude", databean.getMapX());
+                    }
+                    if (databean.getMapY() > 0) {
+                        intent.putExtra("longitude", databean.getMapY());
+                    }
+                    startActivity(intent);
+                }
+
                 break;
         }
     }

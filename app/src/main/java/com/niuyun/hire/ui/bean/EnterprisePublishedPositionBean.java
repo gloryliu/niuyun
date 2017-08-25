@@ -149,6 +149,34 @@ public class EnterprisePublishedPositionBean implements Serializable{
             private int minwage;
             private int maxwage;
             private String contents;
+            private double mapX;
+            private double mapY;
+
+            public double getMapX() {
+                return mapX;
+            }
+
+            public void setMapX(double mapX) {
+                this.mapX = mapX;
+            }
+
+            public double getMapY() {
+                return mapY;
+            }
+
+            public void setMapY(double mapY) {
+                this.mapY = mapY;
+            }
+
+            public String getAddress() {
+                return address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+
+            private String address;
 
             public int getId() {
                 return id;

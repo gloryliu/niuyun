@@ -118,7 +118,7 @@ public class LiveFragment extends BaseFragment implements View.OnClickListener {
                 });
             }
         });
-
+        setButtonVisible();
     }
 
     @Override
@@ -133,12 +133,29 @@ public class LiveFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public boolean isRegistEventBus() {
-        return false;
+        return true;
     }
 
     @Override
     public void onMsgEvent(EventBusCenter eventBusCenter) {
+        if (eventBusCenter != null) {
+            if (eventBusCenter.getEvenCode() == Constants.LOGIN_SUCCESS) {
+                setButtonVisible();
 
+            }
+        }
+    }
+
+    private void setButtonVisible() {
+        if (BaseContext.getInstance().getUserInfo() != null) {
+            if (BaseContext.getInstance().getUserInfo().utype == 1) {
+                bt_go_live.setVisibility(View.VISIBLE);
+            } else {
+                bt_go_live.setVisibility(View.GONE);
+            }
+        } else {
+            bt_go_live.setVisibility(View.GONE);
+        }
     }
 
     private void getList() {

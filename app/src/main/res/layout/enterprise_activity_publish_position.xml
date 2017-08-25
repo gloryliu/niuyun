@@ -130,9 +130,7 @@
                     android:src="@mipmap/ic_arrow_right" />
             </RelativeLayout>
 
-            <View
-                style="@style/common_divider_f0f0f0"
-                android:visibility="gone" />
+            <View style="@style/common_divider_f0f0f0" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

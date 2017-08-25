@@ -37,7 +37,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapPoi;
-import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -52,7 +51,6 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.baidu.mapapi.utils.CoordinateConverter;
 import com.hyphenate.easeui.R;
 
 public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCoderResultListener {
@@ -72,13 +70,18 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
     public static EaseBaiduMapActivity instance = null;
     ProgressDialog progressDialog;
     private BaiduMap mBaiduMap;
+    private double longitude;
+    private double latitude;
+    private String address;
+
     /**
      * 搜索模块
      */
     GeoCoder mSearch = null;
-    private ReverseGeoCodeResult mGeoCodeResult;
+
     /**
      * 正向地理编码和反向地理编码
+     *
      * @param result
      */
     @Override
@@ -96,6 +99,12 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
                 .getLocation()));
         String strInfo = String.format("纬度：%f 经度：%f",
                 result.getLocation().latitude, result.getLocation().longitude);
+        if (result != null) {
+            address = result.getAddress();
+            latitude = result.getLocation().latitude;
+            longitude = result.getLocation().longitude;
+            sendButton.setEnabled(true);
+        }
         Toast.makeText(EaseBaiduMapActivity.this, strInfo, Toast.LENGTH_LONG).show();
     }
 
@@ -118,7 +127,12 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
                 .getLocation()));
         Toast.makeText(EaseBaiduMapActivity.this, result.getAddress(),
                 Toast.LENGTH_LONG).show();
-        mGeoCodeResult=result;
+        if (result != null) {
+            address = result.getAddress();
+            latitude = result.getLocation().latitude;
+            longitude = result.getLocation().longitude;
+            sendButton.setEnabled(true);
+        }
         /**
          * 弹出InfoWindow，显示信息
          */
@@ -168,18 +182,20 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
             double longtitude = intent.getDoubleExtra("longitude", 0);
             String address = intent.getStringExtra("address");
             LatLng p = new LatLng(latitude, longtitude);
-            mMapView = new MapView(this,
-                    new BaiduMapOptions().mapStatus(new MapStatus.Builder()
-                            .target(p).build()));
-            showMap(latitude, longtitude, address);
+//            mMapView = new MapView(this,
+//                    new BaiduMapOptions().mapStatus(new MapStatus.Builder()
+//                            .target(p).build()));
+            mMapView = new MapView(this, new BaiduMapOptions());
+            boolean isShow = intent.getBooleanExtra("isShow", false);
+            showMap(latitude, longtitude, address, isShow);
         }
         IntentFilter iFilter = new IntentFilter();
         iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
         iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
         mBaiduReceiver = new BaiduSDKReceiver();
         registerReceiver(mBaiduReceiver, iFilter);
-		mSearch = GeoCoder.newInstance();
-		mSearch.setOnGetGeoCodeResultListener(this);
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(this);
         mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -189,27 +205,33 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
             @Override
             public boolean onMapPoiClick(MapPoi mapPoi) {
                 Log.e("mBaiduMap", "onMapPoiClick");
-                LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
-                // 反地理编码搜索
-                reverseSearch(ptCenter);
+                if (sendButton.getVisibility()==View.VISIBLE){
+                    LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
+                    // 反地理编码搜索
+                    reverseSearch(ptCenter);
+                }
                 return false;
             }
         });
 
     }
 
-    private void showMap(double latitude, double longtitude, String address) {
-        sendButton.setVisibility(View.GONE);
+    private void showMap(double latitude, double longtitude, String address, boolean isShow) {
+        if (isShow) {
+            sendButton.setVisibility(View.VISIBLE);
+        }else {
+            sendButton.setVisibility(View.GONE);
+        }
         LatLng llA = new LatLng(latitude, longtitude);
-        CoordinateConverter converter = new CoordinateConverter();
-        converter.coord(llA);
-        converter.from(CoordinateConverter.CoordType.COMMON);
-        LatLng convertLatLng = converter.convert();
-        OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
+//        CoordinateConverter converter = new CoordinateConverter();
+//        converter.coord(llA);
+//        converter.from(CoordinateConverter.CoordType.COMMON);
+//        LatLng convertLatLng = converter.convert();
+        OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory
                 .fromResource(R.drawable.ease_icon_marka))
                 .zIndex(4).draggable(true);
         mBaiduMap.addOverlay(ooA);
-        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
+        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
         mBaiduMap.animateMapStatus(u);
     }
 
@@ -305,16 +327,19 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
             lastLocation = location;
             mBaiduMap.clear();
             LatLng llA = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-            CoordinateConverter converter = new CoordinateConverter();
-            converter.coord(llA);
-            converter.from(CoordinateConverter.CoordType.COMMON);
-            LatLng convertLatLng = converter.convert();
-            OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
+//            CoordinateConverter converter = new CoordinateConverter();
+//            converter.coord(llA);
+//            converter.from(CoordinateConverter.CoordType.COMMON);
+//            LatLng convertLatLng = converter.convert();
+            OverlayOptions ooA = new MarkerOptions().position(llA).icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.ease_icon_marka))
                     .zIndex(4).draggable(true);
             mBaiduMap.addOverlay(ooA);
-            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, 17.0f);
             mBaiduMap.animateMapStatus(u);
+            longitude = lastLocation.getLongitude();
+            latitude = lastLocation.getLatitude();
+            address = lastLocation.getAddrStr();
             mLocClient.stop();
         }
 
@@ -331,9 +356,10 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
 
     public void sendLocation(View view) {
         Intent intent = this.getIntent();
-        intent.putExtra("latitude", lastLocation.getLatitude());
-        intent.putExtra("longitude", lastLocation.getLongitude());
-        intent.putExtra("address", lastLocation.getAddrStr());
+        intent.putExtra("latitude", latitude);
+        intent.putExtra("longitude", longitude);
+        intent.putExtra("address", address);
+        Log.e("latitude","latitude:"+latitude+"-------------longitude:"+longitude);
         this.setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
@@ -341,6 +367,7 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
 
     /**
      * 反向搜索
+     *
      * @param latLng
      */
     public void reverseSearch(LatLng latLng) {

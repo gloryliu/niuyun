@@ -34,6 +34,7 @@ import com.niuyun.hire.ui.bean.JobTagBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -66,7 +67,7 @@ import static com.niuyun.hire.base.Constants.resultCode_logo_Photos;
  * Created by chen.zhiwei on 2017-7-31.
  */
 
-public class PerfectEnterpriseInformation extends BaseActivity implements View.OnClickListener , TakePhoto.TakeResultListener,InvokeListener {
+public class PerfectEnterpriseInformation extends BaseActivity implements View.OnClickListener, TakePhoto.TakeResultListener, InvokeListener {
     @BindView(R.id.title_view)
     TitleBar titleView;
     @BindView(R.id.iv_header)
@@ -364,7 +365,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             listLogo.clear();
             if (resultCode == resultCode_header_Camera) {
                 //相机返回图片
-                listLogo=data.getStringArrayListExtra("picture");
+                listLogo = data.getStringArrayListExtra("picture");
             } else if (resultCode == resultCode_header_Photos) {
                 // 图库中选择
                 if (data == null || "".equals(data)) {
@@ -409,8 +410,9 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                    BaseContext.getInstance().setUserInfo(response.body().getData());
-                    BaseContext.getInstance().updateUserInfo(response.body().getData());
+//                    BaseContext.getInstance().setUserInfo(response.body().getData());
+//                    BaseContext.getInstance().updateUserInfo(response.body().getData());
+                    LoginUtils.getUserByUid(uid);
 //                    perfectSuccessDialog();
                     Intent intent = new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class);
                     startActivity(intent);
@@ -459,7 +461,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                 if (photo.getText().toString().contains(getResources().getString(R.string.publish_photo))) {
 
                     Intent intent = new Intent(PerfectEnterpriseInformation.this, TakeSimpleActivity.class);
-                    intent.putExtra("Type",1);
+                    intent.putExtra("Type", 1);
                     if (type == 0) {
                         //头像
                         startActivityForResult(intent, resultCode_header_Photos);
@@ -480,7 +482,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             public void onClick(View v) {
                 if (picture.getText().toString().contains(getResources().getString(R.string.publish_picture))) {
                     Intent intent = new Intent(PerfectEnterpriseInformation.this, TakeSimpleActivity.class);
-                    intent.putExtra("Type",0);
+                    intent.putExtra("Type", 0);
                     if (type == 0) {
                         //头像
                         startActivityForResult(intent, resultCode_header_Camera);

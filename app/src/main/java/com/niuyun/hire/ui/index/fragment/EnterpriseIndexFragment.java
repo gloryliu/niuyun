@@ -38,7 +38,7 @@ import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.ui.chat.ui.ConversationListFragment;
 import com.niuyun.hire.ui.chat.ui.GroupsActivity;
 import com.niuyun.hire.ui.chat.ui.LoginActivity;
-import com.niuyun.hire.ui.fragment.CompanyFragment;
+import com.niuyun.hire.ui.fragment.SeekPersonFragment;
 import com.niuyun.hire.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class EnterpriseIndexFragment extends BaseFragment {
         if (fragmentList.size() == 0) {
             conversationListFragment = new ConversationListFragment();
             fragmentList.add(conversationListFragment);
-            fragmentList.add(new CompanyFragment());
+            fragmentList.add(new SeekPersonFragment());
             for (int i = 0; i < tabNames.length; i++) {
                 View tabView = View.inflate(getActivity(), R.layout.layout_tab_item, null);
                 TextView textView = (TextView) tabView.findViewById(R.id.tab_title);

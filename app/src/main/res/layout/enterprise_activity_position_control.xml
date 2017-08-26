@@ -12,6 +12,7 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
+        android:layout_marginBottom="50dp"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_view">
 

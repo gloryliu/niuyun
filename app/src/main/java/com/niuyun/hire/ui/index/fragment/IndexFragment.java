@@ -38,7 +38,7 @@ import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.ui.chat.ui.ConversationListFragment;
 import com.niuyun.hire.ui.chat.ui.GroupsActivity;
 import com.niuyun.hire.ui.chat.ui.LoginActivity;
-import com.niuyun.hire.ui.fragment.CompanyFragment;
+import com.niuyun.hire.ui.fragment.SeekCompanyFragment;
 import com.niuyun.hire.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -64,7 +64,6 @@ public class IndexFragment extends BaseFragment {
     ImageView iv_message;
     @BindView(R.id.iv_company)
     ImageView iv_company;
-    //    Class[] fragments = {ConversationListFragment.class, CompanyFragment.class};
     private int[] tabNames = {R.string.index_tab_name_message, R.string.index_tab_name_company};
     private int[] tabIcons = {R.drawable.selector_index_tab_message, R.drawable.selector_index_tab_company};
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -93,7 +92,7 @@ public class IndexFragment extends BaseFragment {
         if (fragmentList.size() == 0) {
             conversationListFragment = new ConversationListFragment();
             fragmentList.add(conversationListFragment);
-            fragmentList.add(new CompanyFragment());
+            fragmentList.add(new SeekCompanyFragment());
             for (int i = 0; i < tabNames.length; i++) {
                 View tabView = View.inflate(getActivity(), R.layout.layout_tab_item, null);
                 TextView textView = (TextView) tabView.findViewById(R.id.tab_title);
@@ -211,7 +210,7 @@ public class IndexFragment extends BaseFragment {
         EMClient.getInstance().addClientListener(clientListener);
         EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
         //debug purpose only
-        registerInternalDebugReceiver();
+//        registerInternalDebugReceiver();
     }
 
     EMClientListener clientListener = new EMClientListener() {

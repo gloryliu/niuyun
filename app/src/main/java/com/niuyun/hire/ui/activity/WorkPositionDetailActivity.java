@@ -165,7 +165,10 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                 }
             });
 //公司
-            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_IMAGE_URL + bean.getData().getLogo(), iv_company);
+            try {
+                ImageLoadedrManager.getInstance().display(this, Constants.COMMON_IMAGE_URL + bean.getData().getLogo(), iv_company);
+            } catch (Exception e) {
+            }
             tv_company_name.setText(bean.getData().getCompanyname());
             tv_company_scale.setText(bean.getData().getDistrictCn() + "/" + bean.getData().getNatureCn() + "/" + bean.getData().getScaleCn());
             tv_company_type.setText(bean.getData().getTradeCn());

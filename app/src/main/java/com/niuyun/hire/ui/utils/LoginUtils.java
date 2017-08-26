@@ -42,6 +42,7 @@ public class LoginUtils {
     static Call<SuperBean<UserInfoBean>> getUserInfoCall;
     static Call<SuperBean<UserInfoBean>> thirdLoginCall;
     static boolean isSuccess;
+    static String uid;
 
     public static void commitlogin(final Context context, final String tel, String password) {
         DialogUtils.showDialog(context, "登陆...", false);
@@ -94,11 +95,22 @@ public class LoginUtils {
         });
     }
 
+    public static void getUserByUid(String userid) {
+        uid = userid;
+        getUserByUid();
+    }
+
     public static void getUserByUid() {
         if (BaseContext.getInstance().getUserInfo() == null) {
             return;
         }
-        getUserInfoCall = RestAdapterManager.getApi().getUser(BaseContext.getInstance().getUserInfo().uid + "");
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            getUserInfoCall = RestAdapterManager.getApi().getUser(BaseContext.getInstance().getUserInfo().uid + "");
+        } else {
+            getUserInfoCall = RestAdapterManager.getApi().getUser(uid);
+
+        }
         getUserInfoCall.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
             @Override
             public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {

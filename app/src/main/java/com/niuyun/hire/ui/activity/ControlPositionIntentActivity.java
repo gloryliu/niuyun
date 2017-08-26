@@ -171,6 +171,11 @@ public class ControlPositionIntentActivity extends BaseActivity implements View.
                 if (response.body() != null && response.body().getCode() == Constants.successCode) {
                     listAdapter.ClearData();
                     listAdapter.addList(response.body().getData());
+                    if (response.body().getData().size() >= 3) {
+                        bt_add.setVisibility(View.GONE);
+                    } else {
+                        bt_add.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     UIUtil.showToast(response.body().getMsg());
                 }

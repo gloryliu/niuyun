@@ -72,6 +72,8 @@ public class AllPersonSearchActivity extends BaseActivity implements View.OnClic
     RecyclerView rv_search_result;
     @BindView(R.id.ll_tag)
     LinearLayout ll_tag;
+    @BindView(R.id.ll_hot_search)
+    LinearLayout ll_hot_search;
     private HotSearchAdapter adapter;
     private SearchHistoryAdapter historyAdapter;
     private HotSearchBean commonTagBean;
@@ -92,7 +94,8 @@ public class AllPersonSearchActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void initViewsAndEvents() {
-
+        et_search.setHint("搜索人才");
+        ll_hot_search.setVisibility(View.GONE);
         tv_clear_all.setOnClickListener(this);
         tv_button.setOnClickListener(this);
         iv_clear.setOnClickListener(this);

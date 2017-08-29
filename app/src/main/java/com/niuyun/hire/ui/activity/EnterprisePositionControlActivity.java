@@ -215,6 +215,18 @@ public class EnterprisePositionControlActivity extends BaseActivity implements V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_publish:
+                if (BaseContext.getInstance().getUserInfo() != null) {
+
+                    if (BaseContext.getInstance().getUserInfo().perfect == 1) {
+                        Intent findPsIntent = new Intent(this, PerfectEnterpriseInformation.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("uid", BaseContext.getInstance().getUserInfo().uid + "");
+                        bundle.putString("companyId", BaseContext.getInstance().getUserInfo().companyId + "");
+                        findPsIntent.putExtras(bundle);
+                        startActivity(findPsIntent);
+                        return;
+                    }
+                }
                 startActivity(new Intent(this, EnterprisePublishPositionActivity.class));
                 break;
         }

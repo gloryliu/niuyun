@@ -31,7 +31,9 @@ import com.niuyun.hire.view.TitleBar;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import okhttp3.MultipartBody;
@@ -246,16 +248,15 @@ public class EnterPriseCertificationActivity extends BaseActivity {
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     //上传图片成功
-                    startActivity(new Intent(EnterPriseCertificationActivity.this, MainActivity.class));
-                    finish();
+                    bindImage(response.body().getData());
                     try {
-                        ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.body().getMsg(), "");
+                        UIUtil.showToast(response.body().getMsg());
                     } catch (Exception e) {
 
                     }
                 } else {
                     try {
-                        ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.body().getMsg(), "");
+                        UIUtil.showToast(response.body().getMsg());
                     } catch (Exception e) {
 
                     }
@@ -278,6 +279,35 @@ public class EnterPriseCertificationActivity extends BaseActivity {
                     e.printStackTrace();
                 }
 
+            }
+        });
+    }
+
+    private void bindImage(String imageid) {
+        DialogUtils.showDialog(this, "", false);
+        Map<String, String> map = new HashMap<>();
+        map.put("certificateImg", imageid);
+        map.put("companyId", BaseContext.getInstance().getUserInfo().companyId + "");
+        map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        Call<String> bindCenterpriseImage = RestAdapterManager.getApi().bindCenterpriseImage(map);
+        bindCenterpriseImage.enqueue(new JyCallBack<String>() {
+            @Override
+            public void onSuccess(Call<String> call, Response<String> response) {
+                startActivity(new Intent(EnterPriseCertificationActivity.this, EnterpriseMainActivity.class));
+                finish();
+                DialogUtils.closeDialog();
+            }
+
+            @Override
+            public void onError(Call<String> call, Throwable t) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("上传失败");
+            }
+
+            @Override
+            public void onError(Call<String> call, Response<String> response) {
+                DialogUtils.closeDialog();
+                UIUtil.showToast("上传失败");
             }
         });
     }

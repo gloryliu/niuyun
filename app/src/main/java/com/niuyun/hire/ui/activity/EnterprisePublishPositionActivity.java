@@ -23,6 +23,7 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
@@ -481,7 +482,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this, tagBean.getData());
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(EnterprisePublishPositionActivity.this, tagBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
@@ -610,7 +611,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(EnterprisePublishPositionActivity.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(EnterprisePublishPositionActivity.this, tagBean.getData());
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(EnterprisePublishPositionActivity.this, tagBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override

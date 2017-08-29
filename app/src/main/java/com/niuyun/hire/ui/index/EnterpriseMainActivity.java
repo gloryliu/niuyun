@@ -303,7 +303,6 @@ public class EnterpriseMainActivity extends BaseActivity {
         if (null != eventBusCenter) {
             if (eventBusCenter.getEvenCode()== Constants.LOGIN_SUCCESS){
                 if (BaseContext.getInstance().getUserInfo() != null) {
-
                     initChat();
                     initMessage();
                     checkData();

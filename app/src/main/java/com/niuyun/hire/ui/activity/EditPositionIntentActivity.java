@@ -19,7 +19,7 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
-import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
@@ -388,7 +388,7 @@ public class EditPositionIntentActivity extends BaseActivity implements View.OnC
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(EditPositionIntentActivity.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(EditPositionIntentActivity.this, cityBean.getData());
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(EditPositionIntentActivity.this, cityBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override

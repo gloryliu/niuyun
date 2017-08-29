@@ -163,7 +163,6 @@ public class MainActivity extends BaseActivity {
                 if (BaseContext.getInstance().getUserInfo() != null) {
                     if (BaseContext.getInstance().getUserInfo().utype == 1) {
                         //企业注册
-                        if (BaseContext.getInstance().getUserInfo().perfect == 1) {
                             if (BaseContext.getInstance().getUserInfo().perfect == 1) {
                                 Intent findPsIntent = new Intent(MainActivity.this, PerfectEnterpriseInformation.class);
                                 Bundle bundle = new Bundle();
@@ -172,7 +171,6 @@ public class MainActivity extends BaseActivity {
                                 findPsIntent.putExtras(bundle);
                                 startActivity(findPsIntent);
                             }
-                        }
                     } else {
                         //个人注册
                         if (BaseContext.getInstance().getUserInfo().perfect == 1) {

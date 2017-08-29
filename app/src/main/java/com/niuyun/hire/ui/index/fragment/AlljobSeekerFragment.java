@@ -20,6 +20,7 @@ import com.niuyun.hire.ui.activity.PreviewResumeActivity;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.IndexSeekPersonListItemAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
 import com.niuyun.hire.ui.adapter.PoPuMenuListCommonAdapter;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
@@ -259,7 +260,7 @@ public class AlljobSeekerFragment extends BaseFragment{
         final RecyclerView tag2 = (RecyclerView) positionView.findViewById(R.id.tag2);
         final RecyclerView tag3 = (RecyclerView) positionView.findViewById(R.id.tag3);
         tag1.setLayoutManager(new LinearLayoutManager(getActivity()));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(getActivity(), jobTagBean);
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(getActivity(), jobTagBean);
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override

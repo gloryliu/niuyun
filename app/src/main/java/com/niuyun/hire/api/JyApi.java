@@ -210,6 +210,14 @@ public interface JyApi {
     Call<SuperBean<String>> uploadFile(@Part MultipartBody.Part file);
 
     /**
+     * 提交企业认证图片
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/companyProfile/certificateCompany")
+    Call<String> bindCenterpriseImage(@Body Map<String, String> map);
+    /**
      * 上传个人信息
      *
      * @param map

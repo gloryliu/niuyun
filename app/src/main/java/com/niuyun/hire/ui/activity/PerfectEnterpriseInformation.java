@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hyphenate.easeui.ui.EaseBaiduMapActivity;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.model.InvokeParam;
 import com.jph.takephoto.model.TResult;
@@ -22,11 +24,11 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
-import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
@@ -45,8 +47,6 @@ import com.niuyun.hire.utils.photoutils.TakeSimpleActivity;
 import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -153,6 +153,9 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
     private String uid;
     private String companyId;
+    private double longitude;
+    private double latitude;
+    private String address;
 
     @Override
     public int getContentViewLayoutId() {
@@ -283,7 +286,19 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                 break;
             case R.id.iv_address_details_more://详细地址
             case R.id.iv_address_details_location:
-
+                Intent intent = new Intent(this, EaseBaiduMapActivity.class);
+                if (!TextUtils.isEmpty(address)) {
+                    intent.putExtra("address", address);
+                }
+                if (latitude > 0) {
+                    intent.putExtra("latitude", latitude);
+                    intent.putExtra("isShow", true);
+                }
+                if (longitude > 0) {
+                    intent.putExtra("longitude", longitude);
+                }
+                Log.e("latitude", "latitude:" + latitude + "-------------longitude:" + longitude);
+                startActivityForResult(intent, Constants.resultCode_baidu_address);
                 break;
             case R.id.bt_next:
                 //下一步
@@ -346,7 +361,13 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         if (data == null) {
             return;
         }
-
+        if (requestCode == Constants.resultCode_baidu_address) {
+            latitude = data.getExtras().getDouble("latitude");
+            longitude = data.getExtras().getDouble("longitude");
+            LogUtils.e("latitude:" + latitude + "-------------longitude:" + longitude);
+            address = data.getExtras().getString("address");
+            etAddressDetailsName.setText(address);
+        }
         if (selectedType == 0) {
             list.clear();
             if (resultCode == resultCode_header_Camera) {
@@ -385,7 +406,16 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
 
     private void upLoadInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("address", etAddressDetailsName.getText().toString());
+
+        if (!TextUtils.isEmpty(address) && address.equals(etAddressDetailsName.getText().toString())) {
+            map.put("address", address);
+            map.put("mapX", latitude + "");
+            map.put("mapY", longitude + "");
+        } else {
+            map.put("address", etAddressDetailsName.getText().toString());
+            map.put("mapX", "");
+            map.put("mapY", "");
+        }
         map.put("avatars", headimg);
         map.put("companyId", companyId);
         map.put("companyname", etEnterpriseName.getText().toString());
@@ -408,22 +438,27 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
         upLoadInfo.enqueue(new JyCallBack<SuperBean<UserInfoBean>>() {
             @Override
             public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
-                DialogUtils.closeDialog();
+
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
 //                    BaseContext.getInstance().setUserInfo(response.body().getData());
 //                    BaseContext.getInstance().updateUserInfo(response.body().getData());
                     LoginUtils.getUserByUid(uid);
 //                    perfectSuccessDialog();
-                    Intent intent = new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class);
-                    startActivity(intent);
-                    EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.PERFECT_INFO_SUCCESS));
-                    finish();
+                    etEnterpriseName.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            DialogUtils.closeDialog();
+                            Intent intent = new Intent(PerfectEnterpriseInformation.this, EnterPriseCertificationActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 1000);
                 } else {
                     try {
                         UIUtil.showToast(response.body().getMsg());
                     } catch (Exception e) {
                     }
-
+                    DialogUtils.closeDialog();
                 }
             }
 
@@ -655,7 +690,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(PerfectEnterpriseInformation.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(PerfectEnterpriseInformation.this, tagBean.getData());
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(PerfectEnterpriseInformation.this, tagBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override
@@ -789,7 +824,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(PerfectEnterpriseInformation.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(PerfectEnterpriseInformation.this, tagBean.getData());
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(PerfectEnterpriseInformation.this, tagBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override

@@ -36,7 +36,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -196,23 +195,24 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
         registerReceiver(mBaiduReceiver, iFilter);
         mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(this);
-        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                Log.e("mBaiduMap", "onMapClick");
-            }
-
-            @Override
-            public boolean onMapPoiClick(MapPoi mapPoi) {
-                Log.e("mBaiduMap", "onMapPoiClick");
-                if (sendButton.getVisibility()==View.VISIBLE){
-                    LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
-                    // 反地理编码搜索
-                    reverseSearch(ptCenter);
-                }
-                return false;
-            }
-        });
+        //暂时注掉，下期可能需要
+//        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                Log.e("mBaiduMap", "onMapClick");
+//            }
+//
+//            @Override
+//            public boolean onMapPoiClick(MapPoi mapPoi) {
+//                Log.e("mBaiduMap", "onMapPoiClick");
+//                if (sendButton.getVisibility()==View.VISIBLE){
+//                    LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
+//                    // 反地理编码搜索
+//                    reverseSearch(ptCenter);
+//                }
+//                return false;
+//            }
+//        });
 
     }
 

@@ -22,6 +22,7 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
 import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter;
+import com.niuyun.hire.ui.adapter.JobPerfectInfoTagAdapter1;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CommonTagItemBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
@@ -457,7 +458,7 @@ public class PersonInformationActivity extends BaseActivity implements View.OnCl
             }
         });
         tag1.setLayoutManager(new LinearLayoutManager(PersonInformationActivity.this));
-        JobPerfectInfoTagAdapter adapter = new JobPerfectInfoTagAdapter(PersonInformationActivity.this, tagBean.getData());
+        JobPerfectInfoTagAdapter1 adapter = new JobPerfectInfoTagAdapter1(PersonInformationActivity.this, tagBean.getData());
         tag1.setAdapter(adapter);
         adapter.setCommonInterface(new RecyclerViewCommonInterface() {
             @Override

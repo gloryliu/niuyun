@@ -14,6 +14,7 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.AttentionListActivity;
 import com.niuyun.hire.ui.activity.CompanyDetailsActivity;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
+import com.niuyun.hire.ui.activity.EnterPriseCertificationTwoActivity;
 import com.niuyun.hire.ui.activity.EnterpriseEditPersonActivity;
 import com.niuyun.hire.ui.activity.EnterprisePositionControlActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
@@ -56,6 +57,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rl_control_position;
     @BindView(R.id.rl_enterprise_info)
     RelativeLayout rl_enterprise_info;
+    @BindView(R.id.rl_enterprise_qualification)
+    RelativeLayout rl_enterprise_qualification;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -72,6 +75,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         rl_enterprise_info.setOnClickListener(this);
         rl_control_position.setOnClickListener(this);
         rl_video_enterprise.setOnClickListener(this);
+        rl_enterprise_qualification.setOnClickListener(this);
     }
 
     @Override
@@ -183,7 +187,10 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 } else {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
-
+                break;
+            case R.id.rl_enterprise_qualification:
+                //企业资质
+                startActivity(new Intent(getActivity(), EnterPriseCertificationTwoActivity.class));
                 break;
 
 

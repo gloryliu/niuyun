@@ -48,7 +48,7 @@ import static com.niuyun.hire.base.Constants.resultCode_header_Photos;
  * Created by chen.zhiwei on 2017-7-31.
  */
 
-public class EnterPriseCertificationActivity extends BaseActivity {
+public class EnterPriseCertificationTwoActivity extends BaseActivity {
     @BindView(R.id.title_view)
     TitleBar titleView;
     @BindView(R.id.iv_add_business_license)
@@ -60,7 +60,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
 
     @Override
     public int getContentViewLayoutId() {
-        return R.layout.activity_enterprise_certification;
+        return R.layout.activity_enterprise_certification_two;
     }
 
     @Override
@@ -118,13 +118,13 @@ public class EnterPriseCertificationActivity extends BaseActivity {
             }
         });
         titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
-        titleView.setActionTextColor(Color.WHITE);
-        titleView.addAction(new TitleBar.TextAction("跳过") {
-            @Override
-            public void performAction(View view) {
-                goNext();
-            }
-        });
+//        titleView.setActionTextColor(Color.WHITE);
+//        titleView.addAction(new TitleBar.TextAction("跳过") {
+//            @Override
+//            public void performAction(View view) {
+//                goNext();
+//            }
+//        });
         titleView.setImmersive(true);
     }
 
@@ -178,7 +178,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
      */
     public void photodialog() {
 
-        View view = View.inflate(EnterPriseCertificationActivity.this, R.layout.dialog_publish_photo, null);
+        View view = View.inflate(EnterPriseCertificationTwoActivity.this, R.layout.dialog_publish_photo, null);
         showdialog1(view);
 
         final TextView photo = (TextView) view.findViewById(R.id.photo);
@@ -191,7 +191,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
 
                 if (photo.getText().toString().contains(getResources().getString(R.string.publish_photo))) {
 
-                    Intent intent = new Intent(EnterPriseCertificationActivity.this, TakeSimpleActivity.class);
+                    Intent intent = new Intent(EnterPriseCertificationTwoActivity.this, TakeSimpleActivity.class);
                     intent.putExtra("Type", 1);
                     startActivityForResult(intent, resultCode_header_Photos);
                     myDialog.dismiss();
@@ -205,7 +205,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (picture.getText().toString().contains(getResources().getString(R.string.publish_picture))) {
-                    Intent intent = new Intent(EnterPriseCertificationActivity.this, TakeSimpleActivity.class);
+                    Intent intent = new Intent(EnterPriseCertificationTwoActivity.this, TakeSimpleActivity.class);
                     intent.putExtra("Type", 0);
                     startActivityForResult(intent, resultCode_header_Camera);
                     myDialog.dismiss();
@@ -280,7 +280,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
             public void onError(Call<SuperBean<String>> call, Response<SuperBean<String>> response) {
                 try {
                     DialogUtils.closeDialog();
-                    ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationActivity.this, response.errorBody().string(), "");
+                    ErrorMessageUtils.taostErrorMessage(EnterPriseCertificationTwoActivity.this, response.errorBody().string(), "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -299,7 +299,7 @@ public class EnterPriseCertificationActivity extends BaseActivity {
         bindCenterpriseImage.enqueue(new JyCallBack<String>() {
             @Override
             public void onSuccess(Call<String> call, Response<String> response) {
-                startActivity(new Intent(EnterPriseCertificationActivity.this, EnterpriseMainActivity.class));
+                startActivity(new Intent(EnterPriseCertificationTwoActivity.this, EnterpriseMainActivity.class));
                 finish();
                 DialogUtils.closeDialog();
             }

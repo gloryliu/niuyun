@@ -330,6 +330,44 @@
                     android:src="@mipmap/ic_arrow_right"
                     android:visibility="gone" />
             </RelativeLayout>
+            <View
+                style="@style/common_divider_f0f0f0"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_enterprise_qualification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_enterprise_qualification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_centerprise_qualification" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="13dp"
+                    android:layout_toRightOf="@+id/iv_enterprise_qualification"
+                    android:text="企业资质"
+                    android:textColor="@color/color_333333"
+                    android:textSize="13sp" />
+
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
             <View
                 style="@style/common_divider_f0f0f0"

@@ -8,8 +8,12 @@ public class Constants {
     public static final String COMMON_PERSON_URL = "http://niuyunzp.com/data/upload/avatar/";
     public static final String COMMON_IMAGE_URL = "http://niuyunzp.com/data/upload/company_logo/";
     public static final String COMMON_cover_URL = "http://niuyunzp.com/data/upload/coverImage_img/";
+    public static final String COMMON_certificate_URL = "http://niuyunzp.com/data/upload/certificate_img/";
     public static final int AddressUpdateSuccess = 0x10;
     public static final String APP_KEY = "c3c5a51f3a4c70827523f8";
+    public static String DEFAULT_CITYID = "110100000";//默认城市 Id 北京
+    public static String SELECTED_CITY_ID = "SELECTED_CITY_ID";
+    public static String SELECTED_CITY_NAME = "SELECTED_CITY_NAME";
     public static int successCode = 1000;
     public static String INT_TAG = "int_tag";
 

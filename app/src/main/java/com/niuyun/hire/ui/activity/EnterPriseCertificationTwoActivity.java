@@ -16,6 +16,7 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.bean.CertificationBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
@@ -86,7 +87,7 @@ public class EnterPriseCertificationTwoActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-
+        getCertification();
     }
 
     @Override
@@ -102,6 +103,31 @@ public class EnterPriseCertificationTwoActivity extends BaseActivity {
     @Override
     protected View isNeedLec() {
         return null;
+    }
+
+    private void getCertification() {
+        Call<CertificationBean> getEnterpriseCertification = RestAdapterManager.getApi().getEnterpriseCertification(BaseContext.getInstance().getUserInfo().companyId + "");
+        getEnterpriseCertification.enqueue(new JyCallBack<CertificationBean>() {
+            @Override
+            public void onSuccess(Call<CertificationBean> call, Response<CertificationBean> response) {
+                if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
+                    if (response.body().getData().getAuditCn().contains("已认证")) {
+                        ImageLoadedrManager.getInstance().display(EnterPriseCertificationTwoActivity.this, Constants.COMMON_certificate_URL + response.body().getData().getCertificateImg(), iv_add_business_license, R.mipmap.ic_add_business_license_two);
+                    }
+                    bt_certification.setText(response.body().getData().getAuditCn());
+                }
+            }
+
+            @Override
+            public void onError(Call<CertificationBean> call, Throwable t) {
+
+            }
+
+            @Override
+            public void onError(Call<CertificationBean> call, Response<CertificationBean> response) {
+
+            }
+        });
     }
 
     private void initTitle() {

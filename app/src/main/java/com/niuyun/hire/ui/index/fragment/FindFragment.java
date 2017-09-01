@@ -1,23 +1,28 @@
 package com.niuyun.hire.ui.index.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.activity.FindAroundActivity;
 import com.niuyun.hire.view.TitleBar;
 
-import butterknife.BindString;
 import butterknife.BindView;
 
 /**
  * Created by chen.zhiwei on 2017-7-18.
  */
 
-public class FindFragment extends BaseFragment {
+public class FindFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.title_view)
     TitleBar titleView;
+    @BindView(R.id.ll_find_around)
+    LinearLayout ll_find_around;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -27,6 +32,7 @@ public class FindFragment extends BaseFragment {
     @Override
     protected void initViewsAndEvents() {
         initTitle();
+        ll_find_around.setOnClickListener(this);
     }
 
     @Override
@@ -64,5 +70,16 @@ public class FindFragment extends BaseFragment {
 //        });
         titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         titleView.setImmersive(true);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_find_around:
+                if (BaseContext.getInstance().getLocationInfo() != null) {
+                    startActivity(new Intent(getActivity(), FindAroundActivity.class));
+                }
+                break;
+        }
     }
 }

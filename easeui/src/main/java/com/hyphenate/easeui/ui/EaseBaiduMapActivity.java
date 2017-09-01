@@ -161,7 +161,6 @@ public class EaseBaiduMapActivity extends EaseBaseActivity implements OnGetGeoCo
         super.onCreate(savedInstanceState);
         instance = this;
         //initialize SDK with context, should call this before setContentView
-        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.ease_activity_baidumap);
         mMapView = (MapView) findViewById(R.id.bmapView);
         sendButton = (Button) findViewById(R.id.btn_location_send);

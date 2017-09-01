@@ -24,6 +24,7 @@ public class DaoMaster extends AbstractDaoMaster {
         AllTagBeanDao.createTable(db, ifNotExists);
         DataBeanDao.createTable(db, ifNotExists);
         SearchHistoryBeanDao.createTable(db, ifNotExists);
+        CityDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -31,6 +32,7 @@ public class DaoMaster extends AbstractDaoMaster {
         AllTagBeanDao.dropTable(db, ifExists);
         DataBeanDao.dropTable(db, ifExists);
         SearchHistoryBeanDao.dropTable(db, ifExists);
+        CityDao.dropTable(db, ifExists);
     }
 
     /**
@@ -52,6 +54,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(AllTagBeanDao.class);
         registerDaoClass(DataBeanDao.class);
         registerDaoClass(SearchHistoryBeanDao.class);
+        registerDaoClass(CityDao.class);
     }
 
     public DaoSession newSession() {

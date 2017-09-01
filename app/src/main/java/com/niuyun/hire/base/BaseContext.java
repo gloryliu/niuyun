@@ -9,6 +9,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.easefun.polyvsdk.PolyvDevMountInfo;
 import com.easefun.polyvsdk.PolyvSDKClient;
 import com.easefun.polyvsdk.live.chat.PolyvChatManager;
@@ -23,11 +24,15 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.niuyun.hire.ui.activity.SplashScreenActivity;
 import com.niuyun.hire.ui.bean.AllTagBean;
+import com.niuyun.hire.ui.bean.City;
+import com.niuyun.hire.ui.bean.LocationInfo;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.chat.DemoHelper;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.SharePreManager;
+import com.niuyun.hire.utils.SharePrefUtil;
 import com.niuyun.hire.utils.Utils;
+import com.niuyunzhipin.greendao.CityDao;
 import com.niuyunzhipin.greendao.DaoMaster;
 import com.niuyunzhipin.greendao.DaoSession;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -41,6 +46,7 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import java.io.File;
+import java.util.List;
 
 
 /**
@@ -55,9 +61,13 @@ public class BaseContext extends MultiDexApplication {
     private static final String appSecret = "93b89c2a81494f5ba4a4dfa5873e0c38";
     //加密秘钥和加密向量，在后台->设置->API接口中获取，用于解密SDK加密串
     //值修改请参考https://github.com/easefun/polyv-android-sdk-demo/wiki/10.%E5%85%B3%E4%BA%8E-SDK%E5%8A%A0%E5%AF%86%E4%B8%B2-%E4%B8%8E-%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93
-    /** 加密秘钥 */
+    /**
+     * 加密秘钥
+     */
     private String aeskey = "VXtlHmwfS2oYm0CZ";
-    /** 加密向量 */
+    /**
+     * 加密向量
+     */
     private String iv = "2u9gDPKdX6GyQJKU";
     private static BaseContext instance;
     //用户信息
@@ -70,7 +80,7 @@ public class BaseContext extends MultiDexApplication {
     private DaoSession mDaoSession;
     private AllTagBean allTagBean;
     public static String currentUserNick = "";
-
+    private static LocationInfo locationInfo;
     public AllTagBean getAllTagBean() {
         this.allTagBean = instance.getDaoSession().getAllTagBeanDao().loadAll().get(0);
         return allTagBean;
@@ -83,21 +93,21 @@ public class BaseContext extends MultiDexApplication {
     }
 
 
-//    public LocationInfo getLocationInfo() {
-//        if (locationInfo == null || TextUtils.isEmpty(locationInfo.getCityId())) {
-////            setDefultCityInfo();
-//        }
-//        return locationInfo;
-//    }
+    public LocationInfo getLocationInfo() {
+        if (locationInfo == null || TextUtils.isEmpty(locationInfo.getCityId())) {
+//            setDefultCityInfo();
+        }
+        return locationInfo;
+    }
 
-//    public void setLocationInfo(LocationInfo locationInfo) {
-////        this.locationInfo = locationInfo;
-//        SharePrefUtil.saveString(getInstance(), "cityName", locationInfo.getCity());
-//        SharePrefUtil.saveString(getInstance(), "cityId", locationInfo.getCityId());
-//
-//    }
+    public static void setLocationInfo(LocationInfo locationInfo) {
+        getInstance().locationInfo = locationInfo;
+        SharePrefUtil.saveString(getInstance(), "cityName", locationInfo.getCity());
+        SharePrefUtil.saveString(getInstance(), "cityId", locationInfo.getCityId());
 
-//    private LocationInfo locationInfo;
+    }
+
+
 
     /**
      * 初始化聊天室配置
@@ -112,6 +122,7 @@ public class BaseContext extends MultiDexApplication {
         super.onCreate();
         MultiDex.install(this);
         instance = this;
+        SDKInitializer.initialize(getApplicationContext());//百度地图
         initPolyvChatConfig();
         initPolyvCilent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -272,50 +283,50 @@ public class BaseContext extends MultiDexApplication {
      * @param cityName 城市名称
      * @return
      */
-//    public String selectCityId(String cityName) {
-//
-//
-//        String cityId = Constants.DEFAULT_CITYID;
-//        if (!TextUtils.isEmpty(cityName)) {
-//            try {
-//                List<City> list = getDaoSession().getCityDao().queryBuilder().where(CityDao.Properties.Name.eq(cityName)).list();
-//                if (null != list && list.size() > 0) {
-//                    cityId = list.get(0).cityId;
-//                }
-//
-//            } catch (Exception e) {
-//                LogUtils.e(e.getMessage());
-//            }
-//
-//            LogUtils.e("根据定位城市名称查询本地库中的城市成功-----cityId--------->>>>" + cityId);
-//        }
-//
-//
-//        return cityId;
-//    }
+    public String selectCityId(String cityName) {
+
+
+        String cityId = Constants.DEFAULT_CITYID;
+        if (!TextUtils.isEmpty(cityName)) {
+            try {
+                List<City> list = getDaoSession().getCityDao().queryBuilder().where(CityDao.Properties.Name.eq(cityName)).list();
+                if (null != list && list.size() > 0) {
+                    cityId = list.get(0).cityId;
+                }
+
+            } catch (Exception e) {
+                LogUtils.e(e.getMessage());
+            }
+
+            LogUtils.e("根据定位城市名称查询本地库中的城市成功-----cityId--------->>>>" + cityId);
+        }
+
+
+        return cityId;
+    }
 
 
     /**
      * 设置默认的城市信息
      */
-//    public void setDefultCityInfo() {
-//        LocationInfo locationInfo = new LocationInfo();
-//        //如果SP中cityName和cityName都不为空则取SP中的值
-//        if (!TextUtils.isEmpty(SharePrefUtil.getString(getInstance(), "cityName", null)) &&
-//                (!TextUtils.isEmpty(SharePrefUtil.getString(getInstance(), "cityId", null)))) {
-//            locationInfo.setCityId(SharePrefUtil.getString(getInstance(), "cityId", Constants.DEFAULT_CITYID));
-//            locationInfo.setCity(SharePrefUtil.getString(getInstance(), "cityName", "北京市"));
-//        } else {
-//            locationInfo.setCityId(Constants.DEFAULT_CITYID);
-//            locationInfo.setCity("北京市");
-//        }
-//
-//        locationInfo.setProvince("北京市");
-//        locationInfo.setDistrict("东城区");
-//        locationInfo.setLatitude(39.9);
-//        locationInfo.setLongitude(116.3);
-//        this.setLocationInfo(locationInfo);
-//    }
+    public static void setDefultCityInfo() {
+        LocationInfo locationInfo = new LocationInfo();
+        //如果SP中cityName和cityName都不为空则取SP中的值
+        if (!TextUtils.isEmpty(SharePrefUtil.getString(getInstance(), "cityName", null)) &&
+                (!TextUtils.isEmpty(SharePrefUtil.getString(getInstance(), "cityId", null)))) {
+            locationInfo.setCityId(SharePrefUtil.getString(getInstance(), "cityId", Constants.DEFAULT_CITYID));
+            locationInfo.setCity(SharePrefUtil.getString(getInstance(), "cityName", "北京市"));
+        } else {
+            locationInfo.setCityId(Constants.DEFAULT_CITYID);
+            locationInfo.setCity("北京市");
+        }
+
+        locationInfo.setProvince("北京市");
+        locationInfo.setDistrict("东城区");
+        locationInfo.setLatitude(39.9);
+        locationInfo.setLongitude(116.3);
+        setLocationInfo(locationInfo);
+    }
 
 
     /**
@@ -365,7 +376,6 @@ public class BaseContext extends MultiDexApplication {
 //            }
 //        });
 //    }
-
     public void restartApp() {
         if (!Utils.isBackground(this)) {
             Intent intent = new Intent(instance, SplashScreenActivity.class);
@@ -375,7 +385,8 @@ public class BaseContext extends MultiDexApplication {
         AppManager.getAppManager().AppExit(this);
         android.os.Process.killProcess(android.os.Process.myPid()); //
     }
-//
+
+    //
     public DaoSession getDaoSession() {
         return mDaoSession;
     }
@@ -395,6 +406,7 @@ public class BaseContext extends MultiDexApplication {
     public SQLiteDatabase getDb() {
         return db;
     }
+
     public void initPolyvCilent() {
         //网络方式取得SDK加密串，（推荐）
         //网络获取到的SDK加密串可以保存在本地SharedPreference中，下次先从本地获取

@@ -4,6 +4,8 @@ package com.niuyun.hire.api;
 import com.niuyun.hire.bean.ErrorBean;
 import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.AllTagBean;
+import com.niuyun.hire.ui.bean.AroundResultBean;
+import com.niuyun.hire.ui.bean.CertificationBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
 import com.niuyun.hire.ui.bean.EnterpriseFindPersonBean;
@@ -160,6 +162,7 @@ public interface JyApi {
      */
     @POST("/resource/companyProfile/completeCompanyInfo")
     Call<SuperBean<UserInfoBean>> perfectEnterprefectInfo(@Body Map<String, String> map);
+
     /**
      * 完善企业个人资料
      *
@@ -168,6 +171,13 @@ public interface JyApi {
     @POST("/resource/companyProfile/updateCompanyPersonInfo")
     Call<SuperBean<String>> editEnterpreInfo(@Body Map<String, String> map);
 
+    /**
+     * 获取企业认证信息
+     *
+     * @return
+     */
+    @GET("/resource/companyProfile/getCertificateInfo")
+    Call<CertificationBean> getEnterpriseCertification(@Query("companyId") String companyId);
 
     /**
      * 上传公司营业执照图片
@@ -217,6 +227,7 @@ public interface JyApi {
      */
     @POST("/resource/companyProfile/certificateCompany")
     Call<String> bindCenterpriseImage(@Body Map<String, String> map);
+
     /**
      * 上传个人信息
      *
@@ -243,6 +254,24 @@ public interface JyApi {
      */
     @POST("/resource/jobs/jobSearch")
     Call<AllJobsBean> getAllJobs(@Body Map<String, String> map);
+
+    /**
+     * 获取附近
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/nearby/getNearby")
+    Call<AroundResultBean> getAround(@Body Map<String, String> map);
+
+    /**
+     * 更新个人位置信息
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/members/updateLocation")
+    Call<SuperBean<String>> updateLocation(@Body Map<String, String> map);
 
     /**
      * 根据意向筛选职位
@@ -448,6 +477,7 @@ public interface JyApi {
      */
     @POST("/resource/jobs/publishJobs")
     Call<SuperBean<String>> publishPosition(@Body Map<String, String> map);
+
     /**
      * 编辑企业发布的职位
      *
@@ -464,6 +494,7 @@ public interface JyApi {
      */
     @POST("/resource/jobs/findMyPublishJobList")
     Call<EnterprisePublishedPositionBean> getMyPublishedPosition(@Body Map<String, String> map);
+
     /**
      * 企业发布的职位列表
      *

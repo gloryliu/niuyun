@@ -71,6 +71,11 @@ public class PolyvUploadActivity extends BaseActivity {
 
     @Override
     public void initViewsAndEvents() {
+//        Bundle bundle=getIntent().getExtras();
+        String type = getIntent().getStringExtra("type");
+        if (!TextUtils.isEmpty(type) && type.equals("company")) {
+            ll_online_resume_title.setVisibility(View.GONE);
+        }
         initTitle();
         initView();
         setVid("");

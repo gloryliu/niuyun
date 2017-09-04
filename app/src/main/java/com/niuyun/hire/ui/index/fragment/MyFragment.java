@@ -171,6 +171,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             case R.id.rl_video_enterprise:
                 //企业视频
                 Intent enterpriseVideointent = new Intent(getActivity(), PolyvUploadActivity.class);
+                enterpriseVideointent.putExtra("type","company");
                 startActivity(enterpriseVideointent);
                 break;
             case R.id.rl_control_position:

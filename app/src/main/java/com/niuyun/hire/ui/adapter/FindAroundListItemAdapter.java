@@ -25,8 +25,8 @@ import butterknife.ButterKnife;
  * Created by chenzhiwei 2016/6/14.
  */
 public class FindAroundListItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private  List<AroundResultBean.DataBean> list;
-    private  Context context;
+    private List<AroundResultBean.DataBean> list;
+    private Context context;
     private boolean isLight;
     private final LayoutInflater mLayoutInflater;
     private RecyclerViewCommonInterface commonInterface;
@@ -66,7 +66,7 @@ public class FindAroundListItemAdapter extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    public  List<AroundResultBean.DataBean> getEntities() {
+    public List<AroundResultBean.DataBean> getEntities() {
         return list;
     }
 
@@ -79,18 +79,35 @@ public class FindAroundListItemAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (list != null) {
-            try {
-                ImageLoadedrManager.getInstance().display(context, Constants.COMMON_IMAGE_URL + list.get(position).getLogo(), ((ImageViewHolder) viewHolder).iv_company);
 
-            } catch (Exception e) {
-            }
-            ImageLoadedrManager.getInstance().display(context, Constants.COMMON_IMAGE_URL + list.get(position).getLogo(), ((ImageViewHolder) viewHolder).iv_company);
-//            ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getJobsName());
+//            ImageLoadedrManager.getInstance().display(context, Constants.COMMON_IMAGE_URL + list.get(position).getLogo(), ((ImageViewHolder) viewHolder).iv_company);
+
 //            ((ImageViewHolder) viewHolder).tv_position_price.setText(list.get(position).getMinwage() / 1000 + "k-" + list.get(position).getMaxwage() / 1000 + "k");
-//            ((ImageViewHolder) viewHolder).tv_company_name.setText(list.get(position).getCompanyname());
+            ((ImageViewHolder) viewHolder).tv_company_name.setText(list.get(position).getCompanyname());
 //            ((ImageViewHolder) viewHolder).tv_location.setText(list.get(position).getDistrictCn());
-//            ((ImageViewHolder) viewHolder).tv_work_age.setText(list.get(position).getExperienceCn());
-//            ((ImageViewHolder) viewHolder).tv_education.setText(list.get(position).getEducationCn());
+//
+//
+            if (list.get(position).getType() == 2) {
+                //人
+                try {
+                    ImageLoadedrManager.getInstance().displayRound(context, Constants.COMMON_PERSON_URL + list.get(position).getAvatars(), ((ImageViewHolder) viewHolder).iv_company, R.mipmap.ic_default_head, 100);
+
+                } catch (Exception e) {
+                }
+                ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getPersonName() + "|" + list.get(position).getSexCn());
+                ((ImageViewHolder) viewHolder).tv_describe.setText(list.get(position).getSpecialty());
+                ((ImageViewHolder) viewHolder).tv_position_distance.setText(list.get(position).getDistence()+"");
+            } else {
+                //公司
+                try {
+                    ImageLoadedrManager.getInstance().display(context, Constants.COMMON_IMAGE_URL + list.get(position).getLogo(), ((ImageViewHolder) viewHolder).iv_company);
+
+                } catch (Exception e) {
+                }
+                ((ImageViewHolder) viewHolder).tv_position_name.setText(list.get(position).getCompanyname());
+                ((ImageViewHolder) viewHolder).tv_describe.setText("热招职位:" + list.get(position).getJobsName());
+                ((ImageViewHolder) viewHolder).tv_position_distance.setText(list.get(position).getDistence()+"");
+            }
         }
     }
 
@@ -105,16 +122,16 @@ public class FindAroundListItemAdapter extends RecyclerView.Adapter<RecyclerView
         ImageView iv_company;//公司图标
         @BindView(R.id.tv_position_name)
         TextView tv_position_name;//职位名称
-        @BindView(R.id.tv_position_price)
-        TextView tv_position_price;//薪资
+        //        @BindView(R.id.tv_position_price)
+//        TextView tv_position_price;//薪资
         @BindView(R.id.tv_company_name)
         TextView tv_company_name;//公司名称
-        @BindView(R.id.tv_location)
-        TextView tv_location;//公司地址
-        @BindView(R.id.tv_work_age)
-        TextView tv_work_age;//工作年限
-        @BindView(R.id.tv_education)
-        TextView tv_education;//学历
+        //        @BindView(R.id.tv_location)
+//        TextView tv_location;//公司地址
+        @BindView(R.id.tv_position_distance)
+        TextView tv_position_distance;
+        @BindView(R.id.tv_describe)
+        TextView tv_describe;//
 
         ImageViewHolder(final View view) {
             super(view);

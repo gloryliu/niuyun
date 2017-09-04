@@ -63,10 +63,10 @@ public class AroundResultBean {
         private int companyId;
         private String jobsName;
         private int distence;
-        private Object personName;
-        private Object avatars;
-        private Object sexCn;
-        private Object specialty;
+        private String personName;
+        private String avatars;
+        private String sexCn;
+        private String specialty;
         private int uid;
 
         public int getType() {
@@ -117,35 +117,35 @@ public class AroundResultBean {
             this.distence = distence;
         }
 
-        public Object getPersonName() {
+        public String getPersonName() {
             return personName;
         }
 
-        public void setPersonName(Object personName) {
+        public void setPersonName(String personName) {
             this.personName = personName;
         }
 
-        public Object getAvatars() {
+        public String getAvatars() {
             return avatars;
         }
 
-        public void setAvatars(Object avatars) {
+        public void setAvatars(String avatars) {
             this.avatars = avatars;
         }
 
-        public Object getSexCn() {
+        public String getSexCn() {
             return sexCn;
         }
 
-        public void setSexCn(Object sexCn) {
+        public void setSexCn(String sexCn) {
             this.sexCn = sexCn;
         }
 
-        public Object getSpecialty() {
+        public String getSpecialty() {
             return specialty;
         }
 
-        public void setSpecialty(Object specialty) {
+        public void setSpecialty(String specialty) {
             this.specialty = specialty;
         }
 

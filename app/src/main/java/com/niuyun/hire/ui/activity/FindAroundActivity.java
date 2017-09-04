@@ -14,17 +14,23 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.adapter.CommonDialogItemAdapter;
 import com.niuyun.hire.ui.adapter.FindAroundListItemAdapter;
 import com.niuyun.hire.ui.bean.AroundResultBean;
+import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.LogUtils;
+import com.niuyun.hire.view.MyDialog;
 import com.niuyun.hire.view.TitleBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -44,6 +50,7 @@ public class FindAroundActivity extends BaseActivity {
     SmartRefreshLayout refreshLayout;
     private FindAroundListItemAdapter listItemAdapter;
     private Call<AroundResultBean> AroundResultBeanCall;
+    private int lookType;
 
     @Override
     public int getContentViewLayoutId() {
@@ -71,11 +78,16 @@ public class FindAroundActivity extends BaseActivity {
             public void onClick(Object bean) {
                 AroundResultBean.DataBean databean = (AroundResultBean.DataBean) bean;
                 if (databean != null) {
-                    Intent intent = new Intent(FindAroundActivity.this, CompanyDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id", databean.getCompanyId() + "");
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    if (databean.getType()==1){
+                        Intent intent = new Intent(FindAroundActivity.this, CompanyDetailsActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", databean.getCompanyId() + "");
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else if (databean.getType()==2){
+
+                    }
+
                 }
 
             }
@@ -104,16 +116,19 @@ public class FindAroundActivity extends BaseActivity {
 
     private void getAllJobs() {
         Map<String, String> map = new HashMap<>();
-
-        map.put("lookType", "0");
+        DialogUtils.showDialog(this,"",true);
+        map.put("lookType", lookType + "");
         map.put("mapX", BaseContext.getInstance().getLocationInfo().latitude + "");
         map.put("mapY", BaseContext.getInstance().getLocationInfo().longitude + "");
+//        map.put("mapX", "0");
+//        map.put("mapY", "0");
         AroundResultBeanCall = RestAdapterManager.getApi().getAround(map);
 
 
         AroundResultBeanCall.enqueue(new JyCallBack<AroundResultBean>() {
             @Override
             public void onSuccess(Call<AroundResultBean> call, Response<AroundResultBean> response) {
+                DialogUtils.closeDialog();
                 if (refreshLayout != null) {
                     refreshLayout.finishRefresh();
                 }
@@ -127,6 +142,7 @@ public class FindAroundActivity extends BaseActivity {
             @Override
             public void onError(Call<AroundResultBean> call, Throwable t) {
                 if (refreshLayout != null) {
+                    DialogUtils.closeDialog();
                     listItemAdapter.ClearData();
                     refreshLayout.finishRefresh();
                 }
@@ -136,6 +152,7 @@ public class FindAroundActivity extends BaseActivity {
             @Override
             public void onError(Call<AroundResultBean> call, Response<AroundResultBean> response) {
                 if (refreshLayout != null) {
+                    DialogUtils.closeDialog();
                     listItemAdapter.ClearData();
                     refreshLayout.finishRefresh();
                 }
@@ -163,14 +180,74 @@ public class FindAroundActivity extends BaseActivity {
                 finish();
             }
         });
+        titleView.setActionTextColor(Color.WHITE);
         titleView.addAction(new TitleBar.TextAction("···") {
             @Override
             public void performAction(View view) {
-
+                sexDialog();
             }
         });
-        titleView.setActionTextColor(Color.WHITE);
         titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         titleView.setImmersive(true);
+    }
+
+    /**
+     * dialog
+     */
+    public void sexDialog() {
+
+        View view = View.inflate(FindAroundActivity.this, R.layout.dialog_common_layout, null);
+        showdialog(view);
+
+        final RecyclerView rv_list = (RecyclerView) view.findViewById(R.id.rv_list);
+        rv_list.setLayoutManager(new LinearLayoutManager(this));
+        CommonDialogItemAdapter itemAdapter = new CommonDialogItemAdapter(this);
+        rv_list.setAdapter(itemAdapter);
+        List<SuperBean<String>> list = new ArrayList<>();
+        SuperBean<String> superBean = new SuperBean<>();
+        superBean.setCode(0);
+        superBean.setMsg("全部");
+        list.add(superBean);
+        SuperBean<String> superBean1 = new SuperBean<>();
+        superBean1.setCode(1);
+        superBean1.setMsg("公司");
+        list.add(superBean1);
+        SuperBean<String> superBean2 = new SuperBean<>();
+        superBean2.setCode(2);
+        superBean2.setMsg("个人");
+        list.add(superBean2);
+
+        itemAdapter.addList(list);
+        itemAdapter.setCommonInterface(new RecyclerViewCommonInterface() {
+            @Override
+            public void onClick(Object bean) {
+                SuperBean<String> bean1 = (SuperBean<String>) bean;
+                if (bean1 != null) {
+                    if (bean1.getCode() != lookType) {
+                        lookType = bean1.getCode();
+                        getAllJobs();
+                        myDialog.cancel();
+                    }else {
+                        myDialog.cancel();
+                    }
+                }else {
+                    myDialog.cancel();
+                }
+            }
+        });
+    }
+
+
+    private MyDialog myDialog;
+
+    /**
+     * 弹出dialog
+     *
+     * @param view
+     */
+    private void showdialog(View view) {
+
+        myDialog = new MyDialog(this, 0, 0, view, R.style.dialog);
+        myDialog.show();
     }
 }

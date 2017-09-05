@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f0f0f0"
+    android:orientation="vertical">
+
+    <com.niuyun.hire.view.TitleBar
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_view"
+        android:layout_marginBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/color_ffffff">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp">
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_head"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_mine_login_head"
+                        android:gravity="center">
+
+                        <com.niuyun.hire.view.CircularImageView
+                            android:id="@+id/iv_head"
+                            android:layout_width="95dp"
+                            android:layout_height="95dp"
+                            android:scaleType="centerInside"
+                            android:src="@mipmap/ic_default_head" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@+id/ll_head"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginTop="18dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_head"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/color_333333"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/color_666666"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <!--自我评价-->
+            <LinearLayout style="@style/style_linearlayout">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:text="个人简介" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ffffff"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_evaluation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="5"
+                    android:text=""
+                    android:textColor="@color/color_666666"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+
+            <View style="@style/common_divider_f0f0f0_5" />
+
+            <RelativeLayout
+                style="@style/style_linearlayout"
+                android:background="@color/color_ffffff"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/style_textview1"
+                    android:layout_centerVertical="true"
+                    android:text="目前公司" />
+
+                <TextView
+                    android:id="@+id/tv_current_company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/iv_company_more"
+                    android:text=""
+                    android:textColor="@color/color_e30000"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_company_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_arrow_right" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/bt_talk"
+        style="@style/btn_red_btn_no_corner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="聊一聊"
+        android:textColor="@color/color_ffffff"
+        android:textSize="14sp" />
+</RelativeLayout>

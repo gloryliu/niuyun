@@ -78,14 +78,18 @@ public class FindAroundActivity extends BaseActivity {
             public void onClick(Object bean) {
                 AroundResultBean.DataBean databean = (AroundResultBean.DataBean) bean;
                 if (databean != null) {
-                    if (databean.getType()==1){
+                    if (databean.getType() == 1) {
                         Intent intent = new Intent(FindAroundActivity.this, CompanyDetailsActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("id", databean.getCompanyId() + "");
                         intent.putExtras(bundle);
                         startActivity(intent);
-                    }else if (databean.getType()==2){
-
+                    } else if (databean.getType() == 2) {
+                        Intent intent = new Intent(FindAroundActivity.this, AroundPersonActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("uid", databean.getUid() + "");
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
 
                 }
@@ -116,7 +120,7 @@ public class FindAroundActivity extends BaseActivity {
 
     private void getAllJobs() {
         Map<String, String> map = new HashMap<>();
-        DialogUtils.showDialog(this,"",true);
+        DialogUtils.showDialog(this, "", true);
         map.put("lookType", lookType + "");
         map.put("mapX", BaseContext.getInstance().getLocationInfo().latitude + "");
         map.put("mapY", BaseContext.getInstance().getLocationInfo().longitude + "");
@@ -227,10 +231,10 @@ public class FindAroundActivity extends BaseActivity {
                         lookType = bean1.getCode();
                         getAllJobs();
                         myDialog.cancel();
-                    }else {
+                    } else {
                         myDialog.cancel();
                     }
-                }else {
+                } else {
                     myDialog.cancel();
                 }
             }

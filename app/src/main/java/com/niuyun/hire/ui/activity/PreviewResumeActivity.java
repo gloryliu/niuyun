@@ -162,6 +162,7 @@ public class PreviewResumeActivity extends BaseActivity {
                 iv_sex.setImageResource(R.mipmap.ic_sex_woman_normal);
             }
             tv_content.setText(previewResumeBean.getData().getResidence() + "|" + previewResumeBean.getData().getExperienceCn() + "|" + previewResumeBean.getData().getEducationCn());
+            tv_evaluation.setText(previewResumeBean.getData().getSpecialty());
             //
             if (!TextUtils.isEmpty(uid)) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -176,7 +177,6 @@ public class PreviewResumeActivity extends BaseActivity {
                 tv_birthday.setText(previewResumeBean.getData().getBirthdate());
                 tv_phone.setText(previewResumeBean.getData().getTelephone());
                 tv_email.setText(previewResumeBean.getData().getEmail());
-                tv_evaluation.setText(previewResumeBean.getData().getSpecialty());
                 ll_base_info.setVisibility(View.VISIBLE);
                 ll_polyv.setVisibility(View.GONE);
                 bt_talk.setVisibility(View.GONE);

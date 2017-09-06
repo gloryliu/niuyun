@@ -107,7 +107,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
             tv_education.setText(bean.getData().getEducationCn());
             rl_card.setVisibility(View.VISIBLE);
         } else {
-            rl_card.setVisibility(View.GONE);
+            rl_card.setVisibility(View.INVISIBLE);
         }
         setChatFragmentHelper(this);
         if (chatType == Constant.CHATTYPE_SINGLE) {
@@ -170,7 +170,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
             tv_education.setText(DemoHelper.getInstance().getEducationCn());
             rl_card.setVisibility(View.VISIBLE);
         } else {
-            rl_card.setVisibility(View.GONE);
+            rl_card.setVisibility(View.INVISIBLE);
         }
 
     }

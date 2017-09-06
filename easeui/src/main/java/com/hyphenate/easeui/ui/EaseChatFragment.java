@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMMessageListener;
@@ -41,6 +43,7 @@ import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
+import com.hyphenate.easeui.onReceive;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
@@ -111,6 +114,22 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
     private TitleBar titleBar;
+    public TextView tv_position_name;
+    public TextView tv_position_price;
+    public TextView tv_company_name;
+    public TextView tv_location;
+    public TextView tv_work_age;
+    public TextView tv_education;
+    public RelativeLayout rl_card;
+    public onReceive receive;
+
+    public onReceive getReceive() {
+        return receive;
+    }
+
+    public void setReceive(onReceive receive) {
+        this.receive = receive;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,9 +144,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
-        titleBar= (TitleBar) getView().findViewById(R.id.title_bar_new);
+        titleBar = (TitleBar) getView().findViewById(R.id.title_bar_new);
+        rl_card = (RelativeLayout) getView().findViewById(R.id.rl_card);
+        tv_position_name = (TextView) getView().findViewById(R.id.tv_position_name);
+        tv_position_price = (TextView) getView().findViewById(R.id.tv_position_price);
+        tv_company_name = (TextView) getView().findViewById(R.id.tv_company_name);
+        tv_location = (TextView) getView().findViewById(R.id.tv_location);
+        tv_work_age = (TextView) getView().findViewById(R.id.tv_work_age);
+        tv_education = (TextView) getView().findViewById(R.id.tv_education);
         super.onActivityCreated(savedInstanceState);
     }
+
 
     /**
      * init view
@@ -601,6 +628,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     // implement methods in EMMessageListener
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
+        if (receive!=null){
+            receive.onReceive();
+        }
         for (EMMessage message : messages) {
             String username = null;
             // group message
@@ -621,7 +651,20 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             }
         }
     }
+//    public void setCardViewData() {
+//        if (!TextUtils.isEmpty(DemoHelper.getInstance().getJobName())) {
+//            tv_position_name.setText(DemoHelper.getInstance().getJobName());
+//            tv_position_price.setText(DemoHelper.getInstance().getWage());
+//            tv_company_name.setText(DemoHelper.getInstance().getCompanyName());
+//            tv_location.setText(DemoHelper.getInstance().getDistrictCn());
+//            tv_work_age.setText(DemoHelper.getInstance().getExperienceCn());
+//            tv_education.setText(DemoHelper.getInstance().getEducationCn());
+//            rl_card.setVisibility(View.VISIBLE);
+//        } else {
+//            rl_card.setVisibility(View.GONE);
+//        }
 
+    //    }
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {
 

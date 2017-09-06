@@ -111,9 +111,9 @@ public class EnterPriseCertificationTwoActivity extends BaseActivity {
             @Override
             public void onSuccess(Call<CertificationBean> call, Response<CertificationBean> response) {
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-                    if (response.body().getData().getAuditCn().contains("已认证")) {
+//                    if (response.body().getData().getAuditCn().contains("已认证")) {
                         ImageLoadedrManager.getInstance().display(EnterPriseCertificationTwoActivity.this, Constants.COMMON_certificate_URL + response.body().getData().getCertificateImg(), iv_add_business_license, R.mipmap.ic_add_business_license_two);
-                    }
+//                    }
                     bt_certification.setText(response.body().getData().getAuditCn());
                 }
             }

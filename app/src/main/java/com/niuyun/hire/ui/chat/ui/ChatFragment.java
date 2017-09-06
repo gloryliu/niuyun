@@ -32,6 +32,7 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.onReceive;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
@@ -41,6 +42,7 @@ import com.hyphenate.util.PathUtil;
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
+import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.chat.Constant;
 import com.niuyun.hire.ui.chat.DemoHelper;
 import com.niuyun.hire.ui.chat.domain.EmojiconExampleGroupData;
@@ -86,6 +88,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
      * if it is chatBot
      */
     private boolean isRobot;
+    private JobDetailsBean bean;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,6 +97,18 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
     @Override
     protected void setUpView() {
+        bean = (JobDetailsBean) fragmentArgs.getSerializable(EaseConstant.EXTRA_CARD_MESSAGE);
+        if (bean != null) {
+            tv_position_name.setText(bean.getData().getJobsName());
+            tv_position_price.setText(bean.getData().getMinwage() / 1000 + "k-" + bean.getData().getMaxwage() / 1000 + "k");
+            tv_company_name.setText(bean.getData().getCompanyname());
+            tv_location.setText(bean.getData().getDistrictCn());
+            tv_work_age.setText(bean.getData().getExperienceCn());
+            tv_education.setText(bean.getData().getEducationCn());
+            rl_card.setVisibility(View.VISIBLE);
+        } else {
+            rl_card.setVisibility(View.GONE);
+        }
         setChatFragmentHelper(this);
         if (chatType == Constant.CHATTYPE_SINGLE) {
             Map<String, RobotUser> robotMap = DemoHelper.getInstance().getRobotList();
@@ -102,6 +117,12 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
             }
         }
         super.setUpView();
+        setReceive(new onReceive() {
+            @Override
+            public void onReceive() {
+                setCardViewData();
+            }
+        });
         // set click listener
 //        titleBar.setLeftLayoutClickListener(new OnClickListener() {
 //
@@ -137,6 +158,21 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                 }
             });
         }
+    }
+
+    private void setCardViewData() {
+        if (!TextUtils.isEmpty(DemoHelper.getInstance().getJobName())) {
+            tv_position_name.setText(DemoHelper.getInstance().getJobName());
+            tv_position_price.setText(DemoHelper.getInstance().getWage());
+            tv_company_name.setText(DemoHelper.getInstance().getCompanyName());
+            tv_location.setText(DemoHelper.getInstance().getDistrictCn());
+            tv_work_age.setText(DemoHelper.getInstance().getExperienceCn());
+            tv_education.setText(DemoHelper.getInstance().getEducationCn());
+            rl_card.setVisibility(View.VISIBLE);
+        } else {
+            rl_card.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -229,11 +265,19 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
             message.setAttribute("em_robot_message", isRobot);
         }
         //设置消息扩展属性
-        if (!TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().contactTitle)){
+        if (!TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().contactTitle)) {
             message.setAttribute("contactTitle", BaseContext.getInstance().getUserInfo().contactTitle);
         }
         message.setAttribute("chatUserName", BaseContext.getInstance().getUserInfo().chatUserName);
         message.setAttribute("avatars", Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars);
+        if (bean != null) {
+            message.setAttribute("jobName", bean.getData().getJobsName());
+            message.setAttribute("companyName", bean.getData().getCompanyname());
+            message.setAttribute("wage", bean.getData().getMinwage() / 1000 + "k-" + bean.getData().getMaxwage() / 1000 + "k");
+            message.setAttribute("districtCn", bean.getData().getDistrictCn());
+            message.setAttribute("experienceCn", bean.getData().getExperienceCn());
+            message.setAttribute("educationCn", bean.getData().getEducationCn());
+        }
     }
 
     @Override

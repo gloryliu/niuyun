@@ -63,7 +63,6 @@ import com.niuyun.hire.ui.chat.ui.VideoCallActivity;
 import com.niuyun.hire.ui.chat.ui.VoiceCallActivity;
 import com.niuyun.hire.ui.chat.utils.PreferenceManager;
 import com.niuyun.hire.ui.index.MainActivity;
-import com.niuyun.hire.utils.LogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -166,6 +165,61 @@ public class DemoHelper {
 
     public void execute(Runnable runnable) {
         executor.execute(runnable);
+    }
+
+    private String jobName;
+    private String companyName;
+    private String wage;
+    private String districtCn;
+    private String experienceCn;
+    private String educationCn;
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getWage() {
+        return wage;
+    }
+
+    public void setWage(String wage) {
+        this.wage = wage;
+    }
+
+    public String getDistrictCn() {
+        return districtCn;
+    }
+
+    public void setDistrictCn(String districtCn) {
+        this.districtCn = districtCn;
+    }
+
+    public String getExperienceCn() {
+        return experienceCn;
+    }
+
+    public void setExperienceCn(String experienceCn) {
+        this.experienceCn = experienceCn;
+    }
+
+    public String getEducationCn() {
+        return educationCn;
+    }
+
+    public void setEducationCn(String educationCn) {
+        this.educationCn = educationCn;
     }
 
     /**
@@ -1253,11 +1307,14 @@ public class DemoHelper {
                     try {
                         chatUserName = message.getStringAttribute("chatUserName", "");
                         avatars = message.getStringAttribute("avatars", "");
-                        LogUtils.e("测试头像：" + avatars);
-                        LogUtils.e("测试名称：" + chatUserName);
                         contactTitle = message.getStringAttribute("contactTitle", "");
-                        LogUtils.e("测试名称：" + contactTitle);
 
+                        jobName=message.getStringAttribute("jobName");
+                        companyName=message.getStringAttribute("companyName");
+                        wage=message.getStringAttribute("wage");
+                        districtCn=message.getStringAttribute("districtCn");
+                        experienceCn=message.getStringAttribute("experienceCn");
+                        educationCn=message.getStringAttribute("educationCn");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

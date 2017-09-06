@@ -278,6 +278,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                     if (bean != null) {
                         Intent intent = new Intent(this, ChatActivity.class);
                         intent.putExtra(Constant.EXTRA_USER_ID, "niuyunApp" + bean.getData().getUid());
+                        intent.putExtra(Constant.EXTRA_CARD_MESSAGE, bean);
                         startActivity(intent);
                     }
 

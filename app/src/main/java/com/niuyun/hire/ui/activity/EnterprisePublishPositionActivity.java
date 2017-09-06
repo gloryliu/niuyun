@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.hyphenate.easeui.ui.EaseBaiduMapActivity;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
@@ -404,6 +405,7 @@ public class EnterprisePublishPositionActivity extends BaseActivity implements V
         map.put("wage", wage);
         map.put("wageCn", wageCn);
         map.put("uid", BaseContext.getInstance().getUserInfo().uid + "");
+        LogUtils.e(JSON.toJSONString(map));
         Call<SuperBean<String>> publishPositionCall;
         if (editBean != null) {
             map.put("id", editBean.getId() + "");

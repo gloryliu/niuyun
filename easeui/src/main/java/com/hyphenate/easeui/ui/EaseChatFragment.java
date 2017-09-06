@@ -628,9 +628,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     // implement methods in EMMessageListener
     @Override
     public void onMessageReceived(List<EMMessage> messages) {
-        if (receive!=null){
-            receive.onReceive();
-        }
+
         for (EMMessage message : messages) {
             String username = null;
             // group message
@@ -650,6 +648,15 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 EaseUI.getInstance().getNotifier().onNewMsg(message);
             }
         }
+        rl_card.post(new Runnable() {
+            @Override
+            public void run() {
+                if (receive!=null){
+                    receive.onReceive();
+                }
+            }
+        });
+
     }
 //    public void setCardViewData() {
 //        if (!TextUtils.isEmpty(DemoHelper.getInstance().getJobName())) {

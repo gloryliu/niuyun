@@ -91,7 +91,7 @@ public class IndexLiveListItemAdapter extends RecyclerView.Adapter<RecyclerView.
                 ((ImageViewHolder) viewHolder).iv_is_live.setVisibility(View.GONE);
             }
             ImageLoadedrManager.getInstance().display(context, Constants.COMMON_cover_URL + list.get(position).getCoverImage(), ((ImageViewHolder) viewHolder).iv_live_cover);
-            ImageLoadedrManager.getInstance().display(context, Constants.COMMON_PERSON_URL + list.get(position).getLogoImage(), ((ImageViewHolder) viewHolder).iv_head);
+            ImageLoadedrManager.getInstance().display(context, Constants.COMMON_PERSON_URL + list.get(position).getLogoImage(), ((ImageViewHolder) viewHolder).iv_head,R.mipmap.ic_default_head);
             if (!TextUtils.isEmpty(list.get(position).getTagCn())) {
                 String arr[] = list.get(position).getTagCn().split(",");
                 bindTags(arr, (ImageViewHolder) viewHolder);

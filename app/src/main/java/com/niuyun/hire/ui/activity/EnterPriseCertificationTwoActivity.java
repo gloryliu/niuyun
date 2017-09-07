@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,8 @@ public class EnterPriseCertificationTwoActivity extends BaseActivity {
     ImageView iv_add_business_license;
     @BindView(R.id.bt_certification)
     Button bt_certification;
+    @BindView(R.id.tv_no_upload)
+    TextView tv_no_upload;
     List<String> list = new ArrayList<String>();
     private Call<SuperBean<String>> upLoadImageCall;
 
@@ -112,7 +115,10 @@ public class EnterPriseCertificationTwoActivity extends BaseActivity {
             public void onSuccess(Call<CertificationBean> call, Response<CertificationBean> response) {
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
 //                    if (response.body().getData().getAuditCn().contains("已认证")) {
-                        ImageLoadedrManager.getInstance().display(EnterPriseCertificationTwoActivity.this, Constants.COMMON_certificate_URL + response.body().getData().getCertificateImg(), iv_add_business_license, R.mipmap.ic_add_business_license_two);
+                    if (response.body()!=null&&response.body().getData()!=null&&!TextUtils.isEmpty(response.body().getData().getCertificateImg())) {
+                        tv_no_upload.setVisibility(View.GONE);
+                    }
+                    ImageLoadedrManager.getInstance().display(EnterPriseCertificationTwoActivity.this, Constants.COMMON_certificate_URL + response.body().getData().getCertificateImg(), iv_add_business_license, R.mipmap.ic_add_business_license_two);
 //                    }
                     bt_certification.setText(response.body().getData().getAuditCn());
                 }

@@ -219,7 +219,12 @@ public class PreviewResumeActivity extends BaseActivity {
      */
     private void getResume() {
         DialogUtils.showDialog(this, "加载中...", false);
-        previewResumeCall = RestAdapterManager.getApi().previewResume(uid);
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            previewResumeCall = RestAdapterManager.getApi().previewResume(uid, BaseContext.getInstance().getUserInfo().companyId + "");
+        } else {
+            previewResumeCall = RestAdapterManager.getApi().previewResume(uid, "0");
+        }
         previewResumeCall.enqueue(new JyCallBack<PreviewResumeBean>() {
             @Override
             public void onSuccess(Call<PreviewResumeBean> call, Response<PreviewResumeBean> response) {

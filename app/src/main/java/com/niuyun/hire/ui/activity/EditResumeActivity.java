@@ -250,7 +250,7 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
      */
     private void getResume() {
         DialogUtils.showDialog(this, "加载中...", false);
-        previewResumeCall = RestAdapterManager.getApi().previewResume(BaseContext.getInstance().getUserInfo().uid + "");
+        previewResumeCall = RestAdapterManager.getApi().previewResume(BaseContext.getInstance().getUserInfo().uid + "","0");
         previewResumeCall.enqueue(new JyCallBack<PreviewResumeBean>() {
             @Override
             public void onSuccess(Call<PreviewResumeBean> call, Response<PreviewResumeBean> response) {
@@ -258,7 +258,6 @@ public class EditResumeActivity extends BaseActivity implements View.OnClickList
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     previewResumeBean = response.body();
                     setDate();
-
                 } else {
                     UIUtil.showToast("接口异常");
                 }

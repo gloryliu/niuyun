@@ -12,6 +12,7 @@ import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.AttentionListActivity;
+import com.niuyun.hire.ui.activity.AttentionMeListActivity;
 import com.niuyun.hire.ui.activity.CompanyDetailsActivity;
 import com.niuyun.hire.ui.activity.EditResumeActivity;
 import com.niuyun.hire.ui.activity.EnterPriseCertificationTwoActivity;
@@ -154,6 +155,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.rl_watched:
                 //谁看过我
+                Intent AttentionMe = new Intent(getActivity(), AttentionMeListActivity.class);
+                startActivity(AttentionMe);
                 break;
             case R.id.tv_edit_resume:
                 //编辑简历

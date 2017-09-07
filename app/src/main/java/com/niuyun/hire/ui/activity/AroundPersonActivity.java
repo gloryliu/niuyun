@@ -99,10 +99,11 @@ public class AroundPersonActivity extends BaseActivity {
     protected View isNeedLec() {
         return null;
     }
+
     private void initData() {
         if (previewResumeBean != null && previewResumeBean.getData() != null) {
-            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + previewResumeBean.getData().getAvatars(), iv_head,R.mipmap.ic_default_head);
-            tv_name.setText(previewResumeBean.getData().getRealname()+"|"+previewResumeBean.getData().getSexCn());
+            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + previewResumeBean.getData().getAvatars(), iv_head, R.mipmap.ic_default_head);
+            tv_name.setText(previewResumeBean.getData().getRealname() + "|" + previewResumeBean.getData().getSexCn());
             tv_content.setText(previewResumeBean.getData().getResidence() + "|" + previewResumeBean.getData().getExperienceCn() + "|" + previewResumeBean.getData().getEducationCn());
 //            tv_current_company_name.setText(previewResumeBean.getData().get);
             tv_evaluation.setText(previewResumeBean.getData().getSpecialty());
@@ -117,12 +118,19 @@ public class AroundPersonActivity extends BaseActivity {
         }
 
     }
+
     /**
      * 获取预览简历数据
      */
     private void getResume() {
         DialogUtils.showDialog(this, "加载中...", false);
-        previewResumeCall = RestAdapterManager.getApi().previewResume(uid);
+        if (BaseContext.getInstance().getUserInfo() != null) {
+
+            previewResumeCall = RestAdapterManager.getApi().previewResume(uid, BaseContext.getInstance().getUserInfo().companyId + "");
+        } else {
+            previewResumeCall = RestAdapterManager.getApi().previewResume(uid, "0");
+
+        }
         previewResumeCall.enqueue(new JyCallBack<PreviewResumeBean>() {
             @Override
             public void onSuccess(Call<PreviewResumeBean> call, Response<PreviewResumeBean> response) {
@@ -149,6 +157,7 @@ public class AroundPersonActivity extends BaseActivity {
             }
         });
     }
+
     private void initTitle() {
         titleView.setTitle("附近");
         titleView.setTitleColor(Color.WHITE);

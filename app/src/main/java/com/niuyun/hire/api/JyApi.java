@@ -5,6 +5,7 @@ import com.niuyun.hire.bean.ErrorBean;
 import com.niuyun.hire.ui.bean.AllJobsBean;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.AroundResultBean;
+import com.niuyun.hire.ui.bean.AttentionMeBean;
 import com.niuyun.hire.ui.bean.CertificationBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
@@ -394,7 +395,7 @@ public interface JyApi {
      * 预览简历数据
      */
     @GET("/resource/resume/resumePreView")
-    Call<PreviewResumeBean> previewResume(@Query("uid") String uid);
+    Call<PreviewResumeBean> previewResume(@Query("uid") String uid,@Query("companyId") String companyId);
 
     /**
      * 获取个人信息
@@ -426,6 +427,14 @@ public interface JyApi {
      */
     @POST("/resource/jobs/getFollows")
     Call<MyAttentionListBean> getMyAttention(@Body Map<String, String> map);
+    /**
+     * 谁看过我
+     *
+     * @param uid
+     * @return
+     */
+    @GET("/resource/lookme/getAllLookMe")
+    Call<AttentionMeBean> getAttentionMe(@Query("uid") String uid);
 
     /**
      * 新增求职意向

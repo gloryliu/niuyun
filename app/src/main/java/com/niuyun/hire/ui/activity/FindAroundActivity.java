@@ -122,7 +122,7 @@ public class FindAroundActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         DialogUtils.showDialog(this, "", true);
         map.put("lookType", lookType + "");
-        map.put("mapX", BaseContext.getInstance().getLocationInfo().latitude + "");
+        map.put("mapX", BaseContext.getInstance().getLocationInfo().latitude + "");//维度
         map.put("mapY", BaseContext.getInstance().getLocationInfo().longitude + "");
 //        map.put("mapX", "0");
 //        map.put("mapY", "0");

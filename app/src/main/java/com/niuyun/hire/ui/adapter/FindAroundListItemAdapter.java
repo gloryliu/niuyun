@@ -90,7 +90,7 @@ public class FindAroundListItemAdapter extends RecyclerView.Adapter<RecyclerView
             if (list.get(position).getType() == 2) {
                 //人
                 try {
-                    ImageLoadedrManager.getInstance().displayRound(context, Constants.COMMON_PERSON_URL + list.get(position).getAvatars(), ((ImageViewHolder) viewHolder).iv_company, R.mipmap.ic_default_head, 100);
+                    ImageLoadedrManager.getInstance().displayCycle(context, Constants.COMMON_PERSON_URL + list.get(position).getAvatars(), ((ImageViewHolder) viewHolder).iv_company, R.mipmap.ic_default_head);
 
                 } catch (Exception e) {
                 }

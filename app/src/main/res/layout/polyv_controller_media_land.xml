@@ -30,7 +30,7 @@
             style="@style/iv_click_controller_land_top"
             android:layout_marginRight="@dimen/common_margin_lr"
             android:layout_toLeftOf="@id/iv_set"
-            android:src="@drawable/rp_ad_share" />
+            />
 
         <TextView
             android:id="@+id/tv_title"

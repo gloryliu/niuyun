@@ -20,7 +20,6 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
-import com.niuyun.hire.ui.chat.Constant;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -277,8 +276,8 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                 } else {
                     if (bean != null) {
                         Intent intent = new Intent(this, ChatActivity.class);
-                        intent.putExtra(Constant.EXTRA_USER_ID, "niuyunApp" + bean.getData().getUid());
-                        intent.putExtra(Constant.EXTRA_CARD_MESSAGE, bean);
+                        intent.putExtra(Constants.EXTRA_USER_ID, "niuyunApp" + bean.getData().getUid());
+                        intent.putExtra(Constants.EXTRA_CARD_MESSAGE, bean);
                         startActivity(intent);
                     }
 

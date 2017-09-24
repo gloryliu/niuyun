@@ -13,21 +13,12 @@ import com.baidu.mapapi.SDKInitializer;
 import com.easefun.polyvsdk.PolyvDevMountInfo;
 import com.easefun.polyvsdk.PolyvSDKClient;
 import com.easefun.polyvsdk.live.chat.PolyvChatManager;
-import com.easemob.redpacketsdk.RPInitRedPacketCallback;
-import com.easemob.redpacketsdk.RPValueCallback;
-import com.easemob.redpacketsdk.RedPacket;
-import com.easemob.redpacketsdk.bean.RedPacketInfo;
-import com.easemob.redpacketsdk.bean.TokenData;
-import com.easemob.redpacketsdk.constant.RPConstant;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.niuyun.hire.ui.activity.SplashScreenActivity;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.City;
 import com.niuyun.hire.ui.bean.LocationInfo;
 import com.niuyun.hire.ui.bean.UserInfoBean;
-import com.niuyun.hire.ui.chat.DemoHelper;
+import com.niuyun.hire.ui.chat.utils.Foreground;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.SharePreManager;
 import com.niuyun.hire.utils.SharePrefUtil;
@@ -44,6 +35,11 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushListener;
+import com.tencent.imsdk.TIMOfflinePushNotification;
+import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
 import java.io.File;
 import java.util.List;
@@ -152,41 +148,52 @@ public class BaseContext extends MultiDexApplication {
 
 
         //init demo helper
-        DemoHelper.getInstance().init(this);
+//        DemoHelper.getInstance().init(this);
         //red packet code : 初始化红包SDK，开启日志输出开关
-        RedPacket.getInstance().initRedPacket(this, RPConstant.AUTH_METHOD_EASEMOB, new RPInitRedPacketCallback() {
-
-            @Override
-            public void initTokenData(RPValueCallback<TokenData> callback) {
-                TokenData tokenData = new TokenData();
-                tokenData.imUserId = EMClient.getInstance().getCurrentUser();
-                //此处使用环信id代替了appUserId 开发者可传入App的appUserId
-                tokenData.appUserId = EMClient.getInstance().getCurrentUser();
-                tokenData.imToken = EMClient.getInstance().getAccessToken();
-                //同步或异步获取TokenData 获取成功后回调onSuccess()方法
-                callback.onSuccess(tokenData);
-            }
-
-            @Override
-            public RedPacketInfo initCurrentUserSync() {
-                //这里需要同步设置当前用户id、昵称和头像url
-                String fromAvatarUrl = "";
-                String fromNickname = EMClient.getInstance().getCurrentUser();
-                EaseUser easeUser = EaseUserUtils.getUserInfo(fromNickname);
-                if (easeUser != null) {
-                    fromAvatarUrl = TextUtils.isEmpty(easeUser.getAvatar()) ? "none" : easeUser.getAvatar();
-                    fromNickname = TextUtils.isEmpty(easeUser.getNick()) ? easeUser.getUsername() : easeUser.getNick();
-                }
-                RedPacketInfo redPacketInfo = new RedPacketInfo();
-                redPacketInfo.fromUserId = EMClient.getInstance().getCurrentUser();
-                redPacketInfo.fromAvatarUrl = fromAvatarUrl;
-                redPacketInfo.fromNickName = fromNickname;
-                return redPacketInfo;
-            }
-        });
-        RedPacket.getInstance().setDebugMode(true);
+//        RedPacket.getInstance().initRedPacket(this, RPConstant.AUTH_METHOD_EASEMOB, new RPInitRedPacketCallback() {
+//
+//            @Override
+//            public void initTokenData(RPValueCallback<TokenData> callback) {
+//                TokenData tokenData = new TokenData();
+//                tokenData.imUserId = EMClient.getInstance().getCurrentUser();
+//                //此处使用环信id代替了appUserId 开发者可传入App的appUserId
+//                tokenData.appUserId = EMClient.getInstance().getCurrentUser();
+//                tokenData.imToken = EMClient.getInstance().getAccessToken();
+//                //同步或异步获取TokenData 获取成功后回调onSuccess()方法
+//                callback.onSuccess(tokenData);
+//            }
+//
+//            @Override
+//            public RedPacketInfo initCurrentUserSync() {
+//                //这里需要同步设置当前用户id、昵称和头像url
+//                String fromAvatarUrl = "";
+//                String fromNickname = EMClient.getInstance().getCurrentUser();
+//                EaseUser easeUser = EaseUserUtils.getUserInfo(fromNickname);
+//                if (easeUser != null) {
+//                    fromAvatarUrl = TextUtils.isEmpty(easeUser.getAvatar()) ? "none" : easeUser.getAvatar();
+//                    fromNickname = TextUtils.isEmpty(easeUser.getNick()) ? easeUser.getUsername() : easeUser.getNick();
+//                }
+//                RedPacketInfo redPacketInfo = new RedPacketInfo();
+//                redPacketInfo.fromUserId = EMClient.getInstance().getCurrentUser();
+//                redPacketInfo.fromAvatarUrl = fromAvatarUrl;
+//                redPacketInfo.fromNickName = fromNickname;
+//                return redPacketInfo;
+//            }
+//        });
+//        RedPacket.getInstance().setDebugMode(true);
         //end of red packet code
-
+        Foreground.init(this);
+        if(MsfSdkUtils.isMainProcess(this)) {
+            TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
+                @Override
+                public void handleNotification(TIMOfflinePushNotification notification) {
+                    if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify){
+                        //消息被设置为需要提醒
+                        notification.doNotify(getApplicationContext(), android.R.mipmap.sym_def_app_icon);
+                    }
+                }
+            });
+        }
 
     }
 
@@ -333,7 +340,7 @@ public class BaseContext extends MultiDexApplication {
      * 清除用户信息
      */
     public void Exit() {
-        EMClient.getInstance().logout(false);
+//        EMClient.getInstance().logout(false);
         SharePreManager.instance(this).clearUserInfO();
         userInfo = null;
         AppManager.getAppManager().finishAllActivity();

@@ -16,7 +16,6 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
-import com.niuyun.hire.ui.chat.Constant;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -71,7 +70,7 @@ public class AroundPersonActivity extends BaseActivity {
                 } else {
                     if (previewResumeBean != null) {
                         Intent intent = new Intent(AroundPersonActivity.this, ChatActivity.class);
-                        intent.putExtra(Constant.EXTRA_USER_ID, "niuyunApp" + uid);
+                        intent.putExtra(Constants.EXTRA_USER_ID, "niuyunApp" + uid);
                         startActivity(intent);
                     }
 

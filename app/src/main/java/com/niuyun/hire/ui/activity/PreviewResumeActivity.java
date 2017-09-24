@@ -25,7 +25,6 @@ import com.niuyun.hire.ui.adapter.PreViewResumeIntentListAdapter;
 import com.niuyun.hire.ui.adapter.PreviewResumeEducationAdapter;
 import com.niuyun.hire.ui.adapter.PreviewResumeExperienceAdapter;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
-import com.niuyun.hire.ui.chat.Constant;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
 import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.DialogUtils;
@@ -106,7 +105,7 @@ public class PreviewResumeActivity extends BaseActivity {
                 } else {
                     if (previewResumeBean != null) {
                         Intent intent = new Intent(PreviewResumeActivity.this, ChatActivity.class);
-                        intent.putExtra(Constant.EXTRA_USER_ID, "niuyunApp" + uid);
+                        intent.putExtra(Constants.EXTRA_USER_ID, "niuyunApp" + uid);
                         startActivity(intent);
                     }
 

@@ -1,26 +1,16 @@
 package com.niuyun.hire.ui.index;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.AppManager;
 import com.niuyun.hire.base.BaseActivity;
@@ -29,17 +19,12 @@ import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.activity.PerfectEnterpriseInformation;
 import com.niuyun.hire.ui.activity.PerfectPersonInformation;
-import com.niuyun.hire.ui.chat.Constant;
-import com.niuyun.hire.ui.chat.DemoHelper;
-import com.niuyun.hire.ui.chat.db.DemoDBManager;
-import com.niuyun.hire.ui.chat.runtimepermissions.PermissionsManager;
-import com.niuyun.hire.ui.chat.runtimepermissions.PermissionsResultAction;
-import com.niuyun.hire.ui.chat.ui.LoginActivity;
 import com.niuyun.hire.ui.index.fragment.AlljobSeekerFragment;
 import com.niuyun.hire.ui.index.fragment.EnterpriseIndexFragment;
 import com.niuyun.hire.ui.index.fragment.FindFragment;
 import com.niuyun.hire.ui.index.fragment.LiveFragment;
 import com.niuyun.hire.ui.index.fragment.MyFragment;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -74,17 +59,6 @@ public class EnterpriseMainActivity extends BaseActivity {
 
     @Override
     public int getContentViewLayoutId() {
-        if (getIntent() != null &&
-                (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) ||
-                        getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
-                        getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false))) {
-            DemoHelper.getInstance().logout(false, null);
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        } else if (getIntent() != null && getIntent().getBooleanExtra("isConflict", false)) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
         return R.layout.activity_main;
     }
 
@@ -149,10 +123,8 @@ public class EnterpriseMainActivity extends BaseActivity {
 
 
         if (BaseContext.getInstance().getUserInfo() != null) {
-
-            initChat();
-            initMessage();
             checkData();
+            LoginUtils.initChat();
         }
     }
 
@@ -189,105 +161,7 @@ public class EnterpriseMainActivity extends BaseActivity {
 
     }
 
-    /**
-     * 登陆聊天
-     */
-    private void initChat() {
-        if (TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().chatUserName) || TextUtils.isEmpty(BaseContext.getInstance().getUserInfo().chatPwd)) {
-            return;
-        }
-        // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
-        // close it before login to make sure DemoDB not overlap
-        DemoDBManager.getInstance().closeDB();
 
-        // reset current user name before login
-        DemoHelper.getInstance().setCurrentUserName(BaseContext.getInstance().getUserInfo().chatUserName);
-        EMClient.getInstance().login(BaseContext.getInstance().getUserInfo().chatUserName, BaseContext.getInstance().getUserInfo().chatPwd, new EMCallBack() {
-
-            @Override
-            public void onSuccess() {
-
-
-                // ** manually load all local groups and conversation
-                EMClient.getInstance().groupManager().loadAllGroups();
-                EMClient.getInstance().chatManager().loadAllConversations();
-
-                // update current user's display name for APNs
-                boolean updatenick = EMClient.getInstance().pushManager().updatePushNickname(
-                        BaseContext.currentUserNick.trim());
-                if (!updatenick) {
-                    Log.e("LoginActivity", "update current user nick fail");
-                }
-
-//                if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
-//                    pd.dismiss();
-//                }
-                // get user's info (this should be get from App's server or 3rd party service)
-                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-
-//                Intent intent = new Intent(LoginActivity.this,
-//                        MainActivity.class);
-//                startActivity(intent);
-
-//                finish();
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-//                Log.d(TAG, "login: onProgress");
-            }
-
-            @Override
-            public void onError(final int code, final String message) {
-//                Log.d(TAG, "login: onError: " + code);
-//                if (!progressShow) {
-//                    return;
-//                }
-                runOnUiThread(new Runnable() {
-                    public void run() {
-//                        pd.dismiss();
-                        Toast.makeText(getApplicationContext(), getString(R.string.Login_failed) + message,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
-
-    private void initMessage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String packageName = getPackageName();
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                try {
-                    //some device doesn't has activity to handle this intent
-                    //so add try catch
-                    Intent intent = new Intent();
-                    intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                    intent.setData(Uri.parse("package:" + packageName));
-                    startActivity(intent);
-                } catch (Exception e) {
-                }
-            }
-        }
-        if (getIntent() != null &&
-                (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) ||
-                        getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
-                        getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false))) {
-            DemoHelper.getInstance().logout(false, null);
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-            return;
-        } else if (getIntent() != null && getIntent().getBooleanExtra("isConflict", false)) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-            return;
-        }
-//        setContentView(R.layout.em_activity_main);
-        // runtime permission for android 6.0, just require all permissions here for simple
-        requestPermissions();
-
-    }
 
     @Override
     public void loadData() {
@@ -303,9 +177,8 @@ public class EnterpriseMainActivity extends BaseActivity {
         if (null != eventBusCenter) {
             if (eventBusCenter.getEvenCode()== Constants.LOGIN_SUCCESS){
                 if (BaseContext.getInstance().getUserInfo() != null) {
-                    initChat();
-                    initMessage();
                     checkData();
+                    LoginUtils.initChat();
                 }
             }
         }
@@ -344,27 +217,5 @@ public class EnterpriseMainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @TargetApi(23)
-    private void requestPermissions() {
-        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(this, new PermissionsResultAction() {
-            @Override
-            public void onGranted() {
-//				Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onDenied(String permission) {
-                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
     }
 }

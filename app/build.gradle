@@ -24,6 +24,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
+            ndk {
+                // 需要将 x86 架构过滤掉
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+            }
         }
     }
     lintOptions {
@@ -61,7 +65,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'org.greenrobot:greendao:3.2.2'
-    compile 'com.android.support:support-v4:25.1.0'
+//    compile 'com.android.support:support-v4:25.1.0'
+//    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
     compile 'com.android.support:design:25.1.0'
@@ -73,7 +78,7 @@ dependencies {
     //下拉刷新
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-7'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.2-alpha-7'
-    compile project(':redpacketlibrary')
+    //    compile project(':redpacketlibrary')
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
@@ -114,6 +119,11 @@ dependencies {
     compile files('libs/alicloud-android-sdk-httpdns-1.1.0.jar')
     compile files('libs/alicloud-android-utils-1.0.2.jar')
     compile files('libs/fastjson-1.2.5.jar')
+    compile project(':ui')
+    compile files('libs/BaiduLBS_Android.jar')
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }
 def getDate() {
     def date = new Date()

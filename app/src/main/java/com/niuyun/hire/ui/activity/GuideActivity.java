@@ -15,7 +15,6 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.ViewPagerAdapter;
-import com.niuyun.hire.ui.index.MainActivity;
 
 import java.util.ArrayList;
 
@@ -42,8 +41,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
     private boolean misScrolled;
     // 引导图片资源
     private static final int[] mGuidePics = {
-            R.mipmap.ic_login,
-            R.mipmap.ic_login, R.mipmap.ic_login
+            R.mipmap.ic_guide1,
+            R.mipmap.ic_guide2, R.mipmap.ic_guide3
     };
 
     // 底部小点的图片

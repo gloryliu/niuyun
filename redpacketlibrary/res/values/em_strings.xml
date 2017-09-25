@@ -1,9 +1,0 @@
-<resources xmlns:tools="http://schemas.Android.com/tools" tools:ignore="MissingTranslation">
-    <string name="msg_take_red_packet" translatable="false">You got your own Red Packet</string>
-    <string name="msg_take_someone_red_packet" translatable="false">You got Red Packet from %1$s</string>
-    <string name="msg_someone_take_red_packet" translatable="false">%1$s got your Red Packet</string>
-    <string name="easemob_red_packet" translatable="false">Easemob Red Packet</string>
-    <string name="attach_red_packet" translatable="false">Red Packet</string>
-    <string name="red_packet_record" translatable="false">Red Packet Records</string>
-    <string name="exclusive_red_packet" translatable="false">Exclusive Red Packet</string>
-</resources>

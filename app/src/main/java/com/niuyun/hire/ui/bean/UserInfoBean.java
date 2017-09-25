@@ -21,14 +21,15 @@ public class UserInfoBean extends ErrorBean {
     public int perfect;
     public String token;
     /**
-     * 环信登陆用户名
+     * 云通讯登陆id
      */
-    public String chatUserName;
+    private String identify;
 
     /**
-     * 环信登陆密码
+     * 服务器授权签名
      */
-    public String chatPwd;
+    private String userSig;
+
 
     /**
      * 简历id

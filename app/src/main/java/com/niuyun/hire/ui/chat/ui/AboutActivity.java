@@ -32,7 +32,7 @@ public class AboutActivity extends FragmentActivity {
         tlssdk.setContent(TLSHelper.getInstance().getSDKVersion());
         final LineControllerView env = (LineControllerView) findViewById(R.id.env);
         env.setContent(getString(TIMManager.getInstance().getEnv() == 0 ? R.string.about_env_normal : R.string.about_env_test));
-        final String[] envs = new String[]{getString(R.string.about_env_normal),getString(R.string.about_env_test)};
+        final String[] envs = new String[]{getString(R.string.about_env_normal), getString(R.string.about_env_test)};
         env.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +49,7 @@ public class AboutActivity extends FragmentActivity {
         final LineControllerView log = (LineControllerView) findViewById(R.id.logLevel);
         final TIMLogLevel[] logLevels = TIMLogLevel.values();
         final String[] logNames = new String[logLevels.length];
-        for (int i = 0 ; i < logLevels.length ; ++i){
+        for (int i = 0; i < logLevels.length; ++i) {
             logNames[i] = logLevels[i].name();
         }
         log.setContent(TIMManager.getInstance().getSdkConfig().getLogLevel().name());
@@ -69,7 +69,6 @@ public class AboutActivity extends FragmentActivity {
             }
         });
     }
-
 
 
 }

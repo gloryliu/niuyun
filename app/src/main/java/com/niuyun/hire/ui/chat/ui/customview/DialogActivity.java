@@ -16,7 +16,6 @@ import com.niuyun.hire.ui.chat.model.GroupInfo;
 import com.niuyun.hire.ui.chat.model.UserInfo;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.qcloud.presentation.business.LoginBusiness;
-import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
@@ -69,7 +68,7 @@ public class DialogActivity extends Activity implements View.OnClickListener {
     }
 
     private void logout(){
-        TlsBusiness.logout(UserInfo.getInstance().getId());
+//        TlsBusiness.logout(UserInfo.getInstance().getId());
         UserInfo.getInstance().setId(null);
         FriendshipInfo.getInstance().clear();
         GroupInfo.getInstance().clear();

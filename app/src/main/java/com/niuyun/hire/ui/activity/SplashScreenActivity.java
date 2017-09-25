@@ -22,10 +22,9 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.EventBusCenter;
-import com.niuyun.hire.ui.chat.model.UserInfo;
-import com.niuyun.hire.ui.chat.ui.HomeActivity;
 import com.niuyun.hire.ui.chat.ui.customview.DialogActivity;
 import com.niuyun.hire.ui.chat.utils.PushUtil;
+import com.niuyun.hire.utils.SharePreManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
@@ -39,11 +38,6 @@ import com.tencent.qcloud.presentation.event.FriendshipEvent;
 import com.tencent.qcloud.presentation.event.GroupEvent;
 import com.tencent.qcloud.presentation.event.MessageEvent;
 import com.tencent.qcloud.presentation.event.RefreshEvent;
-import com.tencent.qcloud.presentation.presenter.SplashPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.SplashView;
-import com.tencent.qcloud.tlslibrary.activity.HostLoginActivity;
-import com.tencent.qcloud.tlslibrary.service.TLSService;
-import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 import com.tencent.qcloud.ui.NotifyDialog;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
@@ -55,15 +49,16 @@ import java.util.List;
  * Created by dai.fengming on 2015/12/17.
  * 欢迎界面
  */
-public class SplashScreenActivity extends BaseActivity implements SplashView,TIMCallBack {
+public class SplashScreenActivity extends BaseActivity implements TIMCallBack {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private boolean isFirstStart = true;
-    SplashPresenter presenter;
+    //    SplashPresenter presenter;
     private int LOGIN_RESULT_CODE = 100;
     private int GOOGLE_PLAY_RESULT_CODE = 200;
     private final int REQUEST_PHONE_PERMISSIONS = 0;
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
+
     @Override
     public int getContentViewLayoutId() {
         return R.layout.activity_splash_screen;
@@ -73,6 +68,31 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
     public void initViewsAndEvents() {
         initLocation();
         setIsOpenTitle(false);
+        clearNotification();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        final List<String> permissionsList = new ArrayList<>();
+//        if (ConnectionResult.SUCCESS != GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)){
+//            Toast.makeText(this, getString(R.string.google_service_not_available), Toast.LENGTH_SHORT).show();
+////            GoogleApiAvailability.getInstance().getErrorDialog(this, GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this),
+////                    GOOGLE_PLAY_RESULT_CODE).show();
+//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED))
+                permissionsList.add(Manifest.permission.READ_PHONE_STATE);
+            if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
+                permissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionsList.size() == 0) {
+                init();
+            } else {
+                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                        REQUEST_PHONE_PERMISSIONS);
+            }
+        } else {
+            init();
+        }
+    }
+
+    private void start() {
         sharedPreferences = getSharedPreferences("SplashScreenActivity", Context.MODE_PRIVATE); //私有数据
         editor = sharedPreferences.edit();//获取编辑器
         if (sharedPreferences != null) {
@@ -93,34 +113,9 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
                     startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                     SplashScreenActivity.this.finish();
                 }
-            }, 2000);
-//            this.finish();
-        }
-        clearNotification();
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_splash);
-        final List<String> permissionsList = new ArrayList<>();
-//        if (ConnectionResult.SUCCESS != GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)){
-//            Toast.makeText(this, getString(R.string.google_service_not_available), Toast.LENGTH_SHORT).show();
-////            GoogleApiAvailability.getInstance().getErrorDialog(this, GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this),
-////                    GOOGLE_PLAY_RESULT_CODE).show();
-//        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if ((checkSelfPermission(Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED)) permissionsList.add(Manifest.permission.READ_PHONE_STATE);
-            if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)) permissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (permissionsList.size() == 0){
-                init();
-            }else{
-                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                        REQUEST_PHONE_PERMISSIONS);
-            }
-        }else{
-            init();
+            }, 20);
         }
     }
-
-
 
     @Override
     public void loadData() {
@@ -141,6 +136,7 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
     protected View isNeedLec() {
         return null;
     }
+
     /**
      * 初始化定位
      */
@@ -159,13 +155,15 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
             startLocation();
         }
     }
+
     private void startLocation() {
         com.niuyun.hire.utils.map.LocationManager.getInstance().startLocation();
     }
+
     /**
      * 跳转到主界面
      */
-    @Override
+
     public void navToHome() {
         //登录之前要初始化群和好友关系链缓存
         TIMUserConfig userConfig = new TIMUserConfig();
@@ -211,25 +209,28 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
         userConfig = GroupEvent.getInstance().init(userConfig);
         userConfig = MessageEvent.getInstance().init(userConfig);
         TIMManager.getInstance().setUserConfig(userConfig);
-        LoginBusiness.loginIm(UserInfo.getInstance().getId(), UserInfo.getInstance().getUserSig(), this);
+        if (BaseContext.getInstance().getUserInfo() != null) {
+//            LoginBusiness.loginIm(UserInfo.getInstance().getId(), UserInfo.getInstance().getUserSig(), this);
+            LoginBusiness.loginIm("chen123456", "1234567890", this);
+        }
     }
 
     /**
      * 跳转到登录界面
      */
-    @Override
     public void navToLogin() {
-        Intent intent = new Intent(getApplicationContext(), HostLoginActivity.class);
-        startActivityForResult(intent, LOGIN_RESULT_CODE);
+//        Intent intent = new Intent(getApplicationContext(), HostLoginActivity.class);
+//        startActivityForResult(intent, LOGIN_RESULT_CODE);
+        SharePreManager.instance(this).clearUserInfO();
+        start();
     }
 
     /**
      * 是否已有用户登录
      */
-    @Override
-    public boolean isUserLogin() {
-        return UserInfo.getInstance().getId()!= null && (!TLSService.getInstance().needLogin(UserInfo.getInstance().getId()));
-    }
+//    public boolean isUserLogin() {
+//        return UserInfo.getInstance().getId()!= null && (!TLSService.getInstance().needLogin(UserInfo.getInstance().getId()));
+//    }
 
     /**
      * imsdk登录失败后回调
@@ -249,11 +250,11 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
                 });
                 break;
             case 6200:
-                Toast.makeText(this,getString(R.string.login_error_timeout),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.login_error_timeout), Toast.LENGTH_SHORT).show();
                 navToLogin();
                 break;
             default:
-                Toast.makeText(this,getString(R.string.login_error),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                 navToLogin();
                 break;
         }
@@ -272,9 +273,9 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
         MessageEvent.getInstance();
         String deviceMan = android.os.Build.MANUFACTURER;
         //注册小米和华为推送
-        if (deviceMan.equals("Xiaomi") && shouldMiInit()){
+        if (deviceMan.equals("Xiaomi") && shouldMiInit()) {
             MiPushClient.registerPush(getApplicationContext(), "2882303761517480335", "5411748055335");
-        }else if (deviceMan.equals("HUAWEI")){
+        } else if (deviceMan.equals("HUAWEI")) {
             PushManager.requestToken(this);
         }
 
@@ -287,10 +288,11 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
 //            TIMManager.getInstance().setOfflinePushToken(param, null);
 //        }
 //        MiPushClient.clearNotification(getApplicationContext());
-        Log.d(TAG, "imsdk env " + TIMManager.getInstance().getEnv());
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-        finish();
+//        Log.d(TAG, "imsdk env " + TIMManager.getInstance().getEnv());
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        startActivity(intent);
+//        finish();
+        start();
     }
 
     @Override
@@ -298,15 +300,15 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult code:" + requestCode);
         if (LOGIN_RESULT_CODE == requestCode) {
-            Log.d(TAG, "login error no " + TLSService.getInstance().getLastErrno());
-            if (0 == TLSService.getInstance().getLastErrno()){
-                String id = TLSService.getInstance().getLastUserIdentifier();
-                UserInfo.getInstance().setId(id);
-                UserInfo.getInstance().setUserSig(TLSService.getInstance().getUserSig(id));
-                navToHome();
-            } else if (resultCode == RESULT_CANCELED){
-                finish();
-            }
+//            Log.d(TAG, "login error no " + TLSService.getInstance().getLastErrno());
+//            if (0 == TLSService.getInstance().getLastErrno()){
+//                String id = TLSService.getInstance().getLastUserIdentifier();
+//                UserInfo.getInstance().setId(id);
+//                UserInfo.getInstance().setUserSig(TLSService.getInstance().getUserSig(id));
+//                navToHome();
+//            } else if (resultCode == RESULT_CANCELED){
+//                finish();
+//            }
         }
     }
 
@@ -318,12 +320,12 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     init();
                 } else {
-                    Toast.makeText(this, getString(R.string.need_permission),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.need_permission), Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 break;
             case 11:
-                if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startLocation();
                 } else {
                     UIUtil.showToast("无法获取位置权限，请重新设置");
@@ -335,18 +337,24 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
     }
 
 
-    private void init(){
+    private void init() {
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
         int loglvl = pref.getInt("loglvl", TIMLogLevel.DEBUG.ordinal());
         //初始化IMSDK
-        InitBusiness.start(getApplicationContext(),loglvl);
+        InitBusiness.start(getApplicationContext(), loglvl);
         //初始化TLS
-        TlsBusiness.init(getApplicationContext());
-        String id =  TLSService.getInstance().getLastUserIdentifier();
-        UserInfo.getInstance().setId(id);
-        UserInfo.getInstance().setUserSig(TLSService.getInstance().getUserSig(id));
-        presenter = new SplashPresenter(this);
-        presenter.start();
+//        TlsBusiness.init(getApplicationContext());
+//        String id =  TLSService.getInstance().getLastUserIdentifier();
+//        UserInfo.getInstance().setId(id);
+//        UserInfo.getInstance().setUserSig(TLSService.getInstance().getUserSig(id));
+//        presenter = new SplashPresenter(this);
+//        presenter.start();
+        if (BaseContext.getInstance().getUserInfo() != null) {
+            navToHome();
+        }else {
+            start();
+        }
+
     }
 
     /**
@@ -368,7 +376,7 @@ public class SplashScreenActivity extends BaseActivity implements SplashView,TIM
     /**
      * 清楚所有通知栏通知
      */
-    private void clearNotification(){
+    private void clearNotification() {
         NotificationManager notificationManager = (NotificationManager) this
                 .getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancelAll();

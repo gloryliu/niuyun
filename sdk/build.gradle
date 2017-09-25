@@ -26,4 +26,6 @@ dependencies {
     compile files('libs/imsdk_sns_ext.jar')
     compile files('libs/txrtmpsdk.jar')
     compile files('libs/imsdk_ugc_ext.jar')
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
 }

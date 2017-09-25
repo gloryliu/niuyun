@@ -21,7 +21,6 @@ import com.niuyun.hire.ui.chat.model.GroupInfo;
 import com.niuyun.hire.ui.chat.model.UserInfo;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.qcloud.presentation.event.MessageEvent;
-import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +89,7 @@ public class HomeActivity extends FragmentActivity {
     }
 
     public void logout(){
-        TlsBusiness.logout(UserInfo.getInstance().getId());
+//        TlsBusiness.logout(UserInfo.getInstance().getId());
         UserInfo.getInstance().setId(null);
         MessageEvent.getInstance().clear();
         FriendshipInfo.getInstance().clear();

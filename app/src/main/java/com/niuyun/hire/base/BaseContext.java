@@ -19,6 +19,7 @@ import com.niuyun.hire.ui.bean.City;
 import com.niuyun.hire.ui.bean.LocationInfo;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.chat.utils.Foreground;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.SharePreManager;
 import com.niuyun.hire.utils.SharePrefUtil;
@@ -147,41 +148,6 @@ public class BaseContext extends MultiDexApplication {
 //        initCityDataBase();
 
 
-        //init demo helper
-//        DemoHelper.getInstance().init(this);
-        //red packet code : 初始化红包SDK，开启日志输出开关
-//        RedPacket.getInstance().initRedPacket(this, RPConstant.AUTH_METHOD_EASEMOB, new RPInitRedPacketCallback() {
-//
-//            @Override
-//            public void initTokenData(RPValueCallback<TokenData> callback) {
-//                TokenData tokenData = new TokenData();
-//                tokenData.imUserId = EMClient.getInstance().getCurrentUser();
-//                //此处使用环信id代替了appUserId 开发者可传入App的appUserId
-//                tokenData.appUserId = EMClient.getInstance().getCurrentUser();
-//                tokenData.imToken = EMClient.getInstance().getAccessToken();
-//                //同步或异步获取TokenData 获取成功后回调onSuccess()方法
-//                callback.onSuccess(tokenData);
-//            }
-//
-//            @Override
-//            public RedPacketInfo initCurrentUserSync() {
-//                //这里需要同步设置当前用户id、昵称和头像url
-//                String fromAvatarUrl = "";
-//                String fromNickname = EMClient.getInstance().getCurrentUser();
-//                EaseUser easeUser = EaseUserUtils.getUserInfo(fromNickname);
-//                if (easeUser != null) {
-//                    fromAvatarUrl = TextUtils.isEmpty(easeUser.getAvatar()) ? "none" : easeUser.getAvatar();
-//                    fromNickname = TextUtils.isEmpty(easeUser.getNick()) ? easeUser.getUsername() : easeUser.getNick();
-//                }
-//                RedPacketInfo redPacketInfo = new RedPacketInfo();
-//                redPacketInfo.fromUserId = EMClient.getInstance().getCurrentUser();
-//                redPacketInfo.fromAvatarUrl = fromAvatarUrl;
-//                redPacketInfo.fromNickName = fromNickname;
-//                return redPacketInfo;
-//            }
-//        });
-//        RedPacket.getInstance().setDebugMode(true);
-        //end of red packet code
         Foreground.init(this);
         if(MsfSdkUtils.isMainProcess(this)) {
             TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
@@ -341,6 +307,7 @@ public class BaseContext extends MultiDexApplication {
      */
     public void Exit() {
 //        EMClient.getInstance().logout(false);
+        LoginUtils.quitIm();
         SharePreManager.instance(this).clearUserInfO();
         userInfo = null;
         AppManager.getAppManager().finishAllActivity();

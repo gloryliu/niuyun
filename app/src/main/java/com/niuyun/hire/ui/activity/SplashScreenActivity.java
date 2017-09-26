@@ -211,7 +211,7 @@ public class SplashScreenActivity extends BaseActivity implements TIMCallBack {
         TIMManager.getInstance().setUserConfig(userConfig);
         if (BaseContext.getInstance().getUserInfo() != null) {
 //            LoginBusiness.loginIm(UserInfo.getInstance().getId(), UserInfo.getInstance().getUserSig(), this);
-            LoginBusiness.loginIm("chen123456", "1234567890", this);
+            LoginBusiness.loginIm(BaseContext.getInstance().getUserInfo().identify, BaseContext.getInstance().getUserInfo().userSig, this);
         }
     }
 

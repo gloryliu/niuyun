@@ -20,10 +20,9 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -53,16 +52,20 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.view.TitleBar;
+
+import butterknife.BindView;
 
 public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderResultListener {
-
+    @BindView(R.id.title_view)
+    TitleBar titleView;
     private final static String TAG = "map";
     static MapView mMapView = null;
     FrameLayout mMapViewContainer = null;
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
 
-    Button sendButton = null;
+//    Button sendButton = null;
 
     EditText indexText = null;
     int index = 0;
@@ -74,7 +77,7 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
     private double longitude;
     private double latitude;
     private String address;
-
+    private boolean showRight;
     /**
      * 搜索模块
      */
@@ -104,7 +107,7 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
             address = result.getAddress();
             latitude = result.getLocation().latitude;
             longitude = result.getLocation().longitude;
-            sendButton.setEnabled(true);
+//            sendButton.setEnabled(true);
         }
         Toast.makeText(EaseBaiduMapActivity.this, strInfo, Toast.LENGTH_LONG).show();
     }
@@ -132,7 +135,7 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
             address = result.getAddress();
             latitude = result.getLocation().latitude;
             longitude = result.getLocation().longitude;
-            sendButton.setEnabled(true);
+//            sendButton.setEnabled(true);
         }
         /**
          * 弹出InfoWindow，显示信息
@@ -158,70 +161,12 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
     private BaiduSDKReceiver mBaiduReceiver;
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        instance = this;
-        //initialize SDK with context, should call this before setContentView
-        setContentView(R.layout.ease_activity_baidumap);
-        mMapView = (MapView) findViewById(R.id.bmapView);
-        sendButton = (Button) findViewById(R.id.btn_location_send);
-        Intent intent = getIntent();
-        double latitude = intent.getDoubleExtra("latitude", 0);
-        LocationMode mCurrentMode = LocationMode.NORMAL;
-        mBaiduMap = mMapView.getMap();
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
-        mBaiduMap.setMapStatus(msu);
-        initMapView();
-        if (latitude == 0) {
-            mMapView = new MapView(this, new BaiduMapOptions());
-            mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                    mCurrentMode, true, null));
-            showMapWithLocationClient();
-        } else {
-            double longtitude = intent.getDoubleExtra("longitude", 0);
-            String address = intent.getStringExtra("address");
-            LatLng p = new LatLng(latitude, longtitude);
-//            mMapView = new MapView(this,
-//                    new BaiduMapOptions().mapStatus(new MapStatus.Builder()
-//                            .target(p).build()));
-            mMapView = new MapView(this, new BaiduMapOptions());
-            boolean isShow = intent.getBooleanExtra("isShow", false);
-            showMap(latitude, longtitude, address, isShow);
-        }
-        IntentFilter iFilter = new IntentFilter();
-        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
-        iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
-        mBaiduReceiver = new BaiduSDKReceiver();
-        registerReceiver(mBaiduReceiver, iFilter);
-        mSearch = GeoCoder.newInstance();
-        mSearch.setOnGetGeoCodeResultListener(this);
-        //暂时注掉，下期可能需要
-//        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                Log.e("mBaiduMap", "onMapClick");
-//            }
-//
-//            @Override
-//            public boolean onMapPoiClick(MapPoi mapPoi) {
-//                Log.e("mBaiduMap", "onMapPoiClick");
-//                if (sendButton.getVisibility()==View.VISIBLE){
-//                    LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
-//                    // 反地理编码搜索
-//                    reverseSearch(ptCenter);
-//                }
-//                return false;
-//            }
-//        });
-
-    }
-
     private void showMap(double latitude, double longtitude, String address, boolean isShow) {
         if (isShow) {
-            sendButton.setVisibility(View.VISIBLE);
-        }else {
-            sendButton.setVisibility(View.GONE);
+//            sendButton.setVisibility(View.VISIBLE);
+
+        } else {
+//            sendButton.setVisibility(View.GONE);
         }
         LatLng llA = new LatLng(latitude, longtitude);
 //        CoordinateConverter converter = new CoordinateConverter();
@@ -300,12 +245,66 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
 
     @Override
     public int getContentViewLayoutId() {
-        return 0;
+        return R.layout.ease_activity_baidumap;
     }
 
     @Override
     public void initViewsAndEvents() {
+        instance = this;
 
+        //initialize SDK with context, should call this before setContentView
+        mMapView = (MapView) findViewById(R.id.bmapView);
+//        sendButton = (Button) findViewById(R.id.btn_location_send);
+        Intent intent = getIntent();
+        double latitude = intent.getDoubleExtra("latitude", 0);
+        LocationMode mCurrentMode = LocationMode.NORMAL;
+        mBaiduMap = mMapView.getMap();
+        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
+        mBaiduMap.setMapStatus(msu);
+        initMapView();
+        if (latitude == 0) {
+            mMapView = new MapView(this, new BaiduMapOptions());
+            mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
+                    mCurrentMode, true, null));
+            showMapWithLocationClient();
+            showRight=true;
+        } else {
+            double longtitude = intent.getDoubleExtra("longitude", 0);
+            String address = intent.getStringExtra("address");
+            LatLng p = new LatLng(latitude, longtitude);
+//            mMapView = new MapView(this,
+//                    new BaiduMapOptions().mapStatus(new MapStatus.Builder()
+//                            .target(p).build()));
+            mMapView = new MapView(this, new BaiduMapOptions());
+            showRight = intent.getBooleanExtra("isShow", false);
+            showMap(latitude, longtitude, address, showRight);
+        }
+        IntentFilter iFilter = new IntentFilter();
+        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
+        iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
+        mBaiduReceiver = new BaiduSDKReceiver();
+        registerReceiver(mBaiduReceiver, iFilter);
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(this);
+        //暂时注掉，下期可能需要
+//        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                Log.e("mBaiduMap", "onMapClick");
+//            }
+//
+//            @Override
+//            public boolean onMapPoiClick(MapPoi mapPoi) {
+//                Log.e("mBaiduMap", "onMapPoiClick");
+//                if (sendButton.getVisibility()==View.VISIBLE){
+//                    LatLng ptCenter = new LatLng(mapPoi.getPosition().latitude, mapPoi.getPosition().longitude);
+//                    // 反地理编码搜索
+//                    reverseSearch(ptCenter);
+//                }
+//                return false;
+//            }
+//        });
+        initTitle();
     }
 
     @Override
@@ -343,7 +342,7 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
             }
             Log.d("map", "On location change received:" + location);
             Log.d("map", "addr:" + location.getAddrStr());
-            sendButton.setEnabled(true);
+//            sendButton.setEnabled(true);
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
@@ -385,12 +384,12 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
         finish();
     }
 
-    public void sendLocation(View view) {
+    public void sendLocation() {
         Intent intent = this.getIntent();
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);
         intent.putExtra("address", address);
-        Log.e("latitude","latitude:"+latitude+"-------------longitude:"+longitude);
+        Log.e("latitude", "latitude:" + latitude + "-------------longitude:" + longitude);
         this.setResult(RESULT_OK, intent);
         finish();
     }
@@ -403,5 +402,31 @@ public class EaseBaiduMapActivity extends BaseActivity implements OnGetGeoCoderR
     public void reverseSearch(LatLng latLng) {
         mSearch.reverseGeoCode(new ReverseGeoCodeOption()
                 .location(latLng));
+    }
+
+    private void initTitle() {
+
+        titleView.setTitle("位置");
+        titleView.setTitleColor(Color.WHITE);
+        titleView.setLeftImageResource(R.mipmap.ic_title_back);
+        titleView.setLeftText("返回");
+        titleView.setLeftTextColor(Color.WHITE);
+        titleView.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        titleView.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
+        if (showRight) {
+            titleView.setActionTextColor(Color.WHITE);
+            titleView.addAction(new TitleBar.TextAction("发送") {
+                @Override
+                public void performAction(View view) {
+                    sendLocation();
+                }
+            });
+        }
+        titleView.setImmersive(true);
     }
 }

@@ -23,12 +23,12 @@ public class UserInfoBean extends ErrorBean {
     /**
      * 云通讯登陆id
      */
-    private String identify;
+    public String identify;
 
     /**
      * 服务器授权签名
      */
-    private String userSig;
+    public String userSig;
 
 
     /**

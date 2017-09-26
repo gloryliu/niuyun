@@ -140,10 +140,13 @@ public class LoginUtils {
      * 登陆聊天
      */
     public static void initChat() {
-        TIMManager.getInstance().login("chen123456", "1234567890", new TIMCallBack() {
+        if (BaseContext.getInstance().getUserInfo() == null) {
+            return;
+        }
+        TIMManager.getInstance().login(BaseContext.getInstance().getUserInfo().identify, BaseContext.getInstance().getUserInfo().userSig, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-UIUtil.showToast("登录失败"+i+s);
+                UIUtil.showToast("登录失败" + i + s);
             }
 
             @Override

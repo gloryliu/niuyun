@@ -241,10 +241,10 @@ public class EnterpriseRegisterActivity extends BaseActivity implements View.OnC
                         startActivity(findPsIntent);
                         AppManager.getAppManager().finishActivity(LoginActivity.class);
                         finish();
-                        ErrorMessageUtils.taostErrorMessage(EnterpriseRegisterActivity.this, response.body().getMsg(), "");
+                        UIUtil.showToast(response.body().getMsg());
                     } else {
                         try {
-                            ErrorMessageUtils.taostErrorMessage(EnterpriseRegisterActivity.this, response.body().getMsg(), "");
+                            UIUtil.showToast(response.body().getMsg());
                         } catch (Exception e) {
                             UIUtil.showToast("注册失败");
                         }

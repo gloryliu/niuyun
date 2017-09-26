@@ -70,7 +70,7 @@
     <string name="back" translatable="false">Back</string>
     <string name="save" translatable="false">Save</string>
     <string name="button_pushtotalk" translatable="false">Hold to talk</string>
-    <string name="button_send" translatable="false">Send</string>
+    <string name="button_send" translatable="false">发送</string>
     <string name="attach_smile" translatable="false">Emoticon</string>
     <string name="attach_picture" translatable="false">Image</string>
     <string name="attach_take_pic" translatable="false">Capture</string>
@@ -104,7 +104,7 @@
     <string name="clear_records">Clear conversation?</string>
     <string name="clear_all_records">Clear all conversations？</string>
     <string name="location_recv">[%s location]</string>
-    <string name="location_message">The location information</string>
+    <string name="location_message">位置</string>
     <string name="recording_video">Record video</string>
     <!--<string name="stop_record">Stop record</string>-->
     <string name="switch_camera">Switch camera</string>

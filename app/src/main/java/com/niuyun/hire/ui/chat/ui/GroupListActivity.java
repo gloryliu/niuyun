@@ -13,13 +13,14 @@ import com.niuyun.hire.ui.chat.model.GroupInfo;
 import com.niuyun.hire.ui.chat.model.GroupProfile;
 import com.niuyun.hire.ui.chat.model.ProfileSummary;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
-import com.tencent.qcloud.presentation.event.GroupEvent;
 import com.tencent.qcloud.ui.TemplateTitle;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import presentation.event.GroupEvent;
 
 public class GroupListActivity extends Activity implements Observer {
 

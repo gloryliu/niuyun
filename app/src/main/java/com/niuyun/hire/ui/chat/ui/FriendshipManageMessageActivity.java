@@ -12,11 +12,12 @@ import com.niuyun.hire.ui.chat.adapters.FriendManageMessageAdapter;
 import com.niuyun.hire.ui.chat.model.FriendFuture;
 import com.tencent.imsdk.ext.sns.TIMFriendFutureItem;
 import com.tencent.imsdk.ext.sns.TIMFutureFriendType;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.FriendshipMessageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.FriendshipManagerPresenter;
+import presentation.viewfeatures.FriendshipMessageView;
 
 public class FriendshipManageMessageActivity extends Activity implements FriendshipMessageView {
 

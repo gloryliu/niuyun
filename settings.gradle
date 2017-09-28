@@ -1,1 +1,1 @@
-include ':app', ':polyvAndroidSDKGif1.0', ':sdk', ':ui', ':presentation'
+include ':app', ':ui'

@@ -27,18 +27,19 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMGroupPendencyItem;
 import com.tencent.imsdk.ext.sns.TIMFriendFutureItem;
-import com.tencent.qcloud.presentation.presenter.ConversationPresenter;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.ConversationView;
-import com.tencent.qcloud.presentation.viewfeatures.FriendshipMessageView;
-import com.tencent.qcloud.presentation.viewfeatures.GroupManageMessageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import presentation.presenter.ConversationPresenter;
+import presentation.presenter.FriendshipManagerPresenter;
+import presentation.presenter.GroupManagerPresenter;
+import presentation.viewfeatures.ConversationView;
+import presentation.viewfeatures.FriendshipMessageView;
+import presentation.viewfeatures.GroupManageMessageView;
 
 /**
  * 会话列表界面

@@ -10,7 +10,8 @@ import android.widget.Toast;
 import com.niuyun.hire.R;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.sns.TIMFriendResult;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
+
+import presentation.presenter.FriendshipManagerPresenter;
 
 public class FriendshipHandleActivity extends Activity implements View.OnClickListener {
 

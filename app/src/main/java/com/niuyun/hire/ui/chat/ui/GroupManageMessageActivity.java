@@ -8,11 +8,12 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.adapters.GroupManageMessageAdapter;
 import com.niuyun.hire.ui.chat.model.GroupFuture;
 import com.tencent.imsdk.ext.group.TIMGroupPendencyItem;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.GroupManageMessageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.GroupManagerPresenter;
+import presentation.viewfeatures.GroupManageMessageView;
 
 public class GroupManageMessageActivity extends Activity implements GroupManageMessageView {
 

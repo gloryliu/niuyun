@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,11 +21,12 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
 import com.niuyun.hire.ui.fragment.CompanyHomePageFragment;
 import com.niuyun.hire.ui.fragment.CompanyHotPositionFragment;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.NoScrollViewPager;
 import com.niuyun.hire.view.TitleBar;
+import com.tencent.rtmp.TXLivePlayer;
+import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +63,8 @@ public class CompanyDetailsActivity extends BaseActivity {
     @BindView(R.id.tv_web_addresss)
     TextView tv_web_addresss;//公司网址
     @BindView(R.id.pv_play)
-    PolyvPlayerView pv_play;
+    TXCloudVideoView pv_play;
+    private TXLivePlayer mLivePlayer;
     Class[] fragments = {CompanyHomePageFragment.class, CompanyHotPositionFragment.class};
     private int[] tabNames = {R.string.company_home_page, R.string.company_hot_position};
     private int[] tabIcons = {R.drawable.selector_index_tab_message, R.drawable.selector_index_tab_company};
@@ -104,7 +105,7 @@ public class CompanyDetailsActivity extends BaseActivity {
         if (fragmentList.size() == 0) {
             homePageFragment = new CompanyHomePageFragment();
             fragmentList.add(homePageFragment);
-            hotPositionFragment=new CompanyHotPositionFragment();
+            hotPositionFragment = new CompanyHotPositionFragment();
             fragmentList.add(hotPositionFragment);
             for (int i = 0; i < tabNames.length; i++) {
                 View tabView = View.inflate(CompanyDetailsActivity.this, R.layout.layout_tab_item, null);
@@ -132,9 +133,9 @@ public class CompanyDetailsActivity extends BaseActivity {
                             bundle.putString("content", companyDetailsBean.getData().getContents());
                             homePageFragment.setArguments(bundle);
                         }
-                    }else if (position == 1){
+                    } else if (position == 1) {
                         if (hotPositionFragment != null && companyDetailsBean != null && companyDetailsBean.getData() != null) {
-                            bundle.putString("companyId", companyDetailsBean.getData().getId()+"");
+                            bundle.putString("companyId", companyDetailsBean.getData().getId() + "");
                             hotPositionFragment.setArguments(bundle);
                         }
                     }
@@ -200,9 +201,18 @@ public class CompanyDetailsActivity extends BaseActivity {
             tv_company_scale.setText(companyDetailsBean.getData().getDistrictCn() + "/" + companyDetailsBean.getData().getNatureCn() + "/" + companyDetailsBean.getData().getScaleCn());
             tv_company_type.setText(companyDetailsBean.getData().getTradeCn());
             tv_web_addresss.setText(companyDetailsBean.getData().getWebsite());
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            pv_play.setTransaction(ft);
-            pv_play.setVid(companyDetailsBean.getData().getVideo());
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            pv_play.setTransaction(ft);
+//            pv_play.setVid(companyDetailsBean.getData().getVideo());
+            //mPlayerView即step1中添加的界面view
+//创建player对象
+            mLivePlayer = new TXLivePlayer(this);
+            mLivePlayer.stopPlay(true);
+            mLivePlayer.enableHardwareDecode(true);
+//关键player对象与界面view
+            mLivePlayer.setPlayerView(pv_play);
+            String flvUrl = "http://1254373020.vod2.myqcloud.com/78e1171avodgzp1254373020/bf96a5d29031868223275582949/2AalqnukGBIA.mp4";
+            mLivePlayer.startPlay(flvUrl, TXLivePlayer.PLAY_TYPE_LIVE_FLV); //推荐FLV
         }
     }
 
@@ -259,5 +269,7 @@ public class CompanyDetailsActivity extends BaseActivity {
         if (companyDetailsBeanCall != null) {
             companyDetailsBeanCall.cancel();
         }
+        mLivePlayer.stopPlay(true); // true代表清除最后一帧画面
+        pv_play.onDestroy();
     }
 }

@@ -14,10 +14,11 @@ import com.niuyun.hire.ui.chat.model.FriendFuture;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.sns.TIMFriendResult;
 import com.tencent.imsdk.ext.sns.TIMFutureFriendType;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
 import com.tencent.qcloud.ui.CircleImageView;
 
 import java.util.List;
+
+import presentation.presenter.FriendshipManagerPresenter;
 
 /**
  * 好友关系链管理消息adapter

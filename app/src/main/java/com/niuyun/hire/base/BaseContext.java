@@ -10,9 +10,6 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.easefun.polyvsdk.PolyvDevMountInfo;
-import com.easefun.polyvsdk.PolyvSDKClient;
-import com.easefun.polyvsdk.live.chat.PolyvChatManager;
 import com.niuyun.hire.ui.activity.SplashScreenActivity;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.City;
@@ -42,7 +39,6 @@ import com.tencent.imsdk.TIMOfflinePushListener;
 import com.tencent.imsdk.TIMOfflinePushNotification;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
-import java.io.File;
 import java.util.List;
 
 
@@ -109,10 +105,10 @@ public class BaseContext extends MultiDexApplication {
     /**
      * 初始化聊天室配置
      */
-    public void initPolyvChatConfig() {
-        PolyvChatManager.initConfig(appId, appSecret);
-        com.easefun.polyvsdk.rtmp.chat.PolyvChatManager.initConfig(appId, appSecret);
-    }
+//    public void initPolyvChatConfig() {
+//        PolyvChatManager.initConfig(appId, appSecret);
+//        com.easefun.polyvsdk.rtmp.chat.PolyvChatManager.initConfig(appId, appSecret);
+//    }
 
     @Override
     public void onCreate() {
@@ -120,8 +116,8 @@ public class BaseContext extends MultiDexApplication {
         MultiDex.install(this);
         instance = this;
         SDKInitializer.initialize(getApplicationContext());//百度地图
-        initPolyvChatConfig();
-        initPolyvCilent();
+//        initPolyvChatConfig();
+//        initPolyvCilent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
@@ -381,58 +377,58 @@ public class BaseContext extends MultiDexApplication {
         return db;
     }
 
-    public void initPolyvCilent() {
-        //网络方式取得SDK加密串，（推荐）
-        //网络获取到的SDK加密串可以保存在本地SharedPreference中，下次先从本地获取
-//		new LoadConfigTask().execute();
-        PolyvSDKClient client = PolyvSDKClient.getInstance();
-        //使用SDK加密串来配置
-        client.setConfig("CMWht3MlpVkgpFzrLNAebYi4RdQDY/Nhvk3Kc+qWcck6chwHYKfl9o2aOVBvXVTRZD/14XFzVP7U5un43caq1FXwl0cYmTfimjTmNUYa1sZC1pkHE8gEsRpwpweQtEIiTGVEWrYVNo4/o5jI2/efzA==", aeskey, iv, getApplicationContext());
-        //初始化SDK设置
-        client.initSetting(getApplicationContext());
-        //启动Bugly
-//        client.initCrashReport(getApplicationContext());
-        //启动Bugly后，在学员登录时设置学员id
-//		client.crashReportSetUserId(userId);
-        //获取SD卡信息
-        PolyvDevMountInfo.getInstance().init(this, new PolyvDevMountInfo.OnLoadCallback() {
-
-            @Override
-            public void callback() {
-                //是否有可移除的存储介质（例如 SD 卡）或内部（不可移除）存储可供使用。
-                if (!PolyvDevMountInfo.getInstance().isSDCardAvaiable()) {
-                    // TODO 没有可用的存储设备,后续不能使用视频缓存功能
-                    LogUtils.e("没有可用的存储设备,后续不能使用视频缓存功能");
-                    return;
-                }
-
-                //可移除的存储介质（例如 SD 卡），需要写入特定目录/storage/sdcard1/Android/data/包名/。
-                String externalSDCardPath = PolyvDevMountInfo.getInstance().getExternalSDCardPath();
-                if (!TextUtils.isEmpty(externalSDCardPath)) {
-                    StringBuilder dirPath = new StringBuilder();
-                    dirPath.append(externalSDCardPath).append(File.separator).append("Android").append(File.separator).append("data")
-                            .append(File.separator).append(getPackageName()).append(File.separator).append("polyvdownload");
-                    File saveDir = new File(dirPath.toString());
-                    if (!saveDir.exists()) {
-                        getExternalFilesDir(null); // 生成包名目录
-                        saveDir.mkdirs();//创建下载目录
-                    }
-
-                    //设置下载存储目录
-                    PolyvSDKClient.getInstance().setDownloadDir(saveDir);
-                    return;
-                }
-
-                //如果没有可移除的存储介质（例如 SD 卡），那么一定有内部（不可移除）存储介质可用，都不可用的情况在前面判断过了。
-                File saveDir = new File(PolyvDevMountInfo.getInstance().getInternalSDCardPath() + File.separator + "polyvdownload");
-                if (!saveDir.exists()) {
-                    saveDir.mkdirs();//创建下载目录
-                }
-
-                //设置下载存储目录
-                PolyvSDKClient.getInstance().setDownloadDir(saveDir);
-            }
-        });
-    }
+//    public void initPolyvCilent() {
+//        //网络方式取得SDK加密串，（推荐）
+//        //网络获取到的SDK加密串可以保存在本地SharedPreference中，下次先从本地获取
+////		new LoadConfigTask().execute();
+//        PolyvSDKClient client = PolyvSDKClient.getInstance();
+//        //使用SDK加密串来配置
+//        client.setConfig("CMWht3MlpVkgpFzrLNAebYi4RdQDY/Nhvk3Kc+qWcck6chwHYKfl9o2aOVBvXVTRZD/14XFzVP7U5un43caq1FXwl0cYmTfimjTmNUYa1sZC1pkHE8gEsRpwpweQtEIiTGVEWrYVNo4/o5jI2/efzA==", aeskey, iv, getApplicationContext());
+//        //初始化SDK设置
+//        client.initSetting(getApplicationContext());
+//        //启动Bugly
+////        client.initCrashReport(getApplicationContext());
+//        //启动Bugly后，在学员登录时设置学员id
+////		client.crashReportSetUserId(userId);
+//        //获取SD卡信息
+//        PolyvDevMountInfo.getInstance().init(this, new PolyvDevMountInfo.OnLoadCallback() {
+//
+//            @Override
+//            public void callback() {
+//                //是否有可移除的存储介质（例如 SD 卡）或内部（不可移除）存储可供使用。
+//                if (!PolyvDevMountInfo.getInstance().isSDCardAvaiable()) {
+//                    // TODO 没有可用的存储设备,后续不能使用视频缓存功能
+//                    LogUtils.e("没有可用的存储设备,后续不能使用视频缓存功能");
+//                    return;
+//                }
+//
+//                //可移除的存储介质（例如 SD 卡），需要写入特定目录/storage/sdcard1/Android/data/包名/。
+//                String externalSDCardPath = PolyvDevMountInfo.getInstance().getExternalSDCardPath();
+//                if (!TextUtils.isEmpty(externalSDCardPath)) {
+//                    StringBuilder dirPath = new StringBuilder();
+//                    dirPath.append(externalSDCardPath).append(File.separator).append("Android").append(File.separator).append("data")
+//                            .append(File.separator).append(getPackageName()).append(File.separator).append("polyvdownload");
+//                    File saveDir = new File(dirPath.toString());
+//                    if (!saveDir.exists()) {
+//                        getExternalFilesDir(null); // 生成包名目录
+//                        saveDir.mkdirs();//创建下载目录
+//                    }
+//
+//                    //设置下载存储目录
+//                    PolyvSDKClient.getInstance().setDownloadDir(saveDir);
+//                    return;
+//                }
+//
+//                //如果没有可移除的存储介质（例如 SD 卡），那么一定有内部（不可移除）存储介质可用，都不可用的情况在前面判断过了。
+//                File saveDir = new File(PolyvDevMountInfo.getInstance().getInternalSDCardPath() + File.separator + "polyvdownload");
+//                if (!saveDir.exists()) {
+//                    saveDir.mkdirs();//创建下载目录
+//                }
+//
+//                //设置下载存储目录
+//                PolyvSDKClient.getInstance().setDownloadDir(saveDir);
+//            }
+//        });
+//    }
 
 }

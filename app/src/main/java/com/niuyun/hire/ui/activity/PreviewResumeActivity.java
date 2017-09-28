@@ -26,7 +26,6 @@ import com.niuyun.hire.ui.adapter.PreviewResumeEducationAdapter;
 import com.niuyun.hire.ui.adapter.PreviewResumeExperienceAdapter;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
@@ -76,8 +75,8 @@ public class PreviewResumeActivity extends BaseActivity {
     LinearLayout ll_polyv;
     @BindView(R.id.ll_base_info)
     LinearLayout ll_base_info;
-    @BindView(R.id.pv_play)
-    PolyvPlayerView pv_play;
+//    @BindView(R.id.pv_play)
+//    PolyvPlayerView pv_play;
     @BindView(R.id.bt_talk)
     Button bt_talk;
     private PreviewResumeBean previewResumeBean;
@@ -165,8 +164,8 @@ public class PreviewResumeActivity extends BaseActivity {
             //
             if (!TextUtils.isEmpty(uid)) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                pv_play.setTransaction(ft);
-                pv_play.setVid(previewResumeBean.getData().getVideo());
+//                pv_play.setTransaction(ft);
+//                pv_play.setVid(previewResumeBean.getData().getVideo());
                 ll_base_info.setVisibility(View.GONE);
                 ll_polyv.setVisibility(View.VISIBLE);
                 bt_talk.setVisibility(View.VISIBLE);

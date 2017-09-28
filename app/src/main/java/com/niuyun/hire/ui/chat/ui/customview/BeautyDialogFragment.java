@@ -2,6 +2,7 @@ package com.niuyun.hire.ui.chat.ui.customview;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,6 +41,22 @@ public class BeautyDialogFragment extends DialogFragment implements SeekBar.OnSe
         public int mBigEyeProgress;
         public int mFilterIdx;
         public String mMotionTmplPath;
+        public float mExposure = 0;
+        public int mBeautyLevel = 5;
+        public int mWhiteLevel = 3;
+        public int mRuddyLevel = 2;
+        public int mSharpenLevel = 3;
+        public int mBeautyStyle = 0;
+        public int mFilterMixLevel = 0;
+        public int mBigEyeLevel;
+        public int mFaceSlimLevel;
+        public int mNoseScaleLevel;
+        public int mChinSlimLevel;
+        public int mFaceVLevel;
+        public int mFaceShortLevel;
+        public Bitmap mFilterBmp;
+        public String mGreenFile;
+        public int mCaptureMode = 0;
     }
 
     public interface OnBeautyParamsChangeListener{

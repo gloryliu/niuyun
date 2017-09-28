@@ -15,9 +15,6 @@ import com.niuyun.hire.R;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMFriendAllowType;
 import com.tencent.imsdk.TIMUserProfile;
-import com.tencent.qcloud.presentation.business.LoginBusiness;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.FriendInfoView;
 import com.tencent.qcloud.ui.LineControllerView;
 import com.tencent.qcloud.ui.ListPickerDialog;
 
@@ -25,10 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import presentation.business.LoginBusiness;
+import presentation.presenter.FriendshipManagerPresenter;
+import presentation.viewfeatures.FriendInfoView;
+
 /**
  * 设置页面
  */
-public class SettingFragment extends Fragment implements FriendInfoView{
+public class SettingFragment extends Fragment implements FriendInfoView {
 
     private static final String TAG = SettingFragment.class.getSimpleName();
     private View view;

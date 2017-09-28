@@ -10,7 +10,8 @@ import android.widget.Toast;
 
 import com.niuyun.hire.R;
 import com.tencent.imsdk.TIMValueCallBack;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
+
+import presentation.presenter.GroupManagerPresenter;
 
 /**
  * 创建群页面

@@ -18,8 +18,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.tencent.qcloud.presentation.viewfeatures.ChatView;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -27,6 +25,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import presentation.viewfeatures.ChatView;
 
 /**
  * 小视频输入控件

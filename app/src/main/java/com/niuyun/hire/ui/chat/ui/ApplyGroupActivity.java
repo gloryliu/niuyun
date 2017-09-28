@@ -9,7 +9,8 @@ import android.widget.Toast;
 
 import com.niuyun.hire.R;
 import com.tencent.imsdk.TIMCallBack;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
+
+import presentation.presenter.GroupManagerPresenter;
 
 public class ApplyGroupActivity extends Activity implements TIMCallBack {
 

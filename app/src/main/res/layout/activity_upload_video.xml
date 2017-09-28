@@ -102,7 +102,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/tv_speed"
                 android:progress="0"
-                android:progressDrawable="@drawable/polyv_pb_pg_drawable" />
+                 />
         </RelativeLayout>
 
 

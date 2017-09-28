@@ -14,11 +14,12 @@ import com.niuyun.hire.ui.chat.adapters.ProfileSummaryAdapter;
 import com.niuyun.hire.ui.chat.model.FriendProfile;
 import com.niuyun.hire.ui.chat.model.ProfileSummary;
 import com.tencent.imsdk.TIMUserProfile;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.FriendInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.FriendshipManagerPresenter;
+import presentation.viewfeatures.FriendInfoView;
 
 /**
  * 查找添加新朋友

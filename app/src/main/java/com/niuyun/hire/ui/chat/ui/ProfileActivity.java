@@ -19,14 +19,15 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.sns.TIMFriendResult;
 import com.tencent.imsdk.ext.sns.TIMFriendStatus;
-import com.tencent.qcloud.presentation.event.FriendshipEvent;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.FriendshipManageView;
 import com.tencent.qcloud.ui.LineControllerView;
 import com.tencent.qcloud.ui.ListPickerDialog;
 
 import java.util.Collections;
 import java.util.List;
+
+import presentation.event.FriendshipEvent;
+import presentation.presenter.FriendshipManagerPresenter;
+import presentation.viewfeatures.FriendshipManageView;
 
 public class ProfileActivity extends FragmentActivity implements FriendshipManageView,  View.OnClickListener {
 

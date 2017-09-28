@@ -14,11 +14,12 @@ import com.niuyun.hire.ui.chat.adapters.ProfileSummaryAdapter;
 import com.niuyun.hire.ui.chat.model.GroupProfile;
 import com.niuyun.hire.ui.chat.model.ProfileSummary;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.GroupInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.GroupManagerPresenter;
+import presentation.viewfeatures.GroupInfoView;
 
 public class SearchGroupActivity extends Activity implements GroupInfoView, View.OnKeyListener{
 

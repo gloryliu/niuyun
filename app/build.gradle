@@ -26,7 +26,7 @@ android {
             signingConfig signingConfigs.releaseConfig
             ndk {
                 // 需要将 x86 架构过滤掉
-                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+                abiFilters "armeabi", "armeabi-v7a"
             }
         }
     }
@@ -65,14 +65,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'org.greenrobot:greendao:3.2.2'
-//    compile 'com.android.support:support-v4:25.1.0'
-//    compile 'com.android.support:appcompat-v7:24.2.1'
-
+    //    compile 'com.android.support:support-v4:25.1.0'
+    //    compile 'com.android.support:appcompat-v7:24.2.1'
+    //    compile(name: 'LiteAVSDK_Professional', ext: 'aar')
     compile 'com.android.support:design:25.1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    testCompile 'junit:junit:4.12'
+//    testCompile 'junit:junit:4.12'
     compile 'com.bigkoo:convenientbanner:2.0.5'
     //下拉刷新
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2-alpha-7'
@@ -82,47 +82,41 @@ dependencies {
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
     //   保利视频
-
     //裁剪图片的库，用于选择直播logo
-    compile 'com.yalantis:ucrop:2.2.0'
+    //    compile 'com.yalantis:ucrop:2.2.0'
     //裁剪图片的库，用于选择直播logo
-    compile 'com.yalantis:ucrop:2.2.0-native'
+    //    compile 'com.yalantis:ucrop:2.2.0-native'
     //圆形图片，用于显示圆形logo
-
     //    compile 'de.hdodenhof:circleimageview:1.3.0'
-
     //视频播放库，SDK中使用
-    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
+    //    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
     //视频播放库，SDK中使用
-    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.7.1'
+    //    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.7.1'
     //弹幕库
-    compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
+    //    compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
     //图片下载库，SDK中使用
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
-    compile files('libs/admastersdk_v2.1.3.jar')
-    compile files('libs/polyvLivePlayer2.0.6.jar')
-    compile files('libs/polyvWidget0.5.1.4.jar')
-    compile project(':polyvAndroidSDKGif1.0')
+    //    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    //    compile files('libs/admastersdk_v2.1.3.jar')
+    //    compile files('libs/polyvLivePlayer2.0.6.jar')
+    //    compile files('libs/polyvWidget0.5.1.4.jar')
+    //    compile project(':polyvAndroidSDKGif1.0')
     //聊天室，PPT直播
-    compile('io.socket:socket.io-client:0.8.3') {
-        // excluding org.json which is provided by Android
-        exclude group: 'org.json', module: 'json'
-    }
-    compile files('libs/polyvRTMP1.0.6.jar')
-    compile files('libs/polyvRTMPChat1.0.6.jar')
-    compile files('libs/polyvUpload2.0.3.jar')
-    compile files('libs/polyvPlayer2.0.3.jar')
-    compile files('libs/polyvSub2.0.3.jar')
+    //    compile('io.socket:socket.io-client:0.8.3') {
+    // excluding org.json which is provided by Android
+    //        exclude group: 'org.json', module: 'json'
+    //    }
     compile files('libs/gson-2.7.jar')
-    compile files('libs/converter-gson-2.1.0.jar')
-    compile files('libs/alicloud-android-sdk-httpdns-1.1.0.jar')
-    compile files('libs/alicloud-android-utils-1.0.2.jar')
+//    compile files('libs/converter-gson-2.1.0.jar')
+//    compile files('libs/alicloud-android-sdk-httpdns-1.1.0.jar')
+//    compile files('libs/alicloud-android-utils-1.0.2.jar')
     compile files('libs/fastjson-1.2.5.jar')
     compile project(':ui')
     compile files('libs/BaiduLBS_Android.jar')
-
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+//    compile files('libs/cos-sdk-android.1.4.3.11.jar')
+    compile files('libs/liteavsdk.jar')
+    compile files('libs/sha1utils.jar')
 }
 def getDate() {
     def date = new Date()

@@ -3,7 +3,6 @@ package com.tencent.qcloud.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -14,13 +13,9 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,12 +28,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tencent.qcloud.presentation.viewfeatures.ChatView;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.viewfeatures.ChatView;
 
 /**
  * 聊天界面输入控件

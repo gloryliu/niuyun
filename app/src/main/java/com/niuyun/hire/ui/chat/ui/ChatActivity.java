@@ -42,8 +42,6 @@ import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.ext.message.TIMMessageDraft;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
-import com.tencent.qcloud.presentation.presenter.ChatPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.ChatView;
 import com.tencent.qcloud.ui.ChatInput;
 import com.tencent.qcloud.ui.TemplateTitle;
 import com.tencent.qcloud.ui.VoiceSendingView;
@@ -51,6 +49,9 @@ import com.tencent.qcloud.ui.VoiceSendingView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.ChatPresenter;
+import presentation.viewfeatures.ChatView;
 
 public class ChatActivity extends FragmentActivity implements ChatView {
 

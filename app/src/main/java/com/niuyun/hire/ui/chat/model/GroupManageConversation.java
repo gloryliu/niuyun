@@ -9,9 +9,10 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.ui.chat.ui.GroupManageMessageActivity;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupPendencyItem;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
 
 import java.util.Calendar;
+
+import presentation.presenter.GroupManagerPresenter;
 
 /**
  * 群管理会话

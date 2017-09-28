@@ -20,7 +20,6 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
@@ -70,8 +69,8 @@ public class EnterprisePositionEditActivity extends BaseActivity implements View
     Button bt_edit;
     @BindView(R.id.bt_delete)
     Button bt_delete;
-    @BindView(R.id.pv_play)
-    PolyvPlayerView pv_play;
+//    @BindView(R.id.pv_play)
+//    PolyvPlayerView pv_play;
     @BindView(R.id.ll_video)
     LinearLayout ll_video;
     @BindView(R.id.rl_location)

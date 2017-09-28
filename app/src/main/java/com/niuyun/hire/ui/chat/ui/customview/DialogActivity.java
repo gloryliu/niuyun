@@ -15,10 +15,11 @@ import com.niuyun.hire.ui.chat.model.FriendshipInfo;
 import com.niuyun.hire.ui.chat.model.GroupInfo;
 import com.niuyun.hire.ui.chat.model.UserInfo;
 import com.tencent.imsdk.TIMCallBack;
-import com.tencent.qcloud.presentation.business.LoginBusiness;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
+
+import presentation.business.LoginBusiness;
 
 public class DialogActivity extends Activity implements View.OnClickListener {
 

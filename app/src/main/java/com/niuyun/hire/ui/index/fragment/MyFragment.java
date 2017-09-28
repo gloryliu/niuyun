@@ -19,8 +19,8 @@ import com.niuyun.hire.ui.activity.EnterPriseCertificationTwoActivity;
 import com.niuyun.hire.ui.activity.EnterpriseEditPersonActivity;
 import com.niuyun.hire.ui.activity.EnterprisePositionControlActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
+import com.niuyun.hire.ui.activity.PolyvUploadActivity;
 import com.niuyun.hire.ui.activity.Settingctivity;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvUploadActivity;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.view.CircularImageView;
 

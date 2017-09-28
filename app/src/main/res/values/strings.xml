@@ -89,7 +89,6 @@
     <string name="copy_message" translatable="false">Copy message</string>
     <string name="delete_voice" translatable="false">Delete voice</string>
     <string name="delete_video" translatable="false">Delete video</string>
-    <string name="delete" translatable="false">Delete</string>
     <string name="resend" translatable="false">Resend</string>
     <string name="confirm_resend" translatable="false">Confirm to resend？</string>
     <string name="connect_failuer_toast" translatable="false">Please check the network or try again later</string>
@@ -780,4 +779,24 @@
     <string name="message_notify_push">离线消息推送</string>
     <string name="message_notify_c2c_music">自定义C2C消息推送声音</string>
     <string name="message_notify_group_music">自定义群消息推送声音</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_return">返回</string>
+
+    <string name="video_decoding">视频正在解码中，请稍等...</string>
+    <string name="video_generating">视频生成中...</string>
+    <string name="video_edit">编辑视频</string>
+    <string name="video_join">视频合成</string>
+    <string name="video_drag_sort">视频将按照列表顺序进行合成，您可以长按拖动进行片段顺序调整。</string>
+    <string name="video_join_preview">片段合成预览</string>
+    <string name="video_preview">视频预览</string>
+    <string name="video_only_save">仅保存</string>
+    <string name="video_save_and_publish">保存并发布</string>
+    <string name="video_edit_segment">设置想要截取的片段</string>
+
+    <string name="vod_ffmpeg">FFmpeg</string>
+    <string name="vod_system">System</string>
+    <string name="delete">删除</string>
+    <string name="music_empty">空空如也</string>
+    <string name="music_loading">正在加载本地音乐...</string>
 </resources>

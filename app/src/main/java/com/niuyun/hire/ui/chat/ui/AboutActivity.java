@@ -15,7 +15,6 @@ import com.tencent.qalsdk.QALSDKManager;
 import com.tencent.qcloud.ui.LineControllerView;
 import com.tencent.qcloud.ui.ListPickerDialog;
 
-import tencent.tls.platform.TLSHelper;
 
 public class AboutActivity extends FragmentActivity {
 
@@ -28,8 +27,8 @@ public class AboutActivity extends FragmentActivity {
         imsdk.setContent(TIMManager.getInstance().getVersion());
         LineControllerView qalsdk = (LineControllerView) findViewById(R.id.qalsdk);
         qalsdk.setContent(QALSDKManager.getInstance().getSdkVersion());
-        LineControllerView tlssdk = (LineControllerView) findViewById(R.id.tlssdk);
-        tlssdk.setContent(TLSHelper.getInstance().getSDKVersion());
+//        LineControllerView tlssdk = (LineControllerView) findViewById(R.id.tlssdk);
+//        tlssdk.setContent(TLSHelper.getInstance().getSDKVersion());
         final LineControllerView env = (LineControllerView) findViewById(R.id.env);
         env.setContent(getString(TIMManager.getInstance().getEnv() == 0 ? R.string.about_env_normal : R.string.about_env_test));
         final String[] envs = new String[]{getString(R.string.about_env_normal), getString(R.string.about_env_test)};

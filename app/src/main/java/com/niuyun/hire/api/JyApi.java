@@ -22,7 +22,6 @@ import com.niuyun.hire.ui.bean.PositionIntentBean;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
-import com.niuyun.hire.ui.polyvLive.bean.CreateLiveBean;
 
 import java.util.Map;
 
@@ -325,8 +324,8 @@ public interface JyApi {
      * @param map
      * @return
      */
-    @POST("/resource/live/createLive")
-    Call<CreateLiveBean> createLive(@Body Map<String, String> map);
+//    @POST("/resource/live/createLive")
+//    Call<CreateLiveBean> createLive(@Body Map<String, String> map);
 
     /**
      * 添加工作经历

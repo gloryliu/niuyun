@@ -112,6 +112,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
+            android:name="com.niuyun.hire.ui.activity.PolyvUploadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
             android:name="com.niuyun.hire.ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
@@ -474,88 +478,7 @@
         <activity android:name=".ui.chat.ui.ImagePreviewActivity"></activity>
         <activity android:name=".ui.chat.ui.MessageNotifySettingActivity"></activity>
 
-        <!-- 钱包版红包SDK需额外几个Activity的声明 -->
 
-
-        <!-- &lt;!&ndash; WebView相关 &ndash;&gt; -->
-        <!-- <activity -->
-        <!-- android:name="com.easemob.redpacketui.ui.activity.RPWebViewActivity" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:theme="@style/horizontal_slide" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" /> -->
-        <!-- &lt;!&ndash; 零钱 &ndash;&gt; -->
-        <!-- <activity -->
-        <!-- android:name="com.easemob.redpacketui.ui.activity.RPChangeActivity" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:theme="@style/horizontal_slide" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" /> -->
-        <!-- &lt;!&ndash; 绑定银行卡 &ndash;&gt; -->
-        <!-- <activity -->
-        <!-- android:name="com.easemob.redpacketui.ui.activity.RPBankCardActivity" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:theme="@style/horizontal_slide" -->
-        <!-- android:windowSoftInputMode="adjustPan|stateHidden" /> -->
-        <!-- &lt;!&ndash;转账页面&ndash;&gt; -->
-        <!-- <activity -->
-        <!-- android:name="com.easemob.redpacketui.ui.activity.RPTransferActivity" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:windowSoftInputMode="adjustPan|stateVisible"/> -->
-        <!-- &lt;!&ndash;转账详情页面&ndash;&gt; -->
-        <!-- <activity -->
-        <!-- android:name="com.easemob.redpacketui.ui.activity.RPTransferDetailActivity" -->
-        <!-- android:screenOrientation="portrait" -->
-        <!-- android:windowSoftInputMode="adjustPan|stateHidden"/> -->
-        <!--  -->
-        <!-- 红包相关Activity end -->
-
-
-        <!-- 开机自启动服务 -->
-        <!--<receiver android:name=".receiver.StartServiceReceiver">-->
-        <!--<intent-filter android:priority="1000">-->
-        <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-        <!--<action android:name="android.intent.action.QUICKBOOT_POWERON" />-->
-
-        <!--<category android:name="android.intent.category.LAUNCHER" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
-
-        <!--&lt;!&ndash; gcm start &ndash;&gt;-->
-        <!--<receiver-->
-        <!--android:name="com.hyphenate.chat.EMGCMBroadcastReceiver"-->
-        <!--android:exported="true"-->
-        <!--android:permission="com.google.android.c2dm.permission.SEND">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
-
-        <!--<category android:name="com.hyphenate.chatuidemo" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
-
-        <!--<service-->
-        <!--android:name="com.hyphenate.chat.EMGCMListenerService"-->
-        <!--android:exported="false" />-->
-
-        <!--<receiver-->
-        <!--android:name=".receiver.GCMPushBroadCast"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="com.hyphenate.sdk.push" />-->
-
-        <!--<category android:name="com.hyphenate.chatuidemo" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
-        <!--&lt;!&ndash; gcm end &ndash;&gt;-->
-
-
-        <!-- mi push -->
-        <service
-            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-        <service
-            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
-            android:enabled="true" />
 
 
 
@@ -584,4 +507,59 @@
     <!-- 视频演示主类 -->
     <!-- 如需初始为横屏，请在代码中使用PolyvPlayerMediaController.changeToLandscape()方法设置 -->
 
+
+
+
+    <activity
+        android:name=".common.activity.QRCodeScanActivity"
+        android:screenOrientation="portrait">
+    </activity>
+
+    <activity
+        android:name=".push.LivePublisherActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+    <activity
+        android:name=".play.LivePlayerActivity"
+        android:screenOrientation="portrait"/>
+
+
+    <activity android:name=".linkmic.LinkMicActivity"
+        android:screenOrientation="portrait" />
+
+    <!--<activity-->
+    <!--android:name="com.tencent.liteav.screencapture.TXCScreenCaptureAssistantActivity"-->
+    <!--android:theme="@android:style/Theme.Translucent"/>-->
+
+    <activity android:name=".videorecord.TCVideoRecordActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
+
+    <activity android:name=".videorecord.TCVideoSettingActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
+
+    <activity android:name=".common.activity.videopreview.TCVideoPreviewActivity"
+        android:screenOrientation="portrait" />
+    <activity android:name=".common.activity.videopreview.TCVideoPublisherActivity"
+        android:screenOrientation="portrait" />
+
+    <activity android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity" android:theme="@android:style/Theme.Translucent" />
+
+    <activity
+        android:name=".shortvideo.choose.TCVideoChooseActivity"
+        android:screenOrientation="portrait"
+        />
+    <activity
+        android:name=".shortvideo.joiner.TCVideoJoinerActivity"
+        android:screenOrientation="portrait"
+        />
+    <activity
+        android:name=".shortvideo.joiner.TCVideoJoinerPreviewActivity"
+        android:screenOrientation="portrait"
+        />
+    <activity
+        android:name=".shortvideo.editor.TCVideoEditerActivity"
+        android:launchMode="singleTop"
+        android:screenOrientation="portrait">
+    </activity>
 </manifest>

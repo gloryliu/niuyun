@@ -17,11 +17,12 @@ import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.group.TIMGroupMemberResult;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
 import com.tencent.qcloud.ui.TemplateTitle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.GroupManagerPresenter;
 
 public class GroupMemberActivity extends Activity implements TIMValueCallBack<List<TIMGroupMemberInfo>> {
 

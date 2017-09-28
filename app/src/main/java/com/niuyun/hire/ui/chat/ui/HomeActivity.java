@@ -20,10 +20,11 @@ import com.niuyun.hire.ui.chat.model.FriendshipInfo;
 import com.niuyun.hire.ui.chat.model.GroupInfo;
 import com.niuyun.hire.ui.chat.model.UserInfo;
 import com.tencent.imsdk.TIMManager;
-import com.tencent.qcloud.presentation.event.MessageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.event.MessageEvent;
 
 /**
  * Tab页主界面

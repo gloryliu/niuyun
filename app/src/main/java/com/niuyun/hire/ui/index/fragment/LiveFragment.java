@@ -7,9 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.easefun.polyvsdk.live.chat.ppt.api.PolyvLiveMessage;
-import com.easefun.polyvsdk.live.chat.ppt.api.entity.PolyvLiveMessageEntity;
-import com.easefun.polyvsdk.live.chat.ppt.api.listener.PolyvLiveMessageListener;
 import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
@@ -21,10 +18,7 @@ import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.adapter.IndexLiveListItemAdapter;
 import com.niuyun.hire.ui.bean.LiveListBean;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerActivity;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvSettingActivity;
 import com.niuyun.hire.utils.LogUtils;
-import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -102,20 +96,20 @@ public class LiveFragment extends BaseFragment implements View.OnClickListener {
                     uid = dataBean.getUserId() + "";
                 }
 
-                new PolyvLiveMessage().getLiveType(channelId, new PolyvLiveMessageListener() {
-                    @Override
-                    public void success(boolean isPPTLive, PolyvLiveMessageEntity entity) {
-                        Intent playUrl = new Intent(getActivity(), PolyvPlayerActivity.class);
-                        playUrl.putExtra("uid", uid);
-                        playUrl.putExtra("cid", channelId);
-                        startActivity(playUrl);
-                    }
-
-                    @Override
-                    public void fail(final String failTips, final int code) {
-                        UIUtil.showToast("获取频道失败");
-                    }
-                });
+//                new PolyvLiveMessage().getLiveType(channelId, new PolyvLiveMessageListener() {
+//                    @Override
+//                    public void success(boolean isPPTLive, PolyvLiveMessageEntity entity) {
+//                        Intent playUrl = new Intent(getActivity(), PolyvPlayerActivity.class);
+//                        playUrl.putExtra("uid", uid);
+//                        playUrl.putExtra("cid", channelId);
+//                        startActivity(playUrl);
+//                    }
+//
+//                    @Override
+//                    public void fail(final String failTips, final int code) {
+//                        UIUtil.showToast("获取频道失败");
+//                    }
+//                });
             }
         });
         setButtonVisible();
@@ -234,8 +228,8 @@ public class LiveFragment extends BaseFragment implements View.OnClickListener {
             case R.id.bt_go_live:
                 //我要直播
                 if (BaseContext.getInstance().getUserInfo() != null) {
-                    Intent intent = new Intent(getActivity(), PolyvSettingActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(getActivity(), PolyvSettingActivity.class);
+//                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);

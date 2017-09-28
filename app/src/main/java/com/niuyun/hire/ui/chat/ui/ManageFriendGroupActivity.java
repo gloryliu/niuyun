@@ -21,11 +21,12 @@ import com.niuyun.hire.ui.chat.model.FriendshipInfo;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.sns.TIMFriendResult;
-import com.tencent.qcloud.presentation.presenter.FriendshipManagerPresenter;
 import com.tencent.qcloud.ui.NotifyDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.presenter.FriendshipManagerPresenter;
 
 /**
  * 好友分组管理

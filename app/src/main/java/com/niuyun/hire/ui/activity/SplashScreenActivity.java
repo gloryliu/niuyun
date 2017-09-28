@@ -32,17 +32,18 @@ import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMUserConfig;
 import com.tencent.imsdk.TIMUserStatusListener;
-import com.tencent.qcloud.presentation.business.InitBusiness;
-import com.tencent.qcloud.presentation.business.LoginBusiness;
-import com.tencent.qcloud.presentation.event.FriendshipEvent;
-import com.tencent.qcloud.presentation.event.GroupEvent;
-import com.tencent.qcloud.presentation.event.MessageEvent;
-import com.tencent.qcloud.presentation.event.RefreshEvent;
 import com.tencent.qcloud.ui.NotifyDialog;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import presentation.business.InitBusiness;
+import presentation.business.LoginBusiness;
+import presentation.event.FriendshipEvent;
+import presentation.event.GroupEvent;
+import presentation.event.MessageEvent;
+import presentation.event.RefreshEvent;
 
 
 /**

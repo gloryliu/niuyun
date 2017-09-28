@@ -16,10 +16,11 @@ import com.niuyun.hire.ui.chat.ui.HomeActivity;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.TIMMessage;
-import com.tencent.qcloud.presentation.event.MessageEvent;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import presentation.event.MessageEvent;
 
 /**
  * 在线消息通知展示

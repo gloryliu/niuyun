@@ -20,9 +20,6 @@ import com.tencent.imsdk.TIMGroupMemberRoleType;
 import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
-import com.tencent.qcloud.presentation.presenter.GroupInfoPresenter;
-import com.tencent.qcloud.presentation.presenter.GroupManagerPresenter;
-import com.tencent.qcloud.presentation.viewfeatures.GroupInfoView;
 import com.tencent.qcloud.ui.LineControllerView;
 import com.tencent.qcloud.ui.ListPickerDialog;
 
@@ -30,6 +27,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import presentation.presenter.GroupInfoPresenter;
+import presentation.presenter.GroupManagerPresenter;
+import presentation.viewfeatures.GroupInfoView;
 
 
 public class GroupProfileActivity extends FragmentActivity implements GroupInfoView, View.OnClickListener {

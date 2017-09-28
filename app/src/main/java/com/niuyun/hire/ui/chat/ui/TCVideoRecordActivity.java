@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.ui.customview.BeautyDialogFragment;
 import com.niuyun.hire.ui.chat.utils.TCUtils;
-import com.tencent.rtmp.ugc.TXRecordCommon;
-import com.tencent.rtmp.ugc.TXUGCRecord;
 import com.tencent.rtmp.ui.TXCloudVideoView;
+import com.tencent.ugc.TXRecordCommon;
+import com.tencent.ugc.TXUGCRecord;
 
 import java.util.Locale;
 
@@ -67,7 +67,7 @@ public class TCVideoRecordActivity extends Activity implements View.OnClickListe
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.activity_video_record);
+        setContentView(R.layout.activity_video_record2);
 
         mBeautyDialogFragment = new BeautyDialogFragment();
         mBeautyDialogFragment.setBeautyParamsListner(mBeautyParams, this);
@@ -84,7 +84,7 @@ public class TCVideoRecordActivity extends Activity implements View.OnClickListe
         param.videoQuality = TXRecordCommon.VIDEO_QUALITY_MEDIUM;
         param.isFront = mFront;
         mTXCameraRecord.startCameraSimplePreview(param,mVideoView);
-        mTXCameraRecord.setBeautyDepth(mBeautyParams.mBeautyProgress, mBeautyParams.mWhiteProgress);
+        mTXCameraRecord.setBeautyDepth(mBeautyParams.mBeautyStyle, mBeautyParams.mBeautyLevel, mBeautyParams.mWhiteLevel, mBeautyParams.mRuddyLevel);
         mTXCameraRecord.setMotionTmpl(mBeautyParams.mMotionTmplPath);
 
         mProgressTime = (TextView) findViewById(R.id.progress_time);
@@ -267,7 +267,7 @@ public class TCVideoRecordActivity extends Activity implements View.OnClickListe
             case BeautyDialogFragment.BEAUTYPARAM_BEAUTY:
             case BeautyDialogFragment.BEAUTYPARAM_WHITE:
                 if (mTXCameraRecord != null) {
-                    mTXCameraRecord.setBeautyDepth(params.mBeautyProgress, params.mWhiteProgress);
+                    mTXCameraRecord.setBeautyDepth(mBeautyParams.mBeautyStyle, mBeautyParams.mBeautyLevel, mBeautyParams.mWhiteLevel, mBeautyParams.mRuddyLevel);
                 }
                 break;
             case BeautyDialogFragment.BEAUTYPARAM_FACE_LIFT:

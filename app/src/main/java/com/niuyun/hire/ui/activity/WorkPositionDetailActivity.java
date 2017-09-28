@@ -3,7 +3,6 @@ package com.niuyun.hire.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -21,11 +20,12 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
-import com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
+import com.tencent.rtmp.TXLivePlayer;
+import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -73,7 +73,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     @BindView(R.id.bt_talk)
     Button bt_talk;
     @BindView(R.id.pv_play)
-    PolyvPlayerView pv_play;
+    TXCloudVideoView pv_play;
     private String companyId;//公司id
     private String id;//职位id
     private String uid;//职位id
@@ -81,6 +81,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     Call<JobDetailsBean> jobDetailsBeanCall;
     Call<SuperBean<String>> addAttentionCall;
     private JobDetailsBean bean;
+    private TXLivePlayer mLivePlayer;
 
     @Override
     public void enterPictureInPictureMode() {
@@ -136,9 +137,14 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
             tv_education.setText(bean.getData().getEducationCn());
 
             //视频
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            pv_play.setTransaction(ft);
-            pv_play.setVid(bean.getData().getVideo());
+            //创建player对象
+            mLivePlayer = new TXLivePlayer(this);
+            mLivePlayer.stopPlay(true);
+            mLivePlayer.enableHardwareDecode(true);
+//关键player对象与界面view
+            mLivePlayer.setPlayerView(pv_play);
+            String flvUrl = "http://1254373020.vod2.myqcloud.com/78e1171avodgzp1254373020/bf96a5d29031868223275582949/2AalqnukGBIA.mp4";
+            mLivePlayer.startPlay(flvUrl, TXLivePlayer.PLAY_TYPE_VOD_MP4); //推荐FLV
             //工作职责
             if (!TextUtils.isEmpty(bean.getData().getContents())) {
                 tv_work_responsibilities.setText(bean.getData().getContents());

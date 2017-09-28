@@ -7,8 +7,6 @@ import com.tencent.imsdk.TIMGroupMemberRoleType;
 import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.ext.group.TIMGroupAssistant;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
-import com.tencent.qcloud.presentation.event.GroupEvent;
-import com.tencent.qcloud.presentation.event.RefreshEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+
+import presentation.event.GroupEvent;
+import presentation.event.RefreshEvent;
 
 /**
  * 群数据结构

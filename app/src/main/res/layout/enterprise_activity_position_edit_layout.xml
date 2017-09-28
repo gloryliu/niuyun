@@ -150,10 +150,11 @@
                     android:layout_height="wrap_content"
                     android:background="@color/top_text_color_black">
 
-                    <com.niuyun.hire.ui.polyvLive.activity.PolyvPlayerView
+                    <com.tencent.rtmp.ui.TXCloudVideoView
                         android:id="@+id/pv_play"
                         android:layout_width="match_parent"
-                        android:layout_height="180dp" />
+                        android:layout_height="180dp"
+                        android:layout_centerInParent="true" />
                 </RelativeLayout>
             </LinearLayout>
 

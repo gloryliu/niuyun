@@ -27,7 +27,7 @@ public class RoundTextView extends android.support.v7.widget.AppCompatTextView {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RoundTextView);
         inColor = array.getColor(R.styleable.RoundTextView_inColor, 0);
         round = array.getDimension(R.styleable.RoundTextView_round, 0);
-        textColor = array.getColor(R.styleable.RoundTextView_textColor, 0xffffff);
+        textColor = array.getColor(R.styleable.RoundTextView_textColor1, 0xffffff);
         array.recycle();
         initPaint();
     }

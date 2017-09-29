@@ -30,6 +30,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
+        android:visibility="gone"
         android:layout_marginRight="14dp"
         android:background="@mipmap/ic_go_live"
         android:contentDescription="我要直播" />

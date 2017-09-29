@@ -9,44 +9,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_quick_experience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:src="@mipmap/ic_quick_experience" />
+        android:layout_centerHorizontal="true">
 
         <LinearLayout
-            android:id="@+id/ll_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/guide_point_bottom_margin"
-            android:orientation="horizontal">
+
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
-                style="@style/guide_point"
-                android:contentDescription="@string/app_name" />
+                android:id="@+id/iv_quick_experience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_quick_experience" />
 
-            <ImageView
-                style="@style/guide_point"
-                android:contentDescription="@string/app_name" />
+            <LinearLayout
+                android:id="@+id/ll_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/guide_point_bottom_margin"
+                android:orientation="horizontal">
 
-            <ImageView
-                style="@style/guide_point"
-                android:contentDescription="@string/app_name" />
+                <ImageView
+                    style="@style/guide_point"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    style="@style/guide_point"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    style="@style/guide_point"
+                    android:contentDescription="@string/app_name" />
 
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 
 
 </RelativeLayout>

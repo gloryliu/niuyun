@@ -156,16 +156,11 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
         // 设置底部小点选中状态
         setCurDot(position);
         currentIndex = position;
-        if (currentIndex == mGuidePics.length - 1) {
-            iv_quick_experience.setVisibility(View.VISIBLE);
-        } else {
-            iv_quick_experience.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
         switch (state) {
             case ViewPager.SCROLL_STATE_DRAGGING:
                 misScrolled = false;
@@ -192,9 +187,10 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
             case MotionEvent.ACTION_MOVE:
 
                 // 当前页码为最后一页并且向右滑动时退出/跳转
-                if ((lastX - motionEvent.getX()) > 100 && (currentIndex == mGuidePics.length - 1)) {
-                    startbutton(null);
-                }
+//                if ((lastX - motionEvent.getX()) > 100 && (currentIndex == mGuidePics.length - 1)) {
+//                    startbutton(null);
+//                }
+
                 break;
         }
         return false;
@@ -223,6 +219,11 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
         mPoints[currentIndex].setEnabled(true);
 
         currentIndex = positon;
+        if (currentIndex == mGuidePics.length - 1) {
+            iv_quick_experience.setVisibility(View.VISIBLE);
+        } else {
+            iv_quick_experience.setVisibility(View.INVISIBLE);
+        }
     }
 
     // 立即体验，在XML文件中设置onClick属性

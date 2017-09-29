@@ -22,7 +22,7 @@ import com.niuyun.hire.ui.activity.PerfectPersonInformation;
 import com.niuyun.hire.ui.index.fragment.AllJobsFragment;
 import com.niuyun.hire.ui.index.fragment.FindFragment;
 import com.niuyun.hire.ui.index.fragment.IndexFragment;
-import com.niuyun.hire.ui.index.fragment.LiveFragment;
+import com.niuyun.hire.ui.index.fragment.LiveFragment2;
 import com.niuyun.hire.ui.index.fragment.MyFragment;
 import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.view.NoScrollViewPager;
@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity {
         if (fragmentList.size() <= 0) {
             fragmentList.add(new IndexFragment());
             fragmentList.add(new AllJobsFragment());
-            fragmentList.add(new LiveFragment());
+            fragmentList.add(new LiveFragment2());
             fragmentList.add(new FindFragment());
             fragmentList.add(new MyFragment());
             for (int i = 0; i < tabNames.length; i++) {

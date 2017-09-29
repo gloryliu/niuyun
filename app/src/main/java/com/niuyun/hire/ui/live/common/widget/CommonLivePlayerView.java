@@ -160,7 +160,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                 mStartSeek = false;
             }
         });
-
+        startPlay();
     }
 
 
@@ -168,10 +168,9 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
         mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
         mTXLivePlayer.setPlayerView(mTXCloudVideoView);
         mTXLivePlayer.setPlayListener(this);
-
-        mTXLivePlayer.enableHardwareDecode(false);
+        mTXLivePlayer.enableHardwareDecode(true);
         mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
-        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
 
         mTXLivePlayer.setConfig(mTXPlayConfig);
 
@@ -356,7 +355,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-                            getActivity().finish();
+//                            getActivity().finish();
                         }
                     });
             AlertDialog alertDialog = builder.create();

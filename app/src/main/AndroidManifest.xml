@@ -93,6 +93,9 @@
             android:name="com.niuyun.hire.ui.activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.niuyun.hire.ui.activity.DianboDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.niuyun.hire.ui.index.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

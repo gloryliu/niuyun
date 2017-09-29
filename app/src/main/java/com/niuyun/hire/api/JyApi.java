@@ -9,6 +9,7 @@ import com.niuyun.hire.ui.bean.AttentionMeBean;
 import com.niuyun.hire.ui.bean.CertificationBean;
 import com.niuyun.hire.ui.bean.CommonTagBean;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
+import com.niuyun.hire.ui.bean.DianboListBean;
 import com.niuyun.hire.ui.bean.EnterpriseFindPersonBean;
 import com.niuyun.hire.ui.bean.EnterprisePublishedPositionBean;
 import com.niuyun.hire.ui.bean.GetBaseTagBean;
@@ -317,6 +318,14 @@ public interface JyApi {
      */
     @POST("/resource/live/getLiveList")
     Call<LiveListBean> getLiveList(@Body Map<String, String> map);
+    /**
+     * 获取点播列表
+     *
+     * @param map
+     * @return
+     */
+    @POST("/resource/tencentYun/getAllVideoList")
+    Call<DianboListBean> geDianboList(@Body Map<String, String> map);
 
     /**
      * 创建直播

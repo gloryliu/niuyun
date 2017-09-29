@@ -1,9 +1,9 @@
 package com.niuyun.hire.ui.activity;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +16,14 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView;
+import com.niuyun.hire.ui.live.shortvideo.choose.TCVideoChooseActivity;
 import com.niuyun.hire.ui.live.videorecord.TCVideoSettingActivity;
 import com.niuyun.hire.view.TitleBar;
-import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import butterknife.BindView;
+
+import static com.niuyun.hire.ui.live.shortvideo.choose.TCVideoChooseActivity.TYPE_SINGLE_CHOOSE;
 
 /**
  * Created by chen.zhiwei on 2017-9-28.
@@ -30,7 +33,7 @@ public class PolyvUploadActivity extends BaseActivity {
     @BindView(R.id.title_view)
     TitleBar title_view;
     @BindView(R.id.pv_play)
-    TXCloudVideoView pv_play;
+    CommonLivePlayerView pv_play;
     @BindView(R.id.bt_next)
     Button bt_next;
     @BindView(R.id.rl_video_content)
@@ -55,8 +58,8 @@ public class PolyvUploadActivity extends BaseActivity {
         tv_again_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(PolyvUploadActivity.this, PolyvUploadVideoScannerActivity.class);
-//                startActivityForResult(intent, Constants.GET_VIDEO_VID);
+                Intent intent = new Intent(PolyvUploadActivity.this, TCVideoSettingActivity.class);
+                startActivityForResult(intent, Constants.GET_VIDEO_VID);
             }
         });
         ll_online_resume_title.setOnClickListener(new View.OnClickListener() {
@@ -154,46 +157,39 @@ public class PolyvUploadActivity extends BaseActivity {
         title_view.addAction(new TitleBar.TextAction("添加本地视频") {
             @Override
             public void performAction(View view) {
-//                Intent intent = new Intent(PolyvUploadActivity.this, PolyvUploadVideoScannerActivity.class);
-//                intent.putExtra("type", "local");
-//                startActivityForResult(intent, Constants.GET_VIDEO_VID);
+                Intent intent = new Intent(PolyvUploadActivity.this, TCVideoChooseActivity.class);
+                intent.putExtra("CHOOSE_TYPE", TYPE_SINGLE_CHOOSE);
+                startActivityForResult(intent, Constants.GET_VIDEO_VID);
             }
         });
         title_view.setBackgroundColor(getResources().getColor(R.color.color_e20e0e));
         title_view.setActionTextColor(Color.WHITE);
         title_view.setImmersive(true);
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        pv_play.resume();
+        pv_play.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        pv_play.pause();
+        pv_play.onPause();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        pv_play.stop();
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        pv_play.destroy();
+        pv_play.onDestroy();
     }
 
     private void setVid(String vid) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        pv_play.setTransaction(ft);
-//        pv_play.setVid(vid);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        pv_play.setTransaction(ft);
+        pv_play.setmVideoPath(vid);
     }
 
     private void setData() {

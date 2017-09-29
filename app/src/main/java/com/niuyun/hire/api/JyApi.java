@@ -517,4 +517,10 @@ public interface JyApi {
      */
     @GET("/resource/jobs/deleteJobs")
     Call<SuperBean<String>> deleteEnterprisePosition(@Query("id") String id);
+
+    /**
+     * 获取腾讯视频上传所需签名
+     */
+    @GET("/resource/tencentYun/getAppUploadVideoSign")
+    Call<SuperBean<String>> getVideoUploadSign();
 }

@@ -1,5 +1,6 @@
 package com.niuyun.hire.ui.activity;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,12 +22,12 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.CompanyDetailsBean;
 import com.niuyun.hire.ui.fragment.CompanyHomePageFragment;
 import com.niuyun.hire.ui.fragment.CompanyHotPositionFragment;
+import com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.NoScrollViewPager;
 import com.niuyun.hire.view.TitleBar;
 import com.tencent.rtmp.TXLivePlayer;
-import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +64,7 @@ public class CompanyDetailsActivity extends BaseActivity {
     @BindView(R.id.tv_web_addresss)
     TextView tv_web_addresss;//公司网址
     @BindView(R.id.pv_play)
-    TXCloudVideoView pv_play;
+    CommonLivePlayerView pv_play;
     private TXLivePlayer mLivePlayer;
     Class[] fragments = {CompanyHomePageFragment.class, CompanyHotPositionFragment.class};
     private int[] tabNames = {R.string.company_home_page, R.string.company_hot_position};
@@ -201,18 +202,9 @@ public class CompanyDetailsActivity extends BaseActivity {
             tv_company_scale.setText(companyDetailsBean.getData().getDistrictCn() + "/" + companyDetailsBean.getData().getNatureCn() + "/" + companyDetailsBean.getData().getScaleCn());
             tv_company_type.setText(companyDetailsBean.getData().getTradeCn());
             tv_web_addresss.setText(companyDetailsBean.getData().getWebsite());
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            pv_play.setTransaction(ft);
-//            pv_play.setVid(companyDetailsBean.getData().getVideo());
-            //mPlayerView即step1中添加的界面view
-//创建player对象
-            mLivePlayer = new TXLivePlayer(this);
-            mLivePlayer.stopPlay(true);
-            mLivePlayer.enableHardwareDecode(true);
-//关键player对象与界面view
-            mLivePlayer.setPlayerView(pv_play);
-            String flvUrl = "http://1254373020.vod2.myqcloud.com/78e1171avodgzp1254373020/bf96a5d29031868223275582949/2AalqnukGBIA.mp4";
-            mLivePlayer.startPlay(flvUrl, TXLivePlayer.PLAY_TYPE_LIVE_FLV); //推荐FLV
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            pv_play.setTransaction(ft);
+            pv_play.setmVideoPath(companyDetailsBean.getData().getVideo());
         }
     }
 
@@ -269,7 +261,19 @@ public class CompanyDetailsActivity extends BaseActivity {
         if (companyDetailsBeanCall != null) {
             companyDetailsBeanCall.cancel();
         }
-        mLivePlayer.stopPlay(true); // true代表清除最后一帧画面
-        pv_play.onDestroy();
+        if (pv_play!=null){
+            pv_play.onDestroy();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pv_play.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pv_play.onPause();
     }
 }

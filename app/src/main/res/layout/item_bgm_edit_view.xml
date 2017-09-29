@@ -89,7 +89,7 @@
                 android:paddingRight="10dp"
                 android:src="@drawable/bgm_wave_voice"/>
 
-            <com.tencent.liteav.demo.shortvideo.editor.RangeSlider
+            <com.niuyun.hire.ui.live.shortvideo.editor.RangeSlider
                 android:id="@+id/bgm_range_slider"
                 android:layout_width="match_parent"
                 android:layout_height="66dp"
@@ -126,7 +126,7 @@
                 android:layout_marginLeft="30dp"
                 android:src="@drawable/bgm_icon_mic"/>
 
-            <com.tencent.liteav.demo.shortvideo.editor.bgm.TCReversalSeekBar
+            <com.niuyun.hire.ui.live.shortvideo.editor.bgm.TCReversalSeekBar
                 android:id="@+id/bgm_sb_voice"
                 android:layout_width="0dp"
                 android:layout_height="15dp"
@@ -175,7 +175,7 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <com.tencent.liteav.demo.shortvideo.editor.bgm.TCMusicChooseLayout
+    <com.niuyun.hire.ui.live.shortvideo.editor.bgm.TCMusicChooseLayout
         android:id="@+id/bgm_rl_chose"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

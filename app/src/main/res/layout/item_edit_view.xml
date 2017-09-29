@@ -35,7 +35,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"/>
 
-        <com.tencent.liteav.demo.shortvideo.editor.RangeSlider
+        <com.niuyun.hire.ui.live.shortvideo.editor.RangeSlider
             android:id="@+id/range_slider"
             android:layout_width="match_parent"
             android:layout_height="66dp"

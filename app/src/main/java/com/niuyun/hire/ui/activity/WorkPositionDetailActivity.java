@@ -3,6 +3,7 @@ package com.niuyun.hire.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +21,12 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
+import com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 import com.tencent.rtmp.TXLivePlayer;
-import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -73,7 +74,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     @BindView(R.id.bt_talk)
     Button bt_talk;
     @BindView(R.id.pv_play)
-    TXCloudVideoView pv_play;
+    CommonLivePlayerView pv_play;
     private String companyId;//公司id
     private String id;//职位id
     private String uid;//职位id
@@ -138,13 +139,19 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
 
             //视频
             //创建player对象
-            mLivePlayer = new TXLivePlayer(this);
-            mLivePlayer.stopPlay(true);
-            mLivePlayer.enableHardwareDecode(true);
-//关键player对象与界面view
-            mLivePlayer.setPlayerView(pv_play);
+//            mLivePlayer = new TXLivePlayer(this);
+//            mLivePlayer.stopPlay(true);
+//            mLivePlayer.enableHardwareDecode(true);
+////关键player对象与界面view
+//            mLivePlayer.setRenderMode(RENDER_MODE_ADJUST_RESOLUTION);
+//            mLivePlayer.setPlayerView(pv_play);
             String flvUrl = "http://1254373020.vod2.myqcloud.com/78e1171avodgzp1254373020/bf96a5d29031868223275582949/2AalqnukGBIA.mp4";
-            mLivePlayer.startPlay(flvUrl, TXLivePlayer.PLAY_TYPE_VOD_MP4); //推荐FLV
+//            mLivePlayer.startPlay(flvUrl, TXLivePlayer.PLAY_TYPE_VOD_MP4); //推荐FLV
+
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            pv_play.setTransaction(ft);
+            pv_play.setmVideoPath(bean.getData().getVideo());
+
             //工作职责
             if (!TextUtils.isEmpty(bean.getData().getContents())) {
                 tv_work_responsibilities.setText(bean.getData().getContents());
@@ -293,16 +300,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        if (jobDetailsBeanCall != null) {
-            jobDetailsBeanCall.cancel();
-        }
-        if (addAttentionCall != null) {
-            addAttentionCall.cancel();
-        }
-        super.onDestroy();
-    }
+
 
     private void addAttention() {
         Map<String, String> map = new HashMap<>();
@@ -333,5 +331,30 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pv_play.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pv_play.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        if (jobDetailsBeanCall != null) {
+            jobDetailsBeanCall.cancel();
+        }
+        if (addAttentionCall != null) {
+            addAttentionCall.cancel();
+        }
+        if (pv_play!=null){
+            pv_play.onDestroy();
+        }
+        super.onDestroy();
     }
 }

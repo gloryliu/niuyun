@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.niuyun.hire.R;
-import com.niuyun.hire.ui.chat.ui.TCVideoPreviewActivity;
+import com.niuyun.hire.ui.live.common.activity.videopreview.TCVideoPreviewActivity;
 import com.niuyun.hire.ui.live.common.utils.TCConstants;
 import com.niuyun.hire.ui.live.common.utils.TCUtils;
 import com.niuyun.hire.ui.live.common.widget.VideoWorkProgressFragment;

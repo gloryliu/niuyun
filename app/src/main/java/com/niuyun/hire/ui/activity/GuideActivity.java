@@ -30,7 +30,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
 
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
-
+    @BindView(R.id.iv_quick_experience)
+    ImageView iv_quick_experience;
 
     // 定义ViewPager适配器
     ViewPagerAdapter mViewPagerAdapter;
@@ -102,6 +103,12 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
         mViewPager.setOnTouchListener(this);
         // 初始化底部小点
         initPoint();
+        iv_quick_experience.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startbutton(view);
+            }
+        });
     }
 
     /**
@@ -149,6 +156,11 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
         // 设置底部小点选中状态
         setCurDot(position);
         currentIndex = position;
+        if (currentIndex == mGuidePics.length - 1) {
+            iv_quick_experience.setVisibility(View.VISIBLE);
+        } else {
+            iv_quick_experience.setVisibility(View.GONE);
+        }
     }
 
     @Override

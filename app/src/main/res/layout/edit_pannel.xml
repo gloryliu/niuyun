@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <com.tencent.liteav.demo.shortvideo.editor.TCVideoEditView
+        <com.niuyun.hire.ui.live.shortvideo.editor.TCVideoEditView
             android:id="@+id/editView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -44,7 +44,7 @@
             android:textColor="#777"
             android:textSize="14dp" />
 
-        <com.tencent.liteav.demo.shortvideo.editor.TCHorizontalScrollView
+        <com.niuyun.hire.ui.live.shortvideo.editor.TCHorizontalScrollView
             android:id="@+id/filter_sv"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal" />
-        </com.tencent.liteav.demo.shortvideo.editor.TCHorizontalScrollView>
+        </com.niuyun.hire.ui.live.shortvideo.editor.TCHorizontalScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +71,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.tencent.liteav.demo.shortvideo.editor.bgm.TCBGMEditView
+        <com.niuyun.hire.ui.live.shortvideo.editor.bgm.TCBGMEditView
             android:id="@+id/panel_bgm_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -85,7 +85,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.tencent.liteav.demo.shortvideo.editor.word.widget.TCWordEditView
+        <com.niuyun.hire.ui.live.shortvideo.editor.word.widget.TCWordEditView
             android:id="@+id/panel_word_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

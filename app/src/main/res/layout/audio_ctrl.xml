@@ -255,13 +255,13 @@
 
     </LinearLayout>
 
-    <com.tencent.liteav.demo.videorecord.TCMusicSelectView
+    <com.niuyun.hire.ui.live.videorecord.TCMusicSelectView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/xml_music_select_view"
         android:visibility="gone"
         android:clickable="true"
         android:background="@color/white">
-    </com.tencent.liteav.demo.videorecord.TCMusicSelectView>
+    </com.niuyun.hire.ui.live.videorecord.TCMusicSelectView>
 
 </LinearLayout>

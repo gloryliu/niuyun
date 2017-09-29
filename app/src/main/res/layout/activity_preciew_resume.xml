@@ -211,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:text="个人视频" />
 
-                <com.tencent.rtmp.ui.TXCloudVideoView
+                <com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView
                     android:id="@+id/pv_play"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"

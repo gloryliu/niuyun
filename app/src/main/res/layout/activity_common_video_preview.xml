@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/rl_play_root"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:ignore="contentDescription">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_play_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="contentDescription">
 
     <com.niuyun.hire.ui.live.common.activity.videopreview.TCVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
     <ImageView
         android:id="@+id/record_preview"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/icon_record_start"
-        android:onClick="onClick"/>
+        android:onClick="onClick" />
 
 
     <!--录制完成-->
@@ -36,7 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/record_delete"
@@ -45,7 +46,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="80dp"
             android:background="@drawable/icon_record_delete"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
 
         <ImageView
             android:id="@+id/record_download"
@@ -54,7 +55,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="80dp"
             android:background="@drawable/icon_record_download"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
 
         <ImageView
             android:id="@+id/record_publish"
@@ -62,15 +63,14 @@
             android:layout_height="@dimen/live_btn_size"
             android:layout_centerInParent="true"
             android:background="@drawable/icon_share"
-            android:onClick="onClick"/>
+            android:onClick="onClick" />
     </RelativeLayout>
 
     <SeekBar
         android:id="@+id/seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/publishLayout"
-        android:layout_gravity="center|right"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:max="0"
         android:maxHeight="2.0dip"
@@ -79,7 +79,7 @@
         android:paddingRight="25dp"
         android:progress="0"
         android:progressDrawable="@drawable/play_seekbar_progress"
-        android:thumb="@drawable/play_seekbar_icon"/>
+        android:thumb="@drawable/play_seekbar_icon" />
 
     <TextView
         android:id="@+id/progress_time"
@@ -91,5 +91,5 @@
         android:layout_marginRight="25dp"
         android:text="00:00/00:00"
         android:textColor="@color/c8"
-        android:textSize="@dimen/h6"/>
+        android:textSize="@dimen/h6" />
 </RelativeLayout>

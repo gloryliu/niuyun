@@ -1,9 +1,9 @@
 package com.niuyun.hire.ui.activity;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +26,7 @@ import com.niuyun.hire.ui.adapter.PreviewResumeEducationAdapter;
 import com.niuyun.hire.ui.adapter.PreviewResumeExperienceAdapter;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
+import com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
@@ -75,8 +76,8 @@ public class PreviewResumeActivity extends BaseActivity {
     LinearLayout ll_polyv;
     @BindView(R.id.ll_base_info)
     LinearLayout ll_base_info;
-//    @BindView(R.id.pv_play)
-//    PolyvPlayerView pv_play;
+    @BindView(R.id.pv_play)
+    CommonLivePlayerView pv_play;
     @BindView(R.id.bt_talk)
     Button bt_talk;
     private PreviewResumeBean previewResumeBean;
@@ -163,9 +164,9 @@ public class PreviewResumeActivity extends BaseActivity {
             tv_evaluation.setText(previewResumeBean.getData().getSpecialty());
             //
             if (!TextUtils.isEmpty(uid)) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                pv_play.setTransaction(ft);
-//                pv_play.setVid(previewResumeBean.getData().getVideo());
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                pv_play.setTransaction(ft);
+                pv_play.setmVideoPath(previewResumeBean.getData().getVideo());
                 ll_base_info.setVisibility(View.GONE);
                 ll_polyv.setVisibility(View.VISIBLE);
                 bt_talk.setVisibility(View.VISIBLE);
@@ -248,5 +249,23 @@ public class PreviewResumeActivity extends BaseActivity {
                 UIUtil.showToast("接口异常");
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pv_play.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pv_play.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        if (pv_play!=null){
+            pv_play.onDestroy();
+        }
+        super.onDestroy();
     }
 }

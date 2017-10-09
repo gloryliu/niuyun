@@ -10,6 +10,7 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.niuyun.hire.R;
 import com.niuyun.hire.ui.activity.SplashScreenActivity;
 import com.niuyun.hire.ui.bean.AllTagBean;
 import com.niuyun.hire.ui.bean.City;
@@ -46,22 +47,6 @@ import java.util.List;
  */
 
 public class BaseContext extends MultiDexApplication {
-    /**
-     * 登录聊天室/ppt直播所需，请填写自己的appId和appSecret，否则无法登陆
-     * appId和appSecret在直播系统管理后台的用户信息页的API设置中用获取
-     */
-    private static final String appId = "es99t13h27";
-    private static final String appSecret = "93b89c2a81494f5ba4a4dfa5873e0c38";
-    //加密秘钥和加密向量，在后台->设置->API接口中获取，用于解密SDK加密串
-    //值修改请参考https://github.com/easefun/polyv-android-sdk-demo/wiki/10.%E5%85%B3%E4%BA%8E-SDK%E5%8A%A0%E5%AF%86%E4%B8%B2-%E4%B8%8E-%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93
-    /**
-     * 加密秘钥
-     */
-    private String aeskey = "VXtlHmwfS2oYm0CZ";
-    /**
-     * 加密向量
-     */
-    private String iv = "2u9gDPKdX6GyQJKU";
     private static BaseContext instance;
     //用户信息
     public static UserInfoBean userInfo;
@@ -102,13 +87,6 @@ public class BaseContext extends MultiDexApplication {
 
 
 
-    /**
-     * 初始化聊天室配置
-     */
-//    public void initPolyvChatConfig() {
-//        PolyvChatManager.initConfig(appId, appSecret);
-//        com.easefun.polyvsdk.rtmp.chat.PolyvChatManager.initConfig(appId, appSecret);
-//    }
 
     @Override
     public void onCreate() {
@@ -116,8 +94,6 @@ public class BaseContext extends MultiDexApplication {
         MultiDex.install(this);
         instance = this;
         SDKInitializer.initialize(getApplicationContext());//百度地图
-//        initPolyvChatConfig();
-//        initPolyvCilent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
@@ -151,7 +127,7 @@ public class BaseContext extends MultiDexApplication {
                 public void handleNotification(TIMOfflinePushNotification notification) {
                     if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify){
                         //消息被设置为需要提醒
-                        notification.doNotify(getApplicationContext(), android.R.mipmap.sym_def_app_icon);
+                        notification.doNotify(getApplicationContext(), R.mipmap.ic_launcher);
                     }
                 }
             });

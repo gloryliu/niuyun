@@ -373,25 +373,25 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                 //相机返回图片
 //                Bundle b = data.getExtras();
 //                String fileName = b.getString("picture");
-                list = data.getStringArrayListExtra("picture");
+                list .addAll(data.getStringArrayListExtra("picture")) ;
             } else if (resultCode == resultCode_header_Photos) {
                 // 图库中选择
                 if (data == null || "".equals(data)) {
                     return;
                 }
-                list = data.getStringArrayListExtra("photo");
+                list .addAll(data.getStringArrayListExtra("photo")) ;
             }
         } else if (selectedType == 1) {
             listLogo.clear();
             if (resultCode == resultCode_header_Camera) {
                 //相机返回图片
-                listLogo = data.getStringArrayListExtra("picture");
+                listLogo.addAll(data.getStringArrayListExtra("picture")) ;
             } else if (resultCode == resultCode_header_Photos) {
                 // 图库中选择
                 if (data == null || "".equals(data)) {
                     return;
                 }
-                listLogo = data.getStringArrayListExtra("photo");
+                listLogo .addAll(data.getStringArrayListExtra("photo")) ;
             }
         }
 //        headIsChange = true;

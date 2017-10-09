@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.niuyun.hire.R;
@@ -61,6 +62,14 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     private long mTrackingTouchTS = 0;
     private boolean mStartSeek = false;
     private Context context;
+    private ImageView btnPlay;
+    private ImageView btnHWDecode;
+    private ImageView btnOrientation;
+    private ImageView btnRenderMode;
+    private int              mCurrentRenderRotation=TXLiveConstants.RENDER_ROTATION_PORTRAIT;
+    private int              mCurrentRenderMode= TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
+    private boolean          mHWDecode   = false;
+
     //错误消息弹窗
     private TCVideoPreviewActivity.ErrorDialogFragment mErrDlgFragment;
     //视频时长（ms）
@@ -119,7 +128,16 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
 
         mStartPreview = (ImageView) findViewById(R.id.record_preview);
+        btnPlay=(ImageView) findViewById(R.id.btnPlay);
+        btnHWDecode=(ImageView) findViewById(R.id.btnHWDecode);
+        btnOrientation=(ImageView) findViewById(R.id.btnOrientation);
+        btnRenderMode=(ImageView) findViewById(R.id.btnRenderMode);
+        btnHWDecode.getBackground().setAlpha(mHWDecode ? 255 : 100);
         mStartPreview.setOnClickListener(this);
+        btnHWDecode.setOnClickListener(this);
+        btnOrientation.setOnClickListener(this);
+        btnPlay.setOnClickListener(this);
+        btnRenderMode.setOnClickListener(this);
         mTXLivePlayer = new TXLivePlayer(context);
         mTXPlayConfig = new TXLivePlayConfig();
         mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
@@ -160,17 +178,17 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                 mStartSeek = false;
             }
         });
-        startPlay();
+//        startPlay();
     }
 
 
     private boolean startPlay() {
-        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
+//        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
         mTXLivePlayer.setPlayerView(mTXCloudVideoView);
         mTXLivePlayer.setPlayListener(this);
-        mTXLivePlayer.enableHardwareDecode(true);
-        mTXLivePlayer.setRenderRotation(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
-        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
+        mTXLivePlayer.enableHardwareDecode(mHWDecode);
+        mTXLivePlayer.setRenderRotation(mCurrentRenderRotation);
+        mTXLivePlayer.setRenderMode(mCurrentRenderMode);
 
         mTXLivePlayer.setConfig(mTXPlayConfig);
 
@@ -179,7 +197,6 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
             mStartPreview.setBackgroundResource(R.drawable.icon_record_start);
             return false;
         }
-
         mVideoPlay = true;
         return true;
     }
@@ -325,19 +342,80 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.record_preview:
+            case R.id.btnPlay:
                 if (mVideoPlay) {
                     if (mVideoPause) {
                         mTXLivePlayer.resume();
-                        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
+//                        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
+                        btnPlay.setBackgroundResource(R.drawable.play_pause);
                         mVideoPause = false;
                     } else {
                         mTXLivePlayer.pause();
-                        mStartPreview.setBackgroundResource(R.drawable.icon_record_start);
+//                        mStartPreview.setBackgroundResource(R.drawable.icon_record_start);
+                        btnPlay.setBackgroundResource(R.drawable.play_start);
                         mVideoPause = true;
                     }
                 } else {
+                    btnPlay.setBackgroundResource(R.drawable.play_pause);
                     startPlay();
                 }
+                break;
+            case R.id.btnRenderMode://填充
+                if (mTXLivePlayer == null) {
+                    return;
+                }
+
+                if (mCurrentRenderMode == TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN) {
+                    mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+                    btnRenderMode.setBackgroundResource(R.drawable.fill_mode);
+                    mCurrentRenderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
+                } else if (mCurrentRenderMode == TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION) {
+                    mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
+                    btnRenderMode.setBackgroundResource(R.drawable.adjust_mode);
+                    mCurrentRenderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN;
+                }
+                break;
+            case R.id.btnOrientation://横屏|竖屏
+
+                if (mTXLivePlayer == null) {
+                    return;
+                }
+                if (mCurrentRenderRotation == TXLiveConstants.RENDER_ROTATION_PORTRAIT) {
+                    btnOrientation.setBackgroundResource(R.drawable.portrait);
+                    mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_LANDSCAPE;
+                } else if (mCurrentRenderRotation == TXLiveConstants.RENDER_ROTATION_LANDSCAPE) {
+                    btnOrientation.setBackgroundResource(R.drawable.landscape);
+                    mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
+                }
+
+                mTXLivePlayer.setRenderRotation(mCurrentRenderRotation);
+
+                break;
+            case R.id.btnHWDecode://硬解码
+
+                mHWDecode = !mHWDecode;
+                btnHWDecode.getBackground().setAlpha(mHWDecode ? 255 : 100);
+
+                if (mHWDecode) {
+                    Toast.makeText(context, "已开启硬件解码加速，切换会重启播放流程!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "已关闭硬件解码加速，切换会重启播放流程!", Toast.LENGTH_SHORT).show();
+                }
+
+                if (mVideoPlay) {
+//                    if (mLivePlayer != null) {
+//                        mLivePlayer.enableHardwareDecode(mHWDecode);
+//                    }
+//                    stopPlayRtmp();
+//                    mVideoPlay = startPlayRtmp();
+                    if (mVideoPause) {
+                        if (mTXCloudVideoView != null){
+                            mTXCloudVideoView.onResume();
+                        }
+                        mVideoPause = false;
+                    }
+                }
+
                 break;
             default:
                 break;

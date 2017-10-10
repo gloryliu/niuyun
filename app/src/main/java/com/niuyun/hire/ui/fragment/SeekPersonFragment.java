@@ -14,7 +14,7 @@ import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.BaseFragment;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
-import com.niuyun.hire.ui.activity.ControlPositionIntentActivity;
+import com.niuyun.hire.ui.activity.EnterprisePositionControlActivity;
 import com.niuyun.hire.ui.activity.LoginActivity;
 import com.niuyun.hire.ui.activity.PreviewResumeActivity;
 import com.niuyun.hire.ui.adapter.IndexSeekPersonListItemAdapter;
@@ -169,7 +169,7 @@ public class SeekPersonFragment extends BaseFragment implements View.OnClickList
             case R.id.ivb_add_intent:
                 if (BaseContext.getInstance().getUserInfo() != null) {
 
-                    startActivity(new Intent(getActivity(), ControlPositionIntentActivity.class));
+                    startActivity(new Intent(getActivity(), EnterprisePositionControlActivity.class));
                 } else {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 }

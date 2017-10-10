@@ -116,6 +116,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name="com.niuyun.hire.ui.activity.PolyvUploadActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.LoginActivity"

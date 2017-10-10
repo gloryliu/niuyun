@@ -391,7 +391,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                 if (data == null || "".equals(data)) {
                     return;
                 }
-                listLogo .addAll(data.getStringArrayListExtra("photo")) ;
+                listLogo.addAll(data.getStringArrayListExtra("photo")) ;
             }
         }
 //        headIsChange = true;

@@ -32,10 +32,13 @@ import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.TitleBar;
+import com.tencent.imsdk.TIMConversationType;
 
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.niuyun.hire.base.Constants.EXTRA_CAHT_TYPE;
 
 /**
  * Created by chen.zhiwei on 2017-8-10.
@@ -106,6 +109,7 @@ public class PreviewResumeActivity extends BaseActivity {
                     if (previewResumeBean != null) {
                         Intent intent = new Intent(PreviewResumeActivity.this, ChatActivity.class);
                         intent.putExtra(Constants.EXTRA_USER_ID, "niuyunApp" + uid);
+                        intent.putExtra(EXTRA_CAHT_TYPE, TIMConversationType.C2C);
                         startActivity(intent);
                     }
 
@@ -135,25 +139,33 @@ public class PreviewResumeActivity extends BaseActivity {
     }
 
     private void initTitle() {
+        titleView.setLeftImageResource(R.mipmap.ic_title_back);
+        titleView.setLeftText("返回");
+        titleView.setLeftTextColor(Color.WHITE);
+        titleView.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         if (TextUtils.isEmpty(uid)) {
             titleView.setTitle("预览简历");
             titleView.setTitleColor(getResources().getColor(R.color.color_333333));
             titleView.setBackgroundColor(Color.WHITE);
-            titleView.setImmersive(true);
+
         } else {
             titleView.setTitle("候选人简历");
             titleView.setTitleColor(Color.WHITE);
             titleView.setBackgroundColor(getResources().getColor(R.color.color_ea0000));
-            titleView.setImmersive(true);
         }
+        titleView.setImmersive(true);
 
-//        setBarTintColor(Color.WHITE);
 
     }
 
     private void initData() {
         if (previewResumeBean != null && previewResumeBean.getData() != null) {
-            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + previewResumeBean.getData().getAvatars(), iv_head,R.mipmap.ic_default_head);
+            ImageLoadedrManager.getInstance().display(this, Constants.COMMON_PERSON_URL + previewResumeBean.getData().getAvatars(), iv_head, R.mipmap.ic_default_head);
             tv_name.setText(previewResumeBean.getData().getRealname());
             if (!TextUtils.isEmpty(previewResumeBean.getData().getSexCn()) && previewResumeBean.getData().getSexCn().equals("男")) {
                 iv_sex.setImageResource(R.mipmap.ic_sex_man_normal);
@@ -250,6 +262,7 @@ public class PreviewResumeActivity extends BaseActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -261,9 +274,10 @@ public class PreviewResumeActivity extends BaseActivity {
         super.onPause();
         pv_play.onPause();
     }
+
     @Override
     protected void onDestroy() {
-        if (pv_play!=null){
+        if (pv_play != null) {
             pv_play.onDestroy();
         }
         super.onDestroy();

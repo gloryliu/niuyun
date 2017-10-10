@@ -227,6 +227,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
             case R.id.btn_ok:
                 getConfigData();
                 startVideoRecordActivity();
+                finish();
                 break;
         }
     }

@@ -182,7 +182,8 @@ public class SplashScreenActivity extends BaseActivity implements TIMCallBack {
                 new NotifyDialog().show(getString(R.string.tls_expire), getSupportFragmentManager(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                            logout();
+                        BaseContext.getInstance().clearUserInfo();
+                        navToLogin();
                     }
                 });
             }
@@ -248,7 +249,14 @@ public class SplashScreenActivity extends BaseActivity implements TIMCallBack {
                     public void onClick(DialogInterface dialog, int which) {
                         navToHome();
                     }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        BaseContext.getInstance().Exit();
+                        navToLogin();
+                    }
                 });
+//                UIUtil.showToast(R.string.kick_logout);
                 break;
             case 6200:
                 Toast.makeText(this, getString(R.string.login_error_timeout), Toast.LENGTH_SHORT).show();
@@ -352,7 +360,7 @@ public class SplashScreenActivity extends BaseActivity implements TIMCallBack {
 //        presenter.start();
         if (BaseContext.getInstance().getUserInfo() != null) {
             navToHome();
-        }else {
+        } else {
             start();
         }
 

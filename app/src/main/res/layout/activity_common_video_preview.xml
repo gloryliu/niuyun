@@ -26,59 +26,26 @@
         android:id="@+id/record_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_centerInParent="true"
         android:background="@drawable/icon_record_start"
         android:onClick="onClick" />
 
 
     <!--录制完成-->
+
     <RelativeLayout
-        android:id="@+id/publishLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/record_delete"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="80dp"
-            android:background="@drawable/icon_record_delete"
-            android:onClick="onClick" />
-
-        <ImageView
-            android:id="@+id/record_download"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="80dp"
-            android:background="@drawable/icon_record_download"
-            android:onClick="onClick" />
-
-        <ImageView
-            android:id="@+id/record_publish"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_centerInParent="true"
-            android:background="@drawable/icon_share"
-            android:onClick="onClick" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="15dp"
+            android:layout_toLeftOf="@+id/progress_time"
             android:max="0"
             android:maxHeight="2.0dip"
             android:minHeight="2.0dip"
@@ -92,14 +59,23 @@
             android:id="@+id/progress_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/seekbar"
-            android:layout_alignParentRight="true"
+
+            android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btnOrientation"
             android:text="00:00/00:00"
             android:textColor="@color/c8"
             android:textSize="@dimen/h6"
-            android:visibility="gone" />
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/btnOrientation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/landscape" />
 
         <LinearLayout
             android:id="@+id/play_pannel"
@@ -107,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,11 +113,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <ImageView
-                android:id="@+id/btnOrientation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/landscape" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -161,6 +133,6 @@
         </LinearLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

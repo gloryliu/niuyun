@@ -84,10 +84,12 @@ public class SelectedRegisterRoler extends BaseActivity implements View.OnClickL
             case R.id.tv_person_register:
                 //个人注册
                 startActivity(new Intent(this, RegisterActivity.class));
+                finish();
                 break;
             case R.id.tv_enterprise_register:
                 //企业注册
                 startActivity(new Intent(this, EnterpriseRegisterActivity.class));
+                finish();
                 break;
         }
     }

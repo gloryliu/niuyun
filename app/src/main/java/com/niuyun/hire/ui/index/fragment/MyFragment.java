@@ -145,6 +145,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             case R.id.rl_video_resume:
                 //视频简历
                 Intent intent = new Intent(getActivity(), PolyvUploadActivity.class);
+                intent.putExtra("type","person");
                 startActivity(intent);
                 break;
             case R.id.rl_stars:

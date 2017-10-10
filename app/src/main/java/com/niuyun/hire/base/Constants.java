@@ -16,7 +16,8 @@ public class Constants {
     public static String SELECTED_CITY_NAME = "SELECTED_CITY_NAME";
     public static int successCode = 1000;
     public static String INT_TAG = "int_tag";
-    public static String EXTRA_USER_ID="extra_user_id";
+    public static String EXTRA_USER_ID="identify";
+    public static String EXTRA_CAHT_TYPE="type";
     public static String EXTRA_CARD_MESSAGE="extra_chat_message";
 
     public static class ErrorCode {

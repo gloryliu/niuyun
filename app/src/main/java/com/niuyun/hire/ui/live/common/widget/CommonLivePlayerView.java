@@ -26,8 +26,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.niuyun.hire.R;
+import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.live.common.activity.videopreview.TCVideoPreviewActivity;
 import com.niuyun.hire.ui.live.common.utils.TCConstants;
+import com.niuyun.hire.utils.UIUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -50,6 +52,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     boolean mVideoPlay = false;
     boolean mVideoPause = false;
     boolean mAutoPause = false;
+    boolean mVideoShowOrPause = true;
 
     private String mVideoPath;
     private String mCoverImagePath;
@@ -66,9 +69,18 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     private ImageView btnHWDecode;
     private ImageView btnOrientation;
     private ImageView btnRenderMode;
-    private int              mCurrentRenderRotation=TXLiveConstants.RENDER_ROTATION_PORTRAIT;
-    private int              mCurrentRenderMode= TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
-    private boolean          mHWDecode   = false;
+    private int mCurrentRenderRotation = TXLiveConstants.RENDER_ROTATION_PORTRAIT;
+    private int mCurrentRenderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
+    private boolean mHWDecode = false;
+    private RecyclerViewCommonInterface<String> mFullScreenLister;
+
+    public RecyclerViewCommonInterface<String> getmFullScreenLister() {
+        return mFullScreenLister;
+    }
+
+    public void setmFullScreenLister(RecyclerViewCommonInterface<String> mFullScreenLister) {
+        this.mFullScreenLister = mFullScreenLister;
+    }
 
     //错误消息弹窗
     private TCVideoPreviewActivity.ErrorDialogFragment mErrDlgFragment;
@@ -128,10 +140,10 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
 
         mStartPreview = (ImageView) findViewById(R.id.record_preview);
-        btnPlay=(ImageView) findViewById(R.id.btnPlay);
-        btnHWDecode=(ImageView) findViewById(R.id.btnHWDecode);
-        btnOrientation=(ImageView) findViewById(R.id.btnOrientation);
-        btnRenderMode=(ImageView) findViewById(R.id.btnRenderMode);
+        btnPlay = (ImageView) findViewById(R.id.btnPlay);
+        btnHWDecode = (ImageView) findViewById(R.id.btnHWDecode);
+        btnOrientation = (ImageView) findViewById(R.id.btnOrientation);
+        btnRenderMode = (ImageView) findViewById(R.id.btnRenderMode);
         btnHWDecode.getBackground().setAlpha(mHWDecode ? 255 : 100);
         mStartPreview.setOnClickListener(this);
         btnHWDecode.setOnClickListener(this);
@@ -142,6 +154,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
         mTXPlayConfig = new TXLivePlayConfig();
         mTXCloudVideoView = (TXCloudVideoView) findViewById(R.id.video_view);
         mTXCloudVideoView.disableLog(true);
+        mTXCloudVideoView.setOnClickListener(this);
 //        mVideoPath = getIntent().getStringExtra(TCConstants.VIDEO_RECORD_VIDEPATH);
 //        mCoverImagePath = getIntent().getStringExtra(TCConstants.VIDEO_RECORD_COVERPATH);
 //        mVideoDuration = getIntent().getIntExtra(TCConstants.VIDEO_RECORD_DURATION, 0);
@@ -183,7 +196,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
 
     private boolean startPlay() {
-//        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
+        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
         mTXLivePlayer.setPlayerView(mTXCloudVideoView);
         mTXLivePlayer.setPlayListener(this);
         mTXLivePlayer.enableHardwareDecode(mHWDecode);
@@ -346,12 +359,12 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                 if (mVideoPlay) {
                     if (mVideoPause) {
                         mTXLivePlayer.resume();
-//                        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
+                        mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);
                         btnPlay.setBackgroundResource(R.drawable.play_pause);
                         mVideoPause = false;
                     } else {
                         mTXLivePlayer.pause();
-//                        mStartPreview.setBackgroundResource(R.drawable.icon_record_start);
+                        mStartPreview.setBackgroundResource(R.drawable.icon_record_start);
                         btnPlay.setBackgroundResource(R.drawable.play_start);
                         mVideoPause = true;
                     }
@@ -359,6 +372,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                     btnPlay.setBackgroundResource(R.drawable.play_pause);
                     startPlay();
                 }
+                changeState();
                 break;
             case R.id.btnRenderMode://填充
                 if (mTXLivePlayer == null) {
@@ -389,7 +403,9 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                 }
 
                 mTXLivePlayer.setRenderRotation(mCurrentRenderRotation);
-
+                if (mFullScreenLister != null) {
+                    mFullScreenLister.onClick(mCurrentRenderRotation+"");
+                }
                 break;
             case R.id.btnHWDecode://硬解码
 
@@ -409,7 +425,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 //                    stopPlayRtmp();
 //                    mVideoPlay = startPlayRtmp();
                     if (mVideoPause) {
-                        if (mTXCloudVideoView != null){
+                        if (mTXCloudVideoView != null) {
                             mTXCloudVideoView.onResume();
                         }
                         mVideoPause = false;
@@ -417,8 +433,38 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
                 }
 
                 break;
+            case R.id.video_view:
+                UIUtil.showToast("点击video");
+                changeState();
+                break;
             default:
                 break;
+        }
+    }
+//    private Handler handler = new Handler();
+
+
+    private Runnable runnableRef = new Runnable() {
+        public void run() {
+            mStartPreview.setVisibility(GONE);
+            mVideoShowOrPause = false;
+        }
+    };
+
+    private void changeState() {
+        mStartPreview.removeCallbacks(runnableRef);
+        if (mVideoPause) {
+            mVideoShowOrPause = true;
+            mStartPreview.setVisibility(VISIBLE);
+        } else {
+            if (!mVideoShowOrPause) {
+                mVideoShowOrPause = true;
+                mStartPreview.setVisibility(VISIBLE);
+                mStartPreview.postDelayed(runnableRef, 2000);
+            } else {
+                mVideoShowOrPause = false;
+                mStartPreview.setVisibility(GONE);
+            }
         }
     }
 

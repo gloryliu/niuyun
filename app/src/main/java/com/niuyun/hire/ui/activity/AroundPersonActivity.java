@@ -22,10 +22,13 @@ import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.CircularImageView;
 import com.niuyun.hire.view.TitleBar;
+import com.tencent.imsdk.TIMConversationType;
 
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.niuyun.hire.base.Constants.EXTRA_CAHT_TYPE;
 
 /**
  * Created by chen.zhiwei on 2017-9-5.
@@ -71,6 +74,7 @@ public class AroundPersonActivity extends BaseActivity {
                     if (previewResumeBean != null) {
                         Intent intent = new Intent(AroundPersonActivity.this, ChatActivity.class);
                         intent.putExtra(Constants.EXTRA_USER_ID, "niuyunApp" + uid);
+                        intent.putExtra(EXTRA_CAHT_TYPE, TIMConversationType.C2C);
                         startActivity(intent);
                     }
 

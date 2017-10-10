@@ -138,7 +138,8 @@ public class EnterPriseCertificationActivity extends BaseActivity {
     }
 
     private void goNext() {
-        if (BaseContext.getInstance().getUserInfo().utype == 1) {
+
+        if (BaseContext.getInstance().getUserInfo()!=null&&BaseContext.getInstance().getUserInfo().utype == 1) {
             startActivity(new Intent(this, EnterpriseMainActivity.class));
             AppManager.getAppManager().finishActivity(MainActivity.class);
         } else {
@@ -157,13 +158,13 @@ public class EnterPriseCertificationActivity extends BaseActivity {
         list.clear();
         if (resultCode == resultCode_header_Camera) {
             //相机返回图片
-            list = data.getStringArrayListExtra("picture");
+            list .addAll(data.getStringArrayListExtra("picture")) ;
         } else if (resultCode == resultCode_header_Photos) {
             // 图库中选择
             if (data == null || "".equals(data)) {
                 return;
             }
-            list = data.getStringArrayListExtra("photo");
+            list .addAll(data.getStringArrayListExtra("photo")) ;
             LogUtils.e("image路径--" + list.get(0));
         }
 //        headIsChange = true;

@@ -2,9 +2,13 @@ package com.niuyun.hire.ui.activity;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.KeyEventCompat;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -16,10 +20,13 @@ import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView;
 import com.niuyun.hire.ui.live.shortvideo.choose.TCVideoChooseActivity;
 import com.niuyun.hire.ui.live.videorecord.TCVideoSettingActivity;
+import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
+import com.tencent.rtmp.TXLiveConstants;
 
 import butterknife.BindView;
 
@@ -46,6 +53,9 @@ public class PolyvUploadActivity extends BaseActivity {
     TextView tv_again_upload;
     @BindView(R.id.ll_online_resume_title)
     RelativeLayout ll_online_resume_title;
+    @BindView(R.id.ll_resume_title)
+    RelativeLayout ll_resume_title;
+    String type;
 
     private void initView() {
         bt_next.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +79,36 @@ public class PolyvUploadActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        pv_play.setmFullScreenLister(new RecyclerViewCommonInterface<String>() {
+            @Override
+            public void onClick(String bean) {
+                if (bean.equals(TXLiveConstants.RENDER_ROTATION_LANDSCAPE + "")) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
+                    params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+                    params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                    pv_play.setLayoutParams(params);
+                    ll_resume_title.setVisibility(View.GONE);
+                    ll_online_resume_title.setVisibility(View.GONE);
+                    title_view.setVisibility(View.GONE);
+                    if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    }
+                } else {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
+                    params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+                    params.height = UIUtil.dip2px(PolyvUploadActivity.this, 180);
+                    pv_play.setLayoutParams(params);
+                    ll_resume_title.setVisibility(View.VISIBLE);
+                    title_view.setVisibility(View.VISIBLE);
+                    if (!TextUtils.isEmpty(type) && type.equals("person")) {
+                        ll_online_resume_title.setVisibility(View.VISIBLE);
+                    }
+                    if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -79,7 +119,7 @@ public class PolyvUploadActivity extends BaseActivity {
     @Override
     public void initViewsAndEvents() {
 //        Bundle bundle=getIntent().getExtras();
-        String type = getIntent().getStringExtra("type");
+        type = getIntent().getStringExtra("type");
         if (!TextUtils.isEmpty(type) && type.equals("company")) {
             ll_online_resume_title.setVisibility(View.GONE);
         }
@@ -144,15 +184,15 @@ public class PolyvUploadActivity extends BaseActivity {
     private void initTitle() {
         title_view.setTitle("视频简历");
         title_view.setTitleColor(Color.WHITE);
-//        title_view.setLeftImageResource(R.mipmap.ic_title_back);
-//        title_view.setLeftText("返回");
-//        title_view.setLeftTextColor(Color.WHITE);
-//        title_view.setLeftClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
+        title_view.setLeftImageResource(R.mipmap.ic_title_back);
+        title_view.setLeftText("返回");
+        title_view.setLeftTextColor(Color.WHITE);
+        title_view.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         title_view.setActionTextColor(Color.WHITE);
         title_view.addAction(new TitleBar.TextAction("添加本地视频") {
             @Override
@@ -202,6 +242,16 @@ public class PolyvUploadActivity extends BaseActivity {
             } else {
                 rl_video_content.setVisibility(View.GONE);
                 rl_online_resume_content.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
         }
     }

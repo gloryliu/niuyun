@@ -59,6 +59,7 @@ public class BaseContext extends MultiDexApplication {
     private AllTagBean allTagBean;
     public static String currentUserNick = "";
     private static LocationInfo locationInfo;
+
     public AllTagBean getAllTagBean() {
         this.allTagBean = instance.getDaoSession().getAllTagBeanDao().loadAll().get(0);
         return allTagBean;
@@ -84,8 +85,6 @@ public class BaseContext extends MultiDexApplication {
         SharePrefUtil.saveString(getInstance(), "cityId", locationInfo.getCityId());
 
     }
-
-
 
 
     @Override
@@ -121,11 +120,11 @@ public class BaseContext extends MultiDexApplication {
 
 
         Foreground.init(this);
-        if(MsfSdkUtils.isMainProcess(this)) {
+        if (MsfSdkUtils.isMainProcess(this)) {
             TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
                 @Override
                 public void handleNotification(TIMOfflinePushNotification notification) {
-                    if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify){
+                    if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify) {
                         //消息被设置为需要提醒
                         notification.doNotify(getApplicationContext(), R.mipmap.ic_launcher);
                     }
@@ -273,6 +272,11 @@ public class BaseContext extends MultiDexApplication {
         setLocationInfo(locationInfo);
     }
 
+    public void clearUserInfo() {
+        LoginUtils.quitIm();
+        SharePreManager.instance(this).clearUserInfO();
+        userInfo = null;
+    }
 
     /**
      * 清除用户信息

@@ -240,8 +240,8 @@ public class EnterpriseRegisterActivity extends BaseActivity implements View.OnC
                         findPsIntent.putExtras(bundle);
                         startActivity(findPsIntent);
                         AppManager.getAppManager().finishActivity(LoginActivity.class);
-                        finish();
                         UIUtil.showToast(response.body().getMsg());
+                        finish();
                     } else {
                         try {
                             UIUtil.showToast(response.body().getMsg());

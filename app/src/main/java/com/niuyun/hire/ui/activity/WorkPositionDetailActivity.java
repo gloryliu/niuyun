@@ -26,6 +26,7 @@ import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.rtmp.TXLivePlayer;
 
 import java.io.IOException;
@@ -35,6 +36,8 @@ import java.util.Map;
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.niuyun.hire.base.Constants.EXTRA_CAHT_TYPE;
 
 /**
  * Created by chen.zhiwei on 2017-7-26.
@@ -290,6 +293,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                     if (bean != null) {
                         Intent intent = new Intent(this, ChatActivity.class);
                         intent.putExtra(Constants.EXTRA_USER_ID, "niuyunApp" + bean.getData().getUid());
+                        intent.putExtra(EXTRA_CAHT_TYPE, TIMConversationType.C2C);
                         intent.putExtra(Constants.EXTRA_CARD_MESSAGE, bean);
                         startActivity(intent);
                     }

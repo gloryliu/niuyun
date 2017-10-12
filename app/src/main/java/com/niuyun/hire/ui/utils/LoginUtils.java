@@ -158,6 +158,24 @@ public class LoginUtils {
                 Log.e("initChat", "modifyProfile succ");
             }
         });
+
+        //设置资料关系链拉取字段，这里只关心好友验证类型、头像URL、昵称和自定义字段"Tag_Profile_Custom_Test"
+//        TIMFriendshipSettings settings = new TIMFriendshipSettings();
+//        long flags = 0;
+//        flags |= TIMFriendshipManager.TIM_PROFILE_FLAG_ALLOW_TYPE
+//                | TIMFriendshipManager.TIM_PROFILE_FLAG_FACE_URL
+//                | TIMFriendshipManager.TIM_PROFILE_FLAG_NICK;
+//        settings.setFlags(flags);
+//        settings.addCustomTag("Tag_Profile_Custom_Test");
+//
+//        TIMUserConfig config = new TIMUserConfig();
+//        config.setFriendshipSettings(settings);
+//
+////将用户配置与当前通信管理器关联
+//        TIMManager.getInstance().setUserConfig(config);
+
+
+
         if (BaseContext.getInstance().getUserInfo() == null) {
             return;
         }

@@ -22,6 +22,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
     private int resourceId;
     private View view;
     private ViewHolder viewHolder;
+    private Context context;
 
     /**
      * Constructor
@@ -33,15 +34,16 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
      */
     public ConversationAdapter(Context context, int resource, List<Conversation> objects) {
         super(context, resource, objects);
+        this.context = context;
         resourceId = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView != null){
+        if (convertView != null) {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
-        }else{
+        } else {
             view = LayoutInflater.from(getContext()).inflate(resourceId, null);
             viewHolder = new ViewHolder();
             viewHolder.tvName = (TextView) view.findViewById(R.id.name);
@@ -54,19 +56,51 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         final Conversation data = getItem(position);
         viewHolder.tvName.setText(data.getName());
         viewHolder.avatar.setImageResource(data.getAvatar());
+        //待获取用户资料的用户列表
+//        if (data.getType() == TIMConversationType.C2C) {
+//            List<String> users = new ArrayList<String>();
+//            users.add(data.getIdentify());
+//
+////获取用户资料
+//            TIMFriendshipManager.getInstance().getUsersProfile(users, new TIMValueCallBack<List<TIMUserProfile>>() {
+//                @Override
+//                public void onError(int code, String desc) {
+//                    //错误码code和错误描述desc，可用于定位请求失败原因
+//                    //错误码code列表请参见错误码表
+//                    Log.e("", "getUsersProfile failed: " + code + " desc");
+//                    viewHolder.avatar.setImageResource(R.drawable.head_other);
+//                }
+//
+//                @Override
+//                public void onSuccess(List<TIMUserProfile> result) {
+//                    Log.e("", "getUsersProfile succ");
+//                    for (TIMUserProfile res : result) {
+//                        Log.e("", "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
+//                                + " remark: " + res.getRemark());
+//                        if (context != null && result.size() > 0) {
+//                            ImageLoadedrManager.getInstance().display(context, result.get(0).getFaceUrl(), viewHolder.avatar, R.drawable.head_other);
+//                        }
+//                    }
+//                }
+//            });
+//        }else {
+//            viewHolder.avatar.setImageResource(data.getAvatar());
+//        }
+
+
         viewHolder.lastMessage.setText(data.getLastMessageSummary());
         viewHolder.time.setText(TimeUtil.getTimeStr(data.getLastMessageTime()));
         long unRead = data.getUnreadNum();
-        if (unRead <= 0){
+        if (unRead <= 0) {
             viewHolder.unread.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             viewHolder.unread.setVisibility(View.VISIBLE);
             String unReadStr = String.valueOf(unRead);
-            if (unRead < 10){
+            if (unRead < 10) {
                 viewHolder.unread.setBackground(getContext().getResources().getDrawable(R.drawable.point1));
-            }else{
+            } else {
                 viewHolder.unread.setBackground(getContext().getResources().getDrawable(R.drawable.point2));
-                if (unRead > 99){
+                if (unRead > 99) {
                     unReadStr = getContext().getResources().getString(R.string.time_more);
                 }
             }
@@ -75,7 +109,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         return view;
     }
 
-    public class ViewHolder{
+    public class ViewHolder {
         public TextView tvName;
         public CircleImageView avatar;
         public TextView lastMessage;

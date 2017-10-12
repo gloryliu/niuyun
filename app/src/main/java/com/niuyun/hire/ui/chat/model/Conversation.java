@@ -40,6 +40,10 @@ public abstract class Conversation implements Comparable {
      * 获取头像
      */
     abstract public int getAvatar();
+    /**
+     * 获取头像
+     */
+//    abstract public String getLiveAvatar();
 
 
     /**
@@ -72,6 +76,10 @@ public abstract class Conversation implements Comparable {
         if (!identify.equals(that.identify)) return false;
         return type == that.type;
 
+    }
+
+    public TIMConversationType getType() {
+        return type;
     }
 
     @Override

@@ -64,11 +64,10 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
     public void initViewsAndEvents() {
         setIsOpenTitle(false);
         inflater = getLayoutInflater();
-        setContentView(R.layout.activity_guide);
         type = getIntent().getIntExtra(Constants.INT_TAG, 0);
 
         // 实例化ArrayList对象
-        mViews = new ArrayList<View>();
+        mViews = new ArrayList<>();
         // 实例化ViewPager
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         // 实例化ViewPager适配器
@@ -103,12 +102,12 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
         mViewPager.setOnTouchListener(this);
         // 初始化底部小点
         initPoint();
-        iv_quick_experience.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startbutton(view);
-            }
-        });
+//        iv_quick_experience.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startbutton(view);
+//            }
+//        });
     }
 
     /**
@@ -219,11 +218,13 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener,
         mPoints[currentIndex].setEnabled(true);
 
         currentIndex = positon;
+        iv_quick_experience.clearAnimation();
         if (currentIndex == mGuidePics.length - 1) {
             iv_quick_experience.setVisibility(View.VISIBLE);
         } else {
-            iv_quick_experience.setVisibility(View.INVISIBLE);
+            iv_quick_experience.setVisibility(View.GONE);
         }
+
     }
 
     // 立即体验，在XML文件中设置onClick属性

@@ -26,6 +26,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.tencent.qalsdk.service.QalService.context;
+
 /**
  * 小视频消息数据
  */
@@ -91,7 +93,7 @@ public class VideoMessage extends Message {
      */
     @Override
     public void showMessage(final ChatAdapter.ViewHolder viewHolder, final Context context) {
-        clearView(viewHolder);
+        clearView(viewHolder,context);
         if (checkRevoke(viewHolder)) return;
         final TIMVideoElem e = (TIMVideoElem) message.getElement(0);
         switch (message.status()){
@@ -163,7 +165,7 @@ public class VideoMessage extends Message {
         if (bitmap == null) return;
         ImageView imageView = new ImageView(BaseContext.getInstance());
         imageView.setImageBitmap(bitmap);
-        getBubbleView(viewHolder).addView(imageView);
+        getBubbleView(viewHolder,context).addView(imageView);
     }
 
     private void showVideo(String path, Context context){
@@ -174,7 +176,7 @@ public class VideoMessage extends Message {
     }
 
     private void setVideoEvent(final ChatAdapter.ViewHolder viewHolder, final String fileName,final Context context){
-        getBubbleView(viewHolder).setOnClickListener(new View.OnClickListener() {
+        getBubbleView(viewHolder,context).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showVideo(FileUtil.getCacheFilePath(fileName),context);

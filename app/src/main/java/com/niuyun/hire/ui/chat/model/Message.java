@@ -1,15 +1,24 @@
 package com.niuyun.hire.ui.chat.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.adapters.ChatAdapter;
 import com.niuyun.hire.ui.chat.utils.TimeUtil;
+import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 消息数据基类
@@ -37,7 +46,7 @@ public abstract class Message {
      * 显示消息
      *
      * @param viewHolder 界面样式
-     * @param context 显示消息的上下文
+     * @param context    显示消息的上下文
      */
     public abstract void showMessage(ChatAdapter.ViewHolder viewHolder, Context context);
 
@@ -46,26 +55,77 @@ public abstract class Message {
      *
      * @param viewHolder 界面样式
      */
-    public RelativeLayout getBubbleView(ChatAdapter.ViewHolder viewHolder){
-        viewHolder.systemMessage.setVisibility(hasTime?View.VISIBLE:View.GONE);
+    public RelativeLayout getBubbleView(final ChatAdapter.ViewHolder viewHolder, final Context context) {
+        viewHolder.systemMessage.setVisibility(hasTime ? View.VISIBLE : View.GONE);
         viewHolder.systemMessage.setText(TimeUtil.getChatTimeStr(message.timestamp()));
         showDesc(viewHolder);
-        if (message.isSelf()){
+        if (message.isSelf()) {
             viewHolder.leftPanel.setVisibility(View.GONE);
             viewHolder.rightPanel.setVisibility(View.VISIBLE);
+//            viewHolder.rightAvatar
+
+            //获取自己的资料
+            TIMFriendshipManager.getInstance().getSelfProfile(new TIMValueCallBack<TIMUserProfile>() {
+                @Override
+                public void onError(int code, String desc) {
+                    //错误码code和错误描述desc，可用于定位请求失败原因
+                    //错误码code列表请参见错误码表
+                    Log.e("", "getSelfProfile failed: " + code + " desc");
+                }
+
+                @Override
+                public void onSuccess(TIMUserProfile result) {
+                    Log.e("", "getSelfProfile succ");
+                    Log.e("", "identifier: " + result.getIdentifier() + " nickName: " + result.getNickName()
+                            + " remark: " + result.getRemark() + " allow: " + result.getAllowType());
+                    if (context != null) {
+                        ImageLoadedrManager.getInstance().display(context, result.getFaceUrl(), viewHolder.rightAvatar, R.drawable.head_other);
+//                        ImageLoadedrManager.getInstance().display(context, "http://image.xinmin.cn/2013/04/23/20130423160116689534.jpg", viewHolder.rightAvatar, R.drawable.head_other);
+                    }
+                }
+            });
             return viewHolder.rightMessage;
-        }else{
+        } else {
+
+            //待获取用户资料的用户列表
+            List<String> users = new ArrayList<String>();
+            users.add(message.getConversation().getPeer());
+
+//获取用户资料
+            TIMFriendshipManager.getInstance().getUsersProfile(users, new TIMValueCallBack<List<TIMUserProfile>>() {
+                @Override
+                public void onError(int code, String desc) {
+                    //错误码code和错误描述desc，可用于定位请求失败原因
+                    //错误码code列表请参见错误码表
+                    Log.e("", "getUsersProfile failed: " + code + " desc");
+                }
+
+                @Override
+                public void onSuccess(List<TIMUserProfile> result) {
+                    Log.e("", "getUsersProfile succ");
+                    for (TIMUserProfile res : result) {
+                        Log.e("", "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
+                                + " remark: " + res.getRemark());
+                        if (context != null && result.size() > 0) {
+                            ImageLoadedrManager.getInstance().display(context, result.get(0).getFaceUrl(), viewHolder.leftAvatar, R.drawable.head_me);
+//                            ImageLoadedrManager.getInstance().display(context, "http://www.sinaimg.cn/gm/cr/2015/0615/3043728699.jpg", viewHolder.leftAvatar, R.drawable.head_me);
+                        }
+                    }
+                }
+            });
             viewHolder.leftPanel.setVisibility(View.VISIBLE);
             viewHolder.rightPanel.setVisibility(View.GONE);
             //群聊显示名称，群名片>个人昵称>identify
-            if (message.getConversation().getType() == TIMConversationType.Group){
+            if (message.getConversation().getType() == TIMConversationType.Group) {
                 viewHolder.sender.setVisibility(View.VISIBLE);
                 String name = "";
-                if (message.getSenderGroupMemberProfile()!=null) name = message.getSenderGroupMemberProfile().getNameCard();
-                if (name.equals("")&&message.getSenderProfile()!=null) name = message.getSenderProfile().getNickName();
+                if (message.getSenderGroupMemberProfile() != null)
+                    name = message.getSenderGroupMemberProfile().getNameCard();
+                if (name.equals("") && message.getSenderProfile() != null)
+                    name = message.getSenderProfile().getNickName();
                 if (name.equals("")) name = message.getSender();
                 viewHolder.sender.setText(name);
-            }else{
+            } else {
                 viewHolder.sender.setVisibility(View.GONE);
             }
             return viewHolder.leftMessage;
@@ -78,8 +138,8 @@ public abstract class Message {
      *
      * @param viewHolder 界面样式
      */
-    public void showStatus(ChatAdapter.ViewHolder viewHolder){
-        switch (message.status()){
+    public void showStatus(ChatAdapter.ViewHolder viewHolder) {
+        switch (message.status()) {
             case Sending:
                 viewHolder.error.setVisibility(View.GONE);
                 viewHolder.sending.setVisibility(View.VISIBLE);
@@ -98,15 +158,13 @@ public abstract class Message {
 
     /**
      * 判断是否是自己发的
-     *
      */
-    public boolean isSelf(){
+    public boolean isSelf() {
         return message.isSelf();
     }
 
     /**
      * 获取消息摘要
-     *
      */
     public abstract String getSummary();
 
@@ -119,26 +177,21 @@ public abstract class Message {
 
     /**
      * 保存消息或消息文件
-     *
      */
     public abstract void save();
 
 
     /**
      * 删除消息
-     *
      */
-    public void remove(){
+    public void remove() {
         TIMMessageExt ext = new TIMMessageExt(message);
         ext.remove();
     }
 
 
-
-
     /**
      * 是否需要显示时间获取
-     *
      */
     public boolean getHasTime() {
         return hasTime;
@@ -150,8 +203,8 @@ public abstract class Message {
      *
      * @param message 上一条消息
      */
-    public void setHasTime(TIMMessage message){
-        if (message == null){
+    public void setHasTime(TIMMessage message) {
+        if (message == null) {
             hasTime = true;
             return;
         }
@@ -161,24 +214,21 @@ public abstract class Message {
 
     /**
      * 消息是否发送失败
-     *
      */
-    public boolean isSendFail(){
+    public boolean isSendFail() {
         return message.status() == TIMMessageStatus.SendFail;
     }
 
     /**
      * 清除气泡原有数据
-     *
      */
-    protected void clearView(ChatAdapter.ViewHolder viewHolder){
-        getBubbleView(viewHolder).removeAllViews();
-        getBubbleView(viewHolder).setOnClickListener(null);
+    protected void clearView(ChatAdapter.ViewHolder viewHolder, Context context) {
+        getBubbleView(viewHolder, context).removeAllViews();
+        getBubbleView(viewHolder, context).setOnClickListener(null);
     }
 
     /**
      * 显示撤回的消息
-     *
      */
     boolean checkRevoke(ChatAdapter.ViewHolder viewHolder) {
         if (message.status() == TIMMessageStatus.HasRevoked) {
@@ -193,9 +243,8 @@ public abstract class Message {
 
     /**
      * 获取发送者
-     *
      */
-    public String getSender(){
+    public String getSender() {
         if (message.getSender() == null) return "";
         return message.getSender();
     }
@@ -209,11 +258,11 @@ public abstract class Message {
     }
 
 
-    private void showDesc(ChatAdapter.ViewHolder viewHolder){
+    private void showDesc(ChatAdapter.ViewHolder viewHolder) {
 
-        if (desc == null || desc.equals("")){
+        if (desc == null || desc.equals("")) {
             viewHolder.rightDesc.setVisibility(View.GONE);
-        }else{
+        } else {
             viewHolder.rightDesc.setVisibility(View.VISIBLE);
             viewHolder.rightDesc.setText(desc);
         }

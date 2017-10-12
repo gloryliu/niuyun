@@ -85,7 +85,7 @@ public interface JyApi {
      * @param map
      * @return
      */
-    @POST("/resource/user/forgetPwd")
+    @POST("/resource/members/updatePwdByPhone")
     Call<ErrorBean> commitNewPassword(@Body Map<String, String> map);
 
     /**

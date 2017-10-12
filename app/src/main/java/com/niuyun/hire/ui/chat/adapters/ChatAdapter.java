@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.model.Message;
+import com.tencent.qcloud.ui.CircleImageView;
 
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class ChatAdapter extends ArrayAdapter<Message> {
             viewHolder.rightPanel = (RelativeLayout) view.findViewById(R.id.rightPanel);
             viewHolder.sending = (ProgressBar) view.findViewById(R.id.sending);
             viewHolder.error = (ImageView) view.findViewById(R.id.sendError);
+            viewHolder.rightAvatar = (CircleImageView) view.findViewById(R.id.rightAvatar);
+            viewHolder.leftAvatar = (CircleImageView) view.findViewById(R.id.leftAvatar);
             viewHolder.sender = (TextView) view.findViewById(R.id.sender);
             viewHolder.rightDesc = (TextView) view.findViewById(R.id.rightDesc);
             viewHolder.systemMessage = (TextView) view.findViewById(R.id.systemMessage);
@@ -76,5 +79,7 @@ public class ChatAdapter extends ArrayAdapter<Message> {
         public TextView sender;
         public TextView systemMessage;
         public TextView rightDesc;
+        public CircleImageView rightAvatar;
+        public CircleImageView leftAvatar;
     }
 }

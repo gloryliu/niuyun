@@ -208,7 +208,7 @@ public class FindPasswordActivity extends BaseActivity {
             UIUtil.showToast("密码不能为空");
             return;
         }
-        if (!user_again_password.getText().equals(user_again_password.getText())) {
+        if (!user_again_password.getText().toString().equals(user_password.getText().toString())) {
             UIUtil.showToast("密码不一致");
             return;
         }

@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.KeyEventCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -248,11 +247,20 @@ public class PolyvUploadActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return super.onKeyDown(keyCode, event);
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    }
+                });
+                return true;
+            } else {
+                return super.onKeyDown(keyCode, event);
             }
         }
+        return super.onKeyDown(keyCode, event);
     }
 }

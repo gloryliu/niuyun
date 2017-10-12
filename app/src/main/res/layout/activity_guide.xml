@@ -18,7 +18,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -26,6 +25,7 @@
                 android:id="@+id/iv_quick_experience"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:src="@mipmap/ic_quick_experience" />
 
             <LinearLayout

@@ -126,7 +126,7 @@ public class UpdatePasswordActivity extends BaseActivity {
             UIUtil.showToast("新密码不能为空");
             return;
         }
-        if (!user_new_pass.getText().equals(etCode.getText())) {
+        if (!user_new_pass.getText().toString().equals(etCode.getText().toString())) {
             UIUtil.showToast("新密码不一致");
             return;
         }

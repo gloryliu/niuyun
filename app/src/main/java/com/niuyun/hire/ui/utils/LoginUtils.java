@@ -3,6 +3,7 @@ package com.niuyun.hire.ui.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
@@ -19,6 +20,7 @@ import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.SharePreManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -140,6 +142,22 @@ public class LoginUtils {
      * 登陆聊天
      */
     public static void initChat() {
+        TIMFriendshipManager.ModifyUserProfileParam param = new TIMFriendshipManager.ModifyUserProfileParam();
+        param.setFaceUrl(Constants.COMMON_PERSON_URL+BaseContext.getInstance().getUserInfo().avatars);
+
+        TIMFriendshipManager.getInstance().modifyProfile(param, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e("initChat", "modifyProfile failed: " + code + " desc" + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e("initChat", "modifyProfile succ");
+            }
+        });
         if (BaseContext.getInstance().getUserInfo() == null) {
             return;
         }

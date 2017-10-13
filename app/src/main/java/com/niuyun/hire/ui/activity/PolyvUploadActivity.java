@@ -82,32 +82,41 @@ public class PolyvUploadActivity extends BaseActivity {
             @Override
             public void onClick(String bean) {
                 if (bean.equals(TXLiveConstants.RENDER_ROTATION_LANDSCAPE + "")) {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
-                    params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-                    params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-                    pv_play.setLayoutParams(params);
-                    ll_resume_title.setVisibility(View.GONE);
-                    ll_online_resume_title.setVisibility(View.GONE);
-                    title_view.setVisibility(View.GONE);
-                    if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    }
+
+                    setORIENTATION_LANDSCAPE();
                 } else {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
-                    params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-                    params.height = UIUtil.dip2px(PolyvUploadActivity.this, 180);
-                    pv_play.setLayoutParams(params);
-                    ll_resume_title.setVisibility(View.VISIBLE);
-                    title_view.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(type) && type.equals("person")) {
-                        ll_online_resume_title.setVisibility(View.VISIBLE);
-                    }
-                    if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    }
+                    setORIENTATION_PORTRAIT();
                 }
             }
         });
+    }
+
+    private void setORIENTATION_PORTRAIT() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
+        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        params.height = UIUtil.dip2px(PolyvUploadActivity.this, 180);
+        pv_play.setLayoutParams(params);
+        ll_resume_title.setVisibility(View.VISIBLE);
+        title_view.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(type) && type.equals("person")) {
+            ll_online_resume_title.setVisibility(View.VISIBLE);
+        }
+        if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    private void setORIENTATION_LANDSCAPE() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
+        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+        pv_play.setLayoutParams(params);
+        ll_resume_title.setVisibility(View.GONE);
+        ll_online_resume_title.setVisibility(View.GONE);
+        title_view.setVisibility(View.GONE);
+        if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
     }
 
     @Override
@@ -250,12 +259,7 @@ public class PolyvUploadActivity extends BaseActivity {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (PolyvUploadActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    }
-                });
+                setORIENTATION_PORTRAIT();
                 return true;
             } else {
                 return super.onKeyDown(keyCode, event);

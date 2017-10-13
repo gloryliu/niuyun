@@ -133,9 +133,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.WorkPositionDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.CompanyDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.niuyun.hire.ui.activity.PerfectEnterpriseInformation"

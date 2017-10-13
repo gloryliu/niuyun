@@ -1,14 +1,19 @@
 package com.niuyun.hire.ui.activity;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.niuyun.hire.R;
@@ -21,12 +26,14 @@ import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.bean.SuperBean;
 import com.niuyun.hire.ui.chat.ui.ChatActivity;
+import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.live.common.widget.CommonLivePlayerView;
 import com.niuyun.hire.utils.ImageLoadedrManager;
 import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 
 import java.io.IOException;
@@ -37,6 +44,7 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.niuyun.hire.R.id.title_view;
 import static com.niuyun.hire.base.Constants.EXTRA_CAHT_TYPE;
 
 /**
@@ -44,8 +52,10 @@ import static com.niuyun.hire.base.Constants.EXTRA_CAHT_TYPE;
  */
 
 public class WorkPositionDetailActivity extends BaseActivity implements View.OnClickListener {
-    @BindView(R.id.title_view)
+    @BindView(title_view)
     TitleBar titleView;
+    @BindView(R.id.nsv_content)
+    NestedScrollView nsv_content;
     @BindView(R.id.tv_company_name1)
     TextView tv_company_name1;//公司名称
     @BindView(R.id.iv_company)
@@ -78,6 +88,24 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
     Button bt_talk;
     @BindView(R.id.pv_play)
     CommonLivePlayerView pv_play;
+    @BindView(R.id.ll_base_info)
+    LinearLayout ll_base_info;
+    @BindView(R.id.ll_work_position)
+    LinearLayout ll_work_position;
+    @BindView(R.id.ll_video)
+    LinearLayout ll_video;
+    @BindView(R.id.vv_divider)
+    View vv_divider;
+    @BindView(R.id.vv_divider1)
+    View vv_divider1;
+    @BindView(R.id.vv_divider2)
+    View vv_divider2;
+    @BindView(R.id.vv_divider3)
+    View vv_divider3;
+    @BindView(R.id.vv_divider4)
+    View vv_divider4;
+    @BindView(R.id.rl_location)
+    RelativeLayout rl_location;
     private String companyId;//公司id
     private String id;//职位id
     private String uid;//职位id
@@ -108,6 +136,63 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         initTitle();
         ll_company.setOnClickListener(this);
         bt_talk.setOnClickListener(this);
+        pv_play.setmFullScreenLister(new RecyclerViewCommonInterface<String>() {
+            @Override
+            public void onClick(String bean) {
+                if (bean.equals(TXLiveConstants.RENDER_ROTATION_LANDSCAPE + "")) {
+                    setORIENTATION_LANDSCAPE();
+                } else {
+                    setORIENTATION_PORTRAIT();
+                }
+            }
+        });
+    }
+
+    private void setORIENTATION_PORTRAIT() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
+        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        params.height = UIUtil.dip2px(WorkPositionDetailActivity.this, 180);
+        pv_play.setLayoutParams(params);
+        ll_base_info.setVisibility(View.VISIBLE);
+        titleView.setVisibility(View.VISIBLE);
+        vv_divider1.setVisibility(View.VISIBLE);
+        ll_work_position.setVisibility(View.VISIBLE);
+        ll_company.setVisibility(View.VISIBLE);
+        vv_divider2.setVisibility(View.VISIBLE);
+        rl_location.setVisibility(View.VISIBLE);
+        bt_talk.setVisibility(View.VISIBLE);
+        vv_divider3.setVisibility(View.VISIBLE);
+        vv_divider4.setVisibility(View.VISIBLE);
+        vv_divider.setVisibility(View.VISIBLE);
+        ll_video.setVisibility(View.VISIBLE);
+        if (WorkPositionDetailActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+        nsv_content.requestLayout();
+    }
+
+    private void setORIENTATION_LANDSCAPE() {
+        ll_base_info.setVisibility(View.GONE);
+        vv_divider1.setVisibility(View.GONE);
+        titleView.setVisibility(View.GONE);
+        ll_work_position.setVisibility(View.GONE);
+        ll_company.setVisibility(View.GONE);
+        vv_divider2.setVisibility(View.GONE);
+        rl_location.setVisibility(View.GONE);
+        bt_talk.setVisibility(View.GONE);
+        vv_divider3.setVisibility(View.GONE);
+        vv_divider4.setVisibility(View.GONE);
+        vv_divider.setVisibility(View.GONE);
+        ll_video.setVisibility(View.GONE);
+
+        if (WorkPositionDetailActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        nsv_content.requestLayout();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pv_play.getLayoutParams();
+        params.width = UIUtil.getScreenWidth(WorkPositionDetailActivity.this);
+        params.height = UIUtil.getScreenHeight(WorkPositionDetailActivity.this);
+        pv_play.setLayoutParams(params);
     }
 
     @Override
@@ -299,11 +384,10 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
                     }
 
                 }
-
                 break;
+
         }
     }
-
 
 
     private void addAttention() {
@@ -348,6 +432,7 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         super.onPause();
         pv_play.onPause();
     }
+
     @Override
     protected void onDestroy() {
         if (jobDetailsBeanCall != null) {
@@ -356,9 +441,23 @@ public class WorkPositionDetailActivity extends BaseActivity implements View.OnC
         if (addAttentionCall != null) {
             addAttentionCall.cancel();
         }
-        if (pv_play!=null){
+        if (pv_play != null) {
             pv_play.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (WorkPositionDetailActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setORIENTATION_PORTRAIT();
+                return true;
+            } else {
+                return super.onKeyDown(keyCode, event);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

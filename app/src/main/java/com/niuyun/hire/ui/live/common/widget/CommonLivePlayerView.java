@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +30,6 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
 import com.niuyun.hire.ui.live.common.activity.videopreview.TCVideoPreviewActivity;
 import com.niuyun.hire.ui.live.common.utils.TCConstants;
-import com.niuyun.hire.utils.UIUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -62,6 +62,8 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     private TXCloudVideoView mTXCloudVideoView;
     private SeekBar mSeekBar;
     private TextView mProgressTime;
+    private RelativeLayout rl_seek;
+
     private long mTrackingTouchTS = 0;
     private boolean mStartSeek = false;
     private Context context;
@@ -144,6 +146,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
         btnHWDecode = (ImageView) findViewById(R.id.btnHWDecode);
         btnOrientation = (ImageView) findViewById(R.id.btnOrientation);
         btnRenderMode = (ImageView) findViewById(R.id.btnRenderMode);
+        rl_seek = (RelativeLayout) findViewById(R.id.rl_seek);
         btnHWDecode.getBackground().setAlpha(mHWDecode ? 255 : 100);
         mStartPreview.setOnClickListener(this);
         btnHWDecode.setOnClickListener(this);
@@ -404,7 +407,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
                 mTXLivePlayer.setRenderRotation(mCurrentRenderRotation);
                 if (mFullScreenLister != null) {
-                    mFullScreenLister.onClick(mCurrentRenderRotation+"");
+                    mFullScreenLister.onClick(mCurrentRenderRotation + "");
                 }
                 break;
             case R.id.btnHWDecode://硬解码
@@ -434,7 +437,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
                 break;
             case R.id.video_view:
-                UIUtil.showToast("点击video");
+//                UIUtil.showToast("点击video");
                 changeState();
                 break;
             default:
@@ -447,25 +450,37 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     private Runnable runnableRef = new Runnable() {
         public void run() {
             mStartPreview.setVisibility(GONE);
+            rl_seek.setVisibility(GONE);
             mVideoShowOrPause = false;
         }
     };
 
     private void changeState() {
-        mStartPreview.removeCallbacks(runnableRef);
-        if (mVideoPause) {
-            mVideoShowOrPause = true;
-            mStartPreview.setVisibility(VISIBLE);
-        } else {
-            if (!mVideoShowOrPause) {
+        if (mVideoPlay) {
+            mStartPreview.removeCallbacks(runnableRef);
+//        rl_seek.removeCallbacks(runnableRef);
+            if (mVideoPause) {
                 mVideoShowOrPause = true;
                 mStartPreview.setVisibility(VISIBLE);
-                mStartPreview.postDelayed(runnableRef, 2000);
+                rl_seek.setVisibility(VISIBLE);
             } else {
-                mVideoShowOrPause = false;
-                mStartPreview.setVisibility(GONE);
+                if (!mVideoShowOrPause) {
+                    mVideoShowOrPause = true;
+                    mStartPreview.setVisibility(VISIBLE);
+                    rl_seek.setVisibility(VISIBLE);
+                    mStartPreview.postDelayed(runnableRef, 2000);
+//                rl_seek.postDelayed(runnableRef, 2000);
+
+                } else {
+                    mVideoShowOrPause = false;
+                    mStartPreview.setVisibility(GONE);
+                    rl_seek.setVisibility(GONE);
+//                mStartPreview.postDelayed(runnableRef, 2000);
+//                rl_seek.postDelayed(runnableRef, 2000);
+                }
             }
         }
+
     }
 
     public static class ErrorDialogFragment extends DialogFragment {

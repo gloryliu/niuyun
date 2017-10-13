@@ -31,9 +31,10 @@
         android:onClick="onClick" />
 
 
-    <!--录制完成-->
 
     <RelativeLayout
+        android:id="@+id/rl_seek"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

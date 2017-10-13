@@ -53,7 +53,7 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     boolean mVideoPause = false;
     boolean mAutoPause = false;
     boolean mVideoShowOrPause = true;
-    boolean mIsShowFullScreenButton=false;
+    boolean mIsShowFullScreenButton = false;
 
 
     private String mVideoPath;
@@ -88,6 +88,11 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
     public void setmIsShowFullScreenButton(boolean mIsShowFullScreenButton) {
         this.mIsShowFullScreenButton = mIsShowFullScreenButton;
+        if (mIsShowFullScreenButton) {
+            btnOrientation.setVisibility(VISIBLE);
+        } else {
+            btnOrientation.setVisibility(GONE);
+        }
     }
 
     //错误消息弹窗

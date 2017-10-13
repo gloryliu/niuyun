@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,26 +27,26 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
 
     private static final String TAG = "TCVideoSettingActivity";
 
-    public static final String RECORD_CONFIG_MAX_DURATION       = "record_config_max_duration";
-    public static final String RECORD_CONFIG_MIN_DURATION       = "record_config_min_duration";
-    public static final String RECORD_CONFIG_ASPECT_RATIO       = "record_config_aspect_ratio";
-    public static final String RECORD_CONFIG_RECOMMEND_QUALITY  = "record_config_recommend_quality";
-    public static final String RECORD_CONFIG_RESOLUTION         = "record_config_resolution";
-    public static final String RECORD_CONFIG_BITE_RATE          = "record_config_bite_rate";
-    public static final String RECORD_CONFIG_FPS                = "record_config_fps";
-    public static final String RECORD_CONFIG_GOP                = "record_config_gop";
+    public static final String RECORD_CONFIG_MAX_DURATION = "record_config_max_duration";
+    public static final String RECORD_CONFIG_MIN_DURATION = "record_config_min_duration";
+    public static final String RECORD_CONFIG_ASPECT_RATIO = "record_config_aspect_ratio";
+    public static final String RECORD_CONFIG_RECOMMEND_QUALITY = "record_config_recommend_quality";
+    public static final String RECORD_CONFIG_RESOLUTION = "record_config_resolution";
+    public static final String RECORD_CONFIG_BITE_RATE = "record_config_bite_rate";
+    public static final String RECORD_CONFIG_FPS = "record_config_fps";
+    public static final String RECORD_CONFIG_GOP = "record_config_gop";
 
     private LinearLayout llBack;
     private EditText etBitrate, etGop, etFps;
     private RadioGroup rgVideoQuality, rgVideoResolution, rgVideoAspectRatio;
     private RadioButton rbVideoQualitySD, rbVideoQualityHD, rbVideoQualitySSD, rbVideoQulityCustom,
-                        rbVideoResolution360p, rbVideoResolution540p, rbVideoResolution720p,
-                        rbVideoAspectRatio11, rbVideoAspectRatio34, rbVideoAspectRatio916;
-//    private LinearLayout llRecommend, llCustom;
+            rbVideoResolution360p, rbVideoResolution540p, rbVideoResolution720p,
+            rbVideoAspectRatio11, rbVideoAspectRatio34, rbVideoAspectRatio916;
+    //    private LinearLayout llRecommend, llCustom;
 //    private View vRecommendLine, vCustomLine;
     private TextView tvRecommendResolution, tvRecommendBitrate, tvRecommendFps, tvRecommendGop;
     private Button btnOK;
-
+    private ImageView bt_next;
     private int mRecommendQuality = -1;
     private int mAspectRatio; // 视频比例
     private int mRecordResolution; // 录制分辨率
@@ -70,11 +71,11 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         initViewStatus();
     }
 
-    private void initData(){
+    private void initData() {
         mRecommendQuality = -1;
     }
 
-    private void initView(){
+    private void initView() {
         llBack = (LinearLayout) findViewById(R.id.back_ll);
 
         etBitrate = (EditText) findViewById(R.id.et_biterate);
@@ -102,22 +103,23 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         tvRecommendBitrate = (TextView) findViewById(R.id.tv_recommend_bitrate);
         tvRecommendFps = (TextView) findViewById(R.id.tv_recommend_fps);
         tvRecommendGop = (TextView) findViewById(R.id.tv_recommend_gop);
-
+        bt_next= (ImageView) findViewById(R.id.bt_next);
         btnOK = (Button) findViewById(R.id.btn_ok);
     }
 
-    private void initListener(){
+    private void initListener() {
         llBack.setOnClickListener(this);
         btnOK.setOnClickListener(this);
+        bt_next.setOnClickListener(this);
 
         rgVideoAspectRatio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                if(i == rbVideoAspectRatio11.getId()){
+                if (i == rbVideoAspectRatio11.getId()) {
                     mAspectRatio = TXRecordCommon.VIDEO_ASPECT_RATIO_1_1;
-                }else if(i == rbVideoAspectRatio34.getId()){
+                } else if (i == rbVideoAspectRatio34.getId()) {
                     mAspectRatio = TXRecordCommon.VIDEO_ASPECT_RATIO_3_4;
-                }else{
+                } else {
                     mAspectRatio = TXRecordCommon.VIDEO_ASPECT_RATIO_9_16;
                 }
             }
@@ -126,19 +128,19 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         rgVideoQuality.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                if(i == rbVideoQualitySD.getId()){
+                if (i == rbVideoQualitySD.getId()) {
                     mRecommendQuality = TXRecordCommon.VIDEO_QUALITY_LOW;
                     showRecommendQualitySet();
                     recommendQualitySD();
-                }else if(i == rbVideoQualityHD.getId()){
+                } else if (i == rbVideoQualityHD.getId()) {
                     mRecommendQuality = TXRecordCommon.VIDEO_QUALITY_MEDIUM;
                     showRecommendQualitySet();
                     recommendQualityHD();
-                }else if(i == rbVideoQualitySSD.getId()){
+                } else if (i == rbVideoQualitySSD.getId()) {
                     mRecommendQuality = TXRecordCommon.VIDEO_QUALITY_HIGH;
                     showRecommendQualitySet();
                     recommendQualitySSD();
-                }else{
+                } else {
                     // 自定义
                     mRecommendQuality = -1;
                     showCustomQualitySet();
@@ -149,25 +151,25 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         rgVideoResolution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                if(i == rbVideoResolution360p.getId()){
+                if (i == rbVideoResolution360p.getId()) {
                     mRecordResolution = TXRecordCommon.VIDEO_RESOLUTION_360_640;
-                }else if(i == rbVideoResolution540p.getId()){
+                } else if (i == rbVideoResolution540p.getId()) {
                     mRecordResolution = TXRecordCommon.VIDEO_RESOLUTION_540_960;
-                }else{
+                } else {
                     mRecordResolution = TXRecordCommon.VIDEO_RESOLUTION_720_1280;
                 }
             }
         });
     }
 
-    private void initViewStatus(){
+    private void initViewStatus() {
         rbVideoResolution540p.setChecked(true);
         rbVideoAspectRatio916.setChecked(true);
 
         rbVideoQualityHD.setChecked(true);
     }
 
-    private void recommendQualitySD(){
+    private void recommendQualitySD() {
         tvRecommendResolution.setText("360p");
         tvRecommendBitrate.setText("800");
         tvRecommendFps.setText("20");
@@ -176,7 +178,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         rbVideoResolution360p.setChecked(true);
     }
 
-    private void recommendQualityHD(){
+    private void recommendQualityHD() {
         tvRecommendResolution.setText("540p");
         tvRecommendBitrate.setText("1800");
         tvRecommendFps.setText("20");
@@ -185,7 +187,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         rbVideoResolution540p.setChecked(true);
     }
 
-    private void recommendQualitySSD(){
+    private void recommendQualitySSD() {
         tvRecommendResolution.setText("720p");
         tvRecommendBitrate.setText("2400");
         tvRecommendFps.setText("20");
@@ -194,7 +196,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         rbVideoResolution720p.setChecked(true);
     }
 
-    private void showCustomQualitySet(){
+    private void showCustomQualitySet() {
         rgVideoResolution.setVisibility(View.VISIBLE);
         etBitrate.setVisibility(View.VISIBLE);
         etFps.setVisibility(View.VISIBLE);
@@ -206,7 +208,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         tvRecommendFps.setVisibility(View.GONE);
     }
 
-    private void showRecommendQualitySet(){
+    private void showRecommendQualitySet() {
         rgVideoResolution.setVisibility(View.GONE);
         etBitrate.setVisibility(View.GONE);
         etFps.setVisibility(View.GONE);
@@ -220,11 +222,12 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.back_ll:
                 finish();
                 break;
             case R.id.btn_ok:
+            case R.id.bt_next:
                 getConfigData();
                 startVideoRecordActivity();
                 finish();
@@ -232,9 +235,9 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         }
     }
 
-    private void getConfigData(){
+    private void getConfigData() {
         // 使用提供的三挡质量设置，不需要传以下参数，sdk内部已定义
-        if(mRecommendQuality != -1){
+        if (mRecommendQuality != -1) {
             return;
         }
 
@@ -242,61 +245,61 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         String gop = etGop.getText().toString();
         String bitrate = etBitrate.getText().toString();
 
-        if( !TextUtils.isEmpty(bitrate) ){
+        if (!TextUtils.isEmpty(bitrate)) {
             try {
                 mBiteRate = Integer.parseInt(bitrate);
-                if(mBiteRate < 800){
+                if (mBiteRate < 800) {
                     mBiteRate = 800;
-                }else if(mBiteRate > 4800){
+                } else if (mBiteRate > 4800) {
                     mBiteRate = 1800;
                 }
             } catch (NumberFormatException e) {
                 TXCLog.e(TAG, "NumberFormatException");
             }
-        }else{
+        } else {
             mBiteRate = 1800;
         }
 
-        if( !TextUtils.isEmpty(fps) ){
+        if (!TextUtils.isEmpty(fps)) {
             try {
                 mFps = Integer.parseInt(fps);
-                if(mFps < 15){
+                if (mFps < 15) {
                     mFps = 15;
-                }else if(mFps > 30){
+                } else if (mFps > 30) {
                     mFps = 20;
                 }
             } catch (NumberFormatException e) {
                 TXCLog.e(TAG, "NumberFormatException");
             }
-        }else{
+        } else {
             mFps = 20;
         }
 
-        if( !TextUtils.isEmpty(gop) ){
+        if (!TextUtils.isEmpty(gop)) {
             try {
                 mGop = Integer.parseInt(gop);
-                if(mGop < 1){
+                if (mGop < 1) {
                     mGop = 1;
-                }else if(mGop > 10){
+                } else if (mGop > 10) {
                     mGop = 3;
                 }
             } catch (NumberFormatException e) {
                 TXCLog.e(TAG, "NumberFormatException");
             }
-        }else{
+        } else {
             mGop = 3;
         }
     }
 
-    private void startVideoRecordActivity(){
+    private void startVideoRecordActivity() {
         Intent intent = new Intent(this, TCVideoRecordActivity.class);
         intent.putExtra(RECORD_CONFIG_MIN_DURATION, 5 * 1000);
         intent.putExtra(RECORD_CONFIG_MAX_DURATION, 60 * 1000);
         intent.putExtra(RECORD_CONFIG_ASPECT_RATIO, mAspectRatio);
-        if(mRecommendQuality != -1){
+        if (mRecommendQuality != -1) {
             // 提供的三挡设置
             intent.putExtra(RECORD_CONFIG_RECOMMEND_QUALITY, mRecommendQuality);
-        }else{
+        } else {
             // 自定义设置
             intent.putExtra(RECORD_CONFIG_RESOLUTION, mRecordResolution);
             intent.putExtra(RECORD_CONFIG_BITE_RATE, mBiteRate);

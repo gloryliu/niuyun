@@ -53,6 +53,8 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
     boolean mVideoPause = false;
     boolean mAutoPause = false;
     boolean mVideoShowOrPause = true;
+    boolean mIsShowFullScreenButton=false;
+
 
     private String mVideoPath;
     private String mCoverImagePath;
@@ -82,6 +84,10 @@ public class CommonLivePlayerView extends LinearLayout implements View.OnClickLi
 
     public void setmFullScreenLister(RecyclerViewCommonInterface<String> mFullScreenLister) {
         this.mFullScreenLister = mFullScreenLister;
+    }
+
+    public void setmIsShowFullScreenButton(boolean mIsShowFullScreenButton) {
+        this.mIsShowFullScreenButton = mIsShowFullScreenButton;
     }
 
     //错误消息弹窗

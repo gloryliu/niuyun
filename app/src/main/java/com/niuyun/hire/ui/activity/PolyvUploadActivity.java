@@ -237,6 +237,7 @@ public class PolyvUploadActivity extends BaseActivity {
     private void setVid(String vid) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         pv_play.setTransaction(ft);
+        pv_play.setmIsShowFullScreenButton(true);
         pv_play.setmVideoPath(vid);
     }
 

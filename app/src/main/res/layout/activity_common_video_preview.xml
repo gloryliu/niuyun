@@ -31,43 +31,51 @@
         android:onClick="onClick" />
 
 
-
     <RelativeLayout
         android:id="@+id/rl_seek"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        <SeekBar
-            android:id="@+id/seekbar"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="15dp"
-            android:layout_toLeftOf="@+id/progress_time"
-            android:max="0"
-            android:maxHeight="2.0dip"
-            android:minHeight="2.0dip"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/play_seekbar_progress"
-            android:thumb="@drawable/play_seekbar_icon" />
-
-        <TextView
-            android:id="@+id/progress_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/btnOrientation"
-            android:text="00:00/00:00"
-            android:textColor="@color/c8"
-            android:textSize="@dimen/h6"
-            android:visibility="visible" />
+            android:orientation="horizontal">
+
+            <SeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
+                android:layout_toLeftOf="@+id/progress_time"
+                android:max="0"
+                android:maxHeight="2.0dip"
+                android:minHeight="2.0dip"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:progress="0"
+                android:progressDrawable="@drawable/play_seekbar_progress"
+                android:thumb="@drawable/play_seekbar_icon" />
+
+            <TextView
+                android:id="@+id/progress_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="00:00/00:00"
+                android:textColor="@color/c8"
+                android:textSize="@dimen/h6"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/btnOrientation"
@@ -75,8 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:visibility="gone"
-            android:background="@drawable/landscape" />
+            android:background="@drawable/landscape"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/play_pannel"

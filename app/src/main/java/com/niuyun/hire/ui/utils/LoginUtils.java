@@ -17,6 +17,7 @@ import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
+import com.niuyun.hire.utils.LogUtils;
 import com.niuyun.hire.utils.SharePreManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.tencent.imsdk.TIMCallBack;
@@ -117,9 +118,9 @@ public class LoginUtils {
                 DialogUtils.closeDialog();
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
                     BaseContext.getInstance().setUserInfo(response.body().getData());
+                    LogUtils.e("", "静默登陆成功");
                     Timestamp now = new Timestamp(System.currentTimeMillis());
                     SharePreManager.instance(BaseContext.getInstance()).setLoginTime(now.getTime());
-                    SharePreManager.instance(BaseContext.getInstance()).setUserInfo(response.body().getData());
                     SharePreManager.instance(BaseContext.getInstance()).setUserInfo(response.body().getData());
                     EventBus.getDefault().post(new EventBusCenter<Integer>(Constants.LOGIN_SUCCESS));
                 } else {
@@ -143,7 +144,7 @@ public class LoginUtils {
      */
     public static void initChat() {
         TIMFriendshipManager.ModifyUserProfileParam param = new TIMFriendshipManager.ModifyUserProfileParam();
-        param.setFaceUrl(Constants.COMMON_PERSON_URL+BaseContext.getInstance().getUserInfo().avatars);
+        param.setFaceUrl(Constants.COMMON_PERSON_URL + BaseContext.getInstance().getUserInfo().avatars);
 
         TIMFriendshipManager.getInstance().modifyProfile(param, new TIMCallBack() {
             @Override
@@ -173,7 +174,6 @@ public class LoginUtils {
 //
 ////将用户配置与当前通信管理器关联
 //        TIMManager.getInstance().setUserConfig(config);
-
 
 
         if (BaseContext.getInstance().getUserInfo() == null) {

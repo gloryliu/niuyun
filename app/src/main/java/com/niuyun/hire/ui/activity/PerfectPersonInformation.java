@@ -40,6 +40,7 @@ import com.niuyun.hire.ui.bean.UserInfoBean;
 import com.niuyun.hire.ui.index.EnterpriseMainActivity;
 import com.niuyun.hire.ui.index.MainActivity;
 import com.niuyun.hire.ui.listerner.RecyclerViewCommonInterface;
+import com.niuyun.hire.ui.utils.LoginUtils;
 import com.niuyun.hire.utils.DialogUtils;
 import com.niuyun.hire.utils.ErrorMessageUtils;
 import com.niuyun.hire.utils.ImageLoadedrManager;
@@ -724,6 +725,7 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
                     LogUtils.e(headimg);
 //                        UIUtil.showToast("成功" + headimg);
                     upLoadInfo();
+                    LoginUtils.getUserByUid(uid);
                 } else {
                     UIUtil.showToast("上传头像失败");
                     DialogUtils.closeDialog();
@@ -787,12 +789,18 @@ public class PerfectPersonInformation extends BaseActivity implements View.OnCli
             @Override
             public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
                 UIUtil.showToast("接口异常");
+                if (BaseContext.getInstance().getUserInfo()!=null){
+                    BaseContext.getInstance().clearUserInfo();
+                }
                 DialogUtils.closeDialog();
             }
 
             @Override
             public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 UIUtil.showToast("接口异常");
+                if (BaseContext.getInstance().getUserInfo()!=null){
+                    BaseContext.getInstance().clearUserInfo();
+                }
                 DialogUtils.closeDialog();
             }
         });

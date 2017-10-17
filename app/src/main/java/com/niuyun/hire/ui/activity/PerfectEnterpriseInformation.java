@@ -23,6 +23,7 @@ import com.niuyun.hire.R;
 import com.niuyun.hire.api.JyCallBack;
 import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
+import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.adapter.CommonPerfectInfoTagAdapter;
@@ -439,10 +440,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             public void onSuccess(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
 
                 if (response != null && response.body() != null && response.body().getCode() == Constants.successCode) {
-//                    BaseContext.getInstance().setUserInfo(response.body().getData());
-//                    BaseContext.getInstance().updateUserInfo(response.body().getData());
-                    LoginUtils.getUserByUid(uid);
-//                    perfectSuccessDialog();
+//                    LoginUtils.getUserByUid(uid);
                     etEnterpriseName.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -464,11 +462,17 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
             @Override
             public void onError(Call<SuperBean<UserInfoBean>> call, Throwable t) {
                 DialogUtils.closeDialog();
+                if (BaseContext.getInstance().getUserInfo()!=null){
+                    BaseContext.getInstance().clearUserInfo();
+                }
             }
 
             @Override
             public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 DialogUtils.closeDialog();
+                if (BaseContext.getInstance().getUserInfo()!=null){
+                    BaseContext.getInstance().clearUserInfo();
+                }
             }
         });
     }
@@ -627,6 +631,7 @@ public class PerfectEnterpriseInformation extends BaseActivity implements View.O
                     //上传图片成功
                     logoimg = response.body().getData();
                     LogUtils.e(logoimg);
+                    LoginUtils.getUserByUid(uid);
                     upLoadInfo();
                 } else {
                     UIUtil.showToast("上传企业logo失败");

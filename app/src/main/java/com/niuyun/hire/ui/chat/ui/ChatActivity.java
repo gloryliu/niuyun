@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,10 +17,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.niuyun.hire.R;
+import com.niuyun.hire.base.Constants;
+import com.niuyun.hire.ui.bean.JobDetailsBean;
 import com.niuyun.hire.ui.chat.adapters.ChatAdapter;
 import com.niuyun.hire.ui.chat.model.CustomMessage;
 import com.niuyun.hire.ui.chat.model.FileMessage;
@@ -37,6 +43,7 @@ import com.niuyun.hire.ui.chat.utils.FileUtil;
 import com.niuyun.hire.ui.chat.utils.MediaUtil;
 import com.niuyun.hire.ui.chat.utils.RecorderUtil;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.ext.message.TIMMessageDraft;
@@ -45,6 +52,9 @@ import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.tencent.qcloud.ui.ChatInput;
 import com.tencent.qcloud.ui.TemplateTitle;
 import com.tencent.qcloud.ui.VoiceSendingView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,7 +66,7 @@ import presentation.viewfeatures.ChatView;
 public class ChatActivity extends FragmentActivity implements ChatView {
 
     private static final String TAG = "ChatActivity";
-
+    private final int TYPE_POSITION = 15;
     private List<Message> messageList = new ArrayList<>();
     private ChatAdapter adapter;
     private ListView listView;
@@ -74,9 +84,19 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     private TIMConversationType type;
     private String titleStr;
     private Handler handler = new Handler();
+    private JobDetailsBean bean;
+    private ImageView iv_company;
+    private ImageView iv_divider;
+    private FrameLayout fl_card;
+    private TextView tv_position_name;
+    private TextView tv_position_price;
+    private TextView tv_company_name;
+    private TextView tv_location;
+    private TextView tv_work_age;
+    private TextView tv_education;
+    private View vv_line;
 
-
-    public static void navToChat(Context context, String identify, TIMConversationType type){
+    public static void navToChat(Context context, String identify, TIMConversationType type) {
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("identify", identify);
         intent.putExtra("type", type);
@@ -91,6 +111,59 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         identify = getIntent().getStringExtra("identify");
         type = (TIMConversationType) getIntent().getSerializableExtra("type");
+        bean = (JobDetailsBean) getIntent().getSerializableExtra(Constants.EXTRA_CARD_MESSAGE);
+//        String json="{\n" +
+//                "  \"code\": 1000,\n" +
+//                "  \"msg\": \"成功\",\n" +
+//                "  \"data\": {\n" +
+//                "    \"id\": 2,\n" +
+//                "    \"uid\": 6,\n" +
+//                "    \"companyId\": 3,\n" +
+//                "    \"logo\": \"1707/04/eccbc87e4b5ce2fe28308fd9f2a7baf3.png\",\n" +
+//                "    \"jobsName\": \"UI设计\",\n" +
+//                "    \"companyname\": \"山西昱达传媒有限公司\",\n" +
+//                "    \"topclass\": 4,\n" +
+//                "    \"category\": 29,\n" +
+//                "    \"subclass\": 235,\n" +
+//                "    \"categoryCn\": \"美编/美术设计\",\n" +
+//                "    \"nature\": 62,\n" +
+//                "    \"natureCn\": \"全职\",\n" +
+//                "    \"district\": 1,\n" +
+//                "    \"sdistrict\": 14,\n" +
+//                "    \"tdistrict\": 296,\n" +
+//                "    \"districtCn\": \"太原/小店区/体育路\",\n" +
+//                "    \"experience\": 0,\n" +
+//                "    \"experienceCn\": \"不限\",\n" +
+//                "    \"education\": 0,\n" +
+//                "    \"educationCn\": \"不限\",\n" +
+//                "    \"minwage\": 3000,\n" +
+//                "    \"maxwage\": 6000,\n" +
+//                "    \"contents\": \"梵蒂冈VR土豪Yuki乱果宝特攻发个任务\",\n" +
+//                "    \"mapX\": 0,\n" +
+//                "    \"mapY\": 0,\n" +
+//                "    \"address\": null,\n" +
+//                "    \"tag\": \"152,157,158,161,163\",\n" +
+//                "    \"tagCn\": \"加班补助,有年假,专车接送,车贴,压力小\",\n" +
+//                "    \"video\": \"d1521d48f353c357536c0cfcb5bfa483_d\",\n" +
+//                "    \"trade\": 24,\n" +
+//                "    \"tradeCn\": \"影视/媒体/艺术/出版\",\n" +
+//                "    \"scale\": 82,\n" +
+//                "    \"scaleCn\": \"100-499人\",\n" +
+//                "    \"followFlag\": \"2\"\n" +
+//                "  }\n" +
+//                "}";
+//        bean= ParserUtil.parseObj(json,JobDetailsBean.class);
+        iv_company = (ImageView) findViewById(R.id.iv_company);
+        iv_divider = (ImageView) findViewById(R.id.iv_divider);
+        tv_position_name = (TextView) findViewById(R.id.tv_position_name);
+        tv_position_price = (TextView) findViewById(R.id.tv_position_price);
+        tv_company_name = (TextView) findViewById(R.id.tv_company_name);
+        tv_location = (TextView) findViewById(R.id.tv_location);
+        tv_work_age = (TextView) findViewById(R.id.tv_work_age);
+        tv_education = (TextView) findViewById(R.id.tv_education);
+        fl_card = (FrameLayout) findViewById(R.id.fl_card);
+        vv_line=findViewById(R.id.vv_line);
+        setCardView();
         presenter = new ChatPresenter(this, identify, type);
         input = (ChatInput) findViewById(R.id.input_panel);
         input.setChatView(this);
@@ -132,7 +205,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         switch (type) {
             case C2C:
                 title.setMoreImg(R.drawable.btn_person);
-                if (FriendshipInfo.getInstance().isFriend(identify)){
+                if (FriendshipInfo.getInstance().isFriend(identify)) {
                     title.setMoreImgAction(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -143,13 +216,13 @@ public class ChatActivity extends FragmentActivity implements ChatView {
                     });
                     FriendProfile profile = FriendshipInfo.getInstance().getProfile(identify);
                     title.setTitleText(titleStr = profile == null ? identify : profile.getName());
-                }else{
+                } else {
                     title.setMoreImgAction(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent person = new Intent(ChatActivity.this,AddFriendActivity.class);
-                            person.putExtra("id",identify);
-                            person.putExtra("name",identify);
+                            Intent person = new Intent(ChatActivity.this, AddFriendActivity.class);
+                            person.putExtra("id", identify);
+                            person.putExtra("name", identify);
                             startActivity(person);
                         }
                     });
@@ -172,16 +245,17 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         }
         voiceSendingView = (VoiceSendingView) findViewById(R.id.voice_sending);
         presenter.start();
+        sendCustomMess();
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         //退出聊天界面时输入框有内容，保存草稿
-        if (input.getText().length() > 0){
+        if (input.getText().length() > 0) {
             TextMessage message = new TextMessage(input.getText());
             presenter.saveDraft(message.getMessage());
-        }else{
+        } else {
             presenter.saveDraft(null);
         }
 //        RefreshEvent.getInstance().onRefresh();
@@ -208,27 +282,30 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         } else {
             Message mMessage = MessageFactory.getMessage(message);
             if (mMessage != null) {
-                if (mMessage instanceof CustomMessage){
+                if (mMessage instanceof CustomMessage) {
                     CustomMessage.Type messageType = ((CustomMessage) mMessage).getType();
-                    switch (messageType){
+                    switch (messageType) {
                         case TYPING:
                             TemplateTitle title = (TemplateTitle) findViewById(R.id.chat_title);
                             title.setTitleText(getString(R.string.chat_typing));
                             handler.removeCallbacks(resetTitle);
-                            handler.postDelayed(resetTitle,3000);
+                            handler.postDelayed(resetTitle, 3000);
+                            break;
+                        case POSITION:
+                            setCardView(((CustomMessage) mMessage));
                             break;
                         default:
                             break;
                     }
-                }else{
-                    if (messageList.size()==0){
+                } else {
+                    if (messageList.size() == 0) {
                         mMessage.setHasTime(null);
-                    }else{
-                        mMessage.setHasTime(messageList.get(messageList.size()-1).getMessage());
+                    } else {
+                        mMessage.setHasTime(messageList.get(messageList.size() - 1).getMessage());
                     }
                     messageList.add(mMessage);
                     adapter.notifyDataSetChanged();
-                    listView.setSelection(adapter.getCount()-1);
+                    listView.setSelection(adapter.getCount() - 1);
                 }
 
             }
@@ -244,16 +321,22 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     @Override
     public void showMessage(List<TIMMessage> messages) {
         int newMsgNum = 0;
-        for (int i = 0; i < messages.size(); ++i){
+        for (int i = 0; i < messages.size(); ++i) {
             Message mMessage = MessageFactory.getMessage(messages.get(i));
-            if (mMessage == null || messages.get(i).status() == TIMMessageStatus.HasDeleted) continue;
+            if (mMessage == null || messages.get(i).status() == TIMMessageStatus.HasDeleted)
+                continue;
             if (mMessage instanceof CustomMessage && (((CustomMessage) mMessage).getType() == CustomMessage.Type.TYPING ||
-                    ((CustomMessage) mMessage).getType() == CustomMessage.Type.INVALID)) continue;
+                    ((CustomMessage) mMessage).getType() == CustomMessage.Type.INVALID||((CustomMessage) mMessage).getType() == CustomMessage.Type.POSITION)){
+                if (((CustomMessage) mMessage).getType() == CustomMessage.Type.POSITION){
+                    setCardView(((CustomMessage) mMessage));
+                }
+                continue;
+            }
             ++newMsgNum;
-            if (i != messages.size() - 1){
-                mMessage.setHasTime(messages.get(i+1));
+            if (i != messages.size() - 1) {
+                mMessage.setHasTime(messages.get(i + 1));
                 messageList.add(0, mMessage);
-            }else{
+            } else {
                 mMessage.setHasTime(null);
                 messageList.add(0, mMessage);
             }
@@ -299,9 +382,9 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     @Override
     public void onSendMessageFail(int code, String desc, TIMMessage message) {
         long id = message.getMsgUniqueId();
-        for (Message msg : messageList){
-            if (msg.getMessage().getMsgUniqueId() == id){
-                switch (code){
+        for (Message msg : messageList) {
+            if (msg.getMessage().getMsgUniqueId() == id) {
+                switch (code) {
                     case 80001:
                         //发送内容包含敏感词
                         msg.setDesc(getString(R.string.chat_content_bad));
@@ -349,6 +432,34 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         Message message = new TextMessage(input.getText());
         presenter.sendMessage(message.getMessage());
         input.setText("");
+    }
+
+    private void sendCustomMess() {
+        if (bean != null) {
+            JSONObject dataJson = new JSONObject();
+            try {
+                dataJson.put("userAction",TYPE_POSITION);
+                dataJson.put("companyname",bean.getData().getCompanyname());
+                dataJson.put("jobsName",bean.getData().getJobsName());
+                dataJson.put("districtCn",bean.getData().getDistrictCn());
+                dataJson.put("experienceCn",bean.getData().getExperienceCn());
+                dataJson.put("educationCn",bean.getData().getEducationCn());
+                dataJson.put("wage",bean.getData().getMinwage() / 1000 + "k-" + bean.getData().getMaxwage() / 1000 + "k");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            TIMMessage msg = new TIMMessage();
+//向TIMMessage中添加自定义内容
+            TIMCustomElem elem = new TIMCustomElem();
+            elem.setData(dataJson.toString().getBytes());      //自定义byte[]
+//将elem添加到消息
+            if (msg.addElement(elem) != 0) {
+                return;
+            }
+            presenter.sendMessage(msg);
+        }
     }
 
     /**
@@ -416,7 +527,7 @@ public class ChatActivity extends FragmentActivity implements ChatView {
      */
     @Override
     public void sending() {
-        if (type == TIMConversationType.C2C){
+        if (type == TIMConversationType.C2C) {
             Message message = new CustomMessage(CustomMessage.Type.TYPING);
             presenter.sendOnlineMessage(message.getMessage());
         }
@@ -444,16 +555,16 @@ public class ChatActivity extends FragmentActivity implements ChatView {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
-                                   ContextMenu.ContextMenuInfo menuInfo) {
+                                    ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         Message message = messageList.get(info.position);
         menu.add(0, 1, Menu.NONE, getString(R.string.chat_del));
-        if (message.isSendFail()){
+        if (message.isSendFail()) {
             menu.add(0, 2, Menu.NONE, getString(R.string.chat_resend));
-        }else if (message.getMessage().isSelf()){
+        } else if (message.getMessage().isSelf()) {
             menu.add(0, 4, Menu.NONE, getString(R.string.chat_pullback));
         }
-        if (message instanceof ImageMessage || message instanceof FileMessage){
+        if (message instanceof ImageMessage || message instanceof FileMessage) {
             menu.add(0, 3, Menu.NONE, getString(R.string.chat_save));
         }
     }
@@ -501,27 +612,27 @@ public class ChatActivity extends FragmentActivity implements ChatView {
             if (resultCode == RESULT_OK) {
                 sendFile(FileUtil.getFilePath(this, data.getData()));
             }
-        } else if (requestCode == IMAGE_PREVIEW){
+        } else if (requestCode == IMAGE_PREVIEW) {
             if (resultCode == RESULT_OK) {
-                boolean isOri = data.getBooleanExtra("isOri",false);
+                boolean isOri = data.getBooleanExtra("isOri", false);
                 String path = data.getStringExtra("path");
                 File file = new File(path);
-                if (file.exists()){
+                if (file.exists()) {
                     final BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inJustDecodeBounds = true;
                     BitmapFactory.decodeFile(path, options);
                     if (file.length() == 0 && options.outWidth == 0) {
-                        Toast.makeText(this, getString(R.string.chat_file_not_exist),Toast.LENGTH_SHORT).show();
-                    }else {
-                        if (file.length() > 1024 * 1024 * 10){
-                            Toast.makeText(this, getString(R.string.chat_file_too_large),Toast.LENGTH_SHORT).show();
-                        }else{
-                            Message message = new ImageMessage(path,isOri);
+                        Toast.makeText(this, getString(R.string.chat_file_not_exist), Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (file.length() > 1024 * 1024 * 10) {
+                            Toast.makeText(this, getString(R.string.chat_file_too_large), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Message message = new ImageMessage(path, isOri);
                             presenter.sendMessage(message.getMessage());
                         }
                     }
-                }else{
-                    Toast.makeText(this, getString(R.string.chat_file_not_exist),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.chat_file_not_exist), Toast.LENGTH_SHORT).show();
                 }
             }
         } else if (requestCode == VIDEO_RECORD) {
@@ -537,25 +648,25 @@ public class ChatActivity extends FragmentActivity implements ChatView {
     }
 
 
-    private void showImagePreview(String path){
+    private void showImagePreview(String path) {
         if (path == null) return;
         Intent intent = new Intent(this, ImagePreviewActivity.class);
         intent.putExtra("path", path);
         startActivityForResult(intent, IMAGE_PREVIEW);
     }
 
-    private void sendFile(String path){
+    private void sendFile(String path) {
         if (path == null) return;
         File file = new File(path);
-        if (file.exists()){
-            if (file.length() > 1024 * 1024 * 10){
-                Toast.makeText(this, getString(R.string.chat_file_too_large),Toast.LENGTH_SHORT).show();
-            }else{
+        if (file.exists()) {
+            if (file.length() > 1024 * 1024 * 10) {
+                Toast.makeText(this, getString(R.string.chat_file_too_large), Toast.LENGTH_SHORT).show();
+            } else {
                 Message message = new FileMessage(path);
                 presenter.sendMessage(message.getMessage());
             }
-        }else{
-            Toast.makeText(this, getString(R.string.chat_file_not_exist),Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.chat_file_not_exist), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -571,5 +682,44 @@ public class ChatActivity extends FragmentActivity implements ChatView {
         }
     };
 
+    private void setCardView() {
+        if (bean != null) {
+            fl_card.setVisibility(View.VISIBLE);
+            iv_company.setVisibility(View.GONE);
+            iv_divider.setVisibility(View.GONE);
+            tv_position_name.setText(bean.getData().getJobsName());
+            tv_position_price.setText(bean.getData().getMinwage() + "k-" + bean.getData().getMaxwage() + "k");
+            tv_company_name.setText(bean.getData().getCompanyname());
+            tv_location.setText(bean.getData().getDistrictCn());
+            tv_work_age.setText(bean.getData().getExperienceCn());
+            tv_education.setText(bean.getData().getEducationCn());
+        } else {
+            fl_card.setVisibility(View.GONE);
+        }
+    }
+    private void setCardView(CustomMessage customMessage) {
+        if (customMessage != null&&!TextUtils.isEmpty(customMessage.getData())) {
+            try {
+//                String str = new String(customMessage.getData(), "UTF-8");
+                JSONObject jsonObj = new JSONObject(customMessage.getData());
+                fl_card.setVisibility(View.VISIBLE);
+                iv_company.setVisibility(View.GONE);
+                iv_divider.setVisibility(View.GONE);
+                vv_line.setVisibility(View.GONE);
+                tv_position_name.setText(jsonObj.getString("jobsName"));
+                tv_position_price.setText(jsonObj.getString("wage"));
+                tv_company_name.setText(jsonObj.getString("companyname"));
+                tv_location.setText(jsonObj.getString("districtCn"));
+                tv_work_age.setText(jsonObj.getString("experienceCn"));
+                tv_education.setText(jsonObj.getString("educationCn"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                fl_card.setVisibility(View.GONE);
+            }
+
+        } else {
+            fl_card.setVisibility(View.GONE);
+        }
+    }
 
 }

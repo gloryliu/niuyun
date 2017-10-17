@@ -18,6 +18,15 @@ public abstract class Conversation implements Comparable {
     //会话对象名称
     protected String name;
 
+    private String avaterLive;
+
+    public String getAvaterLive() {
+        return avaterLive;
+    }
+
+    public void setAvaterLive(String avaterLive) {
+        this.avaterLive = avaterLive;
+    }
 
     /**
      * 获取最后一条消息的时间

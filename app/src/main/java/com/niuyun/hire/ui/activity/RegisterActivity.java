@@ -290,7 +290,7 @@ public class RegisterActivity extends BaseActivity implements
             @Override
             public void onError(Call<SuperBean<UserInfoBean>> call, Response<SuperBean<UserInfoBean>> response) {
                 try {
-                    ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.errorBody().string(), "");
+                    ErrorMessageUtils.taostErrorMessage(RegisterActivity.this, response.errorBody().string(), "接口异常");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

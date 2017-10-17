@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.niuyun.hire.R;
 import com.niuyun.hire.ui.chat.model.Conversation;
 import com.niuyun.hire.ui.chat.utils.TimeUtil;
+import com.niuyun.hire.utils.ImageLoadedrManager;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.qcloud.ui.CircleImageView;
 
 import java.util.List;
@@ -55,10 +57,21 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         }
         final Conversation data = getItem(position);
         viewHolder.tvName.setText(data.getName());
-        viewHolder.avatar.setImageResource(data.getAvatar());
-        //待获取用户资料的用户列表
+//        viewHolder.avatar.setImageResource(data.getAvatar());
+
+        viewHolder.avatar.setTag(R.id.glide_tag_id, position);
+        if (data.getType() == TIMConversationType.C2C) {
+            ImageLoadedrManager.getInstance().display(context, data.getAvaterLive(), viewHolder.avatar, data.getAvatar());
+        }else {
+            viewHolder.avatar.setImageResource(data.getAvatar());
+        }
+
+
+
+//        viewHolder.avatar.setTag(R.id.glide_tag_id, position);
+//        //待获取用户资料的用户列表
 //        if (data.getType() == TIMConversationType.C2C) {
-//            List<String> users = new ArrayList<String>();
+//            List<String> users = new ArrayList<>();
 //            users.add(data.getIdentify());
 //
 ////获取用户资料
@@ -68,7 +81,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 //                    //错误码code和错误描述desc，可用于定位请求失败原因
 //                    //错误码code列表请参见错误码表
 //                    Log.e("", "getUsersProfile failed: " + code + " desc");
-//                    viewHolder.avatar.setImageResource(R.drawable.head_other);
+//                    viewHolder.avatar.setImageResource(data.getAvatar());
 //                }
 //
 //                @Override
@@ -78,7 +91,8 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 //                        Log.e("", "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
 //                                + " remark: " + res.getRemark());
 //                        if (context != null && result.size() > 0) {
-//                            ImageLoadedrManager.getInstance().display(context, result.get(0).getFaceUrl(), viewHolder.avatar, R.drawable.head_other);
+//                            ImageLoadedrManager.getInstance().display(context, result.get(0).getFaceUrl(), viewHolder.avatar, data.getAvatar());
+////                            Glide.with(context).load(result.get(0).getFaceUrl()).placeholder(data.getAvatar()).into(viewHolder.avatar);
 //                        }
 //                    }
 //                }

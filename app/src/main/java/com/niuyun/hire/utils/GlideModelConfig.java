@@ -23,6 +23,7 @@ public class GlideModelConfig implements GlideModule {
 
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
+//        ViewTarget.setTagId(R.id.glide_tag_id);
         // 定义缓存大小和位置
         builder.setDiskCache(new InternalCacheDiskCacheFactory(context, diskSize));  //内存中
         builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, "cache", diskSize)); //sd卡中
@@ -41,6 +42,7 @@ public class GlideModelConfig implements GlideModule {
         // 定义图片格式
         builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
 //        builder.setDecodeFormat(DecodeFormat.PREFER_RGB_565); // 默认
+
     }
 
     @Override

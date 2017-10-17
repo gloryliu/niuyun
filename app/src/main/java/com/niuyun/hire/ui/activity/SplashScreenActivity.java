@@ -17,13 +17,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.huawei.android.pushagent.PushManager;
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.EventBusCenter;
 import com.niuyun.hire.ui.chat.ui.customview.DialogActivity;
-import com.niuyun.hire.ui.chat.utils.PushUtil;
 import com.niuyun.hire.utils.SharePreManager;
 import com.niuyun.hire.utils.UIUtil;
 import com.tencent.imsdk.TIMCallBack;
@@ -277,16 +275,16 @@ public class SplashScreenActivity extends BaseActivity implements TIMCallBack {
     public void onSuccess() {
 
         //初始化程序后台后消息推送
-        PushUtil.getInstance();
+//        PushUtil.getInstance();
         //初始化消息监听
         MessageEvent.getInstance();
-        String deviceMan = android.os.Build.MANUFACTURER;
+//        String deviceMan = android.os.Build.MANUFACTURER;
         //注册小米和华为推送
-        if (deviceMan.equals("Xiaomi") && shouldMiInit()) {
-            MiPushClient.registerPush(getApplicationContext(), "2882303761517480335", "5411748055335");
-        } else if (deviceMan.equals("HUAWEI")) {
-            PushManager.requestToken(this);
-        }
+//        if (deviceMan.equals("Xiaomi") && shouldMiInit()) {
+//            MiPushClient.registerPush(getApplicationContext(), "2882303761517480335", "5411748055335");
+//        } else if (deviceMan.equals("HUAWEI")) {
+//            PushManager.requestToken(this);
+//        }
 
 
 //        String refreshedToken = FirebaseInstanceId.getInstance().getToken();

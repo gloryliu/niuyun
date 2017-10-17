@@ -79,7 +79,7 @@ public abstract class Message {
                     Log.e("", "identifier: " + result.getIdentifier() + " nickName: " + result.getNickName()
                             + " remark: " + result.getRemark() + " allow: " + result.getAllowType());
                     if (context != null) {
-                        ImageLoadedrManager.getInstance().display(context, result.getFaceUrl(), viewHolder.rightAvatar, R.drawable.head_other);
+                        ImageLoadedrManager.getInstance().display(context, result.getFaceUrl(), viewHolder.rightAvatar, R.drawable.head_me);
 //                        ImageLoadedrManager.getInstance().display(context, "http://image.xinmin.cn/2013/04/23/20130423160116689534.jpg", viewHolder.rightAvatar, R.drawable.head_other);
                     }
                 }
@@ -88,7 +88,7 @@ public abstract class Message {
         } else {
 
             //待获取用户资料的用户列表
-            List<String> users = new ArrayList<String>();
+            List<String> users = new ArrayList<>();
             users.add(message.getConversation().getPeer());
 
 //获取用户资料
@@ -107,12 +107,17 @@ public abstract class Message {
                         Log.e("", "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
                                 + " remark: " + res.getRemark());
                         if (context != null && result.size() > 0) {
-                            ImageLoadedrManager.getInstance().display(context, result.get(0).getFaceUrl(), viewHolder.leftAvatar, R.drawable.head_me);
+                            ImageLoadedrManager.getInstance().display(context, result.get(0).getFaceUrl(), viewHolder.leftAvatar, R.drawable.head_other);
 //                            ImageLoadedrManager.getInstance().display(context, "http://www.sinaimg.cn/gm/cr/2015/0615/3043728699.jpg", viewHolder.leftAvatar, R.drawable.head_me);
                         }
                     }
                 }
             });
+//            if (context != null) {
+//                LogUtils.e("faceUrl"+message.getSenderProfile().getFaceUrl());
+//                ImageLoadedrManager.getInstance().display(context, message.getSenderProfile().getFaceUrl(), viewHolder.leftAvatar, R.drawable.head_other);
+//            }
+
             viewHolder.leftPanel.setVisibility(View.VISIBLE);
             viewHolder.rightPanel.setVisibility(View.GONE);
             //群聊显示名称，群名片>个人昵称>identify

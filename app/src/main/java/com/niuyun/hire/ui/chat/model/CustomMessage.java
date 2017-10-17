@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.niuyun.hire.ui.chat.adapters.ChatAdapter;
+import com.niuyun.hire.utils.LogUtils;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMMessage;
 
@@ -21,10 +22,19 @@ public class CustomMessage extends Message {
     private String TAG = getClass().getSimpleName();
 
     private final int TYPE_TYPING = 14;
+    private final int TYPE_POSITION = 15;
 
     private Type type;
     private String desc;
     private String data;
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 
     public CustomMessage(TIMMessage message){
         this.message = message;
@@ -42,6 +52,11 @@ public class CustomMessage extends Message {
                 case TYPING:
                     dataJson.put("userAction",TYPE_TYPING);
                     dataJson.put("actionParam","EIMAMSG_InputStatus_Ing");
+                    data = dataJson.toString();
+                    break;
+                case POSITION:
+                    dataJson.put("userAction",TYPE_POSITION);
+                    dataJson.put("actionParam",dataJson);
                     data = dataJson.toString();
             }
         }catch (JSONException e){
@@ -74,6 +89,11 @@ public class CustomMessage extends Message {
                     if (this.data.equals("EIMAMSG_InputStatus_End")){
                         type = Type.INVALID;
                     }
+                    break;
+                case TYPE_POSITION:
+                    type = Type.POSITION;
+                    this.data=str;
+                    LogUtils.e(data.toString());
                     break;
             }
 
@@ -113,5 +133,6 @@ public class CustomMessage extends Message {
     public enum Type{
         TYPING,
         INVALID,
+        POSITION,
     }
 }

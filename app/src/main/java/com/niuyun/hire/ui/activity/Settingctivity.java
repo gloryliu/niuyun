@@ -2,21 +2,34 @@ package com.niuyun.hire.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.niuyun.hire.R;
+import com.niuyun.hire.api.JyApi;
+import com.niuyun.hire.api.JyCallBack;
+import com.niuyun.hire.api.RestAdapterManager;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.BaseContext;
 import com.niuyun.hire.base.Constants;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.bean.UpdateBean;
+import com.niuyun.hire.utils.ApkUpdateManager;
 import com.niuyun.hire.utils.DialogUtils;
+import com.niuyun.hire.utils.MyDeviceInfo;
+import com.niuyun.hire.utils.UIUtil;
 import com.niuyun.hire.view.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Administrator on 2017/8/12.
@@ -35,6 +48,14 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
     RelativeLayout rl_change_phone;
     @BindView(R.id.rl_clear)
     RelativeLayout rl_clear;
+    @BindView(R.id.tv_version_number)
+    TextView tv_version_number;
+    @BindView(R.id.tv_version_notice)
+    TextView tv_version_notice;
+    @BindView(R.id.tv_new)
+    TextView tv_new;
+    @BindView(R.id.rl_check_version)
+    RelativeLayout rl_check_version;
 
     @Override
     public int getContentViewLayoutId() {
@@ -49,11 +70,14 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
         rl_change_pass.setOnClickListener(this);
         rl_change_phone.setOnClickListener(this);
         rl_clear.setOnClickListener(this);
+        rl_check_version.setOnClickListener(this);
+        tv_version_number.setText("当前版本V" + MyDeviceInfo.getLocalVersionName());
+
     }
 
     @Override
     public void loadData() {
-
+        getVersion();
     }
 
     @Override
@@ -109,10 +133,30 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this, UpdatePhoneActivity.class));
                 break;
             case R.id.rl_clear:
-//                startActivity(new Intent(this, UpdatePasswordActivity.class));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.get(Settingctivity.this).clearMemory();
+                        Glide.get(Settingctivity.this).clearDiskCache();
+                    }
+                });
+
+                try {
+                    rl_clear.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            UIUtil.showToast("已清理完毕");
+                        }
+                    }, 1000);
+                } catch (Exception e) {
+                }
+                break;
+            case R.id.rl_check_version:
+                ApkUpdateManager.getInstance().checkVersion(this, true);
                 break;
         }
     }
+
     private void showExitDialog() {
         DialogUtils.showOrderCancelMsg(this, "确定要退出登录吗？", new View.OnClickListener() {
             @Override
@@ -130,6 +174,36 @@ public class Settingctivity extends BaseActivity implements View.OnClickListener
 //            public void callBack() {//退出登录
 //
 //            }
+        });
+    }
+
+    private void getVersion() {
+        JyApi jyApi = RestAdapterManager.getApi();
+        Call<SuperBean<UpdateBean>> call = jyApi.checkVersion("Android", "niuyunAPP", MyDeviceInfo.getLocalVersionCode() + "");
+        call.enqueue(new JyCallBack<SuperBean<UpdateBean>>() {
+            @Override
+            public void onSuccess(Call<SuperBean<UpdateBean>> call, Response<SuperBean<UpdateBean>> response) {
+                try {
+                    UpdateBean updateInfo = response.body().getData();
+                    if (updateInfo != null && !TextUtils.isEmpty(updateInfo.version)) {
+                        if (Integer.parseInt(updateInfo.version) > MyDeviceInfo.getLocalVersionCode()) {
+                            tv_new.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onError(Call<SuperBean<UpdateBean>> call, Throwable t) {
+
+            }
+
+            @Override
+            public void onError(Call<SuperBean<UpdateBean>> call, Response<SuperBean<UpdateBean>> response) {
+
+            }
         });
     }
 }

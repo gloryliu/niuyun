@@ -266,13 +266,25 @@ public class MyDeviceInfo {
     /**
      * 获取本地版本号，用来对比服务器版本号
      */
-    public static int getLocalVersion() {
+    public static int getLocalVersionCode() {
         try {
             PackageInfo pInfo = BaseContext.getInstance().getPackageManager().getPackageInfo(BaseContext.getInstance().getPackageName(), 0);
             return pInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+    /**
+     * 获取本地版本号，用来对比服务器版本号
+     */
+    public static String getLocalVersionName() {
+        try {
+            PackageInfo pInfo = BaseContext.getInstance().getPackageManager().getPackageInfo(BaseContext.getInstance().getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
         }
     }
 }

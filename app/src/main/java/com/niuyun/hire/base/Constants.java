@@ -29,6 +29,7 @@ public class Constants {
     public static final int REGIST_SUCCESS = 0x22;//注册成功
     public static final int CHANGE_PASSWORD_SUCCESS = 0x23;//修改密码成功
     public static final int PAY_MEMBER_SUCCESS = 0x24;//修改密码成功
+    public static int SHOW_POP_AD = 0x27;//弹窗 广告
     public static final int LOGIN_FAILURE = 0x40;//登录失败
     public static final int LOGIN_SUCCESS = 0x41;//登录成功
     public static final int PERFECT_INFO_SUCCESS = 0x42;//完善信息成功
@@ -39,6 +40,7 @@ public class Constants {
     public static final int GET_VIDEO_VID = 0x46;//获取视频vid
     public static final int UPDATE_PERSON = 0x47;//更新个人信息
     public static final int UPDATE_PUBLISHED_POSITION = 0x48;//更新发布的职位列表
+
 
 
     //个人头像

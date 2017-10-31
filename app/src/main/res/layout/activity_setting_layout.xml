@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-android:id="@+id/rl_change_phone"
+            android:id="@+id/rl_change_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp">
@@ -123,11 +123,13 @@ android:id="@+id/rl_change_phone"
             android:layout_marginRight="12dp" />
 
         <RelativeLayout
+            android:id="@+id/rl_check_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp">
 
             <TextView
+                android:id="@+id/tv_version_notice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="版本更新"
@@ -135,6 +137,23 @@ android:id="@+id/rl_change_phone"
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_version_notice"
+                android:background="@drawable/bg_31c880_solid"
+                android:gravity="center"
+                android:paddingLeft="3dp"
+                android:visibility="gone"
+                android:paddingRight="3dp"
+                android:text="new"
+                android:textColor="@color/color_ffffff"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_version_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

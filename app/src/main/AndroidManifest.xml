@@ -516,6 +516,19 @@
             android:name="io.fabric.ApiKey"
             android:value="6b54bd4edc63eba3ef59d69f8e0a5070bea384e2" />
         <!-- fabric end -->
+
+        <service
+            android:name="com.jyall.apkupdate.ApkDownloadService"
+            android:enabled="true" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.niuyun.hire.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
     <!-- 视频演示主类 -->
     <!-- 如需初始为横屏，请在代码中使用PolyvPlayerMediaController.changeToLandscape()方法设置 -->

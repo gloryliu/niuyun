@@ -2,10 +2,12 @@ package com.niuyun.hire.ui.activity;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.TextView;
 
 import com.niuyun.hire.R;
 import com.niuyun.hire.base.BaseActivity;
 import com.niuyun.hire.base.EventBusCenter;
+import com.niuyun.hire.utils.MyDeviceInfo;
 import com.niuyun.hire.view.TitleBar;
 
 import butterknife.BindView;
@@ -17,6 +19,8 @@ import butterknife.BindView;
 public class AboutWeActivity extends BaseActivity {
     @BindView(R.id.title_view)
     TitleBar title_view;
+    @BindView(R.id.tv_version)
+    TextView tv_version;
 
     @Override
     public int getContentViewLayoutId() {
@@ -30,7 +34,7 @@ public class AboutWeActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-
+        tv_version.setText("V"+ MyDeviceInfo.getLocalVersionName());
     }
 
     @Override

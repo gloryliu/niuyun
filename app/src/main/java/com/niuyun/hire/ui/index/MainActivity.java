@@ -25,6 +25,7 @@ import com.niuyun.hire.ui.index.fragment.IndexFragment;
 import com.niuyun.hire.ui.index.fragment.LiveFragment2;
 import com.niuyun.hire.ui.index.fragment.MyFragment;
 import com.niuyun.hire.ui.utils.LoginUtils;
+import com.niuyun.hire.utils.ApkUpdateManager;
 import com.niuyun.hire.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -126,6 +127,7 @@ public class MainActivity extends BaseActivity {
             LoginUtils.initChat();
             checkData();
         }
+        ApkUpdateManager.getInstance().checkVersion(this, false);
     }
 
     private void checkData() {

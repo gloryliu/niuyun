@@ -22,6 +22,7 @@ import com.niuyun.hire.ui.bean.PersonBaseInfo;
 import com.niuyun.hire.ui.bean.PositionIntentBean;
 import com.niuyun.hire.ui.bean.PreviewResumeBean;
 import com.niuyun.hire.ui.bean.SuperBean;
+import com.niuyun.hire.ui.bean.UpdateBean;
 import com.niuyun.hire.ui.bean.UserInfoBean;
 
 import java.util.Map;
@@ -532,4 +533,16 @@ public interface JyApi {
      */
     @GET("/resource/tencentYun/getAppUploadVideoSign")
     Call<SuperBean<String>> getVideoUploadSign();
+    /**
+     * app检查升级
+     *
+     * @param platformType 平台Android
+     * @param alias        app名称
+     * @param version      本地版本
+     * @return
+     */
+    @GET("/resource/appVersion/queryAppVersion")
+    Call<SuperBean<UpdateBean>> checkVersion(@Query("platformType") String platformType,
+                                             @Query("appAlias") String alias,
+                                             @Query("version") String version);
 }
